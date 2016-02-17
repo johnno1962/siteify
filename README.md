@@ -9,6 +9,7 @@ on the link on the definition list all the places the symbol is referenced.
 ![Icon](http://injectionforxcode.johnholdsworth.com/siteify.png)
 
 To test drive the source of this project, use [this link](http://injectionforxcode.johnholdsworth.com/siteify/main.html).
+A listing of all symbols is available in [xref.html](http://injectionforxcode.johnholdsworth.com/siteify/xref.html)
 
 To use, download and build this project and _cd_ into into your project's root 
 then type ~/bin/siteify then any arguments that would be required to build your 
