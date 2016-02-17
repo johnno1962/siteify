@@ -17,6 +17,7 @@
 		BBD81FB01C73DE0B0060CF44 /* siteify in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB8BD1E71C7364E3001108DF /* siteify */; };
 		BBD81FB41C74A6EE0060CF44 /* ByteRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD81FB31C74A6EE0060CF44 /* ByteRegex.swift */; };
 		BBD81FB61C74B2920060CF44 /* sourcekitd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBD81FB51C74B2920060CF44 /* sourcekitd.framework */; };
+		BBD81FB81C74D9F00060CF44 /* xref.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBD81FB71C74D7340060CF44 /* xref.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,6 +27,7 @@
 			dstPath = "~/Library/siteify";
 			dstSubfolderSpec = 0;
 			files = (
+				BBD81FB81C74D9F00060CF44 /* xref.html in CopyFiles */,
 				BBD81FAA1C7393240060CF44 /* index.html in CopyFiles */,
 				BBD81FAB1C7393240060CF44 /* siteify.css in CopyFiles */,
 				BBD81FAC1C7393240060CF44 /* source.html in CopyFiles */,
@@ -58,6 +60,7 @@
 		BBD81FB11C73DE6E0060CF44 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BBD81FB31C74A6EE0060CF44 /* ByteRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteRegex.swift; sourceTree = "<group>"; };
 		BBD81FB51C74B2920060CF44 /* sourcekitd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sourcekitd.framework; path = Toolchains/XcodeDefault.xctoolchain/usr/lib/sourcekitd.framework; sourceTree = DEVELOPER_DIR; };
+		BBD81FB71C74D7340060CF44 /* xref.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = xref.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +106,7 @@
 				BBD81FA71C7392EE0060CF44 /* index.html */,
 				BBD81FA81C7392FF0060CF44 /* siteify.css */,
 				BBD81FA91C73930D0060CF44 /* source.html */,
+				BBD81FB71C74D7340060CF44 /* xref.html */,
 			);
 			path = siteify;
 			sourceTree = "<group>";

@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 16/02/2016.
 //  Copyright © 2016 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/main.swift#2 $
+//  $Id: //depot/siteify/siteify/main.swift#4 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -344,4 +344,31 @@ for (file, argv) in compilations {
     }
 }
 
-progress( "Site built, open ./html/index.html in your browser\n" )
+fclose( index )
+
+var xrefData = [(String,USR)]()
+
+for (usrString, usr) in usrs {
+    if usrString.hasPrefix( "s:" ) {
+        let usrString = usrString.substringFromIndex( usrString.startIndex.advancedBy( 2 ) )
+        xrefData.append( (_stdlib_demangleName( "_T"+usrString ), usr) )
+    }
+}
+
+xrefData.sortInPlace( { (usr1, usr2) in
+    return usr1.0 < usr2.0
+} )
+
+let xref = copyTemplate( "xref.html", patches: [:], dest: "html/xref.html" )
+
+for (symbol,usr) in xrefData {
+    if let decl = usr.declaring {
+        let file = NSURL( fileURLWithPath: decl.file ).URLByDeletingPathExtension!.lastPathComponent!
+        let symbol = symbol.stringByReplacingOccurrencesOfString( "<", withString: "&lt;" )
+        fputs( "<a href='\(file).html#\(decl.anchor)'>\(symbol)<a><br>\n", xref )
+    }
+}
+
+fclose( xref )
+
+progress( "Site built, open ./html/index.html in your browser. A symbol listing is available in ./html/xref.html\n" )
