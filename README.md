@@ -4,11 +4,11 @@
 siteify is a Swift executable that uses SourceKit to create a hyperlinked and
 cross referenced version of your Swift source that can be navigated in a Web
 Browser. Links over symbol references take you to their definition and clicking
-on the link on the definition list all the places the symbol is referenced.
+on any link on the definition will list all the places the symbol is referenced.
 
 ![Icon](http://injectionforxcode.johnholdsworth.com/siteify.png)
 
-To test drive the source of this project, use [this link](http://injectionforxcode.johnholdsworth.com/siteify/main.html).
+To test drive using the source of this project, use [this link](http://injectionforxcode.johnholdsworth.com/siteify/main.html).
 A listing of all symbols is available in [xref.html](http://injectionforxcode.johnholdsworth.com/siteify/xref.html)
 
 To use, download and build this project and _cd_ into into your project's root 

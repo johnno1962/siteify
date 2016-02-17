@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 16/02/2016.
 //  Copyright © 2016 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/main.swift#4 $
+//  $Id: //depot/siteify/siteify/main.swift#9 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -78,6 +78,13 @@ else {
 var compilations = [(String, sourcekitd_object_t)]()
 
 for line in buildLog.sequence {
+
+    if storingLog == nil, let symroot = line["    SYMROOT = ([^\n]+)"][1] where !filemgr.fileExistsAtPath( symroot ) {
+        print( "Pre-built project no longer exists, rerun to rebuild" )
+        try! filemgr.removeItemAtPath( storedLog )
+        exit( 1 )
+    }
+
     let regex = line["-primary-file (?:\"([^\"]+)\"|(\\S+)) "]
 
     if let primary = regex[1] ?? regex[2] {
@@ -127,6 +134,21 @@ for line in buildLog.sequence {
 
 storingLog?.closeFile()
 
+var filenameForFile = [String:String](), filesForFileName = [String:String]()
+
+func fileFilename( file: String ) -> String {
+    if let filename = filenameForFile[file] {
+        return filename
+    }
+    var filename = NSURL( fileURLWithPath: file ).URLByDeletingPathExtension!.lastPathComponent!
+    while filesForFileName[filename] != nil {
+        filename += "_"
+    }
+    filesForFileName[filename] = file
+    filenameForFile[file] = filename
+    return filename
+}
+
 struct Entity: Hashable {
 
     let file: String
@@ -139,6 +161,14 @@ struct Entity: Hashable {
 
     var anchor: String {
         return "\(line)_\(col)"
+    }
+
+    var filename: String {
+        return fileFilename( file )
+    }
+
+    var href: String {
+        return "\(filename).html#\(anchor)"
     }
 
     func regex( text: String ) -> ByteRegex {
@@ -232,22 +262,22 @@ for (entity, dict) in entities {
 
 let resources = String.fromCString( getenv( "HOME" ) )!+"/Library/siteify/"
 
-func copyTemplate( template: String, patches: [String:String], dest: String ) -> UnsafeMutablePointer<FILE> {
+func copyTemplate( template: String, patches: [String:String] = [:], dest: String? = nil ) -> UnsafeMutablePointer<FILE> {
     var input = try! NSString( contentsOfFile: resources+template, encoding: NSUTF8StringEncoding )
     for (tag, value) in patches {
         input = input.stringByReplacingOccurrencesOfString( tag, withString: value )
     }
-    let out = fopen( dest, "w" )
-    fputs( input as String, out )
+    let out = fopen( dest ?? "html/"+template, "w" )
+    fputs( input.UTF8String, out )
     return out
 }
 
 if !filemgr.fileExistsAtPath( "html" ) {
     try! filemgr.createDirectoryAtPath( "html", withIntermediateDirectories: false, attributes: nil )
+    fclose( copyTemplate( "siteify.css" ) )
 }
 
-fclose( copyTemplate( "siteify.css", patches: [:], dest: "html/siteify.css" ) )
-let index = copyTemplate( "index.html", patches: [:], dest: "html/index.html" )
+let index = copyTemplate( "index.html", patches: [:] )
 var buff = [Int8]( count: Int(PATH_MAX), repeatedValue: 0 )
 let cwd = String.fromCString( getcwd( &buff, buff.count ) )!
 
@@ -258,7 +288,8 @@ for (file, argv) in compilations {
     progress( "Saving \(fileno)/\(compilations.count) \(file)" )
 
     let relative = file.stringByReplacingOccurrencesOfString( cwd+"/", withString: "" )
-    let filename = NSURL( fileURLWithPath: file ).URLByDeletingPathExtension!.lastPathComponent!+".html"
+    let filename = fileFilename( file )+".html"
+
     fputs( "<a href='\(filename)'>\(relative)<a><br>\n", index )
 
     if let data = NSData( contentsOfFile: file ) {
@@ -303,8 +334,7 @@ for (file, argv) in compilations {
             else if let dict = entities[ent] {
                 if let usrString = dict.getString( SK.usrID ), usr = usrs[usrString], decl = usr.declaring {
                     if decl != ent {
-                        let file = NSURL( fileURLWithPath: decl.file ).URLByDeletingPathExtension!.lastPathComponent!
-                        text = "<a name='\(ent.anchor)' href='\(file).html#\(decl.anchor)'>\(text)<a>"
+                        text = "<a name='\(ent.anchor)' href='\(decl.href)'>\(text)<a>"
                     }
                     else if usr.references.count > 1 {
                         var popup = ""
@@ -313,8 +343,7 @@ for (file, argv) in compilations {
                             if ref == ent {
                                 continue
                             }
-                            let file = NSURL( fileURLWithPath: ref.file ).URLByDeletingPathExtension!.lastPathComponent!
-                            popup += "<tr><td onclick='document.location.href=\"\(file).html#\(ref.anchor)\"; return false;'>\(file).swift:\(ref.line)</td>"
+                            popup += "<tr><td onclick='document.location.href=\"\(ref.href)\"; return false;'>\(ref.filename).swift:\(ref.line)</td>"
                             popup += "<td>\(usr.reflines[i])</td>"
                         }
                         text = "<a name='\(ent.anchor)' href='#' onclick='return expand(this);'>\(text)<span class='references'><table>\(popup)</table></span></a>"
@@ -346,12 +375,12 @@ for (file, argv) in compilations {
 
 fclose( index )
 
-var xrefData = [(String,USR)]()
+var xrefData = [(String,Entity)]()
 
 for (usrString, usr) in usrs {
-    if usrString.hasPrefix( "s:" ) {
+    if usrString.hasPrefix( "s:" ), let decl = usrs[usrString]?.declaring {
         let usrString = usrString.substringFromIndex( usrString.startIndex.advancedBy( 2 ) )
-        xrefData.append( (_stdlib_demangleName( "_T"+usrString ), usr) )
+        xrefData.append( (_stdlib_demangleName( "_T"+usrString ), decl) )
     }
 }
 
@@ -361,12 +390,9 @@ xrefData.sortInPlace( { (usr1, usr2) in
 
 let xref = copyTemplate( "xref.html", patches: [:], dest: "html/xref.html" )
 
-for (symbol,usr) in xrefData {
-    if let decl = usr.declaring {
-        let file = NSURL( fileURLWithPath: decl.file ).URLByDeletingPathExtension!.lastPathComponent!
-        let symbol = symbol.stringByReplacingOccurrencesOfString( "<", withString: "&lt;" )
-        fputs( "<a href='\(file).html#\(decl.anchor)'>\(symbol)<a><br>\n", xref )
-    }
+for (symbol,decl) in xrefData {
+    let symbol = symbol.stringByReplacingOccurrencesOfString( "<", withString: "&lt;" )
+    fputs( "<a href='\(decl.href)'>\(symbol)<a><br>\n", xref )
 }
 
 fclose( xref )
