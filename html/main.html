@@ -1,0 +1,370 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+0001    <span class='comment'>//
+0002    </span><span class='comment'>//  main.swift
+0003    </span><span class='comment'>//  siteify
+0004    </span><span class='comment'>//
+0005    </span><span class='comment'>//  Created by John Holdsworth on 16/02/2016.
+0006    </span><span class='comment'>//  Copyright © 2016 John Holdsworth. All rights reserved.
+0007    </span><span class='comment'>//
+0008    </span><span class='comment'>//  $Id: //depot/siteify/siteify/main.swift#2 $
+0009    </span><span class='comment'>//
+0010    </span><span class='comment'>//  Repo: </span><span class='url'><a href='https://github.com/johnno1962/siteify'>https://github.com/johnno1962/siteify</a></span><span class='comment'>
+0011    </span><span class='comment'>//
+0012    </span>
+0013    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
+0014    
+0015    <span class='keyword'>let</span> <span class='identifier'><a name='15_5'>filemgr</a></span> = <span class='identifier'>NSFileManager</span>.<span class='identifier'>defaultManager</span>()
+0016    <span class='keyword'>let</span> <span class='identifier'><a name='16_5'>SK</a></span> = <span class='identifier'><a name='16_10' href='SourceKit.html#95_5'>SourceKit<a></span>()
+0017    <span class='identifier'><a name='17_1' href='SourceKit.html#15_5'>isTTY<a></span> = <span class='keyword'>false</span>
+0018    
+0019    <span class='keyword'>extension</span> <span class='typeidentifier'>NSFileHandle</span> {
+0020    
+0021        <span class='builtin'>convenience</span> <span class='keyword'><a name='21_17' href='#' onclick='return expand(this);'>init<span class='references'><table><tr><td onclick='document.location.href="main.html#75_18"; return false;'>main.swift:75</td><td> &nbsp; &nbsp;storingLog = <b></b>NSFileHandle( createForWritingAtPath: storedLog )</td></table></span></a></span>?( <span class='identifier'>createForWritingAtPath</span> <span class='identifier'>path</span>: <span class='typeidentifier'>String</span> ) {
+0022            <span class='identifier'>filemgr</span>.<span class='identifier'>createFileAtPath</span>( <span class='identifier'>path</span>, <span class='identifier'>contents</span>:<span class='keyword'>nil</span>, <span class='identifier'>attributes</span>:<span class='keyword'>nil</span> )
+0023            <span class='keyword'>self</span>.<span class='keyword'>init</span>( <span class='identifier'>forWritingAtPath</span>: <span class='identifier'>path</span> )
+0024        }
+0025    
+0026        <span class='keyword'>func</span> <span class='identifier'><a name='26_10' href='#' onclick='return expand(this);'>writeString<span class='references'><table><tr><td onclick='document.location.href="main.html#125_17"; return false;'>main.swift:125</td><td> &nbsp; &nbsp;storingLog?.<b></b>writeString( line+"\n" )</td></table></span></a></span>( <span class='identifier'>str</span>: <span class='typeidentifier'>String</span> ) {
+0027            <span class='identifier'>str</span>.<span class='identifier'>withCString</span> { <span class='identifier'>bytes</span> <span class='keyword'>in</span>
+0028                <span class='identifier'>writeData</span>( <span class='identifier'>NSData</span>( <span class='identifier'>bytesNoCopy</span>: <span class='identifier'>UnsafeMutablePointer</span><<span class='typeidentifier'>Void</span>>(<span class='identifier'>bytes</span>),
+0029                    <span class='identifier'>length</span>: <span class='identifier'>Int</span>(<span class='identifier'>strlen</span>(<span class='identifier'>bytes</span>)), <span class='identifier'>freeWhenDone</span>: <span class='keyword'>false</span> ) )
+0030            }
+0031        }
+0032    
+0033    }
+0034    
+0035    <span class='keyword'>func</span> <span class='identifier'><a name='35_6' href='#' onclick='return expand(this);'>progress<span class='references'><table><tr><td onclick='document.location.href="main.html#121_13"; return false;'>main.swift:121</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b></b>progress( "Built \(primary)" )</td><tr><td onclick='document.location.href="main.html#199_5"; return false;'>main.swift:199</td><td> &nbsp; &nbsp;<b></b>progress( "Indexing \(fileno)/\(compilations.count) \(file)" )</td><tr><td onclick='document.location.href="main.html#258_5"; return false;'>main.swift:258</td><td> &nbsp; &nbsp;<b></b>progress( "Saving \(fileno)/\(compilations.count) \(file)" )</td><tr><td onclick='document.location.href="main.html#347_1"; return false;'>main.swift:347</td><td><b></b>progress( "Site built, open ./html/index.html in your browser\n" )</td></table></span></a></span>( <span class='identifier'>str</span>: <span class='typeidentifier'>String</span> ) {
+0036        <span class='identifier'>print</span>( <span class='string'>"\u{001b}[2K"</span>+<span class='identifier'>str</span>, <span class='identifier'>separator</span>: <span class='string'>""</span>, <span class='identifier'>terminator</span>: <span class='string'>"\r"</span> )
+0037        <span class='identifier'>fflush</span>( <span class='identifier'>stdout</span> )
+0038    }
+0039    
+0040    <span class='keyword'>let</span> <span class='identifier'><a name='40_5' href='#' onclick='return expand(this);'>buildLog<span class='references'><table><tr><td onclick='document.location.href="main.html#67_5"; return false;'>main.swift:67</td><td> &nbsp; &nbsp;<b></b>buildLog = FileGenerator(path: storedLog)!</td><tr><td onclick='document.location.href="main.html#74_5"; return false;'>main.swift:74</td><td> &nbsp; &nbsp;<b></b>buildLog = StatusGenerator(launchPath: "/usr/bin/xcodebuild", arguments: buildargs, directory: ".")</td></table></span></a></span>: <span class='typeidentifier'><a name='40_15' href='LineGenerators.html#51_7'>FileGenerator<a></span>
+0041    <span class='keyword'>let</span> <span class='identifier'><a name='41_5'>storedLog</a></span> = <span class='string'>"siteify.log"</span>
+0042    <span class='keyword'>var</span> <span class='identifier'><a name='42_5' href='#' onclick='return expand(this);'>storingLog<span class='references'><table><tr><td onclick='document.location.href="main.html#75_5"; return false;'>main.swift:75</td><td> &nbsp; &nbsp;<b></b>storingLog = NSFileHandle( createForWritingAtPath: storedLog )</td><tr><td onclick='document.location.href="main.html#125_5"; return false;'>main.swift:125</td><td> &nbsp; &nbsp;<b></b>storingLog?.writeString( line+"\n" )</td><tr><td onclick='document.location.href="main.html#128_1"; return false;'>main.swift:128</td><td><b></b>storingLog?.closeFile()</td></table></span></a></span>: <span class='typeidentifier'>NSFileHandle</span>? = <span class='keyword'>nil</span>
+0043    
+0044    <span class='keyword'>class</span> <span class='identifier'><a name='44_7' href='#' onclick='return expand(this);'>StatusGenerator<span class='references'><table><tr><td onclick='document.location.href="main.html#74_16"; return false;'>main.swift:74</td><td> &nbsp; &nbsp;buildLog = <b></b>StatusGenerator(launchPath: "/usr/bin/xcodebuild", arguments: buildargs, directory: ".")</td></table></span></a></span>: <span class='typeidentifier'><a name='44_24' href='LineGenerators.html#15_7'>TaskGenerator<a></span> {
+0045    
+0046        <span class='builtin'>override</span> <span class='keyword'>func</span> <span class='identifier'><a name='46_19'>next</a></span>() -> <span class='typeidentifier'>String</span>? {
+0047            <span class='keyword'>let</span> <span class='identifier'>next</span> = <span class='keyword'>super</span>.<span class='identifier'><a name='47_26' href='LineGenerators.html#67_10'>next<a></span>()
+0048            <span class='keyword'>if</span> <span class='identifier'>next</span> == <span class='keyword'>nil</span> {
+0049                <span class='keyword'>let</span> <span class='identifier'>failedLog</span> = <span class='string'>"failed.log"</span>
+0050                <span class='keyword'>if</span> <span class='identifier'>filemgr</span>.<span class='identifier'>fileExistsAtPath</span>( <span class='identifier'>failedLog</span> ) {
+0051                    <span class='keyword'>try</span>! <span class='identifier'>filemgr</span>.<span class='identifier'>removeItemAtPath</span>( <span class='identifier'>failedLog</span> )
+0052                }
+0053    
+0054                <span class='identifier'>task</span>.<span class='identifier'>waitUntilExit</span>()
+0055                <span class='keyword'>if</span> <span class='identifier'>task</span>.<span class='identifier'>terminationStatus</span> != <span class='identifier'>EXIT_SUCCESS</span> {
+0056                    <span class='keyword'>try</span>! <span class='identifier'>filemgr</span>.<span class='identifier'>moveItemAtPath</span>( <span class='identifier'>storedLog</span>, <span class='identifier'>toPath</span>: <span class='identifier'>failedLog</span> )
+0057                    <span class='identifier'>print</span>( <span class='string'>"xcodebuild failed, consult ./</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>failedLog</span><span class='string_interpolation_anchor'>)</span><span class='string'>"</span> )
+0058                    <span class='identifier'>exit</span>( <span class='number'>1</span> )
+0059                }
+0060            }
+0061            <span class='keyword'>return</span> <span class='identifier'>next</span>
+0062        }
+0063        
+0064    }
+0065    
+0066    <span class='keyword'>if</span> <span class='identifier'>filemgr</span>.<span class='identifier'>fileExistsAtPath</span>( <span class='identifier'>storedLog</span> ) {
+0067        <span class='identifier'><a name='67_5' href='main.html#40_5'>buildLog<a></span> = <span class='identifier'><a name='67_16' href='LineGenerators.html#57_17'>FileGenerator<a></span>(<span class='identifier'>path</span>: <span class='identifier'>storedLog</span>)!
+0068    }
+0069    <span class='keyword'>else</span> {
+0070        <span class='keyword'>var</span> <span class='identifier'>buildargs</span> = <span class='identifier'>Process</span>.<span class='identifier'>arguments</span>
+0071        <span class='string'>"/tmp/siteify.XXXX"</span>.<span class='identifier'>withCString</span>( { (<span class='identifier'>str</span>) <span class='keyword'>in</span>
+0072            <span class='identifier'>buildargs</span>[<span class='number'>0</span>] = <span class='string'>"SYMROOT="</span>+<span class='identifier'>String</span>.<span class='identifier'>fromCString</span>( <span class='identifier'>mktemp</span>( <span class='identifier'>UnsafeMutablePointer</span><<span class='typeidentifier'>Int8</span>>(<span class='identifier'>str</span>) ) )!
+0073        } )
+0074        <span class='identifier'><a name='74_5' href='main.html#40_5'>buildLog<a></span> = <span class='identifier'><a name='74_16' href='LineGenerators.html#23_17'>StatusGenerator<a></span>(<span class='identifier'>launchPath</span>: <span class='string'>"/usr/bin/xcodebuild"</span>, <span class='identifier'>arguments</span>: <span class='identifier'>buildargs</span>, <span class='identifier'>directory</span>: <span class='string'>"."</span>)
+0075        <span class='identifier'><a name='75_5' href='main.html#42_5'>storingLog<a></span> = <span class='identifier'><a name='75_18' href='main.html#21_17'>NSFileHandle<a></span>( <span class='identifier'>createForWritingAtPath</span>: <span class='identifier'>storedLog</span> )
+0076    }
+0077    
+0078    <span class='keyword'>var</span> <span class='identifier'><a name='78_5' href='#' onclick='return expand(this);'>compilations<span class='references'><table><tr><td onclick='document.location.href="main.html#119_9"; return false;'>main.swift:119</td><td> &nbsp; &nbsp; &nbsp; &nbsp;<b></b>compilations.append( (primary, SK.array( out ) ) )</td></table></span></a></span> = [(<span class='identifier'>String</span>, <span class='identifier'>sourcekitd_object_t</span>)]()
+0079    
+0080    <span class='keyword'>for</span> <span class='identifier'>line</span> <span class='keyword'>in</span> <span class='identifier'>buildLog</span>.<span class='identifier'><a name='80_22' href='LineGenerators.html#99_39'>sequence<a></span> {
+0081        <span class='keyword'>let</span> <span class='identifier'>regex</span> = <span class='identifier'>line</span>[<span class='string'>"-primary-file (?:\"([^\"]+)\"|(\\S+)) "</span>]
+0082    
+0083        <span class='keyword'>if</span> <span class='keyword'>let</span> <span class='identifier'>primary</span> = <span class='identifier'>regex</span>[<span class='number'>1</span>] ?? <span class='identifier'>regex</span>[<span class='number'>2</span>] {
+0084            <span class='keyword'>let</span> <span class='identifier'>spaceToTheLeftOfAnOddNumberOfQoutes</span> = <span class='string'>" (?=[^\"]*\"[^\"]*(?:(?:\"[^\"]*){2})* -o )"</span>
+0085            <span class='keyword'>let</span> <span class='identifier'>line</span> = <span class='identifier'>line</span>
+0086                .<span class='identifier'>stringByTrimmingCharactersInSet</span>( <span class='identifier'>NSCharacterSet</span>.<span class='identifier'>whitespaceAndNewlineCharacterSet</span>() )
+0087                .<span class='identifier'>stringByReplacingOccurrencesOfString</span>( <span class='string'>"\\\""</span>, <span class='identifier'>withString</span>: <span class='string'>"---"</span> )
+0088                .<span class='identifier'>stringByReplacingOccurrencesOfString</span>( <span class='identifier'>spaceToTheLeftOfAnOddNumberOfQoutes</span>,
+0089                    <span class='identifier'>withString</span>: <span class='string'>"___"</span>, <span class='identifier'>options</span>: .<span class='identifier'>RegularExpressionSearch</span>, <span class='identifier'>range</span>: <span class='keyword'>nil</span> )
+0090                .<span class='identifier'>stringByReplacingOccurrencesOfString</span>( <span class='string'>"\""</span>, <span class='identifier'>withString</span>: <span class='string'>""</span> )
+0091    
+0092            <span class='keyword'>let</span> <span class='identifier'>argv</span> = <span class='identifier'>line</span>.<span class='identifier'>componentsSeparatedByString</span>( <span class='string'>" "</span> )
+0093                .<span class='identifier'>map</span> { <span class='identifier'>$0</span>.<span class='identifier'>stringByReplacingOccurrencesOfString</span>( <span class='string'>"___"</span>, <span class='identifier'>withString</span>: <span class='string'>" "</span> )
+0094                .<span class='identifier'>stringByReplacingOccurrencesOfString</span>( <span class='string'>"---"</span>, <span class='identifier'>withString</span>: <span class='string'>"\""</span> ) }
+0095            <span class='keyword'>var</span> <span class='identifier'>out</span> = [<span class='identifier'>String</span>]()
+0096    
+0097            <span class='keyword'>var</span> <span class='identifier'>i</span>=<span class='number'>1</span>
+0098            <span class='keyword'>while</span> <span class='identifier'>i</span><<span class='identifier'>argv</span>.<span class='identifier'>count</span> {
+0099                <span class='keyword'>let</span> <span class='identifier'>arg</span> = <span class='identifier'>argv</span>[<span class='identifier'>i</span>]
+0100                <span class='keyword'>if</span> <span class='identifier'>arg</span> == <span class='string'>"-frontend"</span> {
+0101                    <span class='identifier'>out</span>.<span class='identifier'>append</span>( <span class='string'>"-Xfrontend"</span> )
+0102                    <span class='identifier'>out</span>.<span class='identifier'>append</span>( <span class='string'>"-j4"</span> )
+0103                }
+0104                <span class='keyword'>else</span> <span class='keyword'>if</span> <span class='identifier'>arg</span> == <span class='string'>"-primary-file"</span> {
+0105                }
+0106                <span class='keyword'>else</span> <span class='keyword'>if</span> <span class='identifier'>arg</span>.<span class='identifier'>hasPrefix</span>( <span class='string'>"-emit-"</span> ) ||
+0107                    <span class='identifier'>arg</span> == <span class='string'>"-serialize-diagnostics-path"</span> {
+0108                        <span class='identifier'>i</span> += <span class='number'>1</span>
+0109                }
+0110                <span class='keyword'>else</span> <span class='keyword'>if</span> <span class='identifier'>arg</span> == <span class='string'>"-o"</span> {
+0111                    <span class='keyword'>break</span>
+0112                }
+0113                <span class='keyword'>else</span> {
+0114                    <span class='identifier'>out</span>.<span class='identifier'>append</span>( <span class='identifier'>arg</span> )
+0115                }
+0116                <span class='identifier'>i</span> += <span class='number'>1</span>
+0117            }
+0118    
+0119            <span class='identifier'><a name='119_9' href='main.html#78_5'>compilations<a></span>.<span class='identifier'>append</span>( (<span class='identifier'>primary</span>, <span class='identifier'>SK</span>.<span class='identifier'><a name='119_43' href='SourceKit.html#99_10'>array<a></span>( <span class='identifier'>out</span> ) ) )
+0120            <span class='keyword'>if</span> <span class='identifier'>storingLog</span> != <span class='keyword'>nil</span> {
+0121                <span class='identifier'><a name='121_13' href='main.html#35_6'>progress<a></span>( <span class='string'>"Built </span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>primary</span><span class='string_interpolation_anchor'>)</span><span class='string'>"</span> )
+0122            }
+0123        }
+0124    
+0125        <span class='identifier'><a name='125_5' href='main.html#42_5'>storingLog<a></span>?.<span class='identifier'><a name='125_17' href='main.html#26_10'>writeString<a></span>( <span class='identifier'>line</span>+<span class='string'>"\n"</span> )
+0126    }
+0127    
+0128    <span class='identifier'><a name='128_1' href='main.html#42_5'>storingLog<a></span>?.<span class='identifier'>closeFile</span>()
+0129    
+0130    <span class='keyword'>struct</span> <span class='identifier'><a name='130_8' href='#' onclick='return expand(this);'>Entity<span class='references'><table><tr><td onclick='document.location.href="main.html#180_14"; return false;'>main.swift:180</td><td>func ==(lhs: <b></b>Entity, rhs: Entity) -> Bool {</td><tr><td onclick='document.location.href="main.html#180_27"; return false;'>main.swift:180</td><td>func ==(lhs: Entity, rhs: <b></b>Entity) -> Bool {</td><tr><td onclick='document.location.href="main.html#184_17"; return false;'>main.swift:184</td><td>var entities = [<b></b>Entity:sourcekitd_variant_t]()</td><tr><td onclick='document.location.href="main.html#188_23"; return false;'>main.swift:188</td><td> &nbsp; &nbsp;var references = [<b></b>Entity]()</td><tr><td onclick='document.location.href="main.html#190_20"; return false;'>main.swift:190</td><td> &nbsp; &nbsp;var declaring: <b></b>Entity?</td><tr><td onclick='document.location.href="main.html#206_30"; return false;'>main.swift:206</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let entity = <b></b>Entity( file: file,</td><tr><td onclick='document.location.href="main.html#297_23"; return false;'>main.swift:297</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let ent = <b></b>Entity(file: file, line: line, col: col)</td></table></span></a></span>: <span class='typeidentifier'>Hashable</span> {
+0131    
+0132        <span class='keyword'>let</span> <span class='identifier'><a name='132_9'>file</a></span>: <span class='typeidentifier'>String</span>
+0133        <span class='keyword'>let</span> <span class='identifier'><a name='133_9'>line</a></span>: <span class='typeidentifier'>Int</span>
+0134        <span class='keyword'>let</span> <span class='identifier'><a name='134_9'>col</a></span>: <span class='typeidentifier'>Int</span>
+0135    
+0136        <span class='keyword'>var</span> <span class='identifier'><a name='136_9'>hashValue</a></span>: <span class='typeidentifier'>Int</span> {
+0137            <span class='keyword'>return</span> <span class='identifier'>Int</span>(<span class='identifier'>line</span> + <span class='identifier'>col</span>)
+0138        }
+0139    
+0140        <span class='keyword'>var</span> <span class='identifier'><a name='140_9' href='#' onclick='return expand(this);'>anchor<span class='references'><table><tr><td onclick='document.location.href="main.html#307_48"; return false;'>main.swift:307</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;text = "&lt;a name='\(ent.<b></b>anchor)' href='\(file).html#\(decl.anchor)'>\(text)&lt;a>"</td><tr><td onclick='document.location.href="main.html#307_83"; return false;'>main.swift:307</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;text = "&lt;a name='\(ent.anchor)' href='\(file).html#\(decl.<b></b>anchor)'>\(text)&lt;a>"</td><tr><td onclick='document.location.href="main.html#317_100"; return false;'>main.swift:317</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;popup += "&lt;tr>&lt;td onclick='document.location.href=\"\(file).html#\(ref.<b></b>anchor)\"; return false;'>\(file).swift:\(ref.line)&lt;/td>"</td><tr><td onclick='document.location.href="main.html#320_48"; return false;'>main.swift:320</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;text = "&lt;a name='\(ent.<b></b>anchor)' href='#' onclick='return expand(this);'>\(text)&lt;span class='references'>&lt;table>\(popup)&lt;/table>&lt;/span>&lt;/a>"</td><tr><td onclick='document.location.href="main.html#323_48"; return false;'>main.swift:323</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;text = "&lt;a name='\(ent.<b></b>anchor)'>\(text)&lt;/a>"</td></table></span></a></span>: <span class='typeidentifier'>String</span> {
+0141            <span class='keyword'>return</span> <span class='string'>"</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>line</span><span class='string_interpolation_anchor'>)</span><span class='string'>_</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>col</span><span class='string_interpolation_anchor'>)</span><span class='string'>"</span>
+0142        }
+0143    
+0144        <span class='keyword'>func</span> <span class='identifier'><a name='144_10' href='#' onclick='return expand(this);'>regex<span class='references'><table><tr><td onclick='document.location.href="main.html#161_26"; return false;'>main.swift:161</td><td> &nbsp; &nbsp; &nbsp; &nbsp;if let matches = <b></b>regex( value ).match( contents ) {</td></table></span></a></span>( <span class='identifier'>text</span>: <span class='typeidentifier'>String</span> ) -> <span class='typeidentifier'><a name='144_35' href='ByteRegex.html#23_7'>ByteRegex<a></span> {
+0145            <span class='keyword'>var</span> <span class='identifier'>pattern</span> = <span class='string'>"^"</span>
+0146            <span class='keyword'>var</span> <span class='identifier'>line</span> = <span class='keyword'>self</span>.<span class='identifier'>line</span>
+0147            <span class='keyword'>while</span> <span class='identifier'>line</span> > <span class='number'>100</span> {
+0148                <span class='identifier'>pattern</span> += <span class='string'>"(?:[^\n]*\n){100}"</span>
+0149                <span class='identifier'>line</span> -= <span class='number'>100</span>
+0150            }
+0151            <span class='keyword'>var</span> <span class='identifier'>col</span> = <span class='keyword'>self</span>.<span class='identifier'>col</span>, <span class='identifier'>largecol</span> = <span class='string'>""</span>
+0152            <span class='keyword'>while</span> <span class='identifier'>col</span> > <span class='number'>100</span> {
+0153                <span class='identifier'>largecol</span> += <span class='string'>".{100}"</span>
+0154                <span class='identifier'>col</span> -= <span class='number'>100</span>
+0155            }
+0156            <span class='identifier'>pattern</span> += <span class='string'>"(?:[^\n]*\n){</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>line</span>-<span class='number'>1</span><span class='string_interpolation_anchor'>)</span><span class='string'>}(</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>largecol</span><span class='string_interpolation_anchor'>)</span><span class='string'>.{</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>col</span>-<span class='number'>1</span><span class='string_interpolation_anchor'>)</span><span class='string'>}[^\n]*?)(\\Q</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>text</span><span class='string_interpolation_anchor'>)</span><span class='string'>\\E)([^\n]*)"</span>
+0157            <span class='keyword'>return</span> <span class='identifier'><a name='157_16' href='ByteRegex.html#28_5'>ByteRegex<a></span>( <span class='identifier'>pattern</span>: <span class='identifier'>pattern</span> )
+0158        }
+0159    
+0160        <span class='keyword'>func</span> <span class='identifier'><a name='160_10' href='#' onclick='return expand(this);'>patchText<span class='references'><table><tr><td onclick='document.location.href="main.html#217_52"; return false;'>main.swift:217</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;usrs[usr]!.reflines.append( entity.<b></b>patchText( data, value: "" )!</td></table></span></a></span>( <span class='identifier'>contents</span>: <span class='typeidentifier'>NSData</span>, <span class='identifier'>value</span>: <span class='typeidentifier'>String</span> ) -> <span class='typeidentifier'>String</span>? {
+0161            <span class='keyword'>if</span> <span class='keyword'>let</span> <span class='identifier'>matches</span> = <span class='identifier'><a name='161_26' href='main.html#144_10'>regex<a></span>( <span class='identifier'>value</span> ).<span class='identifier'><a name='161_41' href='ByteRegex.html#37_10'>match<a></span>( <span class='identifier'>contents</span> ) {
+0162                <span class='keyword'>return</span> <span class='identifier'><a name='162_20' href='main.html#169_10'>htmlClean<a></span>( <span class='identifier'>contents</span>, <span class='identifier'>match</span>: <span class='identifier'>matches</span>[<span class='number'>1</span>] ) +
+0163               <span class='string'>"&lt;b>"</span> + <span class='identifier'><a name='163_20' href='main.html#169_10'>htmlClean<a></span>( <span class='identifier'>contents</span>, <span class='identifier'>match</span>: <span class='identifier'>matches</span>[<span class='number'>2</span>] ) + <span class='string'>"&lt;/b>"</span> +
+0164                       <span class='identifier'><a name='164_20' href='main.html#169_10'>htmlClean<a></span>( <span class='identifier'>contents</span>, <span class='identifier'>match</span>: <span class='identifier'>matches</span>[<span class='number'>3</span>] )
+0165            }
+0166            <span class='keyword'>return</span> <span class='string'>"MATCH FAILED line:</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>line</span><span class='string_interpolation_anchor'>)</span><span class='string'> column:</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>col</span><span class='string_interpolation_anchor'>)</span><span class='string'>"</span>
+0167        }
+0168    
+0169        <span class='keyword'>func</span> <span class='identifier'><a name='169_10' href='#' onclick='return expand(this);'>htmlClean<span class='references'><table><tr><td onclick='document.location.href="main.html#162_20"; return false;'>main.swift:162</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return <b></b>htmlClean( contents, match: matches[1] ) +</td><tr><td onclick='document.location.href="main.html#163_20"; return false;'>main.swift:163</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "&lt;b>" + <b></b>htmlClean( contents, match: matches[2] ) + "&lt;/b>" +</td><tr><td onclick='document.location.href="main.html#164_20"; return false;'>main.swift:164</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <b></b>htmlClean( contents, match: matches[3] )</td></table></span></a></span>( <span class='identifier'>contents</span>: <span class='typeidentifier'>NSData</span>, <span class='identifier'>match</span>: <span class='typeidentifier'>regmatch_t</span> ) -> <span class='typeidentifier'>String</span> {
+0170            <span class='keyword'>var</span> <span class='identifier'>range</span> = <span class='identifier'>match</span>.<span class='identifier'><a name='170_27' href='ByteRegex.html#17_9'>range<a></span>
+0171            <span class='keyword'>if</span> <span class='identifier'>range</span>.<span class='identifier'>length</span> > <span class='identifier'>contents</span>.<span class='identifier'>length</span> - <span class='identifier'>range</span>.<span class='identifier'>location</span> {
+0172                <span class='identifier'>range</span>.<span class='identifier'>length</span> = <span class='identifier'>contents</span>.<span class='identifier'>length</span> - <span class='identifier'>range</span>.<span class='identifier'>location</span>
+0173            }
+0174            <span class='keyword'>return</span> <span class='identifier'>String</span>.<span class='identifier'><a name='174_23' href='LineGenerators.html#110_17'>fromData<a></span>( <span class='identifier'>contents</span>.<span class='identifier'>subdataWithRange</span>( <span class='identifier'>range</span> ) )?
+0175                .<span class='identifier'>stringByReplacingOccurrencesOfString</span>( <span class='string'>"&"</span>, <span class='identifier'>withString</span>: <span class='string'>"&amp;"</span> )
+0176                .<span class='identifier'>stringByReplacingOccurrencesOfString</span>( <span class='string'>"&lt;"</span>, <span class='identifier'>withString</span>: <span class='string'>"&lt;"</span> ) ?? <span class='string'>"CONVERSION FAILED"</span>
+0177        }
+0178    }
+0179    
+0180    <span class='keyword'>func</span> ==(<span class='identifier'>lhs</span>: <span class='typeidentifier'><a name='180_14' href='main.html#130_8'>Entity<a></span>, <span class='identifier'>rhs</span>: <span class='typeidentifier'><a name='180_27' href='main.html#130_8'>Entity<a></span>) -> <span class='typeidentifier'>Bool</span> {
+0181        <span class='keyword'>return</span> <span class='identifier'>lhs</span>.<span class='identifier'>line</span> == <span class='identifier'>rhs</span>.<span class='identifier'>line</span> && <span class='identifier'>lhs</span>.<span class='identifier'>col</span> == <span class='identifier'>rhs</span>.<span class='identifier'>col</span> && <span class='identifier'>lhs</span>.<span class='identifier'>file</span> == <span class='identifier'>rhs</span>.<span class='identifier'>file</span>
+0182    }
+0183    
+0184    <span class='keyword'>var</span> <span class='identifier'><a name='184_5' href='#' onclick='return expand(this);'>entities<span class='references'><table><tr><td onclick='document.location.href="main.html#210_17"; return false;'>main.swift:210</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b></b>entities[entity] = dict</td><tr><td onclick='document.location.href="main.html#303_32"; return false;'>main.swift:303</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;else if let dict = <b></b>entities[ent] {</td></table></span></a></span> = [<span class='identifier'><a name='184_17' href='main.html#130_8'>Entity<a></span>:<span class='identifier'>sourcekitd_variant_t</span>]()
+0185    
+0186    <span class='keyword'>class</span> <span class='identifier'><a name='186_7' href='#' onclick='return expand(this);'>USR<span class='references'><table><tr><td onclick='document.location.href="main.html#194_20"; return false;'>main.swift:194</td><td>var usrs = [String:<b></b>USR]()</td><tr><td onclick='document.location.href="main.html#213_33"; return false;'>main.swift:213</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;usrs[usr] = <b></b>USR()</td></table></span></a></span> {
+0187    
+0188        <span class='keyword'>var</span> <span class='identifier'><a name='188_9' href='#' onclick='return expand(this);'>references<span class='references'><table><tr><td onclick='document.location.href="main.html#216_28"; return false;'>main.swift:216</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;usrs[usr]!.<b></b>references.append( entity )</td><tr><td onclick='document.location.href="main.html#309_33"; return false;'>main.swift:309</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;else if usr.<b></b>references.count > 1 {</td><tr><td onclick='document.location.href="main.html#311_42"; return false;'>main.swift:311</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;for i in 0..&lt;usr.<b></b>references.count {</td><tr><td onclick='document.location.href="main.html#312_43"; return false;'>main.swift:312</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let ref = usr.<b></b>references[i]</td></table></span></a></span> = [<span class='identifier'><a name='188_23' href='main.html#130_8'>Entity<a></span>]()
+0189        <span class='keyword'>var</span> <span class='identifier'><a name='189_9' href='#' onclick='return expand(this);'>reflines<span class='references'><table><tr><td onclick='document.location.href="main.html#217_28"; return false;'>main.swift:217</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;usrs[usr]!.<b></b>reflines.append( entity.patchText( data, value: "" )!</td><tr><td onclick='document.location.href="main.html#318_49"; return false;'>main.swift:318</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;popup += "&lt;td>\(usr.<b></b>reflines[i])&lt;/td>"</td></table></span></a></span> = [<span class='identifier'>String</span>]()
+0190        <span class='keyword'>var</span> <span class='identifier'><a name='190_9' href='#' onclick='return expand(this);'>declaring<span class='references'><table><tr><td onclick='document.location.href="main.html#228_17"; return false;'>main.swift:228</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;usr.<b></b>declaring = entity</td><tr><td onclick='document.location.href="main.html#304_98"; return false;'>main.swift:304</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if let usrString = dict.getString( SK.usrID ), usr = usrs[usrString], decl = usr.<b></b>declaring {</td></table></span></a></span>: <span class='typeidentifier'><a name='190_20' href='main.html#130_8'>Entity<a></span>?
+0191    
+0192    }
+0193    
+0194    <span class='keyword'>var</span> <span class='identifier'><a name='194_5' href='#' onclick='return expand(this);'>usrs<span class='references'><table><tr><td onclick='document.location.href="main.html#212_20"; return false;'>main.swift:212</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if <b></b>usrs[usr] == nil {</td><tr><td onclick='document.location.href="main.html#213_21"; return false;'>main.swift:213</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b></b>usrs[usr] = USR()</td><tr><td onclick='document.location.href="main.html#216_17"; return false;'>main.swift:216</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b></b>usrs[usr]!.references.append( entity )</td><tr><td onclick='document.location.href="main.html#217_17"; return false;'>main.swift:217</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b></b>usrs[usr]!.reflines.append( entity.patchText( data, value: "" )!</td><tr><td onclick='document.location.href="main.html#227_55"; return false;'>main.swift:227</td><td> &nbsp; &nbsp; &nbsp; &nbsp;if kind.containsString( ".decl." ), var usr = <b></b>usrs[usr] {</td><tr><td onclick='document.location.href="main.html#304_70"; return false;'>main.swift:304</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if let usrString = dict.getString( SK.usrID ), usr = <b></b>usrs[usrString], decl = usr.declaring {</td></table></span></a></span> = [<span class='identifier'>String</span>:<span class='identifier'><a name='194_20' href='main.html#186_7'>USR<a></span>]()
+0195    <span class='keyword'>var</span> <span class='identifier'><a name='195_5' href='#' onclick='return expand(this);'>fileno<span class='references'><table><tr><td onclick='document.location.href="main.html#198_5"; return false;'>main.swift:198</td><td> &nbsp; &nbsp;<b></b>fileno += 1</td><tr><td onclick='document.location.href="main.html#199_27"; return false;'>main.swift:199</td><td> &nbsp; &nbsp;progress( "Indexing \(<b></b>fileno)/\(compilations.count) \(file)" )</td><tr><td onclick='document.location.href="main.html#254_1"; return false;'>main.swift:254</td><td><b></b>fileno = 0</td><tr><td onclick='document.location.href="main.html#257_5"; return false;'>main.swift:257</td><td> &nbsp; &nbsp;<b></b>fileno += 1</td><tr><td onclick='document.location.href="main.html#258_25"; return false;'>main.swift:258</td><td> &nbsp; &nbsp;progress( "Saving \(<b></b>fileno)/\(compilations.count) \(file)" )</td></table></span></a></span> = <span class='number'>0</span>
+0196    
+0197    <span class='keyword'>for</span> (<span class='identifier'>file</span>, <span class='identifier'>argv</span>) <span class='keyword'>in</span> <span class='identifier'>compilations</span> {
+0198        <span class='identifier'><a name='198_5' href='main.html#195_5'>fileno<a></span> += <span class='number'>1</span>
+0199        <span class='identifier'><a name='199_5' href='main.html#35_6'>progress<a></span>( <span class='string'>"Indexing </span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'><a name='199_27' href='main.html#195_5'>fileno<a></span><span class='string_interpolation_anchor'>)</span><span class='string'>/</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>compilations</span>.<span class='identifier'>count</span><span class='string_interpolation_anchor'>)</span><span class='string'> </span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>file</span><span class='string_interpolation_anchor'>)</span><span class='string'>"</span> )
+0200    
+0201        <span class='keyword'>if</span> <span class='keyword'>let</span> <span class='identifier'>data</span> = <span class='identifier'>NSData</span>( <span class='identifier'>contentsOfFile</span>: <span class='identifier'>file</span> ) {
+0202            <span class='keyword'>let</span> <span class='identifier'>resp</span> = <span class='identifier'>SK</span>.<span class='identifier'><a name='202_23' href='SourceKit.html#137_10'>indexFile<a></span>( <span class='identifier'>file</span>, <span class='identifier'>compilerArgs</span>: <span class='identifier'>argv</span> )
+0203            <span class='keyword'>let</span> <span class='identifier'>dict</span> = <span class='identifier'>sourcekitd_response_get_value</span>( <span class='identifier'>resp</span> )
+0204            <span class='identifier'>SK</span>.<span class='identifier'><a name='204_12' href='SourceKit.html#161_10'>recurseOver<a></span>( <span class='identifier'>SK</span>.<span class='identifier'>entitiesID</span>, <span class='identifier'>resp</span>: <span class='identifier'>dict</span>, <span class='identifier'>visualiser</span>: <span class='keyword'>nil</span>, <span class='identifier'>block</span>: { <span class='identifier'>dict</span> <span class='keyword'>in</span>
+0205                <span class='keyword'>if</span> <span class='keyword'>let</span> <span class='identifier'>usr</span> = <span class='identifier'>dict</span>.<span class='identifier'><a name='205_31' href='SourceKit.html#31_10'>getString<a></span>( <span class='identifier'>SK</span>.<span class='identifier'>usrID</span> ) {
+0206                    <span class='keyword'>let</span> <span class='identifier'>entity</span> = <span class='identifier'><a name='206_30' href='main.html#130_8'>Entity<a></span>( <span class='identifier'>file</span>: <span class='identifier'>file</span>,
+0207                        <span class='identifier'>line</span>: <span class='identifier'>dict</span>.<span class='identifier'><a name='207_32' href='SourceKit.html#27_10'>getInt<a></span>( <span class='identifier'>SK</span>.<span class='identifier'>lineID</span> ),
+0208                        <span class='identifier'>col</span>: <span class='identifier'>dict</span>.<span class='identifier'><a name='208_31' href='SourceKit.html#27_10'>getInt<a></span>( <span class='identifier'>SK</span>.<span class='identifier'>colID</span> ) )
+0209    
+0210                    <span class='identifier'><a name='210_17' href='main.html#184_5'>entities<a></span>[<span class='identifier'>entity</span>] = <span class='identifier'>dict</span>
+0211    
+0212                    <span class='keyword'>if</span> <span class='identifier'><a name='212_20' href='main.html#194_5'>usrs<a></span>[<span class='identifier'>usr</span>] == <span class='keyword'>nil</span> {
+0213                        <span class='identifier'><a name='213_21' href='main.html#194_5'>usrs<a></span>[<span class='identifier'>usr</span>] = <span class='identifier'><a name='213_33' href='main.html#186_7'>USR<a></span>()
+0214                    }
+0215    
+0216                    <span class='identifier'><a name='216_17' href='main.html#194_5'>usrs<a></span>[<span class='identifier'>usr</span>]!.<span class='identifier'>references</span>.<span class='identifier'>append</span>( <span class='identifier'>entity</span> )
+0217                    <span class='identifier'><a name='217_17' href='main.html#194_5'>usrs<a></span>[<span class='identifier'>usr</span>]!.<span class='identifier'>reflines</span>.<span class='identifier'>append</span>( <span class='identifier'>entity</span>.<span class='identifier'><a name='217_52' href='main.html#160_10'>patchText<a></span>( <span class='identifier'>data</span>, <span class='identifier'>value</span>: <span class='string'>""</span> )!
+0218                        .<span class='identifier'>stringByReplacingOccurrencesOfString</span>( <span class='string'>"  "</span>, <span class='identifier'>withString</span>: <span class='string'>" &nbsp;"</span> ) )
+0219                }
+0220            } )
+0221        }
+0222    }
+0223    
+0224    <span class='keyword'>for</span> (<span class='identifier'>entity</span>, <span class='identifier'>dict</span>) <span class='keyword'>in</span> <span class='identifier'>entities</span> {
+0225        <span class='keyword'>if</span> <span class='keyword'>let</span> <span class='identifier'>usr</span> = <span class='identifier'>dict</span>.<span class='identifier'><a name='225_23' href='SourceKit.html#31_10'>getString<a></span>( <span class='identifier'>SK</span>.<span class='identifier'>usrID</span> ) {
+0226            <span class='keyword'>let</span> <span class='identifier'>kind</span> = <span class='identifier'>dict</span>.<span class='identifier'><a name='226_25' href='SourceKit.html#39_10'>getUUIDString<a></span>( <span class='identifier'>SK</span>.<span class='identifier'>kindID</span> )
+0227            <span class='keyword'>if</span> <span class='identifier'>kind</span>.<span class='identifier'>containsString</span>( <span class='string'>".decl."</span> ), <span class='keyword'>var</span> <span class='identifier'>usr</span> = <span class='identifier'><a name='227_55' href='main.html#194_5'>usrs<a></span>[<span class='identifier'>usr</span>] {
+0228                <span class='identifier'>usr</span>.<span class='identifier'>declaring</span> = <span class='identifier'>entity</span>
+0229            }
+0230        }
+0231    }
+0232    
+0233    <span class='keyword'>let</span> <span class='identifier'><a name='233_5'>resources</a></span> = <span class='identifier'>String</span>.<span class='identifier'>fromCString</span>( <span class='identifier'>getenv</span>( <span class='string'>"HOME"</span> ) )!+<span class='string'>"/Library/siteify/"</span>
+0234    
+0235    <span class='keyword'>func</span> <span class='identifier'><a name='235_6' href='#' onclick='return expand(this);'>copyTemplate<span class='references'><table><tr><td onclick='document.location.href="main.html#249_9"; return false;'>main.swift:249</td><td>fclose( <b></b>copyTemplate( "siteify.css", patches: [:], dest: "html/siteify.css" ) )</td><tr><td onclick='document.location.href="main.html#250_13"; return false;'>main.swift:250</td><td>let index = <b></b>copyTemplate( "index.html", patches: [:], dest: "html/index.html" )</td><tr><td onclick='document.location.href="main.html#341_19"; return false;'>main.swift:341</td><td> &nbsp; &nbsp; &nbsp; &nbsp;let out = <b></b>copyTemplate( "source.html", patches: [:], dest: "html/"+filename )</td></table></span></a></span>( <span class='identifier'>template</span>: <span class='typeidentifier'>String</span>, <span class='identifier'>patches</span>: [<span class='typeidentifier'>String</span>:<span class='typeidentifier'>String</span>], <span class='identifier'>dest</span>: <span class='typeidentifier'>String</span> ) -> <span class='typeidentifier'>UnsafeMutablePointer</span><<span class='typeidentifier'>FILE</span>> {
+0236        <span class='keyword'>var</span> <span class='identifier'>input</span> = <span class='keyword'>try</span>! <span class='identifier'>NSString</span>( <span class='identifier'>contentsOfFile</span>: <span class='identifier'>resources</span>+<span class='identifier'>template</span>, <span class='identifier'>encoding</span>: <span class='identifier'>NSUTF8StringEncoding</span> )
+0237        <span class='keyword'>for</span> (<span class='identifier'>tag</span>, <span class='identifier'>value</span>) <span class='keyword'>in</span> <span class='identifier'>patches</span> {
+0238            <span class='identifier'>input</span> = <span class='identifier'>input</span>.<span class='identifier'>stringByReplacingOccurrencesOfString</span>( <span class='identifier'>tag</span>, <span class='identifier'>withString</span>: <span class='identifier'>value</span> )
+0239        }
+0240        <span class='keyword'>let</span> <span class='identifier'>out</span> = <span class='identifier'>fopen</span>( <span class='identifier'>dest</span>, <span class='string'>"w"</span> )
+0241        <span class='identifier'>fputs</span>( <span class='identifier'>input</span> <span class='keyword'>as</span> <span class='typeidentifier'>String</span>, <span class='identifier'>out</span> )
+0242        <span class='keyword'>return</span> <span class='identifier'>out</span>
+0243    }
+0244    
+0245    <span class='keyword'>if</span> !<span class='identifier'>filemgr</span>.<span class='identifier'>fileExistsAtPath</span>( <span class='string'>"html"</span> ) {
+0246        <span class='keyword'>try</span>! <span class='identifier'>filemgr</span>.<span class='identifier'>createDirectoryAtPath</span>( <span class='string'>"html"</span>, <span class='identifier'>withIntermediateDirectories</span>: <span class='keyword'>false</span>, <span class='identifier'>attributes</span>: <span class='keyword'>nil</span> )
+0247    }
+0248    
+0249    <span class='identifier'>fclose</span>( <span class='identifier'><a name='249_9' href='main.html#235_6'>copyTemplate<a></span>( <span class='string'>"siteify.css"</span>, <span class='identifier'>patches</span>: [:], <span class='identifier'>dest</span>: <span class='string'>"html/siteify.css"</span> ) )
+0250    <span class='keyword'>let</span> <span class='identifier'><a name='250_5'>index</a></span> = <span class='identifier'><a name='250_13' href='main.html#235_6'>copyTemplate<a></span>( <span class='string'>"index.html"</span>, <span class='identifier'>patches</span>: [:], <span class='identifier'>dest</span>: <span class='string'>"html/index.html"</span> )
+0251    <span class='keyword'>var</span> <span class='identifier'><a name='251_5' href='#' onclick='return expand(this);'>buff<span class='references'><table><tr><td onclick='document.location.href="main.html#252_40"; return false;'>main.swift:252</td><td>let cwd = String.fromCString( getcwd( &amp;<b></b>buff, buff.count ) )!</td></table></span></a></span> = [<span class='identifier'>Int8</span>]( <span class='identifier'>count</span>: <span class='identifier'>Int</span>(<span class='identifier'>PATH_MAX</span>), <span class='identifier'>repeatedValue</span>: <span class='number'>0</span> )
+0252    <span class='keyword'>let</span> <span class='identifier'><a name='252_5'>cwd</a></span> = <span class='identifier'>String</span>.<span class='identifier'>fromCString</span>( <span class='identifier'>getcwd</span>( &<span class='identifier'><a name='252_40' href='main.html#251_5'>buff<a></span>, <span class='identifier'>buff</span>.<span class='identifier'>count</span> ) )!
+0253    
+0254    <span class='identifier'><a name='254_1' href='main.html#195_5'>fileno<a></span> = <span class='number'>0</span>
+0255    
+0256    <span class='keyword'>for</span> (<span class='identifier'>file</span>, <span class='identifier'>argv</span>) <span class='keyword'>in</span> <span class='identifier'>compilations</span> {
+0257        <span class='identifier'><a name='257_5' href='main.html#195_5'>fileno<a></span> += <span class='number'>1</span>
+0258        <span class='identifier'><a name='258_5' href='main.html#35_6'>progress<a></span>( <span class='string'>"Saving </span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'><a name='258_25' href='main.html#195_5'>fileno<a></span><span class='string_interpolation_anchor'>)</span><span class='string'>/</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>compilations</span>.<span class='identifier'>count</span><span class='string_interpolation_anchor'>)</span><span class='string'> </span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>file</span><span class='string_interpolation_anchor'>)</span><span class='string'>"</span> )
+0259    
+0260        <span class='keyword'>let</span> <span class='identifier'>relative</span> = <span class='identifier'>file</span>.<span class='identifier'>stringByReplacingOccurrencesOfString</span>( <span class='identifier'>cwd</span>+<span class='string'>"/"</span>, <span class='identifier'>withString</span>: <span class='string'>""</span> )
+0261        <span class='keyword'>let</span> <span class='identifier'>filename</span> = <span class='identifier'>NSURL</span>( <span class='identifier'>fileURLWithPath</span>: <span class='identifier'>file</span> ).<span class='identifier'>URLByDeletingPathExtension</span>!.<span class='identifier'>lastPathComponent</span>!+<span class='string'>".html"</span>
+0262        <span class='identifier'>fputs</span>( <span class='string'>"&lt;a href='</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>filename</span><span class='string_interpolation_anchor'>)</span><span class='string'>'></span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>relative</span><span class='string_interpolation_anchor'>)</span><span class='string'>&lt;a>&lt;br>\n"</span>, <span class='identifier'>index</span> )
+0263    
+0264        <span class='keyword'>if</span> <span class='keyword'>let</span> <span class='identifier'>data</span> = <span class='identifier'>NSData</span>( <span class='identifier'>contentsOfFile</span>: <span class='identifier'>file</span> ) {
+0265            <span class='keyword'>let</span> <span class='identifier'>bytes</span> = <span class='identifier'>UnsafePointer</span><<span class='typeidentifier'>Int8</span>>( <span class='identifier'>data</span>.<span class='identifier'>bytes</span> )
+0266            <span class='keyword'>let</span> <span class='identifier'>newline</span> = <span class='identifier'>Int8</span>(<span class='string'>"\n"</span>.<span class='identifier'>utf16</span>.<span class='identifier'>last</span>!)
+0267            <span class='keyword'>var</span> <span class='identifier'>ptr</span> = <span class='number'>0</span>, <span class='identifier'>line</span> = <span class='number'>1</span>, <span class='identifier'>col</span> = <span class='number'>1</span>
+0268    
+0269            <span class='keyword'>func</span> <span class='identifier'>skipTo</span>( <span class='identifier'>offset</span>: <span class='typeidentifier'>Int</span> ) -> <span class='typeidentifier'>String</span> {
+0270                <span class='keyword'>let</span> <span class='identifier'>out</span> = <span class='identifier'>NSString</span>( <span class='identifier'>bytes</span>: <span class='identifier'>bytes</span>+<span class='identifier'>ptr</span>, <span class='identifier'>length</span>: <span class='identifier'>offset</span>-<span class='identifier'>ptr</span>, <span class='identifier'>encoding</span>: <span class='identifier'>NSUTF8StringEncoding</span> ) ?? <span class='string'>""</span>
+0271                <span class='keyword'>while</span> <span class='identifier'>ptr</span> < <span class='identifier'>offset</span> {
+0272                    <span class='keyword'>if</span> <span class='identifier'>bytes</span>[<span class='identifier'>ptr</span>] == <span class='identifier'>newline</span> {
+0273                        <span class='identifier'>line</span> += <span class='number'>1</span>
+0274                        <span class='identifier'>col</span> = <span class='number'>1</span>
+0275                    }
+0276                    <span class='keyword'>else</span> {
+0277                        <span class='identifier'>col</span> += <span class='number'>1</span>
+0278                    }
+0279                    <span class='identifier'>ptr</span> += <span class='number'>1</span>
+0280                }
+0281                <span class='keyword'>return</span> <span class='identifier'>out</span> <span class='keyword'>as</span> <span class='typeidentifier'>String</span>
+0282            }
+0283    
+0284            <span class='keyword'>var</span> <span class='identifier'>html</span> = <span class='string'>""</span>
+0285    
+0286            <span class='keyword'>let</span> <span class='identifier'>resp</span> = <span class='identifier'>SK</span>.<span class='identifier'><a name='286_23' href='SourceKit.html#147_10'>syntaxMap<a></span>( <span class='identifier'>file</span>, <span class='identifier'>compilerArgs</span>: <span class='identifier'>argv</span> )
+0287            <span class='keyword'>let</span> <span class='identifier'>dict</span> = <span class='identifier'>sourcekitd_response_get_value</span>( <span class='identifier'>resp</span> )
+0288            <span class='keyword'>let</span> <span class='identifier'>map</span> = <span class='identifier'>sourcekitd_variant_dictionary_get_value</span>( <span class='identifier'>dict</span>, <span class='identifier'>SK</span>.<span class='identifier'>syntaxID</span> )
+0289            <span class='identifier'>sourcekitd_variant_array_apply</span>( <span class='identifier'>map</span> ) { (<span class='keyword'>_</span>,<span class='identifier'>dict</span>) <span class='keyword'>in</span>
+0290                <span class='keyword'>let</span> <span class='identifier'>kind</span> = <span class='identifier'>dict</span>.<span class='identifier'><a name='290_29' href='SourceKit.html#39_10'>getUUIDString<a></span>( <span class='identifier'>SK</span>.<span class='identifier'>kindID</span> )
+0291                <span class='keyword'>let</span> <span class='identifier'>kindSuffix</span> = <span class='identifier'>NSURL</span>(<span class='identifier'>fileURLWithPath</span>: <span class='identifier'>kind</span>).<span class='identifier'>pathExtension</span>!
+0292                <span class='keyword'>let</span> <span class='identifier'>offset</span> = <span class='identifier'>dict</span>.<span class='identifier'><a name='292_31' href='SourceKit.html#27_10'>getInt<a></span>( <span class='identifier'>SK</span>.<span class='identifier'>offsetID</span> )
+0293                <span class='keyword'>let</span> <span class='identifier'>length</span> = <span class='identifier'>dict</span>.<span class='identifier'><a name='293_31' href='SourceKit.html#27_10'>getInt<a></span>( <span class='identifier'>SK</span>.<span class='identifier'>lengthID</span> )
+0294    
+0295                <span class='identifier'>html</span> += <span class='identifier'>skipTo</span>( <span class='identifier'>offset</span> )
+0296    
+0297                <span class='keyword'>let</span> <span class='identifier'>ent</span> = <span class='identifier'><a name='297_23' href='main.html#130_8'>Entity<a></span>(<span class='identifier'>file</span>: <span class='identifier'>file</span>, <span class='identifier'>line</span>: <span class='identifier'>line</span>, <span class='identifier'>col</span>: <span class='identifier'>col</span>)
+0298                <span class='keyword'>var</span> <span class='identifier'>text</span> = <span class='identifier'>skipTo</span>( <span class='identifier'>offset</span>+<span class='identifier'>length</span> ).<span class='identifier'>stringByReplacingOccurrencesOfString</span>( <span class='string'>"&lt;"</span>, <span class='identifier'>withString</span>: <span class='string'>"&lt;"</span> )
+0299    
+0300                <span class='keyword'>if</span> <span class='identifier'>kindSuffix</span> == <span class='string'>"url"</span> {
+0301                    <span class='identifier'>text</span> = <span class='string'>"&lt;a href='</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>text</span><span class='string_interpolation_anchor'>)</span><span class='string'>'></span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>text</span><span class='string_interpolation_anchor'>)</span><span class='string'>&lt;/a>"</span>
+0302                }
+0303                <span class='keyword'>else</span> <span class='keyword'>if</span> <span class='keyword'>let</span> <span class='identifier'>dict</span> = <span class='identifier'><a name='303_32' href='main.html#184_5'>entities<a></span>[<span class='identifier'>ent</span>] {
+0304                    <span class='keyword'>if</span> <span class='keyword'>let</span> <span class='identifier'>usrString</span> = <span class='identifier'>dict</span>.<span class='identifier'><a name='304_41' href='SourceKit.html#31_10'>getString<a></span>( <span class='identifier'>SK</span>.<span class='identifier'>usrID</span> ), <span class='identifier'>usr</span> = <span class='identifier'><a name='304_70' href='main.html#194_5'>usrs<a></span>[<span class='identifier'>usrString</span>], <span class='identifier'>decl</span> = <span class='identifier'>usr</span>.<span class='identifier'>declaring</span> {
+0305                        <span class='keyword'>if</span> <span class='identifier'>decl</span> != <span class='identifier'>ent</span> {
+0306                            <span class='keyword'>let</span> <span class='identifier'>file</span> = <span class='identifier'>NSURL</span>( <span class='identifier'>fileURLWithPath</span>: <span class='identifier'>decl</span>.<span class='identifier'>file</span> ).<span class='identifier'>URLByDeletingPathExtension</span>!.<span class='identifier'>lastPathComponent</span>!
+0307                            <span class='identifier'>text</span> = <span class='string'>"&lt;a name='</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>ent</span>.<span class='identifier'><a name='307_48' href='main.html#140_24'>anchor<a></span><span class='string_interpolation_anchor'>)</span><span class='string'>' href='</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>file</span><span class='string_interpolation_anchor'>)</span><span class='string'>.html#</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>decl</span>.<span class='identifier'><a name='307_83' href='main.html#140_24'>anchor<a></span><span class='string_interpolation_anchor'>)</span><span class='string'>'></span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>text</span><span class='string_interpolation_anchor'>)</span><span class='string'>&lt;a>"</span>
+0308                        }
+0309                        <span class='keyword'>else</span> <span class='keyword'>if</span> <span class='identifier'>usr</span>.<span class='identifier'>references</span>.<span class='identifier'>count</span> > <span class='number'>1</span> {
+0310                            <span class='keyword'>var</span> <span class='identifier'>popup</span> = <span class='string'>""</span>
+0311                            <span class='keyword'>for</span> <span class='identifier'>i</span> <span class='keyword'>in</span> <span class='number'>0</span>..<<span class='identifier'>usr</span>.<span class='identifier'>references</span>.<span class='identifier'>count</span> {
+0312                                <span class='keyword'>let</span> <span class='identifier'>ref</span> = <span class='identifier'>usr</span>.<span class='identifier'>references</span>[<span class='identifier'>i</span>]
+0313                                <span class='keyword'>if</span> <span class='identifier'>ref</span> == <span class='identifier'>ent</span> {
+0314                                    <span class='keyword'>continue</span>
+0315                                }
+0316                                <span class='keyword'>let</span> <span class='identifier'>file</span> = <span class='identifier'>NSURL</span>( <span class='identifier'>fileURLWithPath</span>: <span class='identifier'>ref</span>.<span class='identifier'>file</span> ).<span class='identifier'>URLByDeletingPathExtension</span>!.<span class='identifier'>lastPathComponent</span>!
+0317                                <span class='identifier'>popup</span> += <span class='string'>"&lt;tr>&lt;td onclick='document.location.href=\"</span>\(<span class='identifier'>file</span><span class='string_interpolation_anchor'>)</span><span class='string'>.html#</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>ref</span>.<span class='identifier'><a name='317_100' href='main.html#140_24'>anchor<a></span><span class='string_interpolation_anchor'>)</span><span class='string'>\"; return false;'></span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>file</span><span class='string_interpolation_anchor'>)</span><span class='string'>.swift:</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>ref</span>.<span class='identifier'>line</span><span class='string_interpolation_anchor'>)</span><span class='string'>&lt;/td>"</span>
+0318                                <span class='identifier'>popup</span> += <span class='string'>"&lt;td></span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>usr</span>.<span class='identifier'>reflines</span>[<span class='identifier'>i</span>]<span class='string_interpolation_anchor'>)</span><span class='string'>&lt;/td>"</span>
+0319                            }
+0320                            <span class='identifier'>text</span> = <span class='string'>"&lt;a name='</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>ent</span>.<span class='identifier'><a name='320_48' href='main.html#140_24'>anchor<a></span><span class='string_interpolation_anchor'>)</span><span class='string'>' href='#' onclick='return expand(this);'></span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>text</span><span class='string_interpolation_anchor'>)</span><span class='string'>&lt;span class='references'>&lt;table></span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>popup</span><span class='string_interpolation_anchor'>)</span><span class='string'>&lt;/table>&lt;/span>&lt;/a>"</span>
+0321                        }
+0322                        <span class='keyword'>else</span> {
+0323                            <span class='identifier'>text</span> = <span class='string'>"&lt;a name='</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>ent</span>.<span class='identifier'><a name='323_48' href='main.html#140_24'>anchor<a></span><span class='string_interpolation_anchor'>)</span><span class='string'>'></span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>text</span><span class='string_interpolation_anchor'>)</span><span class='string'>&lt;/a>"</span>
+0324                        }
+0325                    }
+0326                }
+0327    
+0328                <span class='identifier'>html</span> += <span class='string'>"&lt;span class='</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>kindSuffix</span><span class='string_interpolation_anchor'>)</span><span class='string'>'>"</span>+<span class='identifier'>text</span>+<span class='string'>"&lt;/span>"</span>
+0329                <span class='keyword'>return</span> <span class='keyword'>true</span>
+0330            }
+0331    
+0332            <span class='identifier'>html</span> += <span class='identifier'>skipTo</span>( <span class='identifier'>data</span>.<span class='identifier'>length</span> )
+0333            <span class='keyword'>let</span> <span class='identifier'>htmp</span> = <span class='identifier'>NSMutableString</span>( <span class='identifier'>string</span>: <span class='identifier'>html</span> )
+0334    
+0335            <span class='identifier'>line</span> = <span class='number'>0</span>
+0336            <span class='identifier'>htmp</span>[<span class='string'>"(^|\\n)"</span>] ~= { (<span class='identifier'>group</span>: <span class='typeidentifier'>String</span>) <span class='keyword'>in</span>
+0337                <span class='identifier'>line</span> += <span class='number'>1</span>
+0338                <span class='keyword'>return</span> <span class='identifier'>group</span> + (<span class='identifier'>NSString</span>( <span class='identifier'>format</span>: <span class='string'>"%04d    "</span>, <span class='identifier'>line</span> ) <span class='keyword'>as</span> <span class='typeidentifier'>String</span>)
+0339            }
+0340    
+0341            <span class='keyword'>let</span> <span class='identifier'>out</span> = <span class='identifier'><a name='341_19' href='main.html#235_6'>copyTemplate<a></span>( <span class='string'>"source.html"</span>, <span class='identifier'>patches</span>: [:], <span class='identifier'>dest</span>: <span class='string'>"html/"</span>+<span class='identifier'>filename</span> )
+0342            <span class='identifier'>fputs</span>( <span class='identifier'>htmp</span> <span class='keyword'>as</span> <span class='typeidentifier'>String</span>, <span class='identifier'>out</span> )
+0343            <span class='identifier'>fclose</span>( <span class='identifier'>out</span> )
+0344        }
+0345    }
+0346    
+0347    <span class='identifier'><a name='347_1' href='main.html#35_6'>progress<a></span>( <span class='string'>"Site built, open ./html/index.html in your browser\n"</span> )
+0348    

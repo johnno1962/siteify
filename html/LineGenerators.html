@@ -1,0 +1,137 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+0001    <span class='comment'>//
+0002    </span><span class='comment'>//  LineGenerators.swift
+0003    </span><span class='comment'>//  refactord
+0004    </span><span class='comment'>//
+0005    </span><span class='comment'>//  Created by John Holdsworth on 19/12/2015.
+0006    </span><span class='comment'>//  Copyright © 2015 John Holdsworth. All rights reserved.
+0007    </span><span class='comment'>//
+0008    </span><span class='comment'>//  $Id: //depot/siteify/siteify/LineGenerators.swift#1 $
+0009    </span><span class='comment'>//
+0010    </span><span class='comment'>//  Repo: </span><span class='url'><a href='https://github.com/johnno1962/Refactorator'>https://github.com/johnno1962/Refactorator</a></span><span class='comment'>
+0011    </span><span class='comment'>//
+0012    </span>
+0013    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
+0014    
+0015    <span class='keyword'>class</span> <span class='identifier'><a name='15_7' href='#' onclick='return expand(this);'>TaskGenerator<span class='references'><table><tr><td onclick='document.location.href="main.html#44_24"; return false;'>main.swift:44</td><td>class StatusGenerator: <b></b>TaskGenerator {</td></table></span></a></span>: <span class='typeidentifier'><a name='15_22' href='LineGenerators.html#51_7'>FileGenerator<a></span> {
+0016    
+0017        <span class='keyword'>let</span> <span class='identifier'><a name='17_9' href='#' onclick='return expand(this);'>task<span class='references'><table><tr><td onclick='document.location.href="main.html#54_13"; return false;'>main.swift:54</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b></b>task.waitUntilExit()</td><tr><td onclick='document.location.href="main.html#55_16"; return false;'>main.swift:55</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if <b></b>task.terminationStatus != EXIT_SUCCESS {</td><tr><td onclick='document.location.href="LineGenerators.html#35_14"; return false;'>LineGenerators.swift:35</td><td> &nbsp; &nbsp; &nbsp; &nbsp;self.<b></b>task = task</td><tr><td onclick='document.location.href="LineGenerators.html#46_9"; return false;'>LineGenerators.swift:46</td><td> &nbsp; &nbsp; &nbsp; &nbsp;<b></b>task.terminate()</td></table></span></a></span>: <span class='typeidentifier'>NSTask</span>
+0018    
+0019        <span class='builtin'>convenience</span> <span class='keyword'><a name='19_17'>init</a></span>( <span class='identifier'>command</span>: <span class='typeidentifier'>String</span>, <span class='identifier'>directory</span>: <span class='typeidentifier'>String</span> = <span class='string'>"/tmp"</span>, <span class='identifier'>lineSeparator</span>: <span class='typeidentifier'>String</span>? = <span class='keyword'>nil</span> ) {
+0020            <span class='keyword'>self</span>.<span class='keyword'><a name='20_14' href='LineGenerators.html#23_17'>init<a></span>( <span class='identifier'>launchPath</span>: <span class='string'>"/bin/bash"</span>, <span class='identifier'>arguments</span>: [<span class='string'>"-c"</span>, <span class='string'>"exec </span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'>command</span><span class='string_interpolation_anchor'>)</span><span class='string'>"</span>], <span class='identifier'>directory</span>: <span class='identifier'>directory</span>, <span class='identifier'>lineSeparator</span>: <span class='identifier'>lineSeparator</span> )
+0021        }
+0022    
+0023        <span class='builtin'>convenience</span> <span class='keyword'><a name='23_17' href='#' onclick='return expand(this);'>init<span class='references'><table><tr><td onclick='document.location.href="main.html#74_16"; return false;'>main.swift:74</td><td> &nbsp; &nbsp;buildLog = <b></b>StatusGenerator(launchPath: "/usr/bin/xcodebuild", arguments: buildargs, directory: ".")</td><tr><td onclick='document.location.href="LineGenerators.html#20_14"; return false;'>LineGenerators.swift:20</td><td> &nbsp; &nbsp; &nbsp; &nbsp;self.<b></b>init( launchPath: "/bin/bash", arguments: ["-c", "exec \(command)"], directory: directory, lineSeparator: lineSeparator )</td></table></span></a></span>( <span class='identifier'>launchPath</span>: <span class='typeidentifier'>String</span>, <span class='identifier'>arguments</span>: [<span class='typeidentifier'>String</span>] = [], <span class='identifier'>directory</span>: <span class='typeidentifier'>String</span> = <span class='string'>"/tmp"</span>, <span class='identifier'>lineSeparator</span>: <span class='typeidentifier'>String</span>? = <span class='keyword'>nil</span> ) {
+0024    
+0025            <span class='keyword'>let</span> <span class='identifier'>task</span> = <span class='identifier'>NSTask</span>()
+0026            <span class='identifier'>task</span>.<span class='identifier'>launchPath</span> = <span class='identifier'>launchPath</span>
+0027            <span class='identifier'>task</span>.<span class='identifier'>arguments</span> = <span class='identifier'>arguments</span>
+0028            <span class='identifier'>task</span>.<span class='identifier'>currentDirectoryPath</span> = <span class='identifier'>directory</span>
+0029    
+0030            <span class='keyword'>self</span>.<span class='keyword'><a name='30_14' href='LineGenerators.html#33_5'>init<a></span>( <span class='identifier'>task</span>: <span class='identifier'>task</span>, <span class='identifier'>lineSeparator</span>: <span class='identifier'>lineSeparator</span> )
+0031        }
+0032        
+0033        <span class='keyword'><a name='33_5' href='#' onclick='return expand(this);'>init<span class='references'><table><tr><td onclick='document.location.href="LineGenerators.html#30_14"; return false;'>LineGenerators.swift:30</td><td> &nbsp; &nbsp; &nbsp; &nbsp;self.<b></b>init( task: task, lineSeparator: lineSeparator )</td></table></span></a></span>( <span class='identifier'>task</span>: <span class='typeidentifier'>NSTask</span>, <span class='identifier'>lineSeparator</span>: <span class='typeidentifier'>String</span>? = <span class='keyword'>nil</span> ) {
+0034    
+0035            <span class='keyword'>self</span>.<span class='identifier'>task</span> = <span class='identifier'>task</span>
+0036    
+0037            <span class='keyword'>let</span> <span class='identifier'>pipe</span> = <span class='identifier'>NSPipe</span>()
+0038            <span class='identifier'>task</span>.<span class='identifier'>standardOutput</span> = <span class='identifier'>pipe</span>.<span class='identifier'>fileHandleForWriting</span>
+0039            <span class='identifier'>task</span>.<span class='identifier'>launch</span>()
+0040    
+0041            <span class='identifier'>pipe</span>.<span class='identifier'>fileHandleForWriting</span>.<span class='identifier'>closeFile</span>()
+0042            <span class='keyword'>super</span>.<span class='keyword'><a name='42_15' href='LineGenerators.html#62_5'>init<a></span>( <span class='identifier'>handle</span>: <span class='identifier'>pipe</span>.<span class='identifier'>fileHandleForReading</span>, <span class='identifier'>lineSeparator</span>: <span class='identifier'>lineSeparator</span> )
+0043        }
+0044    
+0045        <span class='keyword'><a name='45_5'>deinit</a></span> {
+0046            <span class='identifier'>task</span>.<span class='identifier'>terminate</span>()
+0047        }
+0048    
+0049    }
+0050    
+0051    <span class='keyword'>class</span> <span class='identifier'><a name='51_7' href='#' onclick='return expand(this);'>FileGenerator<span class='references'><table><tr><td onclick='document.location.href="main.html#40_15"; return false;'>main.swift:40</td><td>let buildLog: <b></b>FileGenerator</td><tr><td onclick='document.location.href="main.html#67_16"; return false;'>main.swift:67</td><td> &nbsp; &nbsp;buildLog = <b></b>FileGenerator(path: storedLog)!</td><tr><td onclick='document.location.href="LineGenerators.html#15_22"; return false;'>LineGenerators.swift:15</td><td>class TaskGenerator: <b></b>FileGenerator {</td></table></span></a></span>: <span class='typeidentifier'>GeneratorType</span> {
+0052    
+0053        <span class='keyword'>let</span> <span class='identifier'><a name='53_9' href='#' onclick='return expand(this);'>eol<span class='references'><table><tr><td onclick='document.location.href="LineGenerators.html#63_14"; return false;'>LineGenerators.swift:63</td><td> &nbsp; &nbsp; &nbsp; &nbsp;self.<b></b>eol = Int32((lineSeparator ?? "\n").utf16.first!)</td><tr><td onclick='document.location.href="LineGenerators.html#69_83"; return false;'>LineGenerators.swift:69</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let endOfLine = UnsafeMutablePointer&lt;Int8>( memchr( readBuffer.bytes, <b></b>eol, readBuffer.length ) )</td></table></span></a></span>: <span class='typeidentifier'>Int32</span>
+0054        <span class='keyword'>let</span> <span class='identifier'><a name='54_9' href='#' onclick='return expand(this);'>handle<span class='references'><table><tr><td onclick='document.location.href="LineGenerators.html#64_14"; return false;'>LineGenerators.swift:64</td><td> &nbsp; &nbsp; &nbsp; &nbsp;self.<b></b>handle = handle</td><tr><td onclick='document.location.href="LineGenerators.html#82_29"; return false;'>LineGenerators.swift:82</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let bytesRead = <b></b>handle.availableData</td><tr><td onclick='document.location.href="LineGenerators.html#104_9"; return false;'>LineGenerators.swift:104</td><td> &nbsp; &nbsp; &nbsp; &nbsp;<b></b>handle.closeFile()</td></table></span></a></span>: <span class='typeidentifier'>NSFileHandle</span>
+0055        <span class='keyword'>let</span> <span class='identifier'><a name='55_9' href='#' onclick='return expand(this);'>readBuffer<span class='references'><table><tr><td onclick='document.location.href="LineGenerators.html#69_65"; return false;'>LineGenerators.swift:69</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let endOfLine = UnsafeMutablePointer&lt;Int8>( memchr( <b></b>readBuffer.bytes, eol, readBuffer.length ) )</td><tr><td onclick='document.location.href="LineGenerators.html#69_88"; return false;'>LineGenerators.swift:69</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let endOfLine = UnsafeMutablePointer&lt;Int8>( memchr( readBuffer.bytes, eol, <b></b>readBuffer.length ) )</td><tr><td onclick='document.location.href="LineGenerators.html#73_56"; return false;'>LineGenerators.swift:73</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let start = UnsafeMutablePointer&lt;Int8>(<b></b>readBuffer.bytes)</td><tr><td onclick='document.location.href="LineGenerators.html#77_17"; return false;'>LineGenerators.swift:77</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b></b>readBuffer.replaceBytesInRange( consumed, withBytes:nil, length:0 )</td><tr><td onclick='document.location.href="LineGenerators.html#84_20"; return false;'>LineGenerators.swift:84</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if <b></b>readBuffer.length != 0 {</td><tr><td onclick='document.location.href="LineGenerators.html#85_49"; return false;'>LineGenerators.swift:85</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let last = String.fromData( <b></b>readBuffer )</td><tr><td onclick='document.location.href="LineGenerators.html#86_21"; return false;'>LineGenerators.swift:86</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b></b>readBuffer.length = 0</td><tr><td onclick='document.location.href="LineGenerators.html#94_13"; return false;'>LineGenerators.swift:94</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b></b>readBuffer.appendData( bytesRead )</td></table></span></a></span> = <span class='identifier'>NSMutableData</span>()
+0056    
+0057        <span class='builtin'>convenience</span> <span class='keyword'><a name='57_17' href='#' onclick='return expand(this);'>init<span class='references'><table><tr><td onclick='document.location.href="main.html#67_16"; return false;'>main.swift:67</td><td> &nbsp; &nbsp;buildLog = <b></b>FileGenerator(path: storedLog)!</td></table></span></a></span>?( <span class='identifier'>path</span>: <span class='typeidentifier'>String</span>, <span class='identifier'>lineSeparator</span>: <span class='typeidentifier'>String</span>? = <span class='keyword'>nil</span> ) {
+0058            <span class='keyword'>guard</span> <span class='keyword'>let</span> <span class='identifier'>handle</span> = <span class='identifier'>NSFileHandle</span>( <span class='identifier'>forReadingAtPath</span>: <span class='identifier'>path</span> ) <span class='keyword'>else</span> { <span class='keyword'>return</span> <span class='keyword'>nil</span> }
+0059            <span class='keyword'>self</span>.<span class='keyword'><a name='59_14' href='LineGenerators.html#62_5'>init<a></span>( <span class='identifier'>handle</span>: <span class='identifier'>handle</span>, <span class='identifier'>lineSeparator</span>: <span class='identifier'>lineSeparator</span> )
+0060        }
+0061    
+0062        <span class='keyword'><a name='62_5' href='#' onclick='return expand(this);'>init<span class='references'><table><tr><td onclick='document.location.href="LineGenerators.html#42_15"; return false;'>LineGenerators.swift:42</td><td> &nbsp; &nbsp; &nbsp; &nbsp;super.<b></b>init( handle: pipe.fileHandleForReading, lineSeparator: lineSeparator )</td><tr><td onclick='document.location.href="LineGenerators.html#59_14"; return false;'>LineGenerators.swift:59</td><td> &nbsp; &nbsp; &nbsp; &nbsp;self.<b></b>init( handle: handle, lineSeparator: lineSeparator )</td></table></span></a></span>( <span class='identifier'>handle</span>: <span class='typeidentifier'>NSFileHandle</span>, <span class='identifier'>lineSeparator</span>: <span class='typeidentifier'>String</span>? = <span class='keyword'>nil</span> ) {
+0063            <span class='keyword'>self</span>.<span class='identifier'>eol</span> = <span class='identifier'>Int32</span>((<span class='identifier'>lineSeparator</span> ?? <span class='string'>"\n"</span>).<span class='identifier'>utf16</span>.<span class='identifier'>first</span>!)
+0064            <span class='keyword'>self</span>.<span class='identifier'>handle</span> = <span class='identifier'>handle</span>
+0065        }
+0066    
+0067        <span class='keyword'>func</span> <span class='identifier'><a name='67_10' href='#' onclick='return expand(this);'>next<span class='references'><table><tr><td onclick='document.location.href="main.html#47_26"; return false;'>main.swift:47</td><td> &nbsp; &nbsp; &nbsp; &nbsp;let next = super.<b></b>next()</td></table></span></a></span>() -> <span class='typeidentifier'>String</span>? {
+0068            <span class='keyword'>while</span> <span class='keyword'>true</span> {
+0069                <span class='keyword'>let</span> <span class='identifier'>endOfLine</span> = <span class='identifier'>UnsafeMutablePointer</span><<span class='typeidentifier'>Int8</span>>( <span class='identifier'>memchr</span>( <span class='identifier'>readBuffer</span>.<span class='identifier'>bytes</span>, <span class='identifier'>eol</span>, <span class='identifier'>readBuffer</span>.<span class='identifier'>length</span> ) )
+0070                <span class='keyword'>if</span> <span class='identifier'>endOfLine</span> != <span class='keyword'>nil</span> {
+0071                    <span class='identifier'>endOfLine</span>[<span class='number'>0</span>] = <span class='number'>0</span>
+0072    
+0073                    <span class='keyword'>let</span> <span class='identifier'>start</span> = <span class='identifier'>UnsafeMutablePointer</span><<span class='typeidentifier'>Int8</span>>(<span class='identifier'>readBuffer</span>.<span class='identifier'>bytes</span>)
+0074                    <span class='keyword'>let</span> <span class='identifier'>line</span> = <span class='identifier'>String</span>.<span class='identifier'>fromCString</span>( <span class='identifier'>start</span> )
+0075    
+0076                    <span class='keyword'>let</span> <span class='identifier'>consumed</span> = <span class='identifier'>NSMakeRange</span>( <span class='number'>0</span>, <span class='identifier'>endOfLine</span> + <span class='number'>1</span> - <span class='identifier'>start</span> )
+0077                    <span class='identifier'>readBuffer</span>.<span class='identifier'>replaceBytesInRange</span>( <span class='identifier'>consumed</span>, <span class='identifier'>withBytes</span>:<span class='keyword'>nil</span>, <span class='identifier'>length</span>:<span class='number'>0</span> )
+0078    
+0079                    <span class='keyword'>return</span> <span class='identifier'>line</span>
+0080                }
+0081    
+0082                <span class='keyword'>let</span> <span class='identifier'>bytesRead</span> = <span class='identifier'>handle</span>.<span class='identifier'>availableData</span>
+0083                <span class='keyword'>if</span> <span class='identifier'>bytesRead</span>.<span class='identifier'>length</span> <= <span class='number'>0</span> {
+0084                    <span class='keyword'>if</span> <span class='identifier'>readBuffer</span>.<span class='identifier'>length</span> != <span class='number'>0</span> {
+0085                        <span class='keyword'>let</span> <span class='identifier'>last</span> = <span class='identifier'>String</span>.<span class='identifier'><a name='85_39' href='LineGenerators.html#110_17'>fromData<a></span>( <span class='identifier'>readBuffer</span> )
+0086                        <span class='identifier'>readBuffer</span>.<span class='identifier'>length</span> = <span class='number'>0</span>
+0087                        <span class='keyword'>return</span> <span class='identifier'>last</span>
+0088                    }
+0089                    <span class='keyword'>else</span> {
+0090                        <span class='keyword'>break</span>
+0091                    }
+0092                }
+0093    
+0094                <span class='identifier'>readBuffer</span>.<span class='identifier'>appendData</span>( <span class='identifier'>bytesRead</span> )
+0095            }
+0096            <span class='keyword'>return</span> <span class='keyword'>nil</span>
+0097        }
+0098    
+0099        <span class='keyword'>var</span> <span class='identifier'><a name='99_9' href='#' onclick='return expand(this);'>sequence<span class='references'><table><tr><td onclick='document.location.href="main.html#80_22"; return false;'>main.swift:80</td><td>for line in buildLog.<b></b>sequence {</td></table></span></a></span>: <span class='typeidentifier'>AnySequence</span><<span class='typeidentifier'>String</span>> {
+0100            <span class='keyword'>return</span> <span class='identifier'>AnySequence</span>({<span class='keyword'>self</span>})
+0101        }
+0102    
+0103        <span class='keyword'><a name='103_5'>deinit</a></span> {
+0104            <span class='identifier'>handle</span>.<span class='identifier'>closeFile</span>()
+0105        }
+0106    }
+0107    
+0108    <span class='keyword'>extension</span> <span class='typeidentifier'>String</span> {
+0109    
+0110        <span class='keyword'>static</span> <span class='keyword'>func</span> <span class='identifier'><a name='110_17' href='#' onclick='return expand(this);'>fromData<span class='references'><table><tr><td onclick='document.location.href="main.html#174_23"; return false;'>main.swift:174</td><td> &nbsp; &nbsp; &nbsp; &nbsp;return String.<b></b>fromData( contents.subdataWithRange( range ) )?</td><tr><td onclick='document.location.href="LineGenerators.html#85_39"; return false;'>LineGenerators.swift:85</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let last = String.<b></b>fromData( readBuffer )</td></table></span></a></span>( <span class='identifier'>data</span>: <span class='typeidentifier'>NSData</span>, <span class='identifier'>encoding</span>: <span class='typeidentifier'>UInt</span> = <span class='identifier'>NSUTF8StringEncoding</span> ) -> <span class='typeidentifier'>String</span>? {
+0111            <span class='keyword'>return</span> <span class='identifier'>NSString</span>( <span class='identifier'>data</span>: <span class='identifier'>data</span>, <span class='identifier'>encoding</span>: <span class='identifier'>encoding</span> ) <span class='keyword'>as</span>? <span class='typeidentifier'>String</span>
+0112        }
+0113    
+0114    }
+0115    

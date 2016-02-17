@@ -1,0 +1,74 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+0001    <span class='comment'>//
+0002    </span><span class='comment'>//  ByteRegex.swift
+0003    </span><span class='comment'>//  refactord
+0004    </span><span class='comment'>//
+0005    </span><span class='comment'>//  Created by John Holdsworth on 20/12/2015.
+0006    </span><span class='comment'>//  Copyright © 2015 John Holdsworth. All rights reserved.
+0007    </span><span class='comment'>//
+0008    </span><span class='comment'>//  $Id: //depot/Refactorator/refactord/ByteRegex.swift#10 $
+0009    </span><span class='comment'>//
+0010    </span><span class='comment'>//  Repo: </span><span class='url'><a href='https://github.com/johnno1962/Refactorator'>https://github.com/johnno1962/Refactorator</a></span><span class='comment'>
+0011    </span><span class='comment'>//
+0012    </span>
+0013    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
+0014    
+0015    <span class='keyword'>extension</span> <span class='typeidentifier'>regmatch_t</span> {
+0016    
+0017        <span class='keyword'>var</span> <span class='identifier'><a name='17_9' href='#' onclick='return expand(this);'>range<span class='references'><table><tr><td onclick='document.location.href="main.html#170_27"; return false;'>main.swift:170</td><td> &nbsp; &nbsp; &nbsp; &nbsp;var range = match.<b></b>range</td></table></span></a></span>: <span class='typeidentifier'>NSRange</span> {
+0018            <span class='keyword'>return</span> <span class='identifier'>NSMakeRange</span>( <span class='identifier'>Int</span>(<span class='identifier'>rm_so</span>), <span class='identifier'>Int</span>(<span class='identifier'>rm_eo</span>-<span class='identifier'>rm_so</span>) )
+0019        }
+0020    
+0021    }
+0022    
+0023    <span class='keyword'>class</span> <span class='identifier'><a name='23_7' href='#' onclick='return expand(this);'>ByteRegex<span class='references'><table><tr><td onclick='document.location.href="main.html#144_35"; return false;'>main.swift:144</td><td> &nbsp; &nbsp;func regex( text: String ) -> <b></b>ByteRegex {</td><tr><td onclick='document.location.href="main.html#157_16"; return false;'>main.swift:157</td><td> &nbsp; &nbsp; &nbsp; &nbsp;return <b></b>ByteRegex( pattern: pattern )</td></table></span></a></span> {
+0024    
+0025        <span class='keyword'>var</span> <span class='identifier'><a name='25_9' href='#' onclick='return expand(this);'>regex<span class='references'><table><tr><td onclick='document.location.href="ByteRegex.html#29_31"; return false;'>ByteRegex.swift:29</td><td> &nbsp; &nbsp; &nbsp; &nbsp;let error = regcomp( &amp;<b></b>regex, pattern, cflags )</td><tr><td onclick='document.location.href="ByteRegex.html#32_31"; return false;'>ByteRegex.swift:32</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;regerror( error, &amp;<b></b>regex, &amp;errbuff, errbuff.count )</td><tr><td onclick='document.location.href="ByteRegex.html#39_31"; return false;'>ByteRegex.swift:39</td><td> &nbsp; &nbsp; &nbsp; &nbsp;let error = regexec( &amp;<b></b>regex, UnsafePointer&lt;Int8>(input.bytes), matches.count, &amp;matches, mflags )</td><tr><td onclick='document.location.href="ByteRegex.html#42_31"; return false;'>ByteRegex.swift:42</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;regerror( error, &amp;<b></b>regex, &amp;errbuff, errbuff.count )</td><tr><td onclick='document.location.href="ByteRegex.html#48_19"; return false;'>ByteRegex.swift:48</td><td> &nbsp; &nbsp; &nbsp; &nbsp;regfree( &amp;<b></b>regex )</td></table></span></a></span> = <span class='identifier'>regex_t</span>()
+0026        <span class='keyword'>let</span> <span class='identifier'><a name='26_9' href='#' onclick='return expand(this);'>groups<span class='references'><table><tr><td onclick='document.location.href="ByteRegex.html#34_9"; return false;'>ByteRegex.swift:34</td><td> &nbsp; &nbsp; &nbsp; &nbsp;<b></b>groups = 1 + pattern.characters.filter { $0 == "(" } .count</td><tr><td onclick='document.location.href="ByteRegex.html#38_44"; return false;'>ByteRegex.swift:38</td><td> &nbsp; &nbsp; &nbsp; &nbsp;var matches = [regmatch_t]( count: <b></b>groups, repeatedValue: regmatch_t() )</td></table></span></a></span>: <span class='typeidentifier'>Int</span>
+0027    
+0028        <span class='keyword'><a name='28_5' href='#' onclick='return expand(this);'>init<span class='references'><table><tr><td onclick='document.location.href="main.html#157_16"; return false;'>main.swift:157</td><td> &nbsp; &nbsp; &nbsp; &nbsp;return <b></b>ByteRegex( pattern: pattern )</td></table></span></a></span>( <span class='identifier'>pattern</span>: <span class='typeidentifier'>String</span>, <span class='identifier'>cflags</span>: <span class='typeidentifier'>Int32</span> = <span class='identifier'>REG_EXTENDED</span>|<span class='identifier'>REG_ENHANCED</span> ) {
+0029            <span class='keyword'>let</span> <span class='identifier'>error</span> = <span class='identifier'>regcomp</span>( &<span class='identifier'>regex</span>, <span class='identifier'>pattern</span>, <span class='identifier'>cflags</span> )
+0030            <span class='keyword'>if</span> <span class='identifier'>error</span> != <span class='number'>0</span> {
+0031                <span class='keyword'>var</span> <span class='identifier'>errbuff</span> = [<span class='identifier'>Int8</span>]( <span class='identifier'>count</span>: <span class='number'>1024</span>, <span class='identifier'>repeatedValue</span>: <span class='number'>0</span> )
+0032                <span class='identifier'>regerror</span>( <span class='identifier'>error</span>, &<span class='identifier'>regex</span>, &<span class='identifier'>errbuff</span>, <span class='identifier'>errbuff</span>.<span class='identifier'>count</span> )
+0033            }
+0034            <span class='identifier'>groups</span> = <span class='number'>1</span> + <span class='identifier'>pattern</span>.<span class='identifier'>characters</span>.<span class='identifier'>filter</span> { <span class='identifier'>$0</span> == <span class='string'>"("</span> } .<span class='identifier'>count</span>
+0035        }
+0036    
+0037        <span class='keyword'>func</span> <span class='identifier'><a name='37_10' href='#' onclick='return expand(this);'>match<span class='references'><table><tr><td onclick='document.location.href="main.html#161_41"; return false;'>main.swift:161</td><td> &nbsp; &nbsp; &nbsp; &nbsp;if let matches = regex( value ).<b></b>match( contents ) {</td></table></span></a></span>( <span class='identifier'>input</span>: <span class='typeidentifier'>NSData</span>, <span class='identifier'>mflags</span>: <span class='typeidentifier'>Int32</span> = <span class='number'>0</span> ) -> [<span class='typeidentifier'>regmatch_t</span>]? {
+0038            <span class='keyword'>var</span> <span class='identifier'>matches</span> = [<span class='identifier'>regmatch_t</span>]( <span class='identifier'>count</span>: <span class='identifier'>groups</span>, <span class='identifier'>repeatedValue</span>: <span class='identifier'>regmatch_t</span>() )
+0039            <span class='keyword'>let</span> <span class='identifier'>error</span> = <span class='identifier'>regexec</span>( &<span class='identifier'>regex</span>, <span class='identifier'>UnsafePointer</span><<span class='typeidentifier'>Int8</span>>(<span class='identifier'>input</span>.<span class='identifier'>bytes</span>), <span class='identifier'>matches</span>.<span class='identifier'>count</span>, &<span class='identifier'>matches</span>, <span class='identifier'>mflags</span> )
+0040            <span class='keyword'>if</span> <span class='identifier'>error</span> != <span class='number'>0</span> && <span class='identifier'>error</span> != <span class='identifier'>REG_NOMATCH</span> {
+0041                <span class='keyword'>var</span> <span class='identifier'>errbuff</span> = [<span class='identifier'>Int8</span>]( <span class='identifier'>count</span>: <span class='number'>1024</span>, <span class='identifier'>repeatedValue</span>: <span class='number'>0</span> )
+0042                <span class='identifier'>regerror</span>( <span class='identifier'>error</span>, &<span class='identifier'>regex</span>, &<span class='identifier'>errbuff</span>, <span class='identifier'>errbuff</span>.<span class='identifier'>count</span> )
+0043            }
+0044            <span class='keyword'>return</span> <span class='identifier'>error</span> == <span class='number'>0</span> ? <span class='identifier'>matches</span> : <span class='keyword'>nil</span>
+0045        }
+0046    
+0047        <span class='keyword'><a name='47_5'>deinit</a></span> {
+0048            <span class='identifier'>regfree</span>( &<span class='identifier'>regex</span> )
+0049        }
+0050    
+0051    }
+0052    

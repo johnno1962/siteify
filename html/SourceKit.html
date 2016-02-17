@@ -1,0 +1,245 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+0001    <span class='comment'>//
+0002    </span><span class='comment'>//  SourceKit.swift
+0003    </span><span class='comment'>//  refactord
+0004    </span><span class='comment'>//
+0005    </span><span class='comment'>//  Created by John Holdsworth on 19/12/2015.
+0006    </span><span class='comment'>//  Copyright © 2015 John Holdsworth. All rights reserved.
+0007    </span><span class='comment'>//
+0008    </span><span class='comment'>//  $Id: //depot/siteify/siteify/SourceKit.swift#2 $
+0009    </span><span class='comment'>//
+0010    </span><span class='comment'>//  Repo: </span><span class='url'><a href='https://github.com/johnno1962/Refactorator'>https://github.com/johnno1962/Refactorator</a></span><span class='comment'>
+0011    </span><span class='comment'>//
+0012    </span>
+0013    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
+0014    
+0015    <span class='keyword'>var</span> <span class='identifier'><a name='15_5' href='#' onclick='return expand(this);'>isTTY<span class='references'><table><tr><td onclick='document.location.href="main.html#17_1"; return false;'>main.swift:17</td><td><b></b>isTTY = false</td></table></span></a></span> = <span class='identifier'>isatty</span>( <span class='identifier'>STDERR_FILENO</span> ) != <span class='number'>0</span>
+0016    
+0017    <span class='keyword'>protocol</span> <span class='identifier'><a name='17_10' href='#' onclick='return expand(this);'>Visualiser<span class='references'><table><tr><td onclick='document.location.href="SourceKit.html#162_46"; return false;'>SourceKit.swift:162</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;indent: String = "", visualiser: <b></b>Visualiser? = nil,</td></table></span></a></span> {
+0018    
+0019        <span class='keyword'>func</span> <span class='identifier'><a name='19_10' href='#' onclick='return expand(this);'>enter<span class='references'><table><tr><td onclick='document.location.href="SourceKit.html#168_25"; return false;'>SourceKit.swift:168</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;visualiser?.<b></b>enter()</td></table></span></a></span>()
+0020        <span class='keyword'>func</span> <span class='identifier'><a name='20_10' href='#' onclick='return expand(this);'>present<span class='references'><table><tr><td onclick='document.location.href="SourceKit.html#172_29"; return false;'>SourceKit.swift:172</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;visualiser?.<b></b>present( dict, indent: indent )</td></table></span></a></span>( <span class='identifier'>dict</span>: <span class='typeidentifier'>sourcekitd_variant_t</span>, <span class='identifier'>indent</span>: <span class='typeidentifier'>String</span> )
+0021        <span class='keyword'>func</span> <span class='identifier'><a name='21_10' href='#' onclick='return expand(this);'>exit<span class='references'><table><tr><td onclick='document.location.href="SourceKit.html#177_25"; return false;'>SourceKit.swift:177</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;visualiser?.<b></b>exit()</td></table></span></a></span>()
+0022    
+0023    }
+0024    
+0025    <span class='keyword'>extension</span> <span class='typeidentifier'>sourcekitd_variant_t</span> {
+0026    
+0027        <span class='keyword'>func</span> <span class='identifier'><a name='27_10' href='#' onclick='return expand(this);'>getInt<span class='references'><table><tr><td onclick='document.location.href="main.html#207_32"; return false;'>main.swift:207</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;line: dict.<b></b>getInt( SK.lineID ),</td><tr><td onclick='document.location.href="main.html#208_31"; return false;'>main.swift:208</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;col: dict.<b></b>getInt( SK.colID ) )</td><tr><td onclick='document.location.href="main.html#292_31"; return false;'>main.swift:292</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let offset = dict.<b></b>getInt( SK.offsetID )</td><tr><td onclick='document.location.href="main.html#293_31"; return false;'>main.swift:293</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let length = dict.<b></b>getInt( SK.lengthID )</td></table></span></a></span>( <span class='identifier'>key</span>: <span class='typeidentifier'>sourcekitd_uid_t</span> ) -> <span class='typeidentifier'>Int</span> {
+0028            <span class='keyword'>return</span> <span class='identifier'>Int</span>(<span class='identifier'>sourcekitd_variant_dictionary_get_int64</span>( <span class='keyword'>self</span>, <span class='identifier'>key</span> ))
+0029        }
+0030    
+0031        <span class='keyword'>func</span> <span class='identifier'><a name='31_10' href='#' onclick='return expand(this);'>getString<span class='references'><table><tr><td onclick='document.location.href="main.html#205_31"; return false;'>main.swift:205</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if let usr = dict.<b></b>getString( SK.usrID ) {</td><tr><td onclick='document.location.href="main.html#225_23"; return false;'>main.swift:225</td><td> &nbsp; &nbsp;if let usr = dict.<b></b>getString( SK.usrID ) {</td><tr><td onclick='document.location.href="main.html#304_41"; return false;'>main.swift:304</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if let usrString = dict.<b></b>getString( SK.usrID ), usr = usrs[usrString], decl = usr.declaring {</td></table></span></a></span>( <span class='identifier'>key</span>: <span class='typeidentifier'>sourcekitd_uid_t</span> ) -> <span class='typeidentifier'>String</span>? {
+0032            <span class='keyword'>let</span> <span class='identifier'>cstr</span> = <span class='identifier'>sourcekitd_variant_dictionary_get_string</span>( <span class='keyword'>self</span>, <span class='identifier'>key</span> )
+0033            <span class='keyword'>if</span> <span class='identifier'>cstr</span> != <span class='keyword'>nil</span>, <span class='keyword'>let</span> <span class='identifier'>str</span> = <span class='identifier'>String</span>.<span class='identifier'>fromCString</span>( <span class='identifier'>cstr</span> ) {
+0034                <span class='keyword'>return</span> <span class='identifier'>str</span>
+0035            }
+0036            <span class='keyword'>return</span> <span class='keyword'>nil</span>
+0037        }
+0038    
+0039        <span class='keyword'>func</span> <span class='identifier'><a name='39_10' href='#' onclick='return expand(this);'>getUUIDString<span class='references'><table><tr><td onclick='document.location.href="main.html#226_25"; return false;'>main.swift:226</td><td> &nbsp; &nbsp; &nbsp; &nbsp;let kind = dict.<b></b>getUUIDString( SK.kindID )</td><tr><td onclick='document.location.href="main.html#290_29"; return false;'>main.swift:290</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let kind = dict.<b></b>getUUIDString( SK.kindID )</td></table></span></a></span>( <span class='identifier'>key</span>: <span class='typeidentifier'>sourcekitd_uid_t</span> ) -> <span class='typeidentifier'>String</span> {
+0040            <span class='keyword'>let</span> <span class='identifier'>uuid</span> = <span class='identifier'>sourcekitd_variant_dictionary_get_uid</span>( <span class='keyword'>self</span>, <span class='identifier'>key</span> )
+0041            <span class='keyword'>return</span> <span class='identifier'>String</span>.<span class='identifier'>fromCString</span>( <span class='identifier'>sourcekitd_uid_get_string_ptr</span>( <span class='identifier'>uuid</span> ) )!
+0042        }
+0043    
+0044    }
+0045    
+0046    <span class='keyword'>class</span> <span class='identifier'><a name='46_7' href='#' onclick='return expand(this);'>SourceKit<span class='references'><table><tr><td onclick='document.location.href="main.html#16_10"; return false;'>main.swift:16</td><td>let SK = <b></b>SourceKit()</td></table></span></a></span> {
+0047    
+0048        <span class='doccomment'>/** request types */</span>
+0049        <span class='builtin'>private</span> <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='49_22' href='#' onclick='return expand(this);'>requestID<span class='references'><table><tr><td onclick='document.location.href="SourceKit.html#129_53"; return false;'>SourceKit.swift:129</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_uid( req, <b></b>requestID, cursorRequestID )</td><tr><td onclick='document.location.href="SourceKit.html#140_53"; return false;'>SourceKit.swift:140</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_uid( req, <b></b>requestID, indexRequestID )</td><tr><td onclick='document.location.href="SourceKit.html#150_53"; return false;'>SourceKit.swift:150</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_uid( req, <b></b>requestID, editorOpenID )</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.request"</span>)
+0050        <span class='builtin'>private</span> <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='50_22' href='#' onclick='return expand(this);'>cursorRequestID<span class='references'><table><tr><td onclick='document.location.href="SourceKit.html#129_64"; return false;'>SourceKit.swift:129</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_uid( req, requestID, <b></b>cursorRequestID )</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"source.request.cursorinfo"</span>)
+0051        <span class='builtin'>private</span> <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='51_22' href='#' onclick='return expand(this);'>indexRequestID<span class='references'><table><tr><td onclick='document.location.href="SourceKit.html#140_64"; return false;'>SourceKit.swift:140</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_uid( req, requestID, <b></b>indexRequestID )</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"source.request.indexsource"</span>)
+0052        <span class='builtin'>private</span> <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='52_22' href='#' onclick='return expand(this);'>editorOpenID<span class='references'><table><tr><td onclick='document.location.href="SourceKit.html#150_64"; return false;'>SourceKit.swift:150</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_uid( req, requestID, <b></b>editorOpenID )</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"source.request.editor.open"</span>)
+0053    
+0054        <span class='builtin'>private</span> <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='54_22' href='#' onclick='return expand(this);'>enableMapID<span class='references'><table><tr><td onclick='document.location.href="SourceKit.html#154_55"; return false;'>SourceKit.swift:154</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_int64( req, <b></b>enableMapID, 1 )</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.enablesyntaxmap"</span>)
+0055        <span class='builtin'>private</span> <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='55_22' href='#' onclick='return expand(this);'>enableSubID<span class='references'><table><tr><td onclick='document.location.href="SourceKit.html#155_55"; return false;'>SourceKit.swift:155</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_int64( req, <b></b>enableSubID, 0 )</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.enablesubstructure"</span>)
+0056        <span class='builtin'>private</span> <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='56_22' href='#' onclick='return expand(this);'>syntaxOnlyID<span class='references'><table><tr><td onclick='document.location.href="SourceKit.html#156_55"; return false;'>SourceKit.swift:156</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_int64( req, <b></b>syntaxOnlyID, 1 )</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.syntactic_only"</span>)
+0057    
+0058        <span class='doccomment'>/** request arguments */</span>
+0059        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='59_14' href='#' onclick='return expand(this);'>offsetID<span class='references'><table><tr><td onclick='document.location.href="main.html#292_42"; return false;'>main.swift:292</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let offset = dict.getInt( SK.<b></b>offsetID )</td><tr><td onclick='document.location.href="SourceKit.html#131_55"; return false;'>SourceKit.swift:131</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_int64( req, <b></b>offsetID, Int64(byteOffset) )</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.offset"</span>)
+0060        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='60_14' href='#' onclick='return expand(this);'>sourceFileID<span class='references'><table><tr><td onclick='document.location.href="SourceKit.html#130_56"; return false;'>SourceKit.swift:130</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_string( req, <b></b>sourceFileID, filePath )</td><tr><td onclick='document.location.href="SourceKit.html#141_56"; return false;'>SourceKit.swift:141</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_string( req, <b></b>sourceFileID, filePath )</td><tr><td onclick='document.location.href="SourceKit.html#152_56"; return false;'>SourceKit.swift:152</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_string( req, <b></b>sourceFileID, filePath )</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.sourcefile"</span>)
+0061        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='61_14' href='#' onclick='return expand(this);'>compilerArgsID<span class='references'><table><tr><td onclick='document.location.href="SourceKit.html#132_55"; return false;'>SourceKit.swift:132</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_value( req, <b></b>compilerArgsID, compilerArgs )</td><tr><td onclick='document.location.href="SourceKit.html#142_55"; return false;'>SourceKit.swift:142</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_value( req, <b></b>compilerArgsID, compilerArgs )</td><tr><td onclick='document.location.href="SourceKit.html#153_55"; return false;'>SourceKit.swift:153</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_value( req, <b></b>compilerArgsID, compilerArgs )</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.compilerargs"</span>)
+0062    
+0063        <span class='doccomment'>/** sub entity lists */</span>
+0064        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='64_14'>depedenciesID</a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.dependencies"</span>)
+0065        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='65_14'>overridesID</a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.overrides"</span>)
+0066        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='66_14' href='#' onclick='return expand(this);'>entitiesID<span class='references'><table><tr><td onclick='document.location.href="main.html#204_28"; return false;'>main.swift:204</td><td> &nbsp; &nbsp; &nbsp; &nbsp;SK.recurseOver( SK.<b></b>entitiesID, resp: dict, visualiser: nil, block: { dict in</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.entities"</span>)
+0067        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='67_14' href='#' onclick='return expand(this);'>syntaxID<span class='references'><table><tr><td onclick='document.location.href="main.html#288_69"; return false;'>main.swift:288</td><td> &nbsp; &nbsp; &nbsp; &nbsp;let map = sourcekitd_variant_dictionary_get_value( dict, SK.<b></b>syntaxID )</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.syntaxmap"</span>)
+0068    
+0069        <span class='doccomment'>/** entity attributes */</span>
+0070        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='70_14'>isSystemID</a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.is_system"</span>)
+0071        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='71_14'>moduleID</a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.modulename"</span>)
+0072        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='72_14' href='#' onclick='return expand(this);'>lengthID<span class='references'><table><tr><td onclick='document.location.href="main.html#293_42"; return false;'>main.swift:293</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let length = dict.getInt( SK.<b></b>lengthID )</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.length"</span>)
+0073        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='73_14' href='#' onclick='return expand(this);'>kindID<span class='references'><table><tr><td onclick='document.location.href="main.html#226_43"; return false;'>main.swift:226</td><td> &nbsp; &nbsp; &nbsp; &nbsp;let kind = dict.getUUIDString( SK.<b></b>kindID )</td><tr><td onclick='document.location.href="main.html#290_47"; return false;'>main.swift:290</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;let kind = dict.getUUIDString( SK.<b></b>kindID )</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.kind"</span>)
+0074        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='74_14' href='#' onclick='return expand(this);'>nameID<span class='references'><table><tr><td onclick='document.location.href="SourceKit.html#151_56"; return false;'>SourceKit.swift:151</td><td> &nbsp; &nbsp; &nbsp; &nbsp;sourcekitd_request_dictionary_set_string( req, <b></b>nameID, filePath )</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.name"</span>)
+0075        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='75_14' href='#' onclick='return expand(this);'>lineID<span class='references'><table><tr><td onclick='document.location.href="main.html#207_43"; return false;'>main.swift:207</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;line: dict.getInt( SK.<b></b>lineID ),</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.line"</span>)
+0076        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='76_14' href='#' onclick='return expand(this);'>colID<span class='references'><table><tr><td onclick='document.location.href="main.html#208_42"; return false;'>main.swift:208</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;col: dict.getInt( SK.<b></b>colID ) )</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.column"</span>)
+0077        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='77_14' href='#' onclick='return expand(this);'>usrID<span class='references'><table><tr><td onclick='document.location.href="main.html#205_45"; return false;'>main.swift:205</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if let usr = dict.getString( SK.<b></b>usrID ) {</td><tr><td onclick='document.location.href="main.html#225_37"; return false;'>main.swift:225</td><td> &nbsp; &nbsp;if let usr = dict.getString( SK.<b></b>usrID ) {</td><tr><td onclick='document.location.href="main.html#304_55"; return false;'>main.swift:304</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if let usrString = dict.getString( SK.<b></b>usrID ), usr = usrs[usrString], decl = usr.declaring {</td></table></span></a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"key.usr"</span>)
+0078    
+0079        <span class='doccomment'>/** kinds */</span>
+0080        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='80_14'>clangID</a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"source.lang.swift.import.module.clang"</span>)
+0081    
+0082        <span class='doccomment'>/** declarations */</span>
+0083        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='83_14'>structID</a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"source.lang.swift.decl.struct"</span>)
+0084        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='84_14'>classID</a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"source.lang.swift.decl.class"</span>)
+0085        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='85_14'>enumID</a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"source.lang.swift.decl.enum"</span>)
+0086    
+0087        <span class='doccomment'>/** references */</span>
+0088        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='88_14'>classVarID</a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"source.lang.swift.ref.function.var.class"</span>)
+0089        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='89_14'>classMethodID</a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"source.lang.swift.ref.function.method.class"</span>)
+0090        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='90_14'>initID</a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"source.lang.swift.ref.function.constructor"</span>)
+0091        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='91_14'>varID</a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"source.lang.swift.ref.var.instance"</span>)
+0092        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='92_14'>methodID</a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"source.lang.swift.ref.function.method.instance"</span>)
+0093        <span class='builtin'>lazy</span> <span class='keyword'>var</span> <span class='identifier'><a name='93_14'>elementID</a></span> = <span class='identifier'>sourcekitd_uid_get_from_cstr</span>(<span class='string'>"source.lang.swift.ref.enumelement"</span>)
+0094    
+0095        <span class='keyword'><a name='95_5' href='#' onclick='return expand(this);'>init<span class='references'><table><tr><td onclick='document.location.href="main.html#16_10"; return false;'>main.swift:16</td><td>let SK = <b></b>SourceKit()</td></table></span></a></span>() {
+0096            <span class='identifier'>sourcekitd_initialize</span>()
+0097        }
+0098    
+0099        <span class='keyword'>func</span> <span class='identifier'><a name='99_10' href='#' onclick='return expand(this);'>array<span class='references'><table><tr><td onclick='document.location.href="main.html#119_43"; return false;'>main.swift:119</td><td> &nbsp; &nbsp; &nbsp; &nbsp;compilations.append( (primary, SK.<b></b>array( out ) ) )</td></table></span></a></span>( <span class='identifier'>argv</span>: [<span class='typeidentifier'>String</span>] ) -> <span class='typeidentifier'>sourcekitd_object_t</span> {
+0100            <span class='keyword'>let</span> <span class='identifier'>objects</span> = <span class='identifier'>argv</span>.<span class='identifier'>map</span> { <span class='identifier'>sourcekitd_request_string_create</span>( <span class='identifier'>$0</span> ) }
+0101            <span class='keyword'>return</span> <span class='identifier'>sourcekitd_request_array_create</span>( <span class='identifier'>objects</span>, <span class='identifier'>objects</span>.<span class='identifier'>count</span> )
+0102        }
+0103    
+0104        <span class='keyword'>func</span> <span class='identifier'><a name='104_10'>error</a></span>( <span class='identifier'>resp</span>: <span class='typeidentifier'>sourcekitd_response_t</span> ) -> <span class='typeidentifier'>String</span>? {
+0105            <span class='keyword'>if</span> <span class='identifier'>sourcekitd_response_is_error</span>( <span class='identifier'>resp</span> ) {
+0106                <span class='keyword'>return</span> <span class='identifier'>String</span>.<span class='identifier'>fromCString</span>( <span class='identifier'>sourcekitd_response_error_get_description</span>( <span class='identifier'>resp</span> ) )
+0107            }
+0108            <span class='keyword'>return</span> <span class='keyword'>nil</span>
+0109        }
+0110    
+0111        <span class='keyword'>func</span> <span class='identifier'><a name='111_10' href='#' onclick='return expand(this);'>sendRequest<span class='references'><table><tr><td onclick='document.location.href="SourceKit.html#134_16"; return false;'>SourceKit.swift:134</td><td> &nbsp; &nbsp; &nbsp; &nbsp;return <b></b>sendRequest( req )</td><tr><td onclick='document.location.href="SourceKit.html#144_16"; return false;'>SourceKit.swift:144</td><td> &nbsp; &nbsp; &nbsp; &nbsp;return <b></b>sendRequest( req )</td><tr><td onclick='document.location.href="SourceKit.html#158_16"; return false;'>SourceKit.swift:158</td><td> &nbsp; &nbsp; &nbsp; &nbsp;return <b></b>sendRequest( req )</td></table></span></a></span>( <span class='identifier'>req</span>: <span class='typeidentifier'>sourcekitd_object_t</span> ) -> <span class='typeidentifier'>sourcekitd_response_t</span> {
+0112    
+0113            <span class='keyword'>if</span> <span class='identifier'>isTTY</span> {
+0114                <span class='identifier'>sourcekitd_request_description_dump</span>( <span class='identifier'>req</span> )
+0115            }
+0116    
+0117            <span class='keyword'>let</span> <span class='identifier'>resp</span> = <span class='identifier'>sourcekitd_send_request_sync</span>( <span class='identifier'>req</span> )
+0118    
+0119            <span class='keyword'>if</span> <span class='identifier'>isTTY</span> && !<span class='identifier'>sourcekitd_response_is_error</span>( <span class='identifier'>resp</span> ) {
+0120                <span class='identifier'>sourcekitd_response_description_dump_filedesc</span>( <span class='identifier'>resp</span>, <span class='identifier'>STDERR_FILENO</span> )
+0121            }
+0122    
+0123            <span class='keyword'>return</span> <span class='identifier'>resp</span>
+0124        }
+0125    
+0126        <span class='keyword'>func</span> <span class='identifier'><a name='126_10'>cursorInfo</a></span>( <span class='identifier'>filePath</span>: <span class='typeidentifier'>String</span>, <span class='identifier'>byteOffset</span>: <span class='typeidentifier'>Int32</span>, <span class='identifier'>compilerArgs</span>: <span class='typeidentifier'>sourcekitd_object_t</span> ) -> <span class='typeidentifier'>sourcekitd_response_t</span> {
+0127            <span class='keyword'>let</span> <span class='identifier'>req</span> = <span class='identifier'>sourcekitd_request_dictionary_create</span>( <span class='keyword'>nil</span>, <span class='keyword'>nil</span>, <span class='number'>0</span> )
+0128    
+0129            <span class='identifier'>sourcekitd_request_dictionary_set_uid</span>( <span class='identifier'>req</span>, <span class='identifier'>requestID</span>, <span class='identifier'>cursorRequestID</span> )
+0130            <span class='identifier'>sourcekitd_request_dictionary_set_string</span>( <span class='identifier'>req</span>, <span class='identifier'>sourceFileID</span>, <span class='identifier'>filePath</span> )
+0131            <span class='identifier'>sourcekitd_request_dictionary_set_int64</span>( <span class='identifier'>req</span>, <span class='identifier'>offsetID</span>, <span class='identifier'>Int64</span>(<span class='identifier'>byteOffset</span>) )
+0132            <span class='identifier'>sourcekitd_request_dictionary_set_value</span>( <span class='identifier'>req</span>, <span class='identifier'>compilerArgsID</span>, <span class='identifier'>compilerArgs</span> )
+0133    
+0134            <span class='keyword'>return</span> <span class='identifier'><a name='134_16' href='SourceKit.html#111_10'>sendRequest<a></span>( <span class='identifier'>req</span> )
+0135        }
+0136    
+0137        <span class='keyword'>func</span> <span class='identifier'><a name='137_10' href='#' onclick='return expand(this);'>indexFile<span class='references'><table><tr><td onclick='document.location.href="main.html#202_23"; return false;'>main.swift:202</td><td> &nbsp; &nbsp; &nbsp; &nbsp;let resp = SK.<b></b>indexFile( file, compilerArgs: argv )</td></table></span></a></span>( <span class='identifier'>filePath</span>: <span class='typeidentifier'>String</span>, <span class='identifier'>compilerArgs</span>: <span class='typeidentifier'>sourcekitd_object_t</span> ) -> <span class='typeidentifier'>sourcekitd_response_t</span> {
+0138            <span class='keyword'>let</span> <span class='identifier'>req</span> = <span class='identifier'>sourcekitd_request_dictionary_create</span>( <span class='keyword'>nil</span>, <span class='keyword'>nil</span>, <span class='number'>0</span> )
+0139    
+0140            <span class='identifier'>sourcekitd_request_dictionary_set_uid</span>( <span class='identifier'>req</span>, <span class='identifier'>requestID</span>, <span class='identifier'>indexRequestID</span> )
+0141            <span class='identifier'>sourcekitd_request_dictionary_set_string</span>( <span class='identifier'>req</span>, <span class='identifier'>sourceFileID</span>, <span class='identifier'>filePath</span> )
+0142            <span class='identifier'>sourcekitd_request_dictionary_set_value</span>( <span class='identifier'>req</span>, <span class='identifier'>compilerArgsID</span>, <span class='identifier'>compilerArgs</span> )
+0143    
+0144            <span class='keyword'>return</span> <span class='identifier'><a name='144_16' href='SourceKit.html#111_10'>sendRequest<a></span>( <span class='identifier'>req</span> )
+0145        }
+0146    
+0147        <span class='keyword'>func</span> <span class='identifier'><a name='147_10' href='#' onclick='return expand(this);'>syntaxMap<span class='references'><table><tr><td onclick='document.location.href="main.html#286_23"; return false;'>main.swift:286</td><td> &nbsp; &nbsp; &nbsp; &nbsp;let resp = SK.<b></b>syntaxMap( file, compilerArgs: argv )</td></table></span></a></span>( <span class='identifier'>filePath</span>: <span class='typeidentifier'>String</span>, <span class='identifier'>compilerArgs</span>: <span class='typeidentifier'>sourcekitd_object_t</span> ) -> <span class='typeidentifier'>sourcekitd_response_t</span> {
+0148            <span class='keyword'>let</span> <span class='identifier'>req</span> = <span class='identifier'>sourcekitd_request_dictionary_create</span>( <span class='keyword'>nil</span>, <span class='keyword'>nil</span>, <span class='number'>0</span> )
+0149    
+0150            <span class='identifier'>sourcekitd_request_dictionary_set_uid</span>( <span class='identifier'>req</span>, <span class='identifier'>requestID</span>, <span class='identifier'>editorOpenID</span> )
+0151            <span class='identifier'>sourcekitd_request_dictionary_set_string</span>( <span class='identifier'>req</span>, <span class='identifier'>nameID</span>, <span class='identifier'>filePath</span> )
+0152            <span class='identifier'>sourcekitd_request_dictionary_set_string</span>( <span class='identifier'>req</span>, <span class='identifier'>sourceFileID</span>, <span class='identifier'>filePath</span> )
+0153            <span class='identifier'>sourcekitd_request_dictionary_set_value</span>( <span class='identifier'>req</span>, <span class='identifier'>compilerArgsID</span>, <span class='identifier'>compilerArgs</span> )
+0154            <span class='identifier'>sourcekitd_request_dictionary_set_int64</span>( <span class='identifier'>req</span>, <span class='identifier'>enableMapID</span>, <span class='number'>1</span> )
+0155            <span class='identifier'>sourcekitd_request_dictionary_set_int64</span>( <span class='identifier'>req</span>, <span class='identifier'>enableSubID</span>, <span class='number'>0</span> )
+0156            <span class='identifier'>sourcekitd_request_dictionary_set_int64</span>( <span class='identifier'>req</span>, <span class='identifier'>syntaxOnlyID</span>, <span class='number'>1</span> )
+0157    
+0158            <span class='keyword'>return</span> <span class='identifier'><a name='158_16' href='SourceKit.html#111_10'>sendRequest<a></span>( <span class='identifier'>req</span> )
+0159        }
+0160    
+0161        <span class='keyword'>func</span> <span class='identifier'><a name='161_10' href='#' onclick='return expand(this);'>recurseOver<span class='references'><table><tr><td onclick='document.location.href="main.html#204_12"; return false;'>main.swift:204</td><td> &nbsp; &nbsp; &nbsp; &nbsp;SK.<b></b>recurseOver( SK.entitiesID, resp: dict, visualiser: nil, block: { dict in</td><tr><td onclick='document.location.href="SourceKit.html#174_22"; return false;'>SourceKit.swift:174</td><td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.<b></b>recurseOver( childID, resp: dict, indent: indent+" &nbsp;", visualiser: visualiser, block: block )</td></table></span></a></span>( <span class='identifier'>childID</span>: <span class='typeidentifier'>sourcekitd_uid_t</span>, <span class='identifier'>resp</span>: <span class='typeidentifier'>sourcekitd_variant_t</span>,
+0162                <span class='identifier'>indent</span>: <span class='typeidentifier'>String</span> = <span class='string'>""</span>, <span class='identifier'>visualiser</span>: <span class='typeidentifier'><a name='162_46' href='SourceKit.html#17_10'>Visualiser<a></span>? = <span class='keyword'>nil</span>,
+0163                <span class='identifier'>block</span>: ( <span class='identifier'>dict</span>: <span class='typeidentifier'>sourcekitd_variant_t</span> ) -> ()) {
+0164    
+0165            <span class='keyword'>let</span> <span class='identifier'>children</span> = <span class='identifier'>sourcekitd_variant_dictionary_get_value</span>( <span class='identifier'>resp</span>, <span class='identifier'>childID</span> )
+0166            <span class='keyword'>if</span> <span class='identifier'>sourcekitd_variant_get_type</span>( <span class='identifier'>children</span> ) == <span class='identifier'>SOURCEKITD_VARIANT_TYPE_ARRAY</span> {
+0167    
+0168                <span class='identifier'>visualiser</span>?.<span class='identifier'><a name='168_25' href='SourceKit.html#19_10'>enter<a></span>()
+0169                <span class='identifier'>sourcekitd_variant_array_apply</span>( <span class='identifier'>children</span> ) { (<span class='keyword'>_</span>,<span class='identifier'>dict</span>) <span class='keyword'>in</span>
+0170    
+0171                    <span class='identifier'>block</span>( <span class='identifier'>dict</span>: <span class='identifier'>dict</span> )
+0172                    <span class='identifier'>visualiser</span>?.<span class='identifier'><a name='172_29' href='SourceKit.html#20_10'>present<a></span>( <span class='identifier'>dict</span>, <span class='identifier'>indent</span>: <span class='identifier'>indent</span> )
+0173    
+0174                    <span class='keyword'>self</span>.<span class='identifier'><a name='174_22' href='SourceKit.html#161_10'>recurseOver<a></span>( <span class='identifier'>childID</span>, <span class='identifier'>resp</span>: <span class='identifier'>dict</span>, <span class='identifier'>indent</span>: <span class='identifier'>indent</span>+<span class='string'>"  "</span>, <span class='identifier'>visualiser</span>: <span class='identifier'>visualiser</span>, <span class='identifier'>block</span>: <span class='identifier'>block</span> )
+0175                    <span class='keyword'>return</span> <span class='keyword'>true</span>
+0176                }
+0177                <span class='identifier'>visualiser</span>?.<span class='identifier'><a name='177_25' href='SourceKit.html#21_10'>exit<a></span>()
+0178            }
+0179        }
+0180    
+0181        <span class='keyword'>func</span> <span class='identifier'><a name='181_10'>disectUSR</a></span>( <span class='identifier'>usr</span>: <span class='typeidentifier'>NSString</span> ) -> [<span class='typeidentifier'>String</span>]? {
+0182            <span class='keyword'>guard</span> <span class='identifier'>usr</span>.<span class='identifier'>hasPrefix</span>( <span class='string'>"s:"</span> ) <span class='keyword'>else</span> { <span class='keyword'>return</span> <span class='keyword'>nil</span> }
+0183    
+0184            <span class='keyword'>let</span> <span class='identifier'>digits</span> = <span class='identifier'>NSCharacterSet</span>.<span class='identifier'>decimalDigitCharacterSet</span>()
+0185            <span class='keyword'>let</span> <span class='identifier'>scanner</span> = <span class='identifier'>NSScanner</span>( <span class='identifier'>string</span>: <span class='identifier'>usr</span> <span class='keyword'>as</span> <span class='typeidentifier'>String</span> )
+0186            <span class='keyword'>var</span> <span class='identifier'>out</span> = [<span class='identifier'>String</span>]()
+0187            <span class='keyword'>var</span> <span class='identifier'>wasZero</span> = <span class='keyword'>false</span>
+0188    
+0189            <span class='keyword'>while</span> !<span class='identifier'>scanner</span>.<span class='identifier'>atEnd</span> {
+0190    
+0191                <span class='keyword'>var</span> <span class='identifier'>name</span>: <span class='typeidentifier'>NSString</span>?
+0192                <span class='identifier'>scanner</span>.<span class='identifier'>scanUpToCharactersFromSet</span>( <span class='identifier'>digits</span>, <span class='identifier'>intoString</span>: &<span class='identifier'>name</span> )
+0193                <span class='keyword'>if</span> <span class='identifier'>name</span> != <span class='keyword'>nil</span>, <span class='keyword'>let</span> <span class='identifier'>name</span> = <span class='identifier'>name</span> <span class='keyword'>as</span>? <span class='typeidentifier'>String</span> {
+0194                    <span class='keyword'>if</span> <span class='identifier'>wasZero</span> {
+0195                        <span class='identifier'>out</span>[<span class='identifier'>out</span>.<span class='identifier'>count</span>-<span class='number'>1</span>] += <span class='string'>"0"</span> + <span class='identifier'>name</span>
+0196                        <span class='identifier'>wasZero</span> = <span class='keyword'>false</span>
+0197                    }
+0198                    <span class='keyword'>else</span> {
+0199                        <span class='identifier'>out</span>.<span class='identifier'>append</span>( <span class='identifier'>name</span> )
+0200                    }
+0201                }
+0202    
+0203                <span class='keyword'>var</span> <span class='identifier'>len</span> = <span class='number'>0</span>
+0204                <span class='identifier'>scanner</span>.<span class='identifier'>scanInteger</span>( &<span class='identifier'>len</span> )
+0205                <span class='identifier'>wasZero</span> = <span class='identifier'>len</span> == <span class='number'>0</span>
+0206                <span class='keyword'>if</span> <span class='identifier'>wasZero</span> {
+0207                    <span class='keyword'>continue</span>
+0208                }
+0209    
+0210                <span class='keyword'>if</span> <span class='identifier'>len</span> > <span class='identifier'>usr</span>.<span class='identifier'>length</span>-<span class='identifier'>scanner</span>.<span class='identifier'>scanLocation</span> {
+0211                    <span class='identifier'>len</span> = <span class='identifier'>usr</span>.<span class='identifier'>length</span>-<span class='identifier'>scanner</span>.<span class='identifier'>scanLocation</span>
+0212                }
+0213    
+0214                <span class='keyword'>let</span> <span class='identifier'>range</span> = <span class='identifier'>NSMakeRange</span>( <span class='identifier'>scanner</span>.<span class='identifier'>scanLocation</span>, <span class='identifier'>len</span> )
+0215                <span class='identifier'>out</span>.<span class='identifier'>append</span>( <span class='identifier'>usr</span>.<span class='identifier'>substringWithRange</span>( <span class='identifier'>range</span> ) )
+0216                <span class='identifier'>scanner</span>.<span class='identifier'>scanLocation</span> += <span class='identifier'>len</span>
+0217            }
+0218    
+0219            <span class='keyword'>return</span> <span class='identifier'>out</span>
+0220        }
+0221    
+0222    }
+0223    
