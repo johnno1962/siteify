@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 16/02/2016.
 //  Copyright © 2016 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/main.swift#9 $
+//  $Id: //depot/siteify/siteify/main.swift#12 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -15,6 +15,11 @@ import Foundation
 let filemgr = NSFileManager.defaultManager()
 let SK = SourceKit()
 isTTY = false
+
+func progress( str: String ) {
+    print( "\u{001b}[2K"+str, separator: "", terminator: "\r" )
+    fflush( stdout )
+}
 
 extension NSFileHandle {
 
@@ -30,11 +35,6 @@ extension NSFileHandle {
         }
     }
 
-}
-
-func progress( str: String ) {
-    print( "\u{001b}[2K"+str, separator: "", terminator: "\r" )
-    fflush( stdout )
 }
 
 let buildLog: FileGenerator
@@ -71,7 +71,7 @@ else {
     "/tmp/siteify.XXXX".withCString( { (str) in
         buildargs[0] = "SYMROOT="+String.fromCString( mktemp( UnsafeMutablePointer<Int8>(str) ) )!
     } )
-    buildLog = StatusGenerator(launchPath: "/usr/bin/xcodebuild", arguments: buildargs, directory: ".")
+    buildLog = StatusGenerator( launchPath: "/usr/bin/xcodebuild", arguments: buildargs )
     storingLog = NSFileHandle( createForWritingAtPath: storedLog )
 }
 
@@ -79,7 +79,7 @@ var compilations = [(String, sourcekitd_object_t)]()
 
 for line in buildLog.sequence {
 
-    if storingLog == nil, let symroot = line["    SYMROOT = ([^\n]+)"][1] where !filemgr.fileExistsAtPath( symroot ) {
+    if storingLog == nil, let symroot = line["^    SYMROOT = ([^\n]+)"][1] where !filemgr.fileExistsAtPath( symroot ) {
         print( "Pre-built project no longer exists, rerun to rebuild" )
         try! filemgr.removeItemAtPath( storedLog )
         exit( 1 )
@@ -99,9 +99,10 @@ for line in buildLog.sequence {
         let argv = line.componentsSeparatedByString( " " )
             .map { $0.stringByReplacingOccurrencesOfString( "___", withString: " " )
             .stringByReplacingOccurrencesOfString( "---", withString: "\"" ) }
-        var out = [String]()
 
+        var out = [String]()
         var i=1
+
         while i<argv.count {
             let arg = argv[i]
             if arg == "-frontend" {
@@ -183,7 +184,7 @@ struct Entity: Hashable {
             largecol += ".{100}"
             col -= 100
         }
-        pattern += "(?:[^\n]*\n){\(line-1)}(\(largecol).{\(col-1)}[^\n]*?)(\\Q\(text)\\E)([^\n]*)"
+        pattern += "(?:[^\n]*\n){\(line-1)}(\(largecol).{\(col-1)}[^\n]*?)(\(text))([^\n]*)"
         return ByteRegex( pattern: pattern )
     }
 
@@ -221,6 +222,10 @@ class USR {
 
 }
 
+extension USR {
+
+}
+
 var usrs = [String:USR]()
 var fileno = 0
 
@@ -231,21 +236,25 @@ for (file, argv) in compilations {
     if let data = NSData( contentsOfFile: file ) {
         let resp = SK.indexFile( file, compilerArgs: argv )
         let dict = sourcekitd_response_get_value( resp )
-        SK.recurseOver( SK.entitiesID, resp: dict, visualiser: nil, block: { dict in
-            if let usr = dict.getString( SK.usrID ) {
+        SK.recurseOver( SK.entitiesID, resp: dict, block: { dict in
+            if let usrString = dict.getString( SK.usrID ) {
                 let entity = Entity( file: file,
                     line: dict.getInt( SK.lineID ),
                     col: dict.getInt( SK.colID ) )
 
-                entities[entity] = dict
-
-                if usrs[usr] == nil {
-                    usrs[usr] = USR()
+                if usrs[usrString] == nil {
+                    usrs[usrString] = USR()
                 }
 
-                usrs[usr]!.references.append( entity )
-                usrs[usr]!.reflines.append( entity.patchText( data, value: "" )!
-                    .stringByReplacingOccurrencesOfString( "  ", withString: " &nbsp;" ) )
+                let kind = dict.getUUIDString( SK.kindID )
+                if !kind.containsString( ".decl.extension." ), var usr = usrs[usrString] {
+                    usr.references.append( entity )
+                    usr.reflines.append( entity.patchText( data, value: "\\w*" )! )
+
+                    if !kind.containsString( ".accessor." ) {
+                        entities[entity] = dict
+                    }
+                }
             }
         } )
     }
@@ -260,7 +269,8 @@ for (entity, dict) in entities {
     }
 }
 
-let resources = String.fromCString( getenv( "HOME" ) )!+"/Library/siteify/"
+let home = String.fromCString( getenv("HOME") )!
+let resources = home+"/Library/siteify/"
 
 func copyTemplate( template: String, patches: [String:String] = [:], dest: String? = nil ) -> UnsafeMutablePointer<FILE> {
     var input = try! NSString( contentsOfFile: resources+template, encoding: NSUTF8StringEncoding )
@@ -274,23 +284,20 @@ func copyTemplate( template: String, patches: [String:String] = [:], dest: Strin
 
 if !filemgr.fileExistsAtPath( "html" ) {
     try! filemgr.createDirectoryAtPath( "html", withIntermediateDirectories: false, attributes: nil )
-    fclose( copyTemplate( "siteify.css" ) )
 }
+fclose( copyTemplate( "siteify.css" ) )
 
-let index = copyTemplate( "index.html", patches: [:] )
 var buff = [Int8]( count: Int(PATH_MAX), repeatedValue: 0 )
 let cwd = String.fromCString( getcwd( &buff, buff.count ) )!
+
+let index = copyTemplate( "index.html", patches: ["__DATE__": NSDate().description,
+    "__ROOT__": cwd.stringByReplacingOccurrencesOfString( home, withString: "~" )] )
 
 fileno = 0
 
 for (file, argv) in compilations {
     fileno += 1
     progress( "Saving \(fileno)/\(compilations.count) \(file)" )
-
-    let relative = file.stringByReplacingOccurrencesOfString( cwd+"/", withString: "" )
-    let filename = fileFilename( file )+".html"
-
-    fputs( "<a href='\(filename)'>\(relative)<a><br>\n", index )
 
     if let data = NSData( contentsOfFile: file ) {
         let bytes = UnsafePointer<Int8>( data.bytes )
@@ -327,14 +334,15 @@ for (file, argv) in compilations {
 
             let ent = Entity(file: file, line: line, col: col)
             var text = skipTo( offset+length ).stringByReplacingOccurrencesOfString( "<", withString: "&lt;" )
+            var span = "<a name='\(ent.anchor)'>\(text)</a>"
 
             if kindSuffix == "url" {
-                text = "<a href='\(text)'>\(text)</a>"
+                span = "<a href='\(text)'>\(text)</a>"
             }
-            else if let dict = entities[ent] {
-                if let usrString = dict.getString( SK.usrID ), usr = usrs[usrString], decl = usr.declaring {
+            else if let dict = entities[ent], usrString = dict.getString( SK.usrID ) {
+                if let usr = usrs[usrString], decl = usr.declaring {
                     if decl != ent {
-                        text = "<a name='\(ent.anchor)' href='\(decl.href)'>\(text)<a>"
+                        span = "<a name='\(ent.anchor)' href='\(decl.href)' title='\(usrString)'>\(text)</a>"
                     }
                     else if usr.references.count > 1 {
                         var popup = ""
@@ -343,33 +351,40 @@ for (file, argv) in compilations {
                             if ref == ent {
                                 continue
                             }
-                            popup += "<tr><td onclick='document.location.href=\"\(ref.href)\"; return false;'>\(ref.filename).swift:\(ref.line)</td>"
-                            popup += "<td>\(usr.reflines[i])</td>"
+                            let keepListOpen = ref.file != decl.file ? "event.stopPropagation(); " : ""
+                            popup += "<tr><td style='text-decoration: underline;' onclick='document.location.href=\"\(ref.href)\"; \(keepListOpen)return false;'>\(ref.filename).swift:\(ref.line)</td>"
+                            popup += "<td><pre>\(usr.reflines[i])</pre></td>"
                         }
-                        text = "<a name='\(ent.anchor)' href='#' onclick='return expand(this);'>\(text)<span class='references'><table>\(popup)</table></span></a>"
+                        span = "<a name='\(ent.anchor)' href='#' title='\(usrString)' onclick='return expand(this);'>" +
+                                        "\(text)<span class='references'><table>\(popup)</table></span></a>"
                     }
-                    else {
-                        text = "<a name='\(ent.anchor)'>\(text)</a>"
-                    }
+                }
+                else {
+                    span = "<a name='\(ent.anchor)' title='\(usrString)'>\(text)</a>"
                 }
             }
 
-            html += "<span class='\(kindSuffix)'>"+text+"</span>"
+            html += "<span class='\(kindSuffix)'>\(span)</span>"
             return true
         }
 
         html += skipTo( data.length )
-        let htmp = NSMutableString( string: html )
 
+        let htmp = NSMutableString( string: html )
         line = 0
+
         htmp["(^|\\n)"] ~= { (group: String) in
             line += 1
             return group + (NSString( format: "%04d    ", line ) as String)
         }
 
+        let filename = fileFilename( file )+".html"
         let out = copyTemplate( "source.html", patches: [:], dest: "html/"+filename )
-        fputs( htmp as String, out )
+        fputs( htmp.UTF8String, out )
         fclose( out )
+
+        let relative = file.stringByReplacingOccurrencesOfString( cwd+"/", withString: "" )
+        fputs( "<a href='\(filename)'>\(relative)<a><br>\n", index )
     }
 }
 
@@ -397,4 +412,4 @@ for (symbol,decl) in xrefData {
 
 fclose( xref )
 
-progress( "Site built, open ./html/index.html in your browser. A symbol listing is available in ./html/xref.html\n" )
+progress( "Site built, open ./html/index.html in your browser.\n" )

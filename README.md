@@ -6,7 +6,7 @@ cross referenced version of your Swift source that can be navigated in a Web
 Browser. Links over symbol references take you to their definition and clicking
 on any link on the definition will list all the places the symbol is referenced.
 
-![Icon](http://injectionforxcode.johnholdsworth.com/siteify.png)
+![Icon](http://injectionforxcode.johnholdsworth.com/siteify2.png)
 
 To test drive using the source of this project, use [this link](http://injectionforxcode.johnholdsworth.com/siteify/main.html).
 A listing of all symbols is available in [xref.html](http://injectionforxcode.johnholdsworth.com/siteify/xref.html)

@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 19/12/2015.
 //  Copyright © 2015 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/SourceKit.swift#2 $
+//  $Id: //depot/siteify/siteify/SourceKit.swift#3 $
 //
 //  Repo: https://github.com/johnno1962/Refactorator
 //
@@ -38,7 +38,7 @@ extension sourcekitd_variant_t {
 
     func getUUIDString( key: sourcekitd_uid_t ) -> String {
         let uuid = sourcekitd_variant_dictionary_get_uid( self, key )
-        return String.fromCString( sourcekitd_uid_get_string_ptr( uuid ) )!
+        return String.fromCString( sourcekitd_uid_get_string_ptr( uuid ) ) ?? "NOUUID"
     }
 
 }
@@ -67,6 +67,8 @@ class SourceKit {
     lazy var syntaxID = sourcekitd_uid_get_from_cstr("key.syntaxmap")
 
     /** entity attributes */
+    lazy var receiverID = sourcekitd_uid_get_from_cstr("key.receiver_usr")
+    lazy var isDynamicID = sourcekitd_uid_get_from_cstr("key.is_dynamic")
     lazy var isSystemID = sourcekitd_uid_get_from_cstr("key.is_system")
     lazy var moduleID = sourcekitd_uid_get_from_cstr("key.modulename")
     lazy var lengthID = sourcekitd_uid_get_from_cstr("key.length")

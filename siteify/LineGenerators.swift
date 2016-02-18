@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 19/12/2015.
 //  Copyright © 2015 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/LineGenerators.swift#1 $
+//  $Id: //depot/siteify/siteify/LineGenerators.swift#3 $
 //
 //  Repo: https://github.com/johnno1962/Refactorator
 //
@@ -16,16 +16,16 @@ class TaskGenerator: FileGenerator {
 
     let task: NSTask
 
-    convenience init( command: String, directory: String = "/tmp", lineSeparator: String? = nil ) {
+    convenience init( command: String, directory: String? = nil, lineSeparator: String? = nil ) {
         self.init( launchPath: "/bin/bash", arguments: ["-c", "exec \(command)"], directory: directory, lineSeparator: lineSeparator )
     }
 
-    convenience init( launchPath: String, arguments: [String] = [], directory: String = "/tmp", lineSeparator: String? = nil ) {
+    convenience init( launchPath: String, arguments: [String] = [], directory: String? = nil, lineSeparator: String? = nil ) {
 
         let task = NSTask()
         task.launchPath = launchPath
         task.arguments = arguments
-        task.currentDirectoryPath = directory
+        task.currentDirectoryPath = directory ?? "."
 
         self.init( task: task, lineSeparator: lineSeparator )
     }
