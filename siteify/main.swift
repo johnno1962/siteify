@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 16/02/2016.
 //  Copyright © 2016 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/main.swift#26 $
+//  $Id: //depot/siteify/siteify/main.swift#27 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -106,10 +106,6 @@ class USR {
     var references = [Entity]()
     var reflines = [String]()
     var declaring: Entity?
-
-}
-
-extension USR {
 
 }
 

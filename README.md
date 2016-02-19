@@ -1,10 +1,10 @@
 
-## siteify - Build an indexed Web site from project's Swift sources.
+## siteify - Build a hyperlinked Web Site from project's Swift sources.
 
 siteify is a Swift executable that uses SourceKit to create a hyperlinked and
 cross referenced version of your Swift source that can be navigated in a Web
 Browser. Links over symbol references take you to their definition and clicking
-on any link on the definition will list all the places the symbol is referenced.
+on a link on the definition will list the places the symbol is referenced.
 
 ![Icon](http://injectionforxcode.johnholdsworth.com/siteify2.png)
 
@@ -12,17 +12,15 @@ To test drive using the source of this project, use [this link](http://injection
 A listing of all symbols is available in [xref.html](http://injectionforxcode.johnholdsworth.com/siteify/xref.html)
 
 To use, download and build this project and _cd_ into into your project's root 
-then type ~/bin/siteify then any arguments that would be required to build your 
-project using xcodebuild. For example, for a complex workspace using CocoaPods you
-may need to type something along the lines of:
+and type ~/bin/siteify then any arguments that would be required to build your 
+project using xcodebuild. For example, for a complex workspace you may need to
+type something along the lines of:
 
 ~/bin/siteify -workspace MyProj.xcworkspace -scheme MyProj -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPad Air'
 
 This will build your project recording it's constituent Swift sources, index them
 then build the site in the directory ./html. Any PRs on de-glitching the CSS styling
 more than welcome.
-
-Enjoy.
 
 ### MIT License
 

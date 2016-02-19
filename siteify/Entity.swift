@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 19/02/2016.
 //  Copyright © 2016 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Entity.swift#3 $
+//  $Id: //depot/siteify/siteify/Entity.swift#4 $
 //
 //  Repo: https://github.com/johnno1962/Refactorator
 //
@@ -29,11 +29,7 @@ func fileFilename( file: String ) -> String {
 
 class Entity: Hashable {
 
-    let file: String
-    let line: Int
-    let col: Int
-    let kind: String?
-    let decl: Bool
+    let file: String, line: Int, col: Int, kind: String?, decl: Bool
 
     init( file: String, line: Int, col: Int, kind: String? = nil, decl: Bool = false ) {
         self.file = file
@@ -83,8 +79,8 @@ class Entity: Hashable {
         b += ">"
         if let matches = regex( value ).match( contents ) {
             return htmlClean( contents, match: matches[1] ) +
-                "<b>" + htmlClean( contents, match: matches[2] ) + "</b>" +
-                htmlClean( contents, match: matches[3] )
+               b + htmlClean( contents, match: matches[2] ) + "</b>" +
+                   htmlClean( contents, match: matches[3] )
         }
         return "MATCH FAILED line:\(line) column:\(col)"
     }
