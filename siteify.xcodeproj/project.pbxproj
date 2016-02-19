@@ -10,6 +10,7 @@
 		BB8BD1EB1C7364E3001108DF /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1EA1C7364E3001108DF /* main.swift */; };
 		BB8BD1F31C736CF4001108DF /* LineGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1F11C736CF4001108DF /* LineGenerators.swift */; };
 		BB8BD1F41C736CF4001108DF /* SourceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1F21C736CF4001108DF /* SourceKit.swift */; };
+		BB90DDA01C77335900926196 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB90DD9F1C77335900926196 /* Entity.swift */; };
 		BBD81FA51C73767A0060CF44 /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD81FA41C73767A0060CF44 /* SwiftRegex.swift */; };
 		BBD81FAA1C7393240060CF44 /* index.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBD81FA71C7392EE0060CF44 /* index.html */; };
 		BBD81FAB1C7393240060CF44 /* siteify.css in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBD81FA81C7392FF0060CF44 /* siteify.css */; };
@@ -51,6 +52,7 @@
 		BB8BD1EA1C7364E3001108DF /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		BB8BD1F11C736CF4001108DF /* LineGenerators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGenerators.swift; sourceTree = "<group>"; };
 		BB8BD1F21C736CF4001108DF /* SourceKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceKit.swift; sourceTree = "<group>"; };
+		BB90DD9F1C77335900926196 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		BBD81F9E1C736FF70060CF44 /* siteify-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "siteify-Bridging-Header.h"; sourceTree = "<group>"; };
 		BBD81FA11C73703D0060CF44 /* sourcekitd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sourcekitd.h; sourceTree = "<group>"; };
 		BBD81FA41C73767A0060CF44 /* SwiftRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftRegex.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				BB8BD1EA1C7364E3001108DF /* main.swift */,
+				BB90DD9F1C77335900926196 /* Entity.swift */,
 				BB8BD1F21C736CF4001108DF /* SourceKit.swift */,
 				BBD81FB31C74A6EE0060CF44 /* ByteRegex.swift */,
 				BBD81FA41C73767A0060CF44 /* SwiftRegex.swift */,
@@ -171,6 +174,7 @@
 			files = (
 				BB8BD1EB1C7364E3001108DF /* main.swift in Sources */,
 				BBD81FB41C74A6EE0060CF44 /* ByteRegex.swift in Sources */,
+				BB90DDA01C77335900926196 /* Entity.swift in Sources */,
 				BB8BD1F41C736CF4001108DF /* SourceKit.swift in Sources */,
 				BB8BD1F31C736CF4001108DF /* LineGenerators.swift in Sources */,
 				BBD81FA51C73767A0060CF44 /* SwiftRegex.swift in Sources */,

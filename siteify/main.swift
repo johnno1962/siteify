@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 16/02/2016.
 //  Copyright © 2016 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/main.swift#12 $
+//  $Id: //depot/siteify/siteify/main.swift#26 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -54,13 +54,13 @@ class StatusGenerator: TaskGenerator {
             task.waitUntilExit()
             if task.terminationStatus != EXIT_SUCCESS {
                 try! filemgr.moveItemAtPath( storedLog, toPath: failedLog )
-                print( "xcodebuild failed, consult ./\(failedLog)" )
+                print( "\nxcodebuild failed, consult ./\(failedLog)" )
                 exit( 1 )
             }
         }
         return next
     }
-    
+
 }
 
 if filemgr.fileExistsAtPath( storedLog ) {
@@ -88,43 +88,7 @@ for line in buildLog.sequence {
     let regex = line["-primary-file (?:\"([^\"]+)\"|(\\S+)) "]
 
     if let primary = regex[1] ?? regex[2] {
-        let spaceToTheLeftOfAnOddNumberOfQoutes = " (?=[^\"]*\"[^\"]*(?:(?:\"[^\"]*){2})* -o )"
-        let line = line
-            .stringByTrimmingCharactersInSet( NSCharacterSet.whitespaceAndNewlineCharacterSet() )
-            .stringByReplacingOccurrencesOfString( "\\\"", withString: "---" )
-            .stringByReplacingOccurrencesOfString( spaceToTheLeftOfAnOddNumberOfQoutes,
-                withString: "___", options: .RegularExpressionSearch, range: nil )
-            .stringByReplacingOccurrencesOfString( "\"", withString: "" )
-
-        let argv = line.componentsSeparatedByString( " " )
-            .map { $0.stringByReplacingOccurrencesOfString( "___", withString: " " )
-            .stringByReplacingOccurrencesOfString( "---", withString: "\"" ) }
-
-        var out = [String]()
-        var i=1
-
-        while i<argv.count {
-            let arg = argv[i]
-            if arg == "-frontend" {
-                out.append( "-Xfrontend" )
-                out.append( "-j4" )
-            }
-            else if arg == "-primary-file" {
-            }
-            else if arg.hasPrefix( "-emit-" ) ||
-                arg == "-serialize-diagnostics-path" {
-                    i += 1
-            }
-            else if arg == "-o" {
-                break
-            }
-            else {
-                out.append( arg )
-            }
-            i += 1
-        }
-
-        compilations.append( (primary, SK.array( out ) ) )
+        compilations.append( (primary, SK.array( SK.compilerArgs( line ) ) ) )
         if storingLog != nil {
             progress( "Built \(primary)" )
         }
@@ -134,83 +98,6 @@ for line in buildLog.sequence {
 }
 
 storingLog?.closeFile()
-
-var filenameForFile = [String:String](), filesForFileName = [String:String]()
-
-func fileFilename( file: String ) -> String {
-    if let filename = filenameForFile[file] {
-        return filename
-    }
-    var filename = NSURL( fileURLWithPath: file ).URLByDeletingPathExtension!.lastPathComponent!
-    while filesForFileName[filename] != nil {
-        filename += "_"
-    }
-    filesForFileName[filename] = file
-    filenameForFile[file] = filename
-    return filename
-}
-
-struct Entity: Hashable {
-
-    let file: String
-    let line: Int
-    let col: Int
-
-    var hashValue: Int {
-        return Int(line + col)
-    }
-
-    var anchor: String {
-        return "\(line)_\(col)"
-    }
-
-    var filename: String {
-        return fileFilename( file )
-    }
-
-    var href: String {
-        return "\(filename).html#\(anchor)"
-    }
-
-    func regex( text: String ) -> ByteRegex {
-        var pattern = "^"
-        var line = self.line
-        while line > 100 {
-            pattern += "(?:[^\n]*\n){100}"
-            line -= 100
-        }
-        var col = self.col, largecol = ""
-        while col > 100 {
-            largecol += ".{100}"
-            col -= 100
-        }
-        pattern += "(?:[^\n]*\n){\(line-1)}(\(largecol).{\(col-1)}[^\n]*?)(\(text))([^\n]*)"
-        return ByteRegex( pattern: pattern )
-    }
-
-    func patchText( contents: NSData, value: String ) -> String? {
-        if let matches = regex( value ).match( contents ) {
-            return htmlClean( contents, match: matches[1] ) +
-           "<b>" + htmlClean( contents, match: matches[2] ) + "</b>" +
-                   htmlClean( contents, match: matches[3] )
-        }
-        return "MATCH FAILED line:\(line) column:\(col)"
-    }
-
-    func htmlClean( contents: NSData, match: regmatch_t ) -> String {
-        var range = match.range
-        if range.length > contents.length - range.location {
-            range.length = contents.length - range.location
-        }
-        return String.fromData( contents.subdataWithRange( range ) )?
-            .stringByReplacingOccurrencesOfString( "&", withString: "&amp;" )
-            .stringByReplacingOccurrencesOfString( "<", withString: "&lt;" ) ?? "CONVERSION FAILED"
-    }
-}
-
-func ==(lhs: Entity, rhs: Entity) -> Bool {
-    return lhs.line == rhs.line && lhs.col == rhs.col && lhs.file == rhs.file
-}
 
 var entities = [Entity:sourcekitd_variant_t]()
 
@@ -238,15 +125,16 @@ for (file, argv) in compilations {
         let dict = sourcekitd_response_get_value( resp )
         SK.recurseOver( SK.entitiesID, resp: dict, block: { dict in
             if let usrString = dict.getString( SK.usrID ) {
+                let kind = dict.getUUIDString( SK.kindID )
                 let entity = Entity( file: file,
                     line: dict.getInt( SK.lineID ),
-                    col: dict.getInt( SK.colID ) )
+                    col: dict.getInt( SK.colID ),
+                    kind: kind, decl: kind.containsString( ".decl." ) )
 
                 if usrs[usrString] == nil {
                     usrs[usrString] = USR()
                 }
 
-                let kind = dict.getUUIDString( SK.kindID )
                 if !kind.containsString( ".decl.extension." ), var usr = usrs[usrString] {
                     usr.references.append( entity )
                     usr.reflines.append( entity.patchText( data, value: "\\w*" )! )
@@ -262,8 +150,7 @@ for (file, argv) in compilations {
 
 for (entity, dict) in entities {
     if let usr = dict.getString( SK.usrID ) {
-        let kind = dict.getUUIDString( SK.kindID )
-        if kind.containsString( ".decl." ), var usr = usrs[usr] {
+        if entity.decl, var usr = usrs[usr] {
             usr.declaring = entity
         }
     }
@@ -296,8 +183,12 @@ let index = copyTemplate( "index.html", patches: ["__DATE__": NSDate().descripti
 fileno = 0
 
 for (file, argv) in compilations {
+    let filename = fileFilename( file )+".html"
+    let relative = file.stringByReplacingOccurrencesOfString( cwd+"/", withString: "" )
+    fputs( "<a href='\(filename)'>\(relative)<a><br>\n", index )
+
     fileno += 1
-    progress( "Saving \(fileno)/\(compilations.count) \(file)" )
+    progress( "Saving \(fileno)/\(compilations.count) html/\(filename)" )
 
     if let data = NSData( contentsOfFile: file ) {
         let bytes = UnsafePointer<Int8>( data.bytes )
@@ -316,7 +207,8 @@ for (file, argv) in compilations {
                 }
                 ptr += 1
             }
-            return out as String
+            return out.stringByReplacingOccurrencesOfString( "&", withString: "&amp;" )
+                      .stringByReplacingOccurrencesOfString( "<", withString: "&lt;" ) as String
         }
 
         var html = ""
@@ -325,16 +217,17 @@ for (file, argv) in compilations {
         let dict = sourcekitd_response_get_value( resp )
         let map = sourcekitd_variant_dictionary_get_value( dict, SK.syntaxID )
         sourcekitd_variant_array_apply( map ) { (_,dict) in
-            let kind = dict.getUUIDString( SK.kindID )
-            let kindSuffix = NSURL(fileURLWithPath: kind).pathExtension!
             let offset = dict.getInt( SK.offsetID )
             let length = dict.getInt( SK.lengthID )
 
             html += skipTo( offset )
 
-            let ent = Entity(file: file, line: line, col: col)
-            var text = skipTo( offset+length ).stringByReplacingOccurrencesOfString( "<", withString: "&lt;" )
+            let ent = Entity( file: file, line: line, col: col )
+            let text = skipTo( offset+length )
             var span = "<a name='\(ent.anchor)'>\(text)</a>"
+
+            let kind = dict.getUUIDString( SK.kindID )
+            let kindSuffix = NSURL( fileURLWithPath: kind ).pathExtension!
 
             if kindSuffix == "url" {
                 span = "<a href='\(text)'>\(text)</a>"
@@ -370,7 +263,7 @@ for (file, argv) in compilations {
 
         html += skipTo( data.length )
 
-        let htmp = NSMutableString( string: html )
+        let htmp = RegexMutable( html )
         line = 0
 
         htmp["(^|\\n)"] ~= { (group: String) in
@@ -378,36 +271,30 @@ for (file, argv) in compilations {
             return group + (NSString( format: "%04d    ", line ) as String)
         }
 
-        let filename = fileFilename( file )+".html"
         let out = copyTemplate( "source.html", patches: [:], dest: "html/"+filename )
         fputs( htmp.UTF8String, out )
         fclose( out )
-
-        let relative = file.stringByReplacingOccurrencesOfString( cwd+"/", withString: "" )
-        fputs( "<a href='\(filename)'>\(relative)<a><br>\n", index )
     }
 }
 
 fclose( index )
 
-var xrefData = [(String,Entity)]()
+var xrefData = [(String,String)]()
 
 for (usrString, usr) in usrs {
     if usrString.hasPrefix( "s:" ), let decl = usrs[usrString]?.declaring {
         let usrString = usrString.substringFromIndex( usrString.startIndex.advancedBy( 2 ) )
-        xrefData.append( (_stdlib_demangleName( "_T"+usrString ), decl) )
+        xrefData.append( (_stdlib_demangleName( "_T"+usrString ), decl.href) )
     }
 }
 
-xrefData.sortInPlace( { (usr1, usr2) in
-    return usr1.0 < usr2.0
-} )
+xrefData.sortInPlace( { $0.0 < $1.0 } )
 
-let xref = copyTemplate( "xref.html", patches: [:], dest: "html/xref.html" )
+let xref = copyTemplate( "xref.html" )
 
-for (symbol,decl) in xrefData {
+for (symbol,href) in xrefData {
     let symbol = symbol.stringByReplacingOccurrencesOfString( "<", withString: "&lt;" )
-    fputs( "<a href='\(decl.href)'>\(symbol)<a><br>\n", xref )
+    fputs( "<a href='\(href)'>\(symbol)<a><br>\n", xref )
 }
 
 fclose( xref )
