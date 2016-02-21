@@ -30,6 +30,7 @@ class ByteRegex {
         if error != 0 {
             var errbuff = [Int8]( count: 1024, repeatedValue: 0 )
             regerror( error, &regex, &errbuff, errbuff.count )
+            print( "ByteRegex: Error in regex '\(pattern)': \(String.fromCString( errbuff )!)" )
         }
         groups = 1 + pattern.characters.filter { $0 == "(" } .count
     }
@@ -40,6 +41,7 @@ class ByteRegex {
         if error != 0 && error != REG_NOMATCH {
             var errbuff = [Int8]( count: 1024, repeatedValue: 0 )
             regerror( error, &regex, &errbuff, errbuff.count )
+            print( "ByteRegex: Error in match: \(String.fromCString( errbuff )!)" )
         }
         return error == 0 ? matches : nil
     }

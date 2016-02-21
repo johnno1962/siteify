@@ -5,27 +5,12 @@
 //  Created by John Holdsworth on 19/02/2016.
 //  Copyright © 2016 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Entity.swift#4 $
+//  $Id: //depot/siteify/siteify/Entity.swift#6 $
 //
 //  Repo: https://github.com/johnno1962/Refactorator
 //
 
 import Foundation
-
-var filenameForFile = [String:String](), filesForFileName = [String:String]()
-
-func fileFilename( file: String ) -> String {
-    if let filename = filenameForFile[file] {
-        return filename
-    }
-    var filename = NSURL( fileURLWithPath: file ).URLByDeletingPathExtension!.lastPathComponent!
-    while filesForFileName[filename] != nil {
-        filename += "_"
-    }
-    filesForFileName[filename] = file
-    filenameForFile[file] = filename
-    return filename
-}
 
 class Entity: Hashable {
 
@@ -40,19 +25,7 @@ class Entity: Hashable {
     }
 
     var hashValue: Int {
-        return Int(line + col)
-    }
-
-    var anchor: String {
-        return "\(line)_\(col)"
-    }
-
-    var filename: String {
-        return fileFilename( file )
-    }
-
-    var href: String {
-        return "\(filename).html#\(anchor)"
+        return line + col
     }
 
     func regex( text: String ) -> ByteRegex {
@@ -72,15 +45,15 @@ class Entity: Hashable {
     }
 
     func patchText( contents: NSData, value: String ) -> String? {
-        var b = "<b title='" + (kind ?? "UNKNOWN") + "'"
-        if decl {
-            b += " style='color: blue'"
-        }
-        b += ">"
         if let matches = regex( value ).match( contents ) {
+            var b = "<b title='" + (kind ?? "UNKNOWN") + "'"
+            if decl {
+                b += " style='color: blue'"
+            }
+            b += ">"
             return htmlClean( contents, match: matches[1] ) +
-               b + htmlClean( contents, match: matches[2] ) + "</b>" +
-                   htmlClean( contents, match: matches[3] )
+                b + htmlClean( contents, match: matches[2] ) + "</b>" +
+                htmlClean( contents, match: matches[3] )
         }
         return "MATCH FAILED line:\(line) column:\(col)"
     }
@@ -94,6 +67,7 @@ class Entity: Hashable {
             .stringByReplacingOccurrencesOfString( "&", withString: "&amp;" )
             .stringByReplacingOccurrencesOfString( "<", withString: "&lt;" ) ?? "CONVERSION FAILED"
     }
+
 }
 
 func ==(lhs: Entity, rhs: Entity) -> Bool {

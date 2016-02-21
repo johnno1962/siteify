@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 16/02/2016.
 //  Copyright © 2016 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/main.swift#27 $
+//  $Id: //depot/siteify/siteify/main.swift#30 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -152,6 +152,37 @@ for (entity, dict) in entities {
     }
 }
 
+var filenameForFile = [String:String](), filesForFileName = [String:String]()
+
+func fileFilename( file: String ) -> String {
+    if let filename = filenameForFile[file] {
+        return filename
+    }
+    var filename = NSURL( fileURLWithPath: file ).URLByDeletingPathExtension!.lastPathComponent!
+    while filesForFileName[filename] != nil {
+        filename += "_"
+    }
+    filesForFileName[filename] = file
+    filenameForFile[file] = filename
+    return filename
+}
+
+extension Entity {
+
+    var anchor: String {
+        return "\(line)_\(col)"
+    }
+
+    var filename: String {
+        return fileFilename( file )
+    }
+
+    var href: String {
+        return "\(filename).html#\(anchor)"
+    }
+
+}
+
 let home = String.fromCString( getenv("HOME") )!
 let resources = home+"/Library/siteify/"
 
@@ -275,20 +306,18 @@ for (file, argv) in compilations {
 
 fclose( index )
 
-var xrefData = [(String,String)]()
+var symbols = [(String,String)]()
 
 for (usrString, usr) in usrs {
     if usrString.hasPrefix( "s:" ), let decl = usrs[usrString]?.declaring {
         let usrString = usrString.substringFromIndex( usrString.startIndex.advancedBy( 2 ) )
-        xrefData.append( (_stdlib_demangleName( "_T"+usrString ), decl.href) )
+        symbols.append( (_stdlib_demangleName( "_T"+usrString ), decl.href) )
     }
 }
 
-xrefData.sortInPlace( { $0.0 < $1.0 } )
-
 let xref = copyTemplate( "xref.html" )
 
-for (symbol,href) in xrefData {
+for (symbol,href) in symbols.sort( { $0.0 < $1.0 } ) {
     let symbol = symbol.stringByReplacingOccurrencesOfString( "<", withString: "&lt;" )
     fputs( "<a href='\(href)'>\(symbol)<a><br>\n", xref )
 }

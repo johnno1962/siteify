@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 26/06/2014.
 //  Copyright (c) 2014 John Holdsworth.
 //
-//  $Id: //depot/siteify/siteify/SwiftRegex.swift#1 $
+//  $Id: //depot/siteify/siteify/SwiftRegex.swift#2 $
 //
 //  This code is in the public domain from:
 //  https://github.com/johnno1962/SwiftRegex
@@ -76,7 +76,7 @@ public class SwiftRegex: NSObject, BooleanType {
         patched[pattern] ~= template
         return saveFile( path, newContents: patched )
     }
-    
+
     final var targetRange: NSRange {
         return NSRange(location: 0,length: target.length)
     }
@@ -152,7 +152,7 @@ public class SwiftRegex: NSObject, BooleanType {
     func matchResults( options: NSMatchingOptions? = nil ) -> [NSTextCheckingResult] {
         return regex.matchesInString( target as String, options: options ?? NSMatchingOptions(rawValue: 0), range: targetRange ) as [NSTextCheckingResult]
     }
-    
+
     public func ranges( options: NSMatchingOptions? = nil ) -> [NSRange] {
         return matchResults( options ).map { $0.range }
     }
@@ -160,7 +160,7 @@ public class SwiftRegex: NSObject, BooleanType {
     public func matches( options: NSMatchingOptions? = nil ) -> [String] {
         return matchResults( options ).map { self.substring($0.range) }
     }
-    
+
     public func allGroups( options: NSMatchingOptions? = nil ) -> [[String]] {
         return matchResults( options ).map { self.groupsForMatch($0) }
     }

@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 19/12/2015.
 //  Copyright © 2015 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/SourceKit.swift#5 $
+//  $Id: //depot/siteify/siteify/SourceKit.swift#6 $
 //
 //  Repo: https://github.com/johnno1962/Refactorator
 //
@@ -30,8 +30,8 @@ extension sourcekitd_variant_t {
 
     func getString( key: sourcekitd_uid_t ) -> String? {
         let cstr = sourcekitd_variant_dictionary_get_string( self, key )
-        if cstr != nil, let str = String.fromCString( cstr ) {
-            return str
+        if cstr != nil {
+            return String.fromCString( cstr )
         }
         return nil
     }
@@ -161,64 +161,23 @@ class SourceKit {
     }
 
     func recurseOver( childID: sourcekitd_uid_t, resp: sourcekitd_variant_t,
-            indent: String = "", visualiser: Visualiser? = nil,
-            block: ( dict: sourcekitd_variant_t ) -> ()) {
+        indent: String = "", visualiser: Visualiser? = nil,
+        block: ( dict: sourcekitd_variant_t ) -> ()) {
 
-        let children = sourcekitd_variant_dictionary_get_value( resp, childID )
-        if sourcekitd_variant_get_type( children ) == SOURCEKITD_VARIANT_TYPE_ARRAY {
+            let children = sourcekitd_variant_dictionary_get_value( resp, childID )
+            if sourcekitd_variant_get_type( children ) == SOURCEKITD_VARIANT_TYPE_ARRAY {
 
-            visualiser?.enter()
-            sourcekitd_variant_array_apply( children ) { (_,dict) in
+                visualiser?.enter()
+                sourcekitd_variant_array_apply( children ) { (_,dict) in
 
-                block( dict: dict )
-                visualiser?.present( dict, indent: indent )
+                    block( dict: dict )
+                    visualiser?.present( dict, indent: indent )
 
-                self.recurseOver( childID, resp: dict, indent: indent+"  ", visualiser: visualiser, block: block )
-                return true
-            }
-            visualiser?.exit()
-        }
-    }
-
-    func disectUSR( usr: NSString ) -> [String]? {
-        guard usr.hasPrefix( "s:" ) else { return nil }
-
-        let digits = NSCharacterSet.decimalDigitCharacterSet()
-        let scanner = NSScanner( string: usr as String )
-        var out = [String]()
-        var wasZero = false
-
-        while !scanner.atEnd {
-
-            var name: NSString?
-            scanner.scanUpToCharactersFromSet( digits, intoString: &name )
-            if name != nil, let name = name as? String {
-                if wasZero {
-                    out[out.count-1] += "0" + name
-                    wasZero = false
+                    self.recurseOver( childID, resp: dict, indent: indent+"  ", visualiser: visualiser, block: block )
+                    return true
                 }
-                else {
-                    out.append( name )
-                }
+                visualiser?.exit()
             }
-
-            var len = 0
-            scanner.scanInteger( &len )
-            wasZero = len == 0
-            if wasZero {
-                continue
-            }
-
-            if len > usr.length-scanner.scanLocation {
-                len = usr.length-scanner.scanLocation
-            }
-
-            let range = NSMakeRange( scanner.scanLocation, len )
-            out.append( usr.substringWithRange( range ) )
-            scanner.scanLocation += len
-        }
-
-        return out
     }
 
     func compilerArgs( buildCommand: String ) -> [String] {
@@ -261,4 +220,45 @@ class SourceKit {
         return out
     }
 
+    func disectUSR( usr: NSString ) -> [String]? {
+        guard usr.hasPrefix( "s:" ) else { return nil }
+
+        let digits = NSCharacterSet.decimalDigitCharacterSet()
+        let scanner = NSScanner( string: usr as String )
+        var out = [String]()
+        var wasZero = false
+
+        while !scanner.atEnd {
+
+            var name: NSString?
+            scanner.scanUpToCharactersFromSet( digits, intoString: &name )
+            if name != nil, let name = name as? String {
+                if wasZero {
+                    out[out.count-1] += "0" + name
+                    wasZero = false
+                }
+                else {
+                    out.append( name )
+                }
+            }
+
+            var len = 0
+            scanner.scanInteger( &len )
+            wasZero = len == 0
+            if wasZero {
+                continue
+            }
+
+            if len > usr.length-scanner.scanLocation {
+                len = usr.length-scanner.scanLocation
+            }
+            
+            let range = NSMakeRange( scanner.scanLocation, len )
+            out.append( usr.substringWithRange( range ) )
+            scanner.scanLocation += len
+        }
+        
+        return out
+    }
+    
 }
