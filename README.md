@@ -1,10 +1,10 @@
 
 ## siteify - Build a hyperlinked Web Site from project's Swift sources.
 
-siteify is a Swift executable that uses SourceKit to create a hyperlinked and
-cross referenced version of your Swift source that can be navigated in a Web
-Browser. Links over symbol references take you to their definition and clicking
-on a link on the definition will list the places the symbol is referenced.
+Created as a means of testing SourceKit, siteify is a Swift script that creates a
+hyperlinked and cross referenced version of your Swift source that can be navigated
+in a Web Browser. Links over symbol references take you to their definition and
+clicking on a link on the definition will list the places the symbol is referenced.
 
 ![Icon](http://injectionforxcode.johnholdsworth.com/siteify2.png)
 
