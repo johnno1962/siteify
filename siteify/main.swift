@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 16/02/2016.
 //  Copyright © 2016 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/main.swift#30 $
+//  $Id: //depot/siteify/siteify/main.swift#31 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -306,20 +306,20 @@ for (file, argv) in compilations {
 
 fclose( index )
 
-var symbols = [(String,String)]()
+var symbols = [(String,String,String)]()
 
 for (usrString, usr) in usrs {
     if usrString.hasPrefix( "s:" ), let decl = usrs[usrString]?.declaring {
         let usrString = usrString.substringFromIndex( usrString.startIndex.advancedBy( 2 ) )
-        symbols.append( (_stdlib_demangleName( "_T"+usrString ), decl.href) )
+        symbols.append( (_stdlib_demangleName( "_T"+usrString ), usrString, decl.href) )
     }
 }
 
 let xref = copyTemplate( "xref.html" )
 
-for (symbol,href) in symbols.sort( { $0.0 < $1.0 } ) {
+for (symbol,usrString,href) in symbols.sort( { $0.0 < $1.0 } ) {
     let symbol = symbol.stringByReplacingOccurrencesOfString( "<", withString: "&lt;" )
-    fputs( "<a href='\(href)'>\(symbol)<a><br>\n", xref )
+    fputs( "<a href='\(href)' title='\(usrString)'>\(symbol)<a><br>\n", xref )
 }
 
 fclose( xref )
