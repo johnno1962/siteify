@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 26/06/2014.
 //  Copyright (c) 2014 John Holdsworth.
 //
-//  $Id: //depot/siteify/siteify/SwiftRegex.swift#2 $
+//  $Id: //depot/siteify/siteify/SwiftRegex.swift#3 $
 //
 //  This code is in the public domain from:
 //  https://github.com/johnno1962/SwiftRegex
@@ -290,7 +290,8 @@ public func ~= ( left: SwiftRegex, right: [String] ) -> Bool {
     return left.substituteMatches( {
         (match: NSTextCheckingResult, stop: UnsafeMutablePointer<ObjCBool>) in
 
-        if ++matchNumber == right.count {
+        matchNumber += 1
+        if matchNumber == right.count {
             stop.memory = true
         }
 

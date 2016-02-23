@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 16/02/2016.
 //  Copyright © 2016 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/main.swift#31 $
+//  $Id: //depot/siteify/siteify/main.swift#32 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -65,6 +65,12 @@ class StatusGenerator: TaskGenerator {
 
 if filemgr.fileExistsAtPath( storedLog ) {
     buildLog = FileGenerator(path: storedLog)!
+}
+else if filemgr.fileExistsAtPath( "Package.swift" ) {
+    try! filemgr.removeItemAtPath( ".build" )
+    buildLog = StatusGenerator( launchPath: "/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin/swift",
+                                arguments:["build", "-v", "-v"] )
+    storingLog = NSFileHandle( createForWritingAtPath: storedLog )
 }
 else {
     var buildargs = Process.arguments
