@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 16/02/2016.
 //  Copyright © 2016 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/main.swift#32 $
+//  $Id: //depot/siteify/siteify/main.swift#33 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -67,9 +67,11 @@ if filemgr.fileExistsAtPath( storedLog ) {
     buildLog = FileGenerator(path: storedLog)!
 }
 else if filemgr.fileExistsAtPath( "Package.swift" ) {
-    try! filemgr.removeItemAtPath( ".build" )
+    if filemgr.fileExistsAtPath( ".build" ) {
+        try! filemgr.removeItemAtPath( ".build" )
+    }
     buildLog = StatusGenerator( launchPath: "/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin/swift",
-                                arguments:["build", "-v", "-v"] )
+                                arguments: ["build", "-v", "-v"] )
     storingLog = NSFileHandle( createForWritingAtPath: storedLog )
 }
 else {
@@ -215,16 +217,20 @@ let index = copyTemplate( "index.html", patches: ["__DATE__": NSDate().descripti
 
 fileno = 0
 
+var comma = NSNumberFormatter()
+comma.numberStyle = NSNumberFormatterStyle.DecimalStyle
+
 for (file, argv) in compilations {
-    let filename = fileFilename( file )+".html"
-    let relative = file.stringByReplacingOccurrencesOfString( cwd+"/", withString: "" )
-    fputs( "<a href='\(filename)'>\(relative)<a><br>\n", index )
-
-    fileno += 1
-    progress( "Saving \(fileno)/\(compilations.count) html/\(filename)" )
-
     if let data = NSData( contentsOfFile: file ) {
         let bytes = UnsafePointer<Int8>( data.bytes )
+        let filename = fileFilename( file )+".html"
+        let relative = file.stringByReplacingOccurrencesOfString( cwd+"/", withString: "" )
+
+        fileno += 1
+        progress( "Saving \(fileno)/\(compilations.count) html/\(filename)" )
+
+        fputs( "<a href='\(filename)'>\(relative)<a> \(comma.stringFromNumber(data.length)!) bytes<br>\n", index )
+
         let newline = Int8("\n".utf16.last!)
         var ptr = 0, line = 1, col = 1
 
@@ -310,8 +316,6 @@ for (file, argv) in compilations {
     }
 }
 
-fclose( index )
-
 var symbols = [(String,String,String)]()
 
 for (usrString, usr) in usrs {
@@ -329,5 +333,9 @@ for (symbol,usrString,href) in symbols.sort( { $0.0 < $1.0 } ) {
 }
 
 fclose( xref )
+
+fputs( "<a href='xref.html'>Declared Symbols<a><br>\n", index )
+
+fclose( index )
 
 progress( "Site built, open ./html/index.html in your browser.\n" )
