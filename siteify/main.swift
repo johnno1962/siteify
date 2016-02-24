@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 16/02/2016.
 //  Copyright © 2016 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/main.swift#33 $
+//  $Id: //depot/siteify/siteify/main.swift#34 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -40,6 +40,7 @@ extension NSFileHandle {
 let buildLog: FileGenerator
 let storedLog = "siteify.log"
 var storingLog: NSFileHandle? = nil
+var linkProblem = false
 
 class StatusGenerator: TaskGenerator {
 
@@ -52,7 +53,7 @@ class StatusGenerator: TaskGenerator {
             }
 
             task.waitUntilExit()
-            if task.terminationStatus != EXIT_SUCCESS {
+            if task.terminationStatus != EXIT_SUCCESS && !linkProblem {
                 try! filemgr.moveItemAtPath( storedLog, toPath: failedLog )
                 print( "\nxcodebuild failed, consult ./\(failedLog)" )
                 exit( 1 )
@@ -91,6 +92,9 @@ for line in buildLog.sequence {
         print( "Pre-built project no longer exists, rerun to rebuild" )
         try! filemgr.removeItemAtPath( storedLog )
         exit( 1 )
+    }
+    else if line["ld: framework not found ImageIO for architecture x86_64"] {
+        linkProblem = true
     }
 
     let regex = line["-primary-file (?:\"([^\"]+)\"|(\\S+)) "]
