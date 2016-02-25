@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 19/12/2015.
 //  Copyright © 2015 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/SourceKit.swift#6 $
+//  $Id: //depot/siteify/siteify/SourceKit.swift#7 $
 //
 //  Repo: https://github.com/johnno1962/Refactorator
 //
@@ -180,7 +180,7 @@ class SourceKit {
             }
     }
 
-    func compilerArgs( buildCommand: String ) -> [String] {
+    func compilerArgs( buildCommand: String, filelist: [String]? = nil ) -> [String] {
         let spaceToTheLeftOfAnOddNumberOfQoutes = " (?=[^\"]*\"[^\"]*(?:(?:\"[^\"]*){2})* -o )"
         let line = buildCommand
             .stringByTrimmingCharactersInSet( NSCharacterSet.whitespaceAndNewlineCharacterSet() )
@@ -190,7 +190,7 @@ class SourceKit {
             .stringByReplacingOccurrencesOfString( "\"", withString: "" )
 
         let argv = line.componentsSeparatedByString( " " )
-            .map { $0.stringByReplacingOccurrencesOfString( "___", withString: " " )
+                .map { $0.stringByReplacingOccurrencesOfString( "___", withString: " " )
                 .stringByReplacingOccurrencesOfString( "---", withString: "\"" ) }
 
         var out = [String]()
@@ -210,6 +210,10 @@ class SourceKit {
             }
             else if arg == "-o" {
                 break
+            }
+            else if arg == "-filelist" && filelist != nil {
+                out += filelist!
+                i += 1
             }
             else {
                 out.append( arg )

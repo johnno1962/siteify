@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 16/02/2016.
 //  Copyright © 2016 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/main.swift#34 $
+//  $Id: //depot/siteify/siteify/main.swift#35 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -85,6 +85,7 @@ else {
 }
 
 var compilations = [(String, sourcekitd_object_t)]()
+var filelist: [String]?
 
 for line in buildLog.sequence {
 
@@ -96,11 +97,14 @@ for line in buildLog.sequence {
     else if line["ld: framework not found ImageIO for architecture x86_64"] {
         linkProblem = true
     }
+    else if line[" -output-file-map "] {
+        filelist = SK.compilerArgs( line ).filter { $0.hasSuffix( ".swift" ) }
+    }
 
     let regex = line["-primary-file (?:\"([^\"]+)\"|(\\S+)) "]
 
     if let primary = regex[1] ?? regex[2] {
-        compilations.append( (primary, SK.array( SK.compilerArgs( line ) ) ) )
+        compilations.append( (primary, SK.array( SK.compilerArgs( line, filelist: filelist ) )) )
         if storingLog != nil {
             progress( "Built \(primary)" )
         }
