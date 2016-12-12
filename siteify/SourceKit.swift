@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 19/12/2015.
 //  Copyright © 2015 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/SourceKit.swift#7 $
+//  $Id: //depot/siteify/siteify/SourceKit.swift#8 $
 //
 //  Repo: https://github.com/johnno1962/Refactorator
 //
@@ -49,6 +49,7 @@ class SourceKit {
     private lazy var requestID = sourcekitd_uid_get_from_cstr("key.request")
     private lazy var cursorRequestID = sourcekitd_uid_get_from_cstr("source.request.cursorinfo")
     private lazy var indexRequestID = sourcekitd_uid_get_from_cstr("source.request.indexsource")
+    private lazy var editorCloseID = sourcekitd_uid_get_from_cstr("source.request.editor.close")
     private lazy var editorOpenID = sourcekitd_uid_get_from_cstr("source.request.editor.open")
 
     private lazy var enableMapID = sourcekitd_uid_get_from_cstr("key.enablesyntaxmap")
@@ -116,7 +117,20 @@ class SourceKit {
             sourcekitd_request_description_dump( req )
         }
 
-        let resp = sourcekitd_send_request_sync( req )
+        var resp = sourcekitd_response_t()
+        while true {
+            resp = sourcekitd_send_request_sync( req )
+            let err = error( resp )
+            if err == "restoring service" || err == "semantic editor is disabled" {
+                sleep(1)
+                continue
+            }
+            else {
+                break
+            }
+        }
+
+        sourcekitd_request_release( req )
 
         if isTTY && !sourcekitd_response_is_error( resp ) {
             sourcekitd_response_description_dump_filedesc( resp, STDERR_FILENO )
@@ -147,7 +161,7 @@ class SourceKit {
     }
 
     func syntaxMap( filePath: String, compilerArgs: sourcekitd_object_t ) -> sourcekitd_response_t {
-        let req = sourcekitd_request_dictionary_create( nil, nil, 0 )
+        var req = sourcekitd_request_dictionary_create( nil, nil, 0 )
 
         sourcekitd_request_dictionary_set_uid( req, requestID, editorOpenID )
         sourcekitd_request_dictionary_set_string( req, nameID, filePath )
@@ -157,7 +171,16 @@ class SourceKit {
         sourcekitd_request_dictionary_set_int64( req, enableSubID, 0 )
         sourcekitd_request_dictionary_set_int64( req, syntaxOnlyID, 1 )
 
-        return sendRequest( req )
+        let resp = sendRequest( req )
+
+        req = sourcekitd_request_dictionary_create( nil, nil, 0 )
+        sourcekitd_request_dictionary_set_uid( req, requestID, editorCloseID )
+        sourcekitd_request_dictionary_set_string( req, nameID, filePath )
+        sourcekitd_request_dictionary_set_string( req, sourceFileID, filePath )
+
+        sourcekitd_response_dispose( sendRequest( req ) )
+
+        return resp
     }
 
     func recurseOver( childID: sourcekitd_uid_t, resp: sourcekitd_variant_t,

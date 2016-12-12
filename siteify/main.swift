@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 16/02/2016.
 //  Copyright © 2016 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/main.swift#35 $
+//  $Id: //depot/siteify/siteify/main.swift#36 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -255,7 +255,7 @@ for (file, argv) in compilations {
                 ptr += 1
             }
             return out.stringByReplacingOccurrencesOfString( "&", withString: "&amp;" )
-                      .stringByReplacingOccurrencesOfString( "<", withString: "&lt;" ) as String
+                .stringByReplacingOccurrencesOfString( "<", withString: "&lt;" ) as String
         }
 
         var html = ""
@@ -279,8 +279,14 @@ for (file, argv) in compilations {
             if kindSuffix == "url" {
                 span = "<a href='\(text)'>\(text)</a>"
             }
-            else if let dict = entities[ent], usrString = dict.getString( SK.usrID ) {
-                if let usr = usrs[usrString], decl = usr.declaring {
+            else if let dict = entities[ent], let usrString = dict.getString( SK.usrID ) {
+                //                // smoke test cursorinfo for each entity
+                //                let info = SK.cursorInfo( file, byteOffset: CInt(offset), compilerArgs: argv)
+                //                if info == nil || SK.error( info ) != nil {
+                //                    print( "\n\(file)[\(offset)]:\(line)\n" +
+                //                        ent.patchText(data, value: "\\w+" )! )
+                //                }
+                if let usr = usrs[usrString], let decl = usr.declaring {
                     if decl != ent {
                         span = "<a name='\(ent.anchor)' href='\(decl.href)' title='\(usrString)'>\(text)</a>"
                     }
@@ -296,7 +302,7 @@ for (file, argv) in compilations {
                             popup += "<td><pre>\(usr.reflines[i])</pre></td>"
                         }
                         span = "<a name='\(ent.anchor)' href='#' title='\(usrString)' onclick='return expand(this);'>" +
-                                        "\(text)<span class='references'><table>\(popup)</table></span></a>"
+                            "\(text)<span class='references'><table>\(popup)</table></span></a>"
                     }
                 }
                 else {

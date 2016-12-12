@@ -8,8 +8,10 @@ clicking on a link on the definition will list the places the symbol is referenc
 
 ![Icon](http://injectionforxcode.johnholdsworth.com/siteify2.png)
 
-To test drive using the source of this project, use [this link](http://injectionforxcode.johnholdsworth.com/siteify/main.html).
-A listing of all symbols is available in [xref.html](http://injectionforxcode.johnholdsworth.com/siteify/xref.html)
+# Stop Press:
+
+The functionality of siteify is now in the [Refactorator App](https://github.com/johnno1962/RefactoratorApp).
+Use menu item "File/Build site" once you have opened a source file.
 
 To use, download and build this project and _cd_ into into your project's root 
 and type ~/bin/siteify then any arguments that would be required to build your 

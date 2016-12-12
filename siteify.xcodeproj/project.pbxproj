@@ -147,6 +147,7 @@
 				TargetAttributes = {
 					BB8BD1E61C7364E3001108DF = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -273,12 +274,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/siteify",
-					"$(TOOLCHAIN_DIR)/usr/lib",
+					"/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/lib",
+					"/Applications/Xcode\\ 73-beta5.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib",
 				);
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(TOOLCHAIN_DIR)/usr/lib";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(TOOLCHAIN_DIR)/usr/lib /Library/Developer/Toolchains/swift-latest.xctoolchain/usr/lib";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "siteify/siteify-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -289,11 +292,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/siteify",
-					"$(TOOLCHAIN_DIR)/usr/lib",
+					"/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/lib",
+					"/Applications/Xcode\\ 73-beta5.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib",
 				);
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(TOOLCHAIN_DIR)/usr/lib";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(TOOLCHAIN_DIR)/usr/lib /Library/Developer/Toolchains/swift-latest.xctoolchain/usr/lib";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "siteify/siteify-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
