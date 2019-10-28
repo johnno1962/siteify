@@ -58,8 +58,8 @@ public class Siteify {
     func syncCheck(_ block: @escaping (@escaping (LanguageServerError?) -> Void) -> Void) {
         block({
             (error: LanguageServerError?) in
-            if let error = error {
-                fatalError("syncError: \(error)")
+            if error != nil {
+                fatalError("syncError: \(error!)")
             }
             self.synchronizer.unlock()
         })
@@ -129,6 +129,7 @@ public class Siteify {
         index = copyTemplate(template: "index.html", patches: [
             "__DATE__": NSDate().description,
             "__ROOT__": projectRoot.replacingOccurrences(of: home, with: "~")])
+        setbuf(index, nil)
 
         for file in filemgr.enumerator(atPath: projectRoot)! {
             if let path = file as? String, !path.starts(with: ".build"),
@@ -211,6 +212,7 @@ public class Siteify {
                     let length = dict.getInt(key: self.sourceKit.lengthID)
                     let pos = position(for: offset)
                     print(offset, pos)
+
                     html += skipTo(offset: offset)
                     let text = skipTo(offset: offset+length)
                     let kind = dict.getUUIDString(key: self.sourceKit.kindID)
@@ -232,13 +234,13 @@ public class Siteify {
                             break
                         }
 
-                        if let decl = def,
-                            decl.file == path &&
-                            decl.range.start == pos,
-                            let refs = self.syncResult({
-                                self.lspServer!.references(params: ReferenceParams(textDocument: TextDocumentIdentifier(path: path), position: pos, context: ReferenceContext(includeDeclaration: false)), block: $0)}) {
+                        if let decl = def {
+                            if decl.file == path && decl.range.start == pos,
+                                let refs = self.syncResult({
+                                    self.lspServer!.references(params: ReferenceParams(textDocument: TextDocumentIdentifier(path: path), position: pos, context: ReferenceContext(includeDeclaration: false)), block: $0)})?
+                                    .sorted(by: { $0.uri < $1.uri }) {
 
-                            if refs.count > 0 && decl.file.starts(with: self.projectRoot) {
+                                if refs.count > 0 && decl.file.starts(with: self.projectRoot) {
                                     var popup = ""
                                     for ref in refs {
                                         let keepListOpen = ref.file != decl.file ? "event.stopPropagation(); " : ""
@@ -247,16 +249,17 @@ public class Siteify {
                                         }
                                         popup += "<tr><td style='text-decoration: underline;' onclick='document.location.href=\"\(ref.href)\"; \(keepListOpen)return false;'>\(ref.filename).swift:\(ref.line+1)</td>"
                                         popup += "<td><pre>\(reflines(file: ref.file, line: ref.line))</pre></td>"
-                                        print(popup)
                                     }
-                                    span = "<a name='\(decl.anchor)' href='#' title='\("usrString2")' onclick='return expand(this);'>" +
-                                        "\(text)<span class='references'><table>\(popup)</table></span></a>"
+                                    span = "<a name='\(decl.anchor)' \(popup != "" ? "href='#' " : "")title='\("usrString2")' onclick='return expand(this);'>" +
+                                            "\(text)<span class='references'><table>\(popup)</table></span></a>"
+                                }
+                                else {
+                                    span = "<a name='\(decl.anchor)' title='\("usrString3")'>\(text)</a>"
+                                }
                             }
-                            else {
-                                span = "<a name='\(decl.anchor)' title='\("usrString3")'>\(text)</a>"
+                            else if decl.file.starts(with: self.projectRoot) {
+                                span = "<a name='\(pos.anchor)' href='\(decl.href)' title='\("usrString1")'>\(text)</a>"
                             }
-                        } else if let decl = def, decl.file.starts(with: self.projectRoot) {
-                            span = "<a name='\(pos.anchor)' href='\(decl.href)' title='\("usrString1")'>\(text)</a>"
                         }
                     }
 
