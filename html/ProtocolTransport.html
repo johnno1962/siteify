@@ -1,0 +1,168 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+0001    <span class='comment'><a name='1_0' title='usrString0'>//
+0002    </a></span><span class='comment'><a name='2_0' title='usrString0'>//  ProtocolTransport.swift
+0003    </a></span><span class='comment'><a name='3_0' title='usrString0'>//  SwiftLSPClient
+0004    </a></span><span class='comment'><a name='4_0' title='usrString0'>//
+0005    </a></span><span class='comment'><a name='5_0' title='usrString0'>//  Created by Matt Massicotte on 2018-10-14.
+0006    </a></span><span class='comment'><a name='6_0' title='usrString0'>//  Copyright © 2018 Chime Systems. All rights reserved.
+0007    </a></span><span class='comment'><a name='7_0' title='usrString0'>//
+0008    </a></span>
+0009    <span class='keyword'><a name='9_0' title='usrString0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
+0010    
+0011    <span class='builtin'><a name='11_0' title='usrString0'>public</a></span> <span class='keyword'><a name='11_7' title='usrString0'>enum</a></span> <span class='identifier'><a name='11_12'>ProtocolTransportError</a></span>: <span class='typeidentifier'><a name='11_36' title='usrString0'>Error</a></span> {
+0012        <span class='keyword'><a name='12_4' title='usrString0'>case</a></span> <span class='identifier'><a name='12_9'>encodingFailure</a></span>(<span class='typeidentifier'><a name='12_25' title='usrString0'>Error</a></span>)
+0013        <span class='keyword'><a name='13_4' title='usrString0'>case</a></span> <span class='identifier'><a name='13_9'>decodingFailure</a></span>(<span class='typeidentifier'><a name='13_25' title='usrString0'>Error</a></span>)
+0014        <span class='keyword'><a name='14_4' title='usrString0'>case</a></span> <span class='identifier'><a name='14_9'>transportSendFailure</a></span>(<span class='typeidentifier'><a name='14_30' title='usrString0'>Error</a></span>)
+0015        <span class='keyword'><a name='15_4' title='usrString0'>case</a></span> <span class='identifier'><a name='15_9'>responderRelayFailure</a></span>(<span class='typeidentifier'><a name='15_31' title='usrString0'>Error</a></span>)
+0016    }
+0017    
+0018    <span class='builtin'><a name='18_0' title='usrString0'>public</a></span> <span class='keyword'><a name='18_7' title='usrString0'>protocol</a></span> <span class='identifier'><a name='18_16'>ProtocolTransportDelegate</a></span>: <span class='typeidentifier'><a name='18_43' title='usrString0'>class</a></span> {
+0019        <span class='keyword'><a name='19_4' title='usrString0'>func</a></span> <span class='identifier'><a name='19_9'>transportReceived</a></span>(<span class='keyword'><a name='19_27' title='usrString0'>_</a></span> <span class='identifier'><a name='19_29'>transport</a></span>: <span class='typeidentifier'><a name='19_40' title='usrString0'>ProtocolTransport</a></span>, <span class='identifier'><a name='19_59'>undecodableData</a></span> <span class='identifier'><a name='19_75'>data</a></span>: <span class='typeidentifier'><a name='19_81' title='usrString0'>Data</a></span>)
+0020        <span class='keyword'><a name='20_4' title='usrString0'>func</a></span> <span class='identifier'><a name='20_9'>transportReceived</a></span>(<span class='keyword'><a name='20_27' title='usrString0'>_</a></span> <span class='identifier'><a name='20_29'>transport</a></span>: <span class='typeidentifier'><a name='20_40' title='usrString0'>ProtocolTransport</a></span>, <span class='identifier'><a name='20_59'>notificationMethod</a></span>: <span class='typeidentifier'><a name='20_79' title='usrString0'>String</a></span>, <span class='identifier'><a name='20_87'>data</a></span>: <span class='typeidentifier'><a name='20_93' title='usrString0'>Data</a></span>)
+0021    }
+0022    
+0023    <span class='builtin'><a name='23_0' title='usrString0'>public</a></span> <span class='keyword'><a name='23_7' title='usrString0'>class</a></span> <span class='identifier'><a name='23_13'>ProtocolTransport</a></span> {
+0024        <span class='builtin'><a name='24_4' title='usrString0'>public</a></span> <span class='keyword'><a name='24_11' title='usrString0'>typealias</a></span> <span class='identifier'><a name='24_21'>ResponseResult</a></span>&lt;<span class='identifier'><a name='24_36'>T</a></span>: <span class='typeidentifier'><a name='24_39' title='usrString0'>Codable</a></span>> = <span class='typeidentifier'><a name='24_50' title='usrString0'>Result</a></span>&lt;<span class='typeidentifier'><a name='24_57' title='usrString0'>JSONRPCResultResponse</a></span>&lt;<span class='typeidentifier'><a name='24_79' title='usrString0'>T</a></span>>, <span class='typeidentifier'><a name='24_83' title='usrString0'>ProtocolTransportError</a></span>>
+0025        <span class='builtin'><a name='25_4' title='usrString0'>public</a></span> <span class='keyword'><a name='25_11' title='usrString0'>typealias</a></span> <span class='identifier'><a name='25_21'>DataResult</a></span> = <span class='typeidentifier'><a name='25_34' title='usrString0'>Result</a></span>&lt;<span class='typeidentifier'><a name='25_41' title='usrString0'>Data</a></span>, <span class='typeidentifier'><a name='25_47' title='usrString0'>ProtocolTransportError</a></span>>
+0026        <span class='builtin'><a name='26_4' title='usrString0'>public</a></span> <span class='keyword'><a name='26_11' title='usrString0'>typealias</a></span> <span class='identifier'><a name='26_21'>MessageResponder</a></span> = (<span class='typeidentifier'><a name='26_41' title='usrString0'>DataResult</a></span>) -> <span class='typeidentifier'><a name='26_56' title='usrString0'>Void</a></span>
+0027        
+0028        <span class='builtin'><a name='28_4' title='usrString0'>private</a></span> <span class='keyword'><a name='28_12' title='usrString0'>var</a></span> <span class='identifier'><a name='28_16'>id</a></span> = <span class='number'><a name='28_21' title='usrString0'>1</a></span>
+0029        <span class='builtin'><a name='29_4' title='usrString0'>private</a></span> <span class='keyword'><a name='29_12' title='usrString0'>var</a></span> <span class='identifier'><a name='29_16'>messageTransport</a></span>: <span class='typeidentifier'><a name='29_34' title='usrString0'>MessageTransport</a></span>
+0030        <span class='builtin'><a name='30_4' title='usrString0'>private</a></span> <span class='keyword'><a name='30_12' title='usrString0'>var</a></span> <span class='identifier'><a name='30_16'>responders</a></span>: [<span class='typeidentifier'><a name='30_29' title='usrString0'>JSONId</a></span>: <span class='typeidentifier'><a name='30_37' title='usrString0'>MessageResponder</a></span>]
+0031        <span class='builtin'><a name='31_4' title='usrString0'>private</a></span> <span class='keyword'><a name='31_12' title='usrString0'>let</a></span> <span class='identifier'><a name='31_16'>encoder</a></span>: <span class='typeidentifier'><a name='31_25' title='usrString0'>JSONEncoder</a></span>
+0032        <span class='builtin'><a name='32_4' title='usrString0'>private</a></span> <span class='keyword'><a name='32_12' title='usrString0'>let</a></span> <span class='identifier'><a name='32_16'>decoder</a></span>: <span class='typeidentifier'><a name='32_25' title='usrString0'>JSONDecoder</a></span>
+0033        <span class='builtin'><a name='33_4' title='usrString0'>public</a></span> <span class='builtin'><a name='33_11' title='usrString0'>weak</a></span> <span class='keyword'><a name='33_16' title='usrString0'>var</a></span> <span class='identifier'><a name='33_20'>delegate</a></span>: <span class='typeidentifier'><a name='33_30' title='usrString0'>ProtocolTransportDelegate</a></span>?
+0034        
+0035        <span class='builtin'><a name='35_4' title='usrString0'>public</a></span> <span class='keyword'><a name='35_11' title='usrString0'>init</a></span>(<span class='identifier'><a name='35_16'>messageTransport</a></span>: <span class='typeidentifier'><a name='35_34' title='usrString0'>MessageTransport</a></span>) {
+0036            <span class='keyword'><a name='36_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='36_13'>messageTransport</a></span> = <span class='identifier'><a name='36_32'>messageTransport</a></span>
+0037            <span class='keyword'><a name='37_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='37_13'>responders</a></span> = [:]
+0038            <span class='keyword'><a name='38_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='38_13'>encoder</a></span> = <span class='identifier'><a name='38_23'>JSONEncoder</a></span>()
+0039            <span class='keyword'><a name='39_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='39_13'>decoder</a></span> = <span class='identifier'><a name='39_23'>JSONDecoder</a></span>()
+0040            
+0041            <span class='keyword'><a name='41_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='41_13'>messageTransport</a></span>.<span class='identifier'><a name='41_30'>dataHandler</a></span> = { [<span class='builtin'><a name='41_47' title='usrString0'>unowned</a></span> <span class='keyword'><a name='41_55' title='usrString0'>self</a></span>] (<span class='identifier'><a name='41_62'>data</a></span>) <span class='keyword'><a name='41_68' title='usrString0'>in</a></span>
+0042                <span class='keyword'><a name='42_12' title='usrString0'>self</a></span>.<span class='identifier'><a name='42_17'>dataAvailable</a></span>(<span class='identifier'><a name='42_31'>data</a></span>)
+0043            }
+0044        }
+0045    
+0046        <span class='builtin'><a name='46_4' title='usrString0'>public</a></span> <span class='builtin'><a name='46_11' title='usrString0'>convenience</a></span> <span class='keyword'><a name='46_23' title='usrString0'>init</a></span>(<span class='identifier'><a name='46_28'>dataTransport</a></span>: <span class='typeidentifier'><a name='46_43' title='usrString0'>DataTransport</a></span>) {
+0047            <span class='keyword'><a name='47_8' title='usrString0'>let</a></span> <span class='identifier'><a name='47_12'>messageTransport</a></span> = <span class='identifier'><a name='47_31'>MessageTransport</a></span>(<span class='identifier'><a name='47_48'>dataTransport</a></span>: <span class='identifier'><a name='47_63'>dataTransport</a></span>)
+0048            
+0049            <span class='keyword'><a name='49_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='49_13'>init</a></span>(<span class='identifier'><a name='49_18'>messageTransport</a></span>: <span class='identifier'><a name='49_36'>messageTransport</a></span>)
+0050        }
+0051        
+0052        <span class='builtin'><a name='52_4' title='usrString0'>private</a></span> <span class='keyword'><a name='52_12' title='usrString0'>func</a></span> <span class='identifier'><a name='52_17'>generateID</a></span>(<span class='keyword'><a name='52_28' title='usrString0'>_</a></span> <span class='identifier'><a name='52_30'>handler</a></span>: (<span class='typeidentifier'><a name='52_40' title='usrString0'>JSONId</a></span>) -> <span class='typeidentifier'><a name='52_51' title='usrString0'>Void</a></span>) {
+0053            <span class='keyword'><a name='53_8' title='usrString0'>let</a></span> <span class='identifier'><a name='53_12'>issuedId</a></span> = <span class='identifier'><a name='53_23'>JSONId</a></span>.<span class='identifier'><a name='53_30'>numericId</a></span>(<span class='identifier'><a name='53_40'>id</a></span>)
+0054            
+0055            <span class='identifier'><a name='55_8'>id</a></span> += <span class='number'><a name='55_14' title='usrString0'>1</a></span>
+0056            
+0057            <span class='identifier'><a name='57_8'>handler</a></span>(<span class='identifier'><a name='57_16'>issuedId</a></span>)
+0058        }
+0059        
+0060        <span class='builtin'><a name='60_4' title='usrString0'>public</a></span> <span class='keyword'><a name='60_11' title='usrString0'>func</a></span> <span class='identifier'><a name='60_16'>sendRequest</a></span>&lt;<span class='identifier'><a name='60_28'>T</a></span>, <span class='identifier'><a name='60_31'>U</a></span>>(<span class='keyword'><a name='60_34' title='usrString0'>_</a></span> <span class='identifier'><a name='60_36'>request</a></span>: <span class='typeidentifier'><a name='60_45' title='usrString0'>T</a></span>, <span class='identifier'><a name='60_48'>method</a></span>: <span class='typeidentifier'><a name='60_56' title='usrString0'>String</a></span>, <span class='identifier'><a name='60_64'>responseHandler</a></span>: <span class='builtin'><a name='60_81' title='usrString0'>@escaping</a></span> (<span class='typeidentifier'><a name='60_92' title='usrString0'>ResponseResult</a></span>&lt;<span class='typeidentifier'><a name='60_107' title='usrString0'>U</a></span>>) -> <span class='typeidentifier'><a name='60_114' title='usrString0'>Void</a></span>) <span class='keyword'><a name='60_120' title='usrString0'>where</a></span> <span class='typeidentifier'><a name='60_126' title='usrString0'>T</a></span>: <span class='typeidentifier'><a name='60_129' title='usrString0'>Codable</a></span>, <span class='typeidentifier'><a name='60_138' title='usrString0'>U</a></span>: <span class='typeidentifier'><a name='60_141' title='usrString0'>Decodable</a></span> {
+0061            <span class='identifier'><a name='61_8'>generateID</a></span> { (<span class='identifier'><a name='61_22'>issuedId</a></span>) <span class='keyword'><a name='61_32' title='usrString0'>in</a></span>
+0062                <span class='keyword'><a name='62_12' title='usrString0'>let</a></span> <span class='identifier'><a name='62_16'>rpcRequest</a></span> = <span class='identifier'><a name='62_29'>JSONRPCRequest</a></span>(<span class='identifier'><a name='62_44'>id</a></span>: <span class='identifier'><a name='62_48'>issuedId</a></span>, <span class='identifier'><a name='62_58'>method</a></span>: <span class='identifier'><a name='62_66'>method</a></span>, <span class='identifier'><a name='62_74'>params</a></span>: <span class='identifier'><a name='62_82'>request</a></span>)
+0063                
+0064                <span class='keyword'><a name='64_12' title='usrString0'>let</a></span> <span class='identifier'><a name='64_16'>jsonData</a></span>: <span class='typeidentifier'><a name='64_26' title='usrString0'>Data</a></span>
+0065                
+0066                <span class='keyword'><a name='66_12' title='usrString0'>do</a></span> {
+0067                    <span class='identifier'><a name='67_16'>jsonData</a></span> = <span class='keyword'><a name='67_27' title='usrString0'>try</a></span> <span class='keyword'><a name='67_31' title='usrString0'>self</a></span>.<span class='identifier'><a name='67_36'>encoder</a></span>.<span class='identifier'><a name='67_44'>encode</a></span>(<span class='identifier'><a name='67_51'>rpcRequest</a></span>)
+0068                } <span class='keyword'><a name='68_14' title='usrString0'>catch</a></span> {
+0069                    <span class='identifier'><a name='69_16'>responseHandler</a></span>(.<span class='identifier'><a name='69_33'>failure</a></span>(.<span class='identifier'><a name='69_42'>encodingFailure</a></span>(<span class='identifier'><a name='69_58'>error</a></span>)))
+0070                    <span class='keyword'><a name='70_16' title='usrString0'>return</a></span>
+0071                }
+0072                
+0073                <span class='keyword'><a name='73_12' title='usrString0'>self</a></span>.<span class='identifier'><a name='73_17'>messageTransport</a></span>.<span class='identifier'><a name='73_34'>write</a></span>(<span class='identifier'><a name='73_40'>jsonData</a></span>)
+0074                    
+0075                <span class='identifier'><a name='75_12'>responders</a></span>[<span class='identifier'><a name='75_23'>issuedId</a></span>] = { [<span class='builtin'><a name='75_38' title='usrString0'>unowned</a></span> <span class='keyword'><a name='75_46' title='usrString0'>self</a></span>] (<span class='identifier'><a name='75_53'>result</a></span>) <span class='keyword'><a name='75_61' title='usrString0'>in</a></span>
+0076                    <span class='keyword'><a name='76_16' title='usrString0'>self</a></span>.<span class='identifier'><a name='76_21'>relayResponse</a></span>(<span class='identifier'><a name='76_35'>result</a></span>: <span class='identifier'><a name='76_43'>result</a></span>, <span class='identifier'><a name='76_51'>responseHandler</a></span>: <span class='identifier'><a name='76_68'>responseHandler</a></span>)
+0077                }
+0078            }
+0079        }
+0080        
+0081        <span class='builtin'><a name='81_4' title='usrString0'>private</a></span> <span class='keyword'><a name='81_12' title='usrString0'>func</a></span> <span class='identifier'><a name='81_17'>relayResponse</a></span>&lt;<span class='identifier'><a name='81_31'>T</a></span>>(<span class='identifier'><a name='81_34'>result</a></span>: <span class='typeidentifier'><a name='81_42' title='usrString0'>DataResult</a></span>, <span class='identifier'><a name='81_54'>responseHandler</a></span>: <span class='builtin'><a name='81_71' title='usrString0'>@escaping</a></span> (<span class='typeidentifier'><a name='81_82' title='usrString0'>ResponseResult</a></span>&lt;<span class='typeidentifier'><a name='81_97' title='usrString0'>T</a></span>>) -> <span class='typeidentifier'><a name='81_104' title='usrString0'>Void</a></span>) <span class='keyword'><a name='81_110' title='usrString0'>where</a></span> <span class='typeidentifier'><a name='81_116' title='usrString0'>T</a></span>: <span class='typeidentifier'><a name='81_119' title='usrString0'>Decodable</a></span> {
+0082            <span class='keyword'><a name='82_8' title='usrString0'>switch</a></span> <span class='identifier'><a name='82_15'>result</a></span> {
+0083            <span class='keyword'><a name='83_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='83_14'>failure</a></span>(<span class='keyword'><a name='83_22' title='usrString0'>let</a></span> <span class='identifier'><a name='83_26'>error</a></span>):
+0084                <span class='identifier'><a name='84_12'>responseHandler</a></span>(.<span class='identifier'><a name='84_29'>failure</a></span>(.<span class='identifier'><a name='84_38'>responderRelayFailure</a></span>(<span class='identifier'><a name='84_60'>error</a></span>)))
+0085            <span class='keyword'><a name='85_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='85_14'>success</a></span>(<span class='keyword'><a name='85_22' title='usrString0'>let</a></span> <span class='identifier'><a name='85_26'>data</a></span>):
+0086                <span class='keyword'><a name='86_12' title='usrString0'>do</a></span> {
+0087                    <span class='keyword'><a name='87_16' title='usrString0'>let</a></span> <span class='identifier'><a name='87_20'>jsonResult</a></span> = <span class='keyword'><a name='87_33' title='usrString0'>try</a></span> <span class='keyword'><a name='87_37' title='usrString0'>self</a></span>.<span class='identifier'><a name='87_42'>decoder</a></span>.<span class='identifier'><a name='87_50'>decode</a></span>(<span class='identifier'><a name='87_57'>JSONRPCResultResponse</a></span>&lt;<span class='typeidentifier'><a name='87_79' title='usrString0'>T</a></span>>.<span class='keyword'><a name='87_82' title='usrString0'>self</a></span>, <span class='identifier'><a name='87_88'>from</a></span>: <span class='identifier'><a name='87_94'>data</a></span>)
+0088    
+0089                    <span class='identifier'><a name='89_16'>responseHandler</a></span>(.<span class='identifier'><a name='89_33'>success</a></span>(<span class='identifier'><a name='89_41'>jsonResult</a></span>))
+0090                } <span class='keyword'><a name='90_14' title='usrString0'>catch</a></span> {
+0091                    <span class='identifier'><a name='91_16'>responseHandler</a></span>(.<span class='identifier'><a name='91_33'>failure</a></span>(.<span class='identifier'><a name='91_42'>decodingFailure</a></span>(<span class='identifier'><a name='91_58'>error</a></span>)))
+0092                }
+0093            }
+0094        }
+0095        
+0096        <span class='builtin'><a name='96_4' title='usrString0'>public</a></span> <span class='keyword'><a name='96_11' title='usrString0'>func</a></span> <span class='identifier'><a name='96_16'>sendNotification</a></span>&lt;<span class='identifier'><a name='96_33'>T</a></span>>(<span class='keyword'><a name='96_36' title='usrString0'>_</a></span> <span class='identifier'><a name='96_38'>params</a></span>: <span class='typeidentifier'><a name='96_46' title='usrString0'>T</a></span>, <span class='identifier'><a name='96_49'>method</a></span>: <span class='typeidentifier'><a name='96_57' title='usrString0'>String</a></span>, <span class='identifier'><a name='96_65'>block</a></span>: <span class='builtin'><a name='96_72' title='usrString0'>@escaping</a></span> (<span class='typeidentifier'><a name='96_83' title='usrString0'>ProtocolTransportError</a></span>?) -> <span class='typeidentifier'><a name='96_111' title='usrString0'>Void</a></span>) <span class='keyword'><a name='96_117' title='usrString0'>where</a></span> <span class='typeidentifier'><a name='96_123' title='usrString0'>T</a></span>: <span class='typeidentifier'><a name='96_126' title='usrString0'>Codable</a></span> {
+0097            <span class='keyword'><a name='97_8' title='usrString0'>let</a></span> <span class='identifier'><a name='97_12'>notification</a></span> = <span class='identifier'><a name='97_27'>JSONRPCNotificationParams</a></span>(<span class='identifier'><a name='97_53'>method</a></span>: <span class='identifier'><a name='97_61'>method</a></span>, <span class='identifier'><a name='97_69'>params</a></span>: <span class='identifier'><a name='97_77'>params</a></span>)
+0098            
+0099            <span class='keyword'><a name='99_8' title='usrString0'>let</a></span> <span class='identifier'><a name='99_12'>jsonData</a></span>: <span class='typeidentifier'><a name='99_22' title='usrString0'>Data</a></span>
+0100            
+0101            <span class='keyword'><a name='101_8' title='usrString0'>do</a></span> {
+0102                <span class='identifier'><a name='102_12'>jsonData</a></span> = <span class='keyword'><a name='102_23' title='usrString0'>try</a></span> <span class='keyword'><a name='102_27' title='usrString0'>self</a></span>.<span class='identifier'><a name='102_32'>encoder</a></span>.<span class='identifier'><a name='102_40'>encode</a></span>(<span class='identifier'><a name='102_47'>notification</a></span>)
+0103            } <span class='keyword'><a name='103_10' title='usrString0'>catch</a></span> {
+0104                <span class='identifier'><a name='104_12'>block</a></span>(.<span class='identifier'><a name='104_19'>encodingFailure</a></span>(<span class='identifier'><a name='104_35'>error</a></span>))
+0105                <span class='keyword'><a name='105_12' title='usrString0'>return</a></span>
+0106            }
+0107            
+0108            <span class='identifier'><a name='108_8'>messageTransport</a></span>.<span class='identifier'><a name='108_25'>write</a></span>(<span class='identifier'><a name='108_31'>jsonData</a></span>)
+0109            <span class='identifier'><a name='109_8'>block</a></span>(<span class='keyword'><a name='109_14' title='usrString0'>nil</a></span>)
+0110        }
+0111        
+0112        <span class='builtin'><a name='112_4' title='usrString0'>private</a></span> <span class='keyword'><a name='112_12' title='usrString0'>func</a></span> <span class='identifier'><a name='112_17'>dataAvailable</a></span>(<span class='keyword'><a name='112_31' title='usrString0'>_</a></span> <span class='identifier'><a name='112_33'>data</a></span>: <span class='typeidentifier'><a name='112_39' title='usrString0'>Data</a></span>) {
+0113            <span class='keyword'><a name='113_8' title='usrString0'>if</a></span> <span class='keyword'><a name='113_11' title='usrString0'>let</a></span> <span class='identifier'><a name='113_15'>message</a></span> = <span class='keyword'><a name='113_25' title='usrString0'>try</a></span>? <span class='keyword'><a name='113_30' title='usrString0'>self</a></span>.<span class='identifier'><a name='113_35'>decoder</a></span>.<span class='identifier'><a name='113_43'>decode</a></span>(<span class='identifier'><a name='113_50'>JSONRPCResponse</a></span>.<span class='keyword'><a name='113_66' title='usrString0'>self</a></span>, <span class='identifier'><a name='113_72'>from</a></span>: <span class='identifier'><a name='113_78'>data</a></span>) {
+0114                <span class='identifier'><a name='114_12'>dispatchMessage</a></span>(<span class='identifier'><a name='114_28'>message</a></span>, <span class='identifier'><a name='114_37'>originalData</a></span>: <span class='identifier'><a name='114_51'>data</a></span>)
+0115                <span class='keyword'><a name='115_12' title='usrString0'>return</a></span>
+0116            }
+0117            
+0118            <span class='keyword'><a name='118_8' title='usrString0'>if</a></span> <span class='keyword'><a name='118_11' title='usrString0'>let</a></span> <span class='identifier'><a name='118_15'>notification</a></span> = <span class='keyword'><a name='118_30' title='usrString0'>try</a></span>? <span class='keyword'><a name='118_35' title='usrString0'>self</a></span>.<span class='identifier'><a name='118_40'>decoder</a></span>.<span class='identifier'><a name='118_48'>decode</a></span>(<span class='identifier'><a name='118_55'>JSONRPCNotification</a></span>.<span class='keyword'><a name='118_75' title='usrString0'>self</a></span>, <span class='identifier'><a name='118_81'>from</a></span>: <span class='identifier'><a name='118_87'>data</a></span>) {
+0119                <span class='identifier'><a name='119_12'>dispatchNotification</a></span>(<span class='identifier'><a name='119_33'>notification</a></span>, <span class='identifier'><a name='119_47'>originalData</a></span>: <span class='identifier'><a name='119_61'>data</a></span>)
+0120                <span class='keyword'><a name='120_12' title='usrString0'>return</a></span>
+0121            }
+0122    
+0123            <span class='keyword'><a name='123_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='123_13'>delegate</a></span>?.<span class='identifier'><a name='123_23'>transportReceived</a></span>(<span class='keyword'><a name='123_41' title='usrString0'>self</a></span>, <span class='identifier'><a name='123_47'>undecodableData</a></span>: <span class='identifier'><a name='123_64'>data</a></span>)
+0124        }
+0125        
+0126        <span class='builtin'><a name='126_4' title='usrString0'>private</a></span> <span class='keyword'><a name='126_12' title='usrString0'>func</a></span> <span class='identifier'><a name='126_17'>dispatchMessage</a></span>(<span class='keyword'><a name='126_33' title='usrString0'>_</a></span> <span class='identifier'><a name='126_35'>message</a></span>: <span class='typeidentifier'><a name='126_44' title='usrString0'>JSONRPCResponse</a></span>, <span class='identifier'><a name='126_61'>originalData</a></span> <span class='identifier'><a name='126_74'>data</a></span>: <span class='typeidentifier'><a name='126_80' title='usrString0'>Data</a></span>) {
+0127            <span class='keyword'><a name='127_8' title='usrString0'>guard</a></span> <span class='keyword'><a name='127_14' title='usrString0'>let</a></span> <span class='identifier'><a name='127_18'>responder</a></span> = <span class='identifier'><a name='127_30'>responders</a></span>[<span class='identifier'><a name='127_41'>message</a></span>.<span class='identifier'><a name='127_49'>id</a></span>] <span class='keyword'><a name='127_53' title='usrString0'>else</a></span> {
+0128                <span class='comment'><a name='128_12' title='usrString0'>// hrm, got a message without a matching responder
+0129    </a></span>            <span class='identifier'><a name='129_12'>print</a></span>(<span class='string'><a name='129_18' title='usrString0'>"not matching responder for </a></span>\<span class='string_interpolation_anchor'><a name='129_47' title='usrString0'>(</a></span><span class='identifier'><a name='129_48'>message</a></span>.<span class='identifier'><a name='129_56'>id</a></span><span class='string_interpolation_anchor'><a name='129_58' title='usrString0'>)</a></span><span class='string'><a name='129_59' title='usrString0'>, dropping message"</a></span>)
+0130                <span class='keyword'><a name='130_12' title='usrString0'>return</a></span>
+0131            }
+0132                
+0133            <span class='identifier'><a name='133_8'>responder</a></span>(.<span class='identifier'><a name='133_19'>success</a></span>(<span class='identifier'><a name='133_27'>data</a></span>))
+0134    
+0135            <span class='comment'><a name='135_8' title='usrString0'>// TODO: This doesn't seem to be threadsafe
+0136    </a></span>        <span class='comment'><a name='136_8' title='usrString0'>//responders.removeValue(forKey: message.id)
+0137    </a></span>    }
+0138        
+0139        <span class='builtin'><a name='139_4' title='usrString0'>private</a></span> <span class='keyword'><a name='139_12' title='usrString0'>func</a></span> <span class='identifier'><a name='139_17'>dispatchNotification</a></span>(<span class='keyword'><a name='139_38' title='usrString0'>_</a></span> <span class='identifier'><a name='139_40'>notification</a></span>: <span class='typeidentifier'><a name='139_54' title='usrString0'>JSONRPCNotification</a></span>, <span class='identifier'><a name='139_75'>originalData</a></span> <span class='identifier'><a name='139_88'>data</a></span>: <span class='typeidentifier'><a name='139_94' title='usrString0'>Data</a></span>) {
+0140            <span class='keyword'><a name='140_8' title='usrString0'>let</a></span> <span class='identifier'><a name='140_12'>method</a></span> = <span class='identifier'><a name='140_21'>notification</a></span>.<span class='identifier'><a name='140_34'>method</a></span>
+0141    
+0142            <span class='keyword'><a name='142_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='142_13'>delegate</a></span>?.<span class='identifier'><a name='142_23'>transportReceived</a></span>(<span class='keyword'><a name='142_41' title='usrString0'>self</a></span>, <span class='identifier'><a name='142_47'>notificationMethod</a></span>: <span class='identifier'><a name='142_67'>method</a></span>, <span class='identifier'><a name='142_75'>data</a></span>: <span class='identifier'><a name='142_81'>data</a></span>)
+0143        }
+0144    }
+0145    
+0146    

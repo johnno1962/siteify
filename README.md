@@ -8,17 +8,8 @@ clicking on a link on the definition will list the places the symbol is referenc
 
 ![Icon](http://injectionforxcode.johnholdsworth.com/siteify2.png)
 
-# Stop Press:
-
-The functionality of siteify is now in the [Refactorator App](https://github.com/johnno1962/RefactoratorApp).
-Use menu item "File/Build site" once you have opened a source file.
-
-To use, download and build this project and _cd_ into into your project's root 
-and type ~/bin/siteify then any arguments that would be required to build your 
-project using xcodebuild. For example, for a complex workspace you may need to
-type something along the lines of:
-
-~/bin/siteify -workspace MyProj.xcworkspace -scheme MyProj -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPad Air'
+To use, download and build this project first, using `swift build` then using the
+.xcodeproj in Xcode and _cd_ into into your project's root and type ~/bin/siteify.
 
 This will build your project recording it's constituent Swift sources, index them
 then build the site in the directory ./html. Any PRs on de-glitching the CSS styling

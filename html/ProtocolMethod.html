@@ -1,0 +1,73 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+0001    <span class='comment'><a name='1_0' title='usrString0'>//
+0002    </a></span><span class='comment'><a name='2_0' title='usrString0'>//  Methods.swift
+0003    </a></span><span class='comment'><a name='3_0' title='usrString0'>//  SwiftLSPClient
+0004    </a></span><span class='comment'><a name='4_0' title='usrString0'>//
+0005    </a></span><span class='comment'><a name='5_0' title='usrString0'>//  Created by Matt Massicotte on 2018-10-15.
+0006    </a></span><span class='comment'><a name='6_0' title='usrString0'>//  Copyright © 2018 Chime Systems. All rights reserved.
+0007    </a></span><span class='comment'><a name='7_0' title='usrString0'>//
+0008    </a></span>
+0009    <span class='keyword'><a name='9_0' title='usrString0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
+0010    
+0011    <span class='builtin'><a name='11_0' title='usrString0'>public</a></span> <span class='keyword'><a name='11_7' title='usrString0'>struct</a></span> <span class='identifier'><a name='11_14'>ProtocolMethod</a></span> {
+0012        <span class='builtin'><a name='12_4' title='usrString0'>public</a></span> <span class='keyword'><a name='12_11' title='usrString0'>static</a></span> <span class='keyword'><a name='12_18' title='usrString0'>let</a></span> <span class='identifier'><a name='12_22'>Initialize</a></span> = <span class='string'><a name='12_35' title='usrString0'>"initialize"</a></span>
+0013        <span class='builtin'><a name='13_4' title='usrString0'>public</a></span> <span class='keyword'><a name='13_11' title='usrString0'>static</a></span> <span class='keyword'><a name='13_18' title='usrString0'>let</a></span> <span class='identifier'><a name='13_22'>Initialized</a></span> = <span class='string'><a name='13_36' title='usrString0'>"initialized"</a></span>
+0014        
+0015        <span class='builtin'><a name='15_4' title='usrString0'>public</a></span> <span class='keyword'><a name='15_11' title='usrString0'>struct</a></span> <span class='identifier'><a name='15_18'>Window</a></span> {
+0016            <span class='builtin'><a name='16_8' title='usrString0'>public</a></span> <span class='keyword'><a name='16_15' title='usrString0'>static</a></span> <span class='keyword'><a name='16_22' title='usrString0'>let</a></span> <span class='identifier'><a name='16_26'>LogMessage</a></span> = <span class='string'><a name='16_39' title='usrString0'>"window/logMessage"</a></span>
+0017            <span class='builtin'><a name='17_8' title='usrString0'>public</a></span> <span class='keyword'><a name='17_15' title='usrString0'>static</a></span> <span class='keyword'><a name='17_22' title='usrString0'>let</a></span> <span class='identifier'><a name='17_26'>ShowMessage</a></span> = <span class='string'><a name='17_40' title='usrString0'>"window/showMessage"</a></span>
+0018            <span class='builtin'><a name='18_8' title='usrString0'>public</a></span> <span class='keyword'><a name='18_15' title='usrString0'>static</a></span> <span class='keyword'><a name='18_22' title='usrString0'>let</a></span> <span class='identifier'><a name='18_26'>ShowMessageRequest</a></span> = <span class='string'><a name='18_47' title='usrString0'>"window/showMessageRequest"</a></span>
+0019        }
+0020        
+0021        <span class='builtin'><a name='21_4' title='usrString0'>public</a></span> <span class='keyword'><a name='21_11' title='usrString0'>struct</a></span> <span class='identifier'><a name='21_18'>TextDocument</a></span> {
+0022            <span class='builtin'><a name='22_8' title='usrString0'>public</a></span> <span class='keyword'><a name='22_15' title='usrString0'>static</a></span> <span class='keyword'><a name='22_22' title='usrString0'>let</a></span> <span class='identifier'><a name='22_26'>Hover</a></span> = <span class='string'><a name='22_34' title='usrString0'>"textDocument/hover"</a></span>
+0023            <span class='builtin'><a name='23_8' title='usrString0'>public</a></span> <span class='keyword'><a name='23_15' title='usrString0'>static</a></span> <span class='keyword'><a name='23_22' title='usrString0'>let</a></span> <span class='identifier'><a name='23_26'>Completion</a></span> = <span class='string'><a name='23_39' title='usrString0'>"textDocument/completion"</a></span>
+0024            <span class='builtin'><a name='24_8' title='usrString0'>public</a></span> <span class='keyword'><a name='24_15' title='usrString0'>static</a></span> <span class='keyword'><a name='24_22' title='usrString0'>let</a></span> <span class='identifier'><a name='24_26'>DidOpen</a></span> = <span class='string'><a name='24_36' title='usrString0'>"textDocument/didOpen"</a></span>
+0025            <span class='builtin'><a name='25_8' title='usrString0'>public</a></span> <span class='keyword'><a name='25_15' title='usrString0'>static</a></span> <span class='keyword'><a name='25_22' title='usrString0'>let</a></span> <span class='identifier'><a name='25_26'>DidChange</a></span> = <span class='string'><a name='25_38' title='usrString0'>"textDocument/didChange"</a></span>
+0026            <span class='builtin'><a name='26_8' title='usrString0'>public</a></span> <span class='keyword'><a name='26_15' title='usrString0'>static</a></span> <span class='keyword'><a name='26_22' title='usrString0'>let</a></span> <span class='identifier'><a name='26_26'>WillSave</a></span> = <span class='string'><a name='26_37' title='usrString0'>"textDocument/willSave"</a></span>
+0027            <span class='builtin'><a name='27_8' title='usrString0'>public</a></span> <span class='keyword'><a name='27_15' title='usrString0'>static</a></span> <span class='keyword'><a name='27_22' title='usrString0'>let</a></span> <span class='identifier'><a name='27_26'>WillSaveWaitUntil</a></span> = <span class='string'><a name='27_46' title='usrString0'>"textDocument/willSaveWaitUntil"</a></span>
+0028            <span class='builtin'><a name='28_8' title='usrString0'>public</a></span> <span class='keyword'><a name='28_15' title='usrString0'>static</a></span> <span class='keyword'><a name='28_22' title='usrString0'>let</a></span> <span class='identifier'><a name='28_26'>DidSave</a></span> = <span class='string'><a name='28_36' title='usrString0'>"textDocument/didSave"</a></span>
+0029            <span class='builtin'><a name='29_8' title='usrString0'>public</a></span> <span class='keyword'><a name='29_15' title='usrString0'>static</a></span> <span class='keyword'><a name='29_22' title='usrString0'>let</a></span> <span class='identifier'><a name='29_26'>DidClose</a></span> = <span class='string'><a name='29_37' title='usrString0'>"textDocument/didClose"</a></span>
+0030            <span class='builtin'><a name='30_8' title='usrString0'>public</a></span> <span class='keyword'><a name='30_15' title='usrString0'>static</a></span> <span class='keyword'><a name='30_22' title='usrString0'>let</a></span> <span class='identifier'><a name='30_26'>SignatureHelp</a></span> = <span class='string'><a name='30_42' title='usrString0'>"textDocument/signatureHelp"</a></span>
+0031            <span class='builtin'><a name='31_8' title='usrString0'>public</a></span> <span class='keyword'><a name='31_15' title='usrString0'>static</a></span> <span class='keyword'><a name='31_22' title='usrString0'>let</a></span> <span class='identifier'><a name='31_26'>Declaration</a></span> = <span class='string'><a name='31_40' title='usrString0'>"textDocument/declaration"</a></span>
+0032            <span class='builtin'><a name='32_8' title='usrString0'>public</a></span> <span class='keyword'><a name='32_15' title='usrString0'>static</a></span> <span class='keyword'><a name='32_22' title='usrString0'>let</a></span> <span class='identifier'><a name='32_26'>Definition</a></span> = <span class='string'><a name='32_39' title='usrString0'>"textDocument/definition"</a></span>
+0033            <span class='builtin'><a name='33_8' title='usrString0'>public</a></span> <span class='keyword'><a name='33_15' title='usrString0'>static</a></span> <span class='keyword'><a name='33_22' title='usrString0'>let</a></span> <span class='identifier'><a name='33_26'>TypeDefinition</a></span> = <span class='string'><a name='33_43' title='usrString0'>"textDocument/typeDefinition"</a></span>
+0034            <span class='builtin'><a name='34_8' title='usrString0'>public</a></span> <span class='keyword'><a name='34_15' title='usrString0'>static</a></span> <span class='keyword'><a name='34_22' title='usrString0'>let</a></span> <span class='identifier'><a name='34_26'>Implementation</a></span> = <span class='string'><a name='34_43' title='usrString0'>"textDocument/implementation"</a></span>
+0035            <span class='builtin'><a name='35_8' title='usrString0'>public</a></span> <span class='keyword'><a name='35_15' title='usrString0'>static</a></span> <span class='keyword'><a name='35_22' title='usrString0'>let</a></span> <span class='identifier'><a name='35_26'>DocumentSymbol</a></span> = <span class='string'><a name='35_43' title='usrString0'>"textDocument/documentSymbol"</a></span>
+0036            <span class='builtin'><a name='36_8' title='usrString0'>public</a></span> <span class='keyword'><a name='36_15' title='usrString0'>static</a></span> <span class='keyword'><a name='36_22' title='usrString0'>let</a></span> <span class='identifier'><a name='36_26'>Formatting</a></span> = <span class='string'><a name='36_39' title='usrString0'>"textDocument/formatting"</a></span>
+0037            <span class='builtin'><a name='37_8' title='usrString0'>public</a></span> <span class='keyword'><a name='37_15' title='usrString0'>static</a></span> <span class='keyword'><a name='37_22' title='usrString0'>let</a></span> <span class='identifier'><a name='37_26'>RangeFormatting</a></span> = <span class='string'><a name='37_44' title='usrString0'>"textDocument/rangeFormatting"</a></span>
+0038            <span class='builtin'><a name='38_8' title='usrString0'>public</a></span> <span class='keyword'><a name='38_15' title='usrString0'>static</a></span> <span class='keyword'><a name='38_22' title='usrString0'>let</a></span> <span class='identifier'><a name='38_26'>OnTypeFormatting</a></span> = <span class='string'><a name='38_45' title='usrString0'>"textDocument/onTypeFormatting"</a></span>
+0039            <span class='builtin'><a name='39_8' title='usrString0'>public</a></span> <span class='keyword'><a name='39_15' title='usrString0'>static</a></span> <span class='keyword'><a name='39_22' title='usrString0'>let</a></span> <span class='identifier'><a name='39_26'>PublishDiagnostics</a></span> = <span class='string'><a name='39_47' title='usrString0'>"textDocument/publishDiagnostics"</a></span>
+0040            <span class='builtin'><a name='40_8' title='usrString0'>public</a></span> <span class='keyword'><a name='40_15' title='usrString0'>static</a></span> <span class='keyword'><a name='40_22' title='usrString0'>let</a></span> <span class='identifier'><a name='40_26'>References</a></span> = <span class='string'><a name='40_39' title='usrString0'>"textDocument/references"</a></span>
+0041        }
+0042        
+0043        <span class='builtin'><a name='43_4' title='usrString0'>public</a></span> <span class='keyword'><a name='43_11' title='usrString0'>struct</a></span> <span class='identifier'><a name='43_18'>CompletionItem</a></span> {
+0044            <span class='builtin'><a name='44_8' title='usrString0'>public</a></span> <span class='keyword'><a name='44_15' title='usrString0'>static</a></span> <span class='keyword'><a name='44_22' title='usrString0'>let</a></span> <span class='identifier'><a name='44_26'>Resolve</a></span> = <span class='string'><a name='44_36' title='usrString0'>"completionItem/resolve"</a></span>
+0045        }
+0046    
+0047        <span class='builtin'><a name='47_4' title='usrString0'>public</a></span> <span class='keyword'><a name='47_11' title='usrString0'>struct</a></span> <span class='identifier'><a name='47_18'>Workspace</a></span> {
+0048            <span class='builtin'><a name='48_8' title='usrString0'>public</a></span> <span class='keyword'><a name='48_15' title='usrString0'>static</a></span> <span class='keyword'><a name='48_22' title='usrString0'>let</a></span> <span class='identifier'><a name='48_26'>WorkspaceFolders</a></span> = <span class='string'><a name='48_45' title='usrString0'>"workspace/workspaceFolders"</a></span>
+0049        }
+0050    }
+0051    

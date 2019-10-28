@@ -1,0 +1,47 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+0001    <span class='comment'><a name='1_0' title='usrString0'>//
+0002    </a></span><span class='comment'><a name='2_0' title='usrString0'>//  TypeTests.swift
+0003    </a></span><span class='comment'><a name='3_0' title='usrString0'>//  SwiftLSPClientTests
+0004    </a></span><span class='comment'><a name='4_0' title='usrString0'>//
+0005    </a></span><span class='comment'><a name='5_0' title='usrString0'>//  Created by Matt Massicotte on 2019-02-08.
+0006    </a></span><span class='comment'><a name='6_0' title='usrString0'>//  Copyright © 2019 Chime Systems. All rights reserved.
+0007    </a></span><span class='comment'><a name='7_0' title='usrString0'>//
+0008    </a></span>
+0009    <span class='keyword'><a name='9_0' title='usrString0'>import</a></span> <span class='identifier'><a name='9_7'>XCTest</a></span>
+0010    <span class='builtin'><a name='10_0' title='usrString0'>@testable</a></span> <span class='keyword'><a name='10_10' title='usrString0'>import</a></span> <span class='identifier'><a name='10_17'>SwiftLSPClient</a></span>
+0011    
+0012    <span class='keyword'><a name='12_0' title='usrString0'>class</a></span> <span class='identifier'><a name='12_6'>TypeTests</a></span>: <span class='typeidentifier'><a name='12_17' title='usrString0'>XCTestCase</a></span> {
+0013        <span class='keyword'><a name='13_4' title='usrString0'>func</a></span> <span class='identifier'><a name='13_9'>testSomething</a></span>() {
+0014            <span class='keyword'><a name='14_8' title='usrString0'>let</a></span> <span class='identifier'><a name='14_12'>json</a></span> = <span class='string'><a name='14_19' title='usrString0'>"""
+0015    {"id":2,"result":[{"name":"something","kind":12,"location":{"uri":"file:///hello.go","range":{"start":{"line":19,"character":5},"end":{"line":19,"character":13}}}}],"jsonrpc":"2.0"}
+0016    """</a></span>
+0017            <span class='keyword'><a name='17_8' title='usrString0'>let</a></span> <span class='identifier'><a name='17_12'>data</a></span> = <span class='identifier'><a name='17_19'>json</a></span>.<span class='identifier'><a name='17_24'>data</a></span>(<span class='identifier'><a name='17_29'>using</a></span>: .<span class='identifier'><a name='17_37'>utf8</a></span>)!
+0018            <span class='keyword'><a name='18_8' title='usrString0'>let</a></span> <span class='identifier'><a name='18_12'>response</a></span> = <span class='keyword'><a name='18_23' title='usrString0'>try</a></span>! <span class='identifier'><a name='18_28'>JSONDecoder</a></span>().<span class='identifier'><a name='18_42'>decode</a></span>(<span class='identifier'><a name='18_49'>JSONRPCResultResponse</a></span>&lt;<span class='typeidentifier'><a name='18_71' title='usrString0'>DocumentSymbolResponse</a></span>>.<span class='keyword'><a name='18_95' title='usrString0'>self</a></span>, <span class='identifier'><a name='18_101'>from</a></span>: <span class='identifier'><a name='18_107'>data</a></span>)
+0019    
+0020            <span class='keyword'><a name='20_8' title='usrString0'>let</a></span> <span class='identifier'><a name='20_12'>location</a></span> = <span class='identifier'><a name='20_23'>Location</a></span>(<span class='identifier'><a name='20_32'>uri</a></span>: <span class='string'><a name='20_37' title='usrString0'>"file:///hello.go"</a></span>, <span class='identifier'><a name='20_57'>range</a></span>: <span class='identifier'><a name='20_64'>LSPRange</a></span>(<span class='identifier'><a name='20_73'>startPair</a></span>: (<span class='number'><a name='20_85' title='usrString0'>19</a></span>, <span class='number'><a name='20_89' title='usrString0'>5</a></span>), <span class='identifier'><a name='20_93'>endPair</a></span>: (<span class='number'><a name='20_103' title='usrString0'>19</a></span>, <span class='number'><a name='20_107' title='usrString0'>13</a></span>)))
+0021            <span class='keyword'><a name='21_8' title='usrString0'>let</a></span> <span class='identifier'><a name='21_12'>symbolInfo</a></span> = <span class='identifier'><a name='21_25'>SymbolInformation</a></span>(<span class='identifier'><a name='21_43'>name</a></span>: <span class='string'><a name='21_49' title='usrString0'>"something"</a></span>, <span class='identifier'><a name='21_62'>kind</a></span>: <span class='number'><a name='21_68' title='usrString0'>12</a></span>, <span class='identifier'><a name='21_72'>deprecated</a></span>: <span class='keyword'><a name='21_84' title='usrString0'>nil</a></span>, <span class='identifier'><a name='21_89'>location</a></span>: <span class='identifier'><a name='21_99'>location</a></span>, <span class='identifier'><a name='21_109'>containerName</a></span>: <span class='keyword'><a name='21_124' title='usrString0'>nil</a></span>)
+0022            <span class='identifier'><a name='22_8'>XCTAssertEqual</a></span>(<span class='identifier'><a name='22_23'>response</a></span>.<span class='identifier'><a name='22_32'>result</a></span>, <span class='identifier'><a name='22_40'>DocumentSymbolResponse</a></span>.<span class='identifier'><a name='22_63'>symbolInformation</a></span>([<span class='identifier'><a name='22_82'>symbolInfo</a></span>]))
+0023        }
+0024    }
+0025    

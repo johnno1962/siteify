@@ -1,0 +1,760 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+<span class='comment'><a name='0_0'>//===--- sourcekitd.h - ------------------------------------------*- C++ -*-==//
+</a></span><span class='comment'><a name='1_0'>//
+</a></span><span class='comment'><a name='2_0'>// This source file is part of the Swift.org open source project
+</a></span><span class='comment'><a name='3_0'>//
+</a></span><span class='comment'><a name='4_0'>// Copyright (c) 2014 - 2015 Apple Inc. and the Swift project authors
+</a></span><span class='comment'><a name='5_0'>// Licensed under Apache License v2.0 with Runtime Library Exception
+</a></span><span class='comment'><a name='6_0'>//
+</a></span><span class='comment'><a name='7_0'>// See </a></span><span class='url'><a href='http://swift.org/LICENSE.txt'>http://swift.org/LICENSE.txt</a></span><span class='comment'><a name='7_35'> for license information
+</a></span><span class='comment'><a name='8_0'>// See </a></span><span class='url'><a href='http://swift.org/CONTRIBUTORS.txt'>http://swift.org/CONTRIBUTORS.txt</a></span><span class='comment'><a name='8_40'> for the list of Swift project authors
+</a></span><span class='comment'><a name='9_0'>//
+</a></span><span class='comment'><a name='10_0'>//===----------------------------------------------------------------------===//
+</a></span><span class='identifier'><a name='12_1'>
+#ifndef</a></span><span class='identifier'><a name='12_8'> LLVM_SOURCEKITD_SOURCEKITD_H</a></span><span class='identifier'><a name='13_1'>
+#define</a></span><span class='identifier'><a name='13_8'> LLVM_SOURCEKITD_SOURCEKITD_H</a></span><span class='identifier'><a name='15_1'>
+
+#include</a></span><span class='identifier'><a name='15_10'> &lt;stddef</a></span><span class='identifier'><a name='15_17'>.h</a></span><span class='identifier'><a name='16_1'>>
+#include</a></span><span class='identifier'><a name='16_10'> &lt;stdint</a></span><span class='identifier'><a name='16_17'>.h</a></span><span class='identifier'><a name='17_1'>>
+#include</a></span><span class='identifier'><a name='17_10'> &lt;stdbool</a></span><span class='identifier'><a name='17_18'>.h</a></span><span class='doccomment'><a name='19_0'>>
+
+/**
+ * \brief The version constants for the sourcekitd API.
+ * SOURCEKITD_VERSION_MINOR should increase when there are API additions.
+ * SOURCEKITD_VERSION_MAJOR is intended for "major" source/ABI breaking changes.
+ *
+ * The policy about the sourcekitd API is to keep it source and ABI compatible,
+ * thus SOURCEKITD_VERSION_MAJOR is expected to remain stable.
+ */</a></span><span class='identifier'><a name='27_1'>
+#define</a></span><span class='identifier'><a name='27_8'> SOURCEKITD_VERSION_MAJOR</a></span><span class='number'><a name='27_33'> 0</a></span><span class='identifier'><a name='28_1'>
+#define</a></span><span class='identifier'><a name='28_8'> SOURCEKITD_VERSION_MINOR</a></span><span class='number'><a name='28_33'> 3</a></span><span class='identifier'><a name='30_1'>
+
+#define</a></span><span class='identifier'><a name='30_8'> SOURCEKITD_VERSION_ENCODE</a></span><span class='identifier'><a name='30_34'>(major</a></span><span class='identifier'><a name='30_41'>, minor</a></span><span class='identifier'><a name='31_8'>) ( \
+      ((major</a></span><span class='number'><a name='31_17'>) * 10000</a></span><span class='identifier'><a name='32_8'>)                           \
+    + ((minor</a></span><span class='number'><a name='32_21'>) *     1</a></span><span class='identifier'><a name='34_1'>))
+
+#define</a></span><span class='identifier'><a name='34_8'> SOURCEKITD_VERSION</a></span><span class='identifier'><a name='34_27'> SOURCEKITD_VERSION_ENCODE</a></span><span class='identifier'><a name='35_4'>( \
+    SOURCEKITD_VERSION_MAJOR</a></span><span class='identifier'><a name='36_4'>,                         \
+    SOURCEKITD_VERSION_MINOR</a></span><span class='identifier'><a name='38_1'> )
+
+#define</a></span><span class='identifier'><a name='38_8'> SOURCEKITD_VERSION_STRINGIZE_</a></span><span class='identifier'><a name='38_38'>(major</a></span><span class='identifier'><a name='38_45'>, minor</a></span><span class='identifier'><a name='39_5'>)   \
+    #major</a></span><span class='string'><a name='39_10'>"."</a></span><span class='identifier'><a name='39_14'>#minor</a></span><span class='identifier'><a name='40_1'>
+#define</a></span><span class='identifier'><a name='40_8'> SOURCEKITD_VERSION_STRINGIZE</a></span><span class='identifier'><a name='40_37'>(major</a></span><span class='identifier'><a name='40_44'>, minor</a></span><span class='identifier'><a name='41_4'>)    \
+    SOURCEKITD_VERSION_STRINGIZE_</a></span><span class='identifier'><a name='41_34'>(major</a></span><span class='identifier'><a name='41_41'>, minor</a></span><span class='identifier'><a name='43_1'>)
+
+#define</a></span><span class='identifier'><a name='43_8'> SOURCEKITD_VERSION_STRING</a></span><span class='identifier'><a name='43_34'> SOURCEKITD_VERSION_STRINGIZE</a></span><span class='identifier'><a name='44_4'>( \
+    SOURCEKITD_VERSION_MAJOR</a></span><span class='identifier'><a name='45_4'>,                                   \
+    SOURCEKITD_VERSION_MINOR</a></span><span class='identifier'><a name='47_1'>)
+
+#ifdef</a></span><span class='identifier'><a name='47_8'>  __cplusplus</a></span><span class='identifier'><a name='48_2'>
+# define</a></span><span class='identifier'><a name='48_9'> SOURCEKITD_BEGIN_DECLS</a></span><span class='identifier'><a name='48_33'>  extern</a></span><span class='string'><a name='48_40'> "C"</a></span><span class='identifier'><a name='49_2'> {
+# define</a></span><span class='identifier'><a name='49_9'> SOURCEKITD_END_DECLS</a></span><span class='keyword'><a name='50_0'>    }
+#else</a></span><span class='identifier'><a name='51_2'>
+# define</a></span><span class='identifier'><a name='51_9'> SOURCEKITD_BEGIN_DECLS</a></span><span class='identifier'><a name='52_2'>
+# define</a></span><span class='identifier'><a name='52_9'> SOURCEKITD_END_DECLS</a></span><span class='keyword'><a name='53_0'>
+#endif</a></span><span class='identifier'><a name='55_1'>
+
+#ifndef</a></span><span class='identifier'><a name='55_8'> SOURCEKITD_PUBLIC</a></span><span class='keyword'><a name='56_2'>
+# if</a></span><span class='identifier'><a name='56_5'> defined</a></span><span class='identifier'><a name='56_14'> (_MSC_VER</a></span><span class='identifier'><a name='57_3'>)
+#  define</a></span><span class='identifier'><a name='57_10'> SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='57_28'> __declspec</a></span><span class='identifier'><a name='57_39'>(dllimport</a></span><span class='keyword'><a name='58_2'>)
+# else</a></span><span class='identifier'><a name='59_3'>
+#  define</a></span><span class='identifier'><a name='59_10'> SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='60_2'>
+# endif</a></span><span class='keyword'><a name='61_0'>
+#endif</a></span><span class='identifier'><a name='63_1'>
+
+#ifndef</a></span><span class='identifier'><a name='63_8'> __has_feature</a></span><span class='identifier'><a name='64_2'>
+# define</a></span><span class='identifier'><a name='64_9'> __has_feature</a></span><span class='identifier'><a name='64_23'>(x</a></span><span class='number'><a name='64_26'>) 0</a></span><span class='keyword'><a name='65_0'>
+#endif</a></span><span class='keyword'><a name='67_0'>
+
+#if</a></span><span class='id'><a name='67_4'> __has_feature</a></span><span class='id'><a name='67_18'>(blocks</a></span><span class='identifier'><a name='68_2'>)
+# define</a></span><span class='identifier'><a name='68_9'> SOURCEKITD_HAS_BLOCKS</a></span><span class='number'><a name='68_31'> 1</a></span><span class='keyword'><a name='69_0'>
+#else</a></span><span class='identifier'><a name='70_2'>
+# define</a></span><span class='identifier'><a name='70_9'> SOURCEKITD_HAS_BLOCKS</a></span><span class='number'><a name='70_31'> 0</a></span><span class='keyword'><a name='71_0'>
+#endif</a></span><span class='identifier'><a name='73_1'>
+
+#ifdef</a></span><span class='identifier'><a name='73_7'> __GNUC__</a></span><span class='identifier'><a name='74_2'>
+# define</a></span><span class='identifier'><a name='74_9'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='74_32'> __attribute__</a></span><span class='identifier'><a name='74_47'>((__warn_unused_result__</a></span><span class='identifier'><a name='75_2'>))
+# define</a></span><span class='identifier'><a name='75_9'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='75_29'> __attribute__</a></span><span class='identifier'><a name='75_44'>((__nonnull__</a></span><span class='number'><a name='75_56'>(1</a></span><span class='identifier'><a name='76_2'>)))
+# define</a></span><span class='identifier'><a name='76_9'> SOURCEKITD_NONNULL2</a></span><span class='identifier'><a name='76_29'> __attribute__</a></span><span class='identifier'><a name='76_44'>((__nonnull__</a></span><span class='number'><a name='76_56'>(2</a></span><span class='identifier'><a name='77_2'>)))
+# define</a></span><span class='identifier'><a name='77_9'> SOURCEKITD_NONNULL3</a></span><span class='identifier'><a name='77_29'> __attribute__</a></span><span class='identifier'><a name='77_44'>((__nonnull__</a></span><span class='number'><a name='77_56'>(3</a></span><span class='identifier'><a name='78_2'>)))
+# define</a></span><span class='identifier'><a name='78_9'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='78_32'> __attribute__</a></span><span class='identifier'><a name='78_47'>((__nonnull__</a></span><span class='identifier'><a name='79_2'>))
+# define</a></span><span class='identifier'><a name='79_9'> SOURCEKITD_DEPRECATED</a></span><span class='identifier'><a name='79_31'>(m</a></span><span class='identifier'><a name='79_34'>) __attribute__</a></span><span class='identifier'><a name='79_49'>((deprecated</a></span><span class='identifier'><a name='79_60'>(m</a></span><span class='keyword'><a name='80_0'>)))
+#else</a></span><span class='identifier'><a name='81_2'>
+# define</a></span><span class='identifier'><a name='81_9'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='82_2'>
+# define</a></span><span class='identifier'><a name='82_9'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='83_2'>
+# define</a></span><span class='identifier'><a name='83_9'> SOURCEKITD_NONNULL2</a></span><span class='identifier'><a name='84_2'>
+# define</a></span><span class='identifier'><a name='84_9'> SOURCEKITD_NONNULL3</a></span><span class='identifier'><a name='85_2'>
+# define</a></span><span class='identifier'><a name='85_9'> SOURCEKITD_NONNULL_ALL</a></span><span class='keyword'><a name='86_0'>
+#endif</a></span><span class='identifier'><a name='88_0'>
+
+SOURCEKITD_BEGIN_DECLS</a></span><span class='doccomment'><a name='90_0'>
+
+/**
+ * \brief Initializes structures needed across the rest of the sourcekitd API.
+ *
+ * Must be called before any other sourcekitd call.
+ * Can be called multiple times as long as it is matched with a
+ * \c sourcekitd_shutdown call.
+ * Calling \c sourcekitd_initialize a second time without an intervening
+ * \c sourcekitd_shutdown is undefined.
+ * \c sourcekitd_initialize does not need to be called again even if the service
+ * crashes.
+ */</a></span><span class='identifier'><a name='101_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='102_0'>
+void</a></span><span class='identifier'><a name='103_0' title='usrString'>
+sourcekitd_initialize</a></span><span class='identifier'><a name='103_22'>(void</a></span><span class='doccomment'><a name='105_0'>);
+
+/**
+ * \brief Deallocates structures needed across the rest of the sourcekitd API.
+ *
+ * If there are response handlers still waiting for a response, they will
+ * receive a SOURCEKITD_ERROR_REQUEST_CANCELLED response.
+ *
+ * Calling \c sourcekitd_shutdown without a matching \c sourcekitd_initialize is
+ * undefined.
+ */</a></span><span class='identifier'><a name='114_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='115_0'>
+void</a></span><span class='identifier'><a name='116_0' title='usrString'>
+sourcekitd_shutdown</a></span><span class='identifier'><a name='116_20'>(void</a></span><span class='keyword'><a name='118_0'>);
+
+#if</a></span><span class='id'><a name='118_4'> SOURCEKITD_HAS_BLOCKS</a></span><span class='identifier'><a name='120_0'>
+
+typedef</a></span><span class='identifier'><a name='120_8'> void</a></span><span class='identifier'><a name='120_14'>(^sourcekitd_interrupted_connection_handler_t</a></span><span class='identifier'><a name='120_59'>)(void</a></span><span class='doccomment'><a name='122_0'>);
+
+/**
+ * \brief Sets the handler which should be called whenever the connection to
+ * SourceKit is interupted.
+ *
+ * The handler should reestablish any necessary state, such as re-opening any
+ * documents which were open before the connection was interrupted.
+ *
+ * It is not necessary to call \c sourcekitd_initialize; the connection will
+ * automatically be reestablished when sending the next request.
+ *
+ * \param handler Interrupted connection handler to use. Pass NULL to remove the
+ * handler.
+ */</a></span><span class='identifier'><a name='135_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='135_18'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='136_0'>
+void</a></span><span class='identifier'><a name='137_0' title='usrString'>
+sourcekitd_set_interrupted_connection_handler</a></span><span class='identifier'><a name='138_27'>(
+                           sourcekitd_interrupted_connection_handler_t</a></span><span class='identifier'><a name='138_71'> handler</a></span><span class='keyword'><a name='140_0'>);
+
+#endif</a></span><span class='doccomment'><a name='142_0'>
+
+/**
+ * \brief A "unique identifier" utilized by the request/response protocol.
+ *
+ * A \c sourcekitd_uid_t object is associated with a string and is uniqued for
+ * the lifetime of the process. Its usefulness is in providing an "infinite
+ * namespace" of identifiers.
+ * A \c sourcekitd_uid_t object remains valid even if the service crashes.
+ */</a></span><span class='identifier'><a name='150_0'>
+typedef</a></span><span class='keyword'><a name='150_8'> struct</a></span><span class='identifier'><a name='150_15'> sourcekitd_uid_s</a></span><span class='identifier'><a name='150_33'> *sourcekitd_uid_t</a></span><span class='doccomment'><a name='152_0'>;
+
+/**
+ * \brief Create a \c sourcekitd_uid_t from a C string.
+ */</a></span><span class='identifier'><a name='155_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='155_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='155_38'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='156_0'>
+sourcekitd_uid_t</a></span><span class='identifier'><a name='157_0' title='usrString'>
+sourcekitd_uid_get_from_cstr</a></span><span class='identifier'><a name='157_29'>(const</a></span><span class='identifier'><a name='157_35'> char</a></span><span class='identifier'><a name='157_41'> *string</a></span><span class='doccomment'><a name='159_0'>);
+
+/**
+ * \brief Create a \c sourcekitd_uid_t from a string buffer.
+ */</a></span><span class='identifier'><a name='162_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='162_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='162_38'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='163_0'>
+sourcekitd_uid_t</a></span><span class='identifier'><a name='164_0' title='usrString'>
+sourcekitd_uid_get_from_buf</a></span><span class='identifier'><a name='164_28'>(const</a></span><span class='identifier'><a name='164_34'> char</a></span><span class='identifier'><a name='164_40'> *buf</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>, size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='164_52'> length</a></span><span class='doccomment'><a name='166_0'>);
+
+/**
+ * \brief Get the length of the string associated with  a \c sourcekitd_uid_t.
+ */</a></span><span class='identifier'><a name='169_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='169_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='169_38'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>
+size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='171_0' title='usrString'>
+sourcekitd_uid_get_length</a></span><span class='identifier'><a name='171_26'>(sourcekitd_uid_t</a></span><span class='identifier'><a name='171_43'> obj</a></span><span class='doccomment'><a name='173_0'>);
+
+/**
+ * \brief Get the C string pointer associated with a \c sourcekitd_uid_t.
+ */</a></span><span class='identifier'><a name='176_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='176_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='176_38'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='177_0'>
+const</a></span><span class='identifier'><a name='177_6'> char</a></span><span class='identifier'><a name='178_0' title='usrString'> *
+sourcekitd_uid_get_string_ptr</a></span><span class='identifier'><a name='178_30'>(sourcekitd_uid_t</a></span><span class='identifier'><a name='178_47'> obj</a></span><span class='doccomment'><a name='180_0'>);
+
+/**
+ * \defgroup Request API
+ *
+ * @{
+ */</a></span><span class='doccomment'><a name='186_0'>
+
+/**
+ * \brief Used for constructing a request object.
+ */</a></span><span class='identifier'><a name='189_0'>
+typedef</a></span><span class='identifier'><a name='189_8'> void</a></span><span class='identifier'><a name='189_14'> *sourcekitd_object_t</a></span><span class='identifier'><a name='191_0'>;
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='191_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='192_0'>
+sourcekitd_object_t</a></span><span class='identifier'><a name='193_0' title='usrString'>
+sourcekitd_request_retain</a></span><span class='identifier'><a name='193_26'>(sourcekitd_object_t</a></span><span class='identifier'><a name='193_46'> object</a></span><span class='identifier'><a name='195_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='195_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='196_0'>
+void</a></span><span class='identifier'><a name='197_0' title='usrString'>
+sourcekitd_request_release</a></span><span class='identifier'><a name='197_27'>(sourcekitd_object_t</a></span><span class='identifier'><a name='197_47'> object</a></span><span class='identifier'><a name='199_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='199_18'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='200_0'>
+sourcekitd_object_t</a></span><span class='identifier'><a name='201_0' title='usrString'>
+sourcekitd_request_dictionary_create</a></span><span class='identifier'><a name='201_37'>(const</a></span><span class='identifier'><a name='201_43'> sourcekitd_uid_t</a></span><span class='identifier'><a name='201_61'> *keys</a></span><span class='identifier'><a name='202_37'>,
+                                     const</a></span><span class='identifier'><a name='202_43'> sourcekitd_object_t</a></span><span class='identifier'><a name='202_64'> *values</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>,
+                                     size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='203_44'> count</a></span><span class='identifier'><a name='205_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='205_18'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='206_0'>
+void</a></span><span class='identifier'><a name='207_0' title='usrString'>
+sourcekitd_request_dictionary_set_value</a></span><span class='identifier'><a name='207_40'>(sourcekitd_object_t</a></span><span class='identifier'><a name='207_60'> dict</a></span><span class='identifier'><a name='208_40'>,
+                                        sourcekitd_uid_t</a></span><span class='identifier'><a name='208_57'> key</a></span><span class='identifier'><a name='209_40'>,
+                                        sourcekitd_object_t</a></span><span class='identifier'><a name='209_60'> value</a></span><span class='identifier'><a name='211_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='211_18'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='212_0'>
+void</a></span><span class='identifier'><a name='213_0' title='usrString'>
+sourcekitd_request_dictionary_set_string</a></span><span class='identifier'><a name='213_41'>(sourcekitd_object_t</a></span><span class='identifier'><a name='213_61'> dict</a></span><span class='identifier'><a name='214_41'>,
+                                         sourcekitd_uid_t</a></span><span class='identifier'><a name='214_58'> key</a></span><span class='identifier'><a name='215_41'>,
+                                         const</a></span><span class='identifier'><a name='215_47'> char</a></span><span class='identifier'><a name='215_53'> *string</a></span><span class='identifier'><a name='217_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='217_18'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='218_0'>
+void</a></span><span class='identifier'><a name='219_0' title='usrString'>
+sourcekitd_request_dictionary_set_stringbuf</a></span><span class='identifier'><a name='219_44'>(sourcekitd_object_t</a></span><span class='identifier'><a name='219_64'> dict</a></span><span class='identifier'><a name='220_44'>,
+                                            sourcekitd_uid_t</a></span><span class='identifier'><a name='220_61'> key</a></span><span class='identifier'><a name='221_44'>,
+                                            const</a></span><span class='identifier'><a name='221_50'> char</a></span><span class='identifier'><a name='221_56'> *buf</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>, size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='221_68'> length</a></span><span class='identifier'><a name='223_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='223_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='223_38'> SOURCEKITD_NONNULL2</a></span><span class='identifier'><a name='224_0'>
+void</a></span><span class='identifier'><a name='225_0' title='usrString'>
+sourcekitd_request_dictionary_set_int64</a></span><span class='identifier'><a name='225_40'>(sourcekitd_object_t</a></span><span class='identifier'><a name='225_60'> dict</a></span><span class='identifier'><a name='226_40'>,
+                                        sourcekitd_uid_t</a></span><span class='identifier'><a name='226_57'> key</a></span><span class='identifier'><a name='29_32' title='usrString'>, int64_t</a></span><span class='identifier'><a name='226_70'> val</a></span><span class='identifier'><a name='228_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='228_18'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='229_0'>
+void</a></span><span class='identifier'><a name='230_0' title='usrString'>
+sourcekitd_request_dictionary_set_uid</a></span><span class='identifier'><a name='230_38'>(sourcekitd_object_t</a></span><span class='identifier'><a name='230_58'> dict</a></span><span class='identifier'><a name='231_38'>,
+                                      sourcekitd_uid_t</a></span><span class='identifier'><a name='231_55'> key</a></span><span class='identifier'><a name='232_38'>,
+                                      sourcekitd_uid_t</a></span><span class='identifier'><a name='232_55'> uid</a></span><span class='identifier'><a name='234_1'>);
+
+#define</a></span><span class='identifier'><a name='234_8'> SOURCEKITD_ARRAY_APPEND</a></span><span class='identifier'><a name='234_34'> ((size_t</a></span><span class='number'><a name='234_42'>)(-1</a></span><span class='identifier'><a name='236_0'>))
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='236_18'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='237_0'>
+sourcekitd_object_t</a></span><span class='identifier'><a name='238_0' title='usrString'>
+sourcekitd_request_array_create</a></span><span class='identifier'><a name='238_32'>(const</a></span><span class='identifier'><a name='238_38'> sourcekitd_object_t</a></span><span class='identifier'><a name='238_59'> *objects</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>,
+                                size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='239_39'> count</a></span><span class='identifier'><a name='241_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='241_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='241_38'> SOURCEKITD_NONNULL3</a></span><span class='identifier'><a name='242_0'>
+void</a></span><span class='identifier'><a name='243_0' title='usrString'>
+sourcekitd_request_array_set_value</a></span><span class='identifier'><a name='243_35'>(sourcekitd_object_t</a></span><span class='identifier'><a name='243_55'> array</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>, size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='243_69'> index</a></span><span class='identifier'><a name='244_35'>,
+                                   sourcekitd_object_t</a></span><span class='identifier'><a name='244_55'> value</a></span><span class='identifier'><a name='246_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='246_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='246_38'> SOURCEKITD_NONNULL3</a></span><span class='identifier'><a name='247_0'>
+void</a></span><span class='identifier'><a name='248_0' title='usrString'>
+sourcekitd_request_array_set_string</a></span><span class='identifier'><a name='248_36'>(sourcekitd_object_t</a></span><span class='identifier'><a name='248_56'> array</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>, size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='248_70'> index</a></span><span class='identifier'><a name='249_36'>,
+                                    const</a></span><span class='identifier'><a name='249_42'> char</a></span><span class='identifier'><a name='249_48'> *string</a></span><span class='identifier'><a name='251_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='251_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='251_38'> SOURCEKITD_NONNULL3</a></span><span class='identifier'><a name='252_0'>
+void</a></span><span class='identifier'><a name='253_0' title='usrString'>
+sourcekitd_request_array_set_stringbuf</a></span><span class='identifier'><a name='253_39'>(sourcekitd_object_t</a></span><span class='identifier'><a name='253_59'> array</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>, size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='253_73'> index</a></span><span class='identifier'><a name='254_39'>,
+                                       const</a></span><span class='identifier'><a name='254_45'> char</a></span><span class='identifier'><a name='254_51'> *buf</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>, size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='254_63'> length</a></span><span class='identifier'><a name='256_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='256_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='257_0'>
+void</a></span><span class='identifier'><a name='258_0' title='usrString'>
+sourcekitd_request_array_set_int64</a></span><span class='identifier'><a name='258_35'>(sourcekitd_object_t</a></span><span class='identifier'><a name='258_55'> array</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>, size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='258_69'> index</a></span><span class='identifier'><a name='29_32' title='usrString'>,
+                                   int64_t</a></span><span class='identifier'><a name='259_43'> val</a></span><span class='identifier'><a name='261_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='261_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='261_38'> SOURCEKITD_NONNULL3</a></span><span class='identifier'><a name='262_0'>
+void</a></span><span class='identifier'><a name='263_0' title='usrString'>
+sourcekitd_request_array_set_uid</a></span><span class='identifier'><a name='263_33'>(sourcekitd_object_t</a></span><span class='identifier'><a name='263_53'> array</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>, size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='263_67'> index</a></span><span class='identifier'><a name='264_33'>,
+                                 sourcekitd_uid_t</a></span><span class='identifier'><a name='264_50'> uid</a></span><span class='identifier'><a name='266_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='266_18'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='267_0'>
+sourcekitd_object_t</a></span><span class='identifier'><a name='268_0' title='usrString'>
+sourcekitd_request_int64_create</a></span><span class='identifier'><a name='29_32' title='usrString'>(int64_t</a></span><span class='identifier'><a name='268_40'> val</a></span><span class='identifier'><a name='270_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='270_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='270_38'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='271_0'>
+sourcekitd_object_t</a></span><span class='identifier'><a name='272_0' title='usrString'>
+sourcekitd_request_string_create</a></span><span class='identifier'><a name='272_33'>(const</a></span><span class='identifier'><a name='272_39'> char</a></span><span class='identifier'><a name='272_45'> *string</a></span><span class='identifier'><a name='274_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='274_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='274_38'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='275_0'>
+sourcekitd_object_t</a></span><span class='identifier'><a name='276_0' title='usrString'>
+sourcekitd_request_uid_create</a></span><span class='identifier'><a name='276_30'>(sourcekitd_uid_t</a></span><span class='identifier'><a name='276_47'> uid</a></span><span class='doccomment'><a name='278_0'>);
+
+/**
+ * \brief Creates a request object by parsing the provided string in YAML
+ * format.
+ *
+ * \param yaml The string in YAML format.
+ *
+ * \param error A pointer to store a C string of the error description if
+ * parsing fails. This string should be disposed of with \c free when done.
+ * Can be NULL.
+ *
+ * \returns A sourcekitd_object_t instance or NULL if parsing fails.
+ */</a></span><span class='identifier'><a name='290_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='290_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='290_38'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='291_0'>
+sourcekitd_object_t</a></span><span class='identifier'><a name='292_0' title='usrString'>
+sourcekitd_request_create_from_yaml</a></span><span class='identifier'><a name='292_36'>(const</a></span><span class='identifier'><a name='292_42'> char</a></span><span class='identifier'><a name='292_48'> *yaml</a></span><span class='identifier'><a name='292_54'>, char</a></span><span class='identifier'><a name='292_61'> **error</a></span><span class='doccomment'><a name='294_0'>);
+
+/**
+ * \brief Prints to stderr a string representation of the request object in YAML
+ * format.
+ */</a></span><span class='identifier'><a name='298_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='298_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='299_0'>
+void</a></span><span class='identifier'><a name='300_0' title='usrString'>
+sourcekitd_request_description_dump</a></span><span class='identifier'><a name='300_36'>(sourcekitd_object_t</a></span><span class='identifier'><a name='300_56'> obj</a></span><span class='doccomment'><a name='302_0'>);
+
+/**
+ * \brief Copies a string representation of the request object in YAML format.
+ * \returns A string representation of the request object. This string should
+ * be disposed of with \c free when done.
+ */</a></span><span class='identifier'><a name='307_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='307_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='308_0'>
+char</a></span><span class='identifier'><a name='309_0' title='usrString'> *
+sourcekitd_request_description_copy</a></span><span class='identifier'><a name='309_36'>(sourcekitd_object_t</a></span><span class='identifier'><a name='309_56'> obj</a></span><span class='doccomment'><a name='311_0'>);
+
+/**
+ * @}
+ */</a></span><span class='doccomment'><a name='315_0'>
+
+/**
+ * \defgroup Response API
+ *
+ * @{
+ */</a></span><span class='doccomment'><a name='321_0'>
+
+/**
+ * \brief The result of a request.
+ *
+ * If the request failed \c sourcekitd_response_t will be an error response and
+ * will contain information about the error, otherwise it will contain the
+ * resulting values of the request.
+ */</a></span><span class='identifier'><a name='328_0'>
+typedef</a></span><span class='identifier'><a name='328_8'> void</a></span><span class='identifier'><a name='328_14'> *sourcekitd_response_t</a></span><span class='doccomment'><a name='330_0'>;
+
+/**
+ * \brief A value of the response object.
+ *
+ * Its lifetime is tied to the sourcekitd_response_t object that it came from.
+ */</a></span><span class='identifier'><a name='335_0'>
+typedef</a></span><span class='keyword'><a name='335_8'> struct</a></span><span class='identifier'><a name='30_27' title='usrString'> {
+  uint64_t</a></span><span class='identifier'><a name='336_11' title='usrString'> data</a></span><span class='number'><a name='336_16'>[3</a></span><span class='identifier'><a name='337_2' title='usrString'>];
+} sourcekitd_variant_t</a></span><span class='identifier'><a name='339_0'>;
+
+typedef</a></span><span class='keyword'><a name='339_8'> enum</a></span><span class='identifier'><a name='340_2' title='usrString'> {
+  SOURCEKITD_VARIANT_TYPE_NULL</a></span><span class='number'><a name='340_33'> = 0</a></span><span class='identifier'><a name='341_2' title='usrString'>,
+  SOURCEKITD_VARIANT_TYPE_DICTIONARY</a></span><span class='number'><a name='341_39'> = 1</a></span><span class='identifier'><a name='342_2' href='#' title='usrString2' onclick='return expand(this);'>,
+  SOURCEKITD_VARIANT_TYPE_ARRAY<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="SourceKit.html#315_64"; event.stopPropagation(); return false;'>SourceKit.swift:315</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="sourcekitd_.html#342_2"; return false;'>sourcekitd_.swift:342</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='number'><a name='342_34'> = 2</a></span><span class='identifier'><a name='343_2' title='usrString'>,
+  SOURCEKITD_VARIANT_TYPE_INT64</a></span><span class='number'><a name='343_34'> = 3</a></span><span class='identifier'><a name='344_2' title='usrString'>,
+  SOURCEKITD_VARIANT_TYPE_STRING</a></span><span class='number'><a name='344_35'> = 4</a></span><span class='identifier'><a name='345_2' title='usrString'>,
+  SOURCEKITD_VARIANT_TYPE_UID</a></span><span class='number'><a name='345_32'> = 5</a></span><span class='identifier'><a name='346_2' title='usrString'>,
+  SOURCEKITD_VARIANT_TYPE_BOOL</a></span><span class='number'><a name='346_33'> = 6</a></span><span class='identifier'><a name='347_2' title='usrString'>
+} sourcekitd_variant_type_t</a></span><span class='identifier'><a name='349_0'>;
+
+typedef</a></span><span class='keyword'><a name='349_8'> enum</a></span><span class='identifier'><a name='350_2' title='usrString'> {
+  SOURCEKITD_ERROR_CONNECTION_INTERRUPTED</a></span><span class='number'><a name='350_44'> = 1</a></span><span class='identifier'><a name='351_2' title='usrString'>,
+  SOURCEKITD_ERROR_REQUEST_INVALID</a></span><span class='number'><a name='351_37'> = 2</a></span><span class='identifier'><a name='352_2' title='usrString'>,
+  SOURCEKITD_ERROR_REQUEST_FAILED</a></span><span class='number'><a name='352_36'> = 3</a></span><span class='identifier'><a name='353_2' title='usrString'>,
+  SOURCEKITD_ERROR_REQUEST_CANCELLED</a></span><span class='number'><a name='353_39'> = 4</a></span><span class='identifier'><a name='354_2' title='usrString'>
+} sourcekitd_error_t</a></span><span class='identifier'><a name='356_0'>;
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='356_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='357_0'>
+void</a></span><span class='identifier'><a name='358_0' title='usrString'>
+sourcekitd_response_dispose</a></span><span class='identifier'><a name='358_28'>(sourcekitd_response_t</a></span><span class='identifier'><a name='358_50'> obj</a></span><span class='doccomment'><a name='360_0'>);
+
+/**
+ * \brief Returns true if the given response is an error.
+ */</a></span><span class='identifier'><a name='363_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='363_18'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='363_41'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='364_0'>
+bool</a></span><span class='identifier'><a name='365_0' title='usrString'>
+sourcekitd_response_is_error</a></span><span class='identifier'><a name='365_29'>(sourcekitd_response_t</a></span><span class='identifier'><a name='365_51'> obj</a></span><span class='doccomment'><a name='367_0'>);
+
+/**
+ * \brief Returns the error kind given a response error.
+ *
+ * Passing a response object that is not an error will result in undefined
+ * behavior.
+ */</a></span><span class='identifier'><a name='373_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='373_18'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='373_41'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='354_2' title='usrString'>
+sourcekitd_error_t</a></span><span class='identifier'><a name='375_0' title='usrString'>
+sourcekitd_response_error_get_kind</a></span><span class='identifier'><a name='375_35'>(sourcekitd_response_t</a></span><span class='identifier'><a name='375_57'> err</a></span><span class='doccomment'><a name='377_0'>);
+
+/**
+ * \brief Returns a C string of the error description.
+ *
+ * Passing a response object that is not an error will result in undefined
+ * behavior.
+ */</a></span><span class='identifier'><a name='383_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='383_18'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='383_41'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='384_0'>
+const</a></span><span class='identifier'><a name='384_6'> char</a></span><span class='identifier'><a name='385_0' title='usrString'> *
+sourcekitd_response_error_get_description</a></span><span class='identifier'><a name='385_42'>(sourcekitd_response_t</a></span><span class='identifier'><a name='385_64'> err</a></span><span class='doccomment'><a name='387_0'>);
+
+/**
+ * \brief Returns the value contained in the response.
+ *
+ * If the response is an error it will return a null variant.
+ */</a></span><span class='identifier'><a name='392_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='392_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='392_38'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='337_2' title='usrString'>
+sourcekitd_variant_t</a></span><span class='identifier'><a name='394_0' title='usrString'>
+sourcekitd_response_get_value</a></span><span class='identifier'><a name='394_30'>(sourcekitd_response_t</a></span><span class='identifier'><a name='394_52'> resp</a></span><span class='identifier'><a name='396_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='396_18'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='396_41'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='347_2' title='usrString'>
+sourcekitd_variant_type_t</a></span><span class='identifier'><a name='398_0' title='usrString'>
+sourcekitd_variant_get_type</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='398_49'> obj</a></span><span class='identifier'><a name='400_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='400_18'> SOURCEKITD_NONNULL2</a></span><span class='identifier'><a name='400_38'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='337_2' title='usrString'>
+sourcekitd_variant_t</a></span><span class='identifier'><a name='402_0' title='usrString'>
+sourcekitd_variant_dictionary_get_value</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='402_61'> dict</a></span><span class='identifier'><a name='403_40'>,
+                                        sourcekitd_uid_t</a></span><span class='identifier'><a name='403_57'> key</a></span><span class='doccomment'><a name='405_0'>);
+
+/**
+ * The underlying C string for the specified key. NULL if the value for the
+ * specified key is not a C string value or if there is no value for the
+ * specified key.
+ */</a></span><span class='identifier'><a name='410_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='410_18'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='410_41'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='411_0'>
+const</a></span><span class='identifier'><a name='411_6'> char</a></span><span class='identifier'><a name='412_0' title='usrString'> *
+sourcekitd_variant_dictionary_get_string</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='412_62'> dict</a></span><span class='identifier'><a name='413_41'>,
+                                         sourcekitd_uid_t</a></span><span class='identifier'><a name='413_58'> key</a></span><span class='doccomment'><a name='415_0'>);
+
+/**
+ * The underlying \c int64 value for the specified key. 0 if the
+ * value for the specified key is not an integer value or if there is no
+ * value for the specified key.
+ */</a></span><span class='identifier'><a name='420_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='420_18'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='420_41'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='29_32' title='usrString'>
+int64_t</a></span><span class='identifier'><a name='422_0' title='usrString'>
+sourcekitd_variant_dictionary_get_int64</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='422_61'> dict</a></span><span class='identifier'><a name='423_40'>,
+                                        sourcekitd_uid_t</a></span><span class='identifier'><a name='423_57'> key</a></span><span class='doccomment'><a name='425_0'>);
+
+/**
+ * The underlying \c bool value for the specified key. false if the
+ * the value for the specified key is not a Boolean value or if there is no
+ * value for the specified key.
+ */</a></span><span class='identifier'><a name='430_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='430_18'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='430_41'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='431_0'>
+bool</a></span><span class='identifier'><a name='432_0' title='usrString'>
+sourcekitd_variant_dictionary_get_bool</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='432_60'> dict</a></span><span class='identifier'><a name='433_39'>,
+                                       sourcekitd_uid_t</a></span><span class='identifier'><a name='433_56'> key</a></span><span class='doccomment'><a name='435_0'>);
+
+/**
+ * The underlying \c sourcekitd_uid_t value for the specified key. NULL if the
+ * value for the specified key is not a uid value or if there is no
+ * value for the specified key.
+ */</a></span><span class='identifier'><a name='440_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='440_18'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='440_41'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='441_0'>
+sourcekitd_uid_t</a></span><span class='identifier'><a name='442_0' title='usrString'>
+sourcekitd_variant_dictionary_get_uid</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='442_59'> dict</a></span><span class='identifier'><a name='443_38'>,
+                                      sourcekitd_uid_t</a></span><span class='identifier'><a name='443_55'> key</a></span><span class='keyword'><a name='445_0'>);
+
+#if</a></span><span class='id'><a name='445_4'> SOURCEKITD_HAS_BLOCKS</a></span><span class='doccomment'><a name='446_0'>
+/**
+ * \brief A block to be invoked for every key/value pair in the dictionary.
+ *
+ * \param key The current key in the iteration.
+ *
+ * \param value The current value in the iteration.
+ *
+ * \returns true to indicate that iteration should continue.
+ */</a></span><span class='identifier'><a name='455_0'>
+typedef</a></span><span class='identifier'><a name='455_8'> bool</a></span><span class='identifier'><a name='455_15'> (^sourcekitd_variant_dictionary_applier_t</a></span><span class='identifier'><a name='455_56'>)(sourcekitd_uid_t</a></span><span class='identifier'><a name='455_73'> key</a></span><span class='identifier'><a name='337_2' title='usrString'>,
+                                                    sourcekitd_variant_t</a></span><span class='identifier'><a name='456_73'> value</a></span><span class='doccomment'><a name='458_0'>);
+
+/**
+ * \brief Invokes the given block for every key/value pair in the dictionary.
+ *
+ * \returns true to indicate that iteration of the dictionary completed
+ * successfully. Iteration will only fail if the applier block returns false.
+ */</a></span><span class='identifier'><a name='464_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='464_18'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='465_0'>
+bool</a></span><span class='identifier'><a name='466_0' title='usrString'>
+sourcekitd_variant_dictionary_apply</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='466_57'> dict</a></span><span class='identifier'><a name='467_31'>,
+                               sourcekitd_variant_dictionary_applier_t</a></span><span class='identifier'><a name='467_71'> applier</a></span><span class='keyword'><a name='468_0'>);
+#endif</a></span><span class='doccomment'><a name='470_0'>
+
+/**
+ * \brief A function to be invoked for every key/value pair in the dictionary.
+ *
+ * \param key The current key in the iteration.
+ *
+ * \param value The current value in the iteration.
+ *
+ * \returns true to indicate that iteration should continue.
+ */</a></span><span class='identifier'><a name='479_0'>
+typedef</a></span><span class='identifier'><a name='479_8'> bool</a></span><span class='identifier'><a name='479_15'> (*sourcekitd_variant_dictionary_applier_f_t</a></span><span class='identifier'><a name='479_58'>)(sourcekitd_uid_t</a></span><span class='identifier'><a name='479_75'> key</a></span><span class='identifier'><a name='337_2' title='usrString'>,
+                                                    sourcekitd_variant_t</a></span><span class='identifier'><a name='480_73'> value</a></span><span class='identifier'><a name='481_52'>,
+                                                    void</a></span><span class='identifier'><a name='481_58'> *context</a></span><span class='doccomment'><a name='483_0'>);
+
+/**
+ * \brief Invokes the given function for every key/value pair in the dictionary.
+ *
+ * \returns true to indicate that iteration of the dictionary completed
+ * successfully. Iteration will only fail if the applier block returns 0.
+ */</a></span><span class='identifier'><a name='489_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='489_18'> SOURCEKITD_NONNULL2</a></span><span class='identifier'><a name='490_0'>
+bool</a></span><span class='identifier'><a name='491_0' title='usrString'>
+sourcekitd_variant_dictionary_apply_f</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='491_59'> dict</a></span><span class='identifier'><a name='492_30'>,
+                              sourcekitd_variant_dictionary_applier_f_t</a></span><span class='identifier'><a name='492_72'> applier</a></span><span class='identifier'><a name='493_30'>,
+                              void</a></span><span class='identifier'><a name='493_36'> *context</a></span><span class='identifier'><a name='495_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='495_18'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>
+size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='497_0' title='usrString'>
+sourcekitd_variant_array_get_count</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='497_56'> array</a></span><span class='identifier'><a name='499_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='499_18'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='337_2' title='usrString'>
+sourcekitd_variant_t</a></span><span class='identifier'><a name='501_0' title='usrString'>
+sourcekitd_variant_array_get_value</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='501_56'> array</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>, size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='501_70'> index</a></span><span class='identifier'><a name='503_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='503_18'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='504_0'>
+const</a></span><span class='identifier'><a name='504_6'> char</a></span><span class='identifier'><a name='505_0' title='usrString'> *
+sourcekitd_variant_array_get_string</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='505_57'> array</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>, size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='505_71'> index</a></span><span class='identifier'><a name='507_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='507_18'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='29_32' title='usrString'>
+int64_t</a></span><span class='identifier'><a name='509_0' title='usrString'>
+sourcekitd_variant_array_get_int64</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='509_56'> array</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>, size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='509_70'> index</a></span><span class='identifier'><a name='511_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='511_18'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='512_0'>
+bool</a></span><span class='identifier'><a name='513_0' title='usrString'>
+sourcekitd_variant_array_get_bool</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='513_55'> array</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>, size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='513_69'> index</a></span><span class='identifier'><a name='515_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='515_18'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='516_0'>
+sourcekitd_uid_t</a></span><span class='identifier'><a name='517_0' title='usrString'>
+sourcekitd_variant_array_get_uid</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='517_54'> array</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>, size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='517_68'> index</a></span><span class='keyword'><a name='519_0'>);
+
+#if</a></span><span class='id'><a name='519_4'> SOURCEKITD_HAS_BLOCKS</a></span><span class='doccomment'><a name='520_0'>
+/**
+ * \brief A block to be invoked for every value in the array.
+ *
+ * \param index The current index in the iteration.
+ *
+ * \param value The current value in the iteration.
+ *
+ * \returns true to indicate that iteration should continue.
+ */</a></span><span class='identifier'><a name='529_0'>
+typedef</a></span><span class='identifier'><a name='529_8'> bool</a></span><span class='identifier'><a name='529_15'> (^sourcekitd_variant_array_applier_t</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>)(size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='529_58'> index</a></span><span class='identifier'><a name='337_2' title='usrString'>,
+                                                   sourcekitd_variant_t</a></span><span class='identifier'><a name='530_72'> value</a></span><span class='doccomment'><a name='532_0'>);
+
+/**
+ * \brief Invokes the given block for every value in the array.
+ *
+ * \returns true to indicate that iteration of the array completed
+ * successfully. Iteration will only fail if the applier block returns false.
+ */</a></span><span class='identifier'><a name='538_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='538_18'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='539_0'>
+bool</a></span><span class='identifier'><a name='540_0' title='usrString'>
+sourcekitd_variant_array_apply</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='540_52'> array</a></span><span class='identifier'><a name='541_31'>,
+                               sourcekitd_variant_array_applier_t</a></span><span class='identifier'><a name='541_66'> applier</a></span><span class='keyword'><a name='542_0'>);
+#endif</a></span><span class='doccomment'><a name='544_0'>
+
+/**
+ * \brief A function to be invoked for every value in the array.
+ *
+ * \param index The current index in the iteration.
+ *
+ * \param value The current value in the iteration.
+ *
+ * \returns true to indicate that iteration should continue.
+ */</a></span><span class='identifier'><a name='553_0'>
+typedef</a></span><span class='identifier'><a name='553_8'> bool</a></span><span class='identifier'><a name='553_15'> (*sourcekitd_variant_array_applier_f_t</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>)(size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='553_60'> index</a></span><span class='identifier'><a name='337_2' title='usrString'>,
+                                                     sourcekitd_variant_t</a></span><span class='identifier'><a name='554_74'> value</a></span><span class='identifier'><a name='555_53'>,
+                                                     void</a></span><span class='identifier'><a name='555_59'> *context</a></span><span class='doccomment'><a name='557_0'>);
+
+/**
+ * \brief Invokes the given function for every value in the array.
+ *
+ * \returns true to indicate that iteration of the array completed
+ * successfully. Iteration will only fail if the applier block returns false.
+ */</a></span><span class='identifier'><a name='563_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='563_18'> SOURCEKITD_NONNULL2</a></span><span class='identifier'><a name='564_0'>
+bool</a></span><span class='identifier'><a name='565_0' title='usrString'>
+sourcekitd_variant_array_apply_f</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='565_54'> array</a></span><span class='identifier'><a name='566_33'>,
+                                 sourcekitd_variant_array_applier_f_t</a></span><span class='identifier'><a name='566_70'> applier</a></span><span class='identifier'><a name='567_33'>,
+                                 void</a></span><span class='identifier'><a name='567_39'> *context</a></span><span class='identifier'><a name='569_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='569_18'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='29_32' title='usrString'>
+int64_t</a></span><span class='identifier'><a name='571_0' title='usrString'>
+sourcekitd_variant_int64_get_value</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='571_56'> obj</a></span><span class='identifier'><a name='573_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='573_18'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='574_0'>
+bool</a></span><span class='identifier'><a name='575_0' title='usrString'>
+sourcekitd_variant_bool_get_value</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='575_55'> obj</a></span><span class='identifier'><a name='577_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='577_18'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='30_31' href='#' title='usrString2' onclick='return expand(this);'>
+size_t<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="_size_t.html#30_31"; return false;'>_size_t.swift:30</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef.html#45_22"; event.stopPropagation(); return false;'>stddef.swift:45</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef_.html#61_22"; event.stopPropagation(); return false;'>stddef_.swift:61</td><td><pre>(usr.reflines[i])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="stddef__.html#61_22"; event.stopPropagation(); return false;'>stddef__.swift:61</td><td><pre>(usr.reflines[i])</pre></td></table></span></a></span><span class='identifier'><a name='579_0' title='usrString'>
+sourcekitd_variant_string_get_length</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='579_58'> obj</a></span><span class='identifier'><a name='581_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='581_18'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='582_0'>
+const</a></span><span class='identifier'><a name='582_6'> char</a></span><span class='identifier'><a name='583_0' title='usrString'> *
+sourcekitd_variant_string_get_ptr</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='583_55'> obj</a></span><span class='identifier'><a name='585_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='585_18'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='586_0'>
+sourcekitd_uid_t</a></span><span class='identifier'><a name='587_0' title='usrString'>
+sourcekitd_variant_uid_get_value</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='587_54'> obj</a></span><span class='doccomment'><a name='589_0'>);
+
+/**
+ * \brief Prints to stderr a string representation of the response object in
+ * YAML format.
+ */</a></span><span class='identifier'><a name='593_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='593_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='594_0'>
+void</a></span><span class='identifier'><a name='595_0' title='usrString'>
+sourcekitd_response_description_dump</a></span><span class='identifier'><a name='595_37'>(sourcekitd_response_t</a></span><span class='identifier'><a name='595_59'> resp</a></span><span class='doccomment'><a name='597_0'>);
+
+/**
+ * \brief Prints to the given file descriptor a string representation of the
+ * response object.
+ */</a></span><span class='identifier'><a name='601_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='601_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='602_0'>
+void</a></span><span class='identifier'><a name='603_0' title='usrString'>
+sourcekitd_response_description_dump_filedesc</a></span><span class='identifier'><a name='603_46'>(sourcekitd_response_t</a></span><span class='identifier'><a name='603_68'> resp</a></span><span class='identifier'><a name='604_46'>,
+                                              int</a></span><span class='identifier'><a name='604_50'> fd</a></span><span class='doccomment'><a name='606_0'>);
+
+/**
+ * \brief Copies a string representation of the response object in YAML format.
+ * \returns A string representation of the response object. This string should
+ * be disposed of with \c free when done.
+ */</a></span><span class='identifier'><a name='611_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='611_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='612_0'>
+char</a></span><span class='identifier'><a name='613_0' title='usrString'> *
+sourcekitd_response_description_copy</a></span><span class='identifier'><a name='613_37'>(sourcekitd_response_t</a></span><span class='identifier'><a name='613_59'> resp</a></span><span class='doccomment'><a name='615_0'>);
+
+/**
+ * \brief Prints to stderr a string representation of the variant object in
+ * YAML format.
+ */</a></span><span class='identifier'><a name='619_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='620_0'>
+void</a></span><span class='identifier'><a name='621_0' title='usrString'>
+sourcekitd_variant_description_dump</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='621_57'> obj</a></span><span class='doccomment'><a name='623_0'>);
+
+/**
+ * \brief Prints to the given file descriptor a string representation of the
+ * variant object.
+ */</a></span><span class='identifier'><a name='627_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='628_0'>
+void</a></span><span class='identifier'><a name='629_0' title='usrString'>
+sourcekitd_variant_description_dump_filedesc</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='629_66'> obj</a></span><span class='identifier'><a name='629_71'>, int</a></span><span class='identifier'><a name='629_75'> fd</a></span><span class='doccomment'><a name='631_0'>);
+
+/**
+ * \brief Copies a string representation of the variant object in YAML format.
+ * \returns A string representation of the variant object. This string should
+ * be disposed of with \c free when done.
+ */</a></span><span class='identifier'><a name='636_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='637_0'>
+char</a></span><span class='identifier'><a name='638_0' title='usrString'> *
+sourcekitd_variant_description_copy</a></span><span class='identifier'><a name='337_2' title='usrString'>(sourcekitd_variant_t</a></span><span class='identifier'><a name='638_57'> obj</a></span><span class='doccomment'><a name='640_0'>);
+
+/**
+ * @}
+ */</a></span><span class='doccomment'><a name='644_0'>
+
+/**
+ * \brief Invoke a request synchronously.
+ *
+ * The caller accepts ownership of the returned sourcekitd_response_t object and
+ * should invoke \c sourcekitd_response_dispose on it when it is done with it.
+ */</a></span><span class='identifier'><a name='650_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='650_18'> SOURCEKITD_NONNULL_ALL</a></span><span class='identifier'><a name='650_41'> SOURCEKITD_WARN_RESULT</a></span><span class='identifier'><a name='651_0'>
+sourcekitd_response_t</a></span><span class='identifier'><a name='652_0' title='usrString'>
+sourcekitd_send_request_sync</a></span><span class='identifier'><a name='652_29'>(sourcekitd_object_t</a></span><span class='identifier'><a name='652_49'> req</a></span><span class='doccomment'><a name='654_0'>);
+
+/**
+ * \brief Used to cancel a request that has been invoked asynchronously.
+ */</a></span><span class='identifier'><a name='657_0'>
+typedef</a></span><span class='identifier'><a name='657_8'> void</a></span><span class='identifier'><a name='657_14'> *sourcekitd_request_handle_t</a></span><span class='keyword'><a name='659_0'>;
+
+#if</a></span><span class='id'><a name='659_4'> SOURCEKITD_HAS_BLOCKS</a></span><span class='doccomment'><a name='660_0'>
+/**
+ * \brief Receives the response of an asynchronous request or notification.
+ *
+ * The receiver accepts ownership of the response object and should invoke
+ * \c sourcekitd_response_dispose on it when it is done with it.
+ */</a></span><span class='identifier'><a name='666_0'>
+typedef</a></span><span class='identifier'><a name='666_8'> void</a></span><span class='identifier'><a name='666_15'> (^sourcekitd_response_receiver_t</a></span><span class='identifier'><a name='666_47'>)(sourcekitd_response_t</a></span><span class='identifier'><a name='666_69'> resp</a></span><span class='doccomment'><a name='668_0'>);
+
+/**
+ * \brief Invoke a request asynchronously.
+ *
+ * \param req the request object.
+ *
+ * \param out_handle the address where the associated
+ * \c sourcekitd_request_handle_t will be stored. Can be NULL.
+ *
+ * \param receiver the block that will receive the response object.
+ */</a></span><span class='identifier'><a name='678_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='678_18'> SOURCEKITD_NONNULL1</a></span><span class='identifier'><a name='679_0'>
+void</a></span><span class='identifier'><a name='680_0' title='usrString'>
+sourcekitd_send_request</a></span><span class='identifier'><a name='680_24'>(sourcekitd_object_t</a></span><span class='identifier'><a name='680_44'> req</a></span><span class='identifier'><a name='681_24'>,
+                        sourcekitd_request_handle_t</a></span><span class='identifier'><a name='681_53'> *out_handle</a></span><span class='identifier'><a name='682_24'>,
+                        sourcekitd_response_receiver_t</a></span><span class='identifier'><a name='682_55'> receiver</a></span><span class='keyword'><a name='683_0'>);
+#endif</a></span><span class='doccomment'><a name='685_0'>
+
+/**
+ * \brief Cancel a request using the associated request handle returned by
+ * \c sourcekitd_send_request.
+ *
+ * It is not guaranteed that invoking \c sourcekitd_cancel_request will cancel
+ * the request. If the request gets cancelled, the receiver will get a
+ * \c SOURCEKITD_ERROR_REQUEST_CANCELLED response error.
+ *
+ * Calling \c sourcekitd_cancel_request after the response object has been
+ * delivered will have no effect.
+ */</a></span><span class='identifier'><a name='696_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='697_0'>
+void</a></span><span class='identifier'><a name='698_0' title='usrString'>
+sourcekitd_cancel_request</a></span><span class='identifier'><a name='698_26'>(sourcekitd_request_handle_t</a></span><span class='identifier'><a name='698_54'> handle</a></span><span class='keyword'><a name='700_0'>);
+
+#if</a></span><span class='id'><a name='700_4'> SOURCEKITD_HAS_BLOCKS</a></span><span class='doccomment'><a name='702_0'>
+
+/**
+ * \brief Sets the handler which should be called to receive notifications.
+ * The block will be set to be executed in the main thread queue.
+ *
+ * If the connection to SourceKit is interrupted the handler will receive an
+ * error response object of kind \c SOURCEKITD_ERROR_CONNECTION_INTERRUPTED.
+ * Any subsequent requests will immediately fail with the same error until
+ * the service is restored.
+ * When the service is restored the handler will receive an empty response
+ * object.
+ *
+ * \param receiver Notification handler block to use. Pass NULL to remove the
+ * previous handler that was set.
+ */</a></span><span class='identifier'><a name='716_0'>
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='717_0'>
+void</a></span><span class='identifier'><a name='718_0' title='usrString'>
+sourcekitd_set_notification_handler</a></span><span class='identifier'><a name='718_36'>(sourcekitd_response_receiver_t</a></span><span class='identifier'><a name='718_67'> receiver</a></span><span class='identifier'><a name='720_0'>);
+
+typedef</a></span><span class='identifier'><a name='720_8'> sourcekitd_uid_t</a></span><span class='identifier'><a name='720_26'>(^sourcekitd_uid_handler_t</a></span><span class='identifier'><a name='720_52'>)(const</a></span><span class='identifier'><a name='720_58'> char</a></span><span class='identifier'><a name='720_64'>* uidStr</a></span><span class='identifier'><a name='722_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='722_18'> SOURCEKITD_DEPRECATED</a></span><span class='string'><a name='722_40'>("use sourcekitd_set_uid_handlers"</a></span><span class='identifier'><a name='723_0'>)
+void</a></span><span class='identifier'><a name='723_5' title='usrString'> sourcekitd_set_uid_handler</a></span><span class='identifier'><a name='723_32'>(sourcekitd_uid_handler_t</a></span><span class='identifier'><a name='723_57'> handler</a></span><span class='identifier'><a name='725_0'>);
+
+typedef</a></span><span class='identifier'><a name='725_8'> sourcekitd_uid_t</a></span><span class='identifier'><a name='725_26'>(^sourcekitd_uid_from_str_handler_t</a></span><span class='identifier'><a name='725_61'>)(const</a></span><span class='identifier'><a name='725_67'> char</a></span><span class='identifier'><a name='725_73'>* uidStr</a></span><span class='identifier'><a name='726_0'>);
+typedef</a></span><span class='identifier'><a name='726_8'> const</a></span><span class='identifier'><a name='726_14'> char</a></span><span class='identifier'><a name='726_22'> *(^sourcekitd_str_from_uid_handler_t</a></span><span class='identifier'><a name='726_57'>)(sourcekitd_uid_t</a></span><span class='identifier'><a name='726_74'> uid</a></span><span class='identifier'><a name='728_0'>);
+
+SOURCEKITD_PUBLIC</a></span><span class='identifier'><a name='729_0'>
+void</a></span><span class='identifier'><a name='730_0' title='usrString'>
+sourcekitd_set_uid_handlers</a></span><span class='identifier'><a name='730_28'>(sourcekitd_uid_from_str_handler_t</a></span><span class='identifier'><a name='730_62'> uid_from_str</a></span><span class='identifier'><a name='731_28'>,
+                            sourcekitd_str_from_uid_handler_t</a></span><span class='identifier'><a name='731_62'> str_from_uid</a></span><span class='keyword'><a name='733_0'>);
+
+#endif</a></span><span class='identifier'><a name='735_0'>
+
+SOURCEKITD_END_DECLS</a></span><span class='keyword'><a name='737_0'>
+
+#endif</a></span>
