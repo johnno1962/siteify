@@ -318,7 +318,7 @@ class SourceKit {
             if SKApi.sourcekitd_variant_get_type( children ) == SOURCEKITD_VARIANT_TYPE_ARRAY {
 
                 visualiser?.enter()
-                SKApi.sourcekitd_variant_array_apply( children ) { (_,dict) in
+                _ = SKApi.sourcekitd_variant_array_apply( children ) { (_,dict) in
 
                     block( dict )
                     visualiser?.present( dict: dict, indent: indent )

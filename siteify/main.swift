@@ -10,10 +10,11 @@
 //  Repo: https://github.com/johnno1962/siteify
 //
 
-import Foundation
-import SwiftLSPClient
+import Cocoa
 #if SWIFT_PACKAGE
 import SourceKit
 #endif
 
 Siteify(projectRoot: ".").generateSite(into: "html")
+
+NSWorkspace.shared.open(URL(fileURLWithPath: "html/index.html"))

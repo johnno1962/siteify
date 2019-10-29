@@ -49,11 +49,7 @@ public class Siteify {
     let sourceKit = SourceKit(isTTY: false)
     let projectRoot: String
 
-    let synchronizer: NSLock = {
-        let lock = NSLock()
-        lock.lock()
-        return lock
-    }()
+    let synchronizer = DispatchSemaphore(value: 0)
 
     func syncCheck(_ block: @escaping (@escaping (LanguageServerError?) -> Void) -> Void) {
         block({
@@ -61,9 +57,9 @@ public class Siteify {
             if error != nil {
                 fatalError("syncError: \(error!)")
             }
-            self.synchronizer.unlock()
+            self.synchronizer.signal()
         })
-        synchronizer.lock()
+        synchronizer.wait()
     }
 
     func syncResult<RESP>(_ block: @escaping (@escaping (LanguageServerResult<RESP>) -> Void) -> Void) -> RESP {
@@ -76,9 +72,9 @@ public class Siteify {
             case .failure(let error):
                 fatalError("Error response \(error)")
             }
-            self.synchronizer.unlock()
+            self.synchronizer.signal()
         })
-        synchronizer.lock()
+        synchronizer.wait()
         return theResponse!
     }
 
@@ -113,9 +109,9 @@ public class Siteify {
                                       trace: Tracing.off,
                                       workspaceFolders: [WorkspaceFolder(uri: "file://\(projectRoot)/", name: "siteify")])
 
-        print(syncResult({
+        _ = syncResult({
             self.lspServer!.initialize(params: params, block: $0)
-        }))
+        })
     }
 
     var index: UnsafeMutablePointer<FILE>?
@@ -132,11 +128,12 @@ public class Siteify {
         setbuf(index, nil)
 
         for file in filemgr.enumerator(atPath: projectRoot)! {
-            if let path = file as? String, !path.starts(with: ".build"),
+            if let path = file as? String,// !path.starts(with: ".build"),
                 (try? LanguageIdentifier(for: URL(fileURLWithPath: path))) != nil {
                 processFile(path: projectRoot + "/" + path)
             }
         }
+        progress(str: "Site complete")
     }
 
     public func processFile(path: String) {
@@ -151,7 +148,7 @@ public class Siteify {
             }
 
             syncCheck {
-                self.lspServer!.didOpenTextDocument(params: DidOpenTextDocumentParams(textDocument: try! TextDocumentItem(contentsAt: path)), block: $0)
+                self.lspServer!.didOpenTextDocument(params: DidOpenTextDocumentParams(textDocument: try! TextDocumentItem(contentsOfFile: path)), block: $0)
             }
             data.withUnsafeBytes {
                 (start: UnsafePointer<Int8>) in
@@ -204,14 +201,11 @@ public class Siteify {
 
                 let resp = self.sourceKit.syntaxMap(filePath: path)
                 let dict = SKApi.sourcekitd_response_get_value(resp)
-//                SKApi.sourcekitd_response_description_dump(resp)
-//                print(syncCall({
-//                    self.lspServer!.documentSymbol(params: DocumentSymbolParams(textDocument: TextDocumentIdentifier(path: path)), block: $0)}))
                 sourceKit.recurseOver(childID: self.sourceKit.syntaxID, resp: dict) { dict in
                     let offset = dict.getInt(key: self.sourceKit.offsetID)
                     let length = dict.getInt(key: self.sourceKit.lengthID)
                     let pos = position(for: offset)
-                    print(offset, pos)
+//                    print(offset, pos)
 
                     html += skipTo(offset: offset)
                     let text = skipTo(offset: offset+length)
@@ -229,7 +223,7 @@ public class Siteify {
                         switch res {
                         case .locationArray(let a) where a.count > 0:
                             def = a.first
-                            print(res as Any)
+//                            print(res as Any)
                         default:
                             break
                         }
@@ -293,7 +287,7 @@ public class Siteify {
             input = input.replacingOccurrences(of: tag, with: value) as NSString
         }
         let out = fopen(dest ?? "html/"+template, "w")!
-        (input as String).withCString {
+        _ = (input as String).withCString {
             fputs($0, out)
         }
         return out
