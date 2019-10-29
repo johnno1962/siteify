@@ -1,0 +1,44 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+0001    <span class='comment'><a name='1_0' title='usrString0'>//
+0002    </a></span><span class='comment'><a name='2_0' title='usrString0'>//  MockProtocolTransportMessage.swift
+0003    </a></span><span class='comment'><a name='3_0' title='usrString0'>//  SwiftLSPClientTests
+0004    </a></span><span class='comment'><a name='4_0' title='usrString0'>//
+0005    </a></span><span class='comment'><a name='5_0' title='usrString0'>//  Created by Matt Massicotte on 2019-02-08.
+0006    </a></span><span class='comment'><a name='6_0' title='usrString0'>//  Copyright © 2019 Chime Systems. All rights reserved.
+0007    </a></span><span class='comment'><a name='7_0' title='usrString0'>//
+0008    </a></span>
+0009    <span class='keyword'><a name='9_0' title='usrString0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
+0010    <span class='keyword'><a name='10_0' title='usrString0'>import</a></span> <span class='identifier'><a name='10_7'>SwiftLSPClient</a></span>
+0011    
+0012    <span class='keyword'><a name='12_0' title='usrString0'>class</a></span> <span class='identifier'><a name='12_6'>MockProtocolTransportDelegate</a></span>: <span class='typeidentifier'><a name='12_37' title='usrString0'>ProtocolTransportDelegate</a></span> {
+0013        <span class='keyword'><a name='13_4' title='usrString0'>var</a></span> <span class='identifier'><a name='13_8'>notificationHandler</a></span>: ((<span class='typeidentifier'><a name='13_31' title='usrString0'>String</a></span>, <span class='typeidentifier'><a name='13_39' title='usrString0'>Data</a></span>) -> <span class='typeidentifier'><a name='13_48' title='usrString0'>Void</a></span>)?
+0014    
+0015        <span class='keyword'><a name='15_4' title='usrString0'>func</a></span> <span class='identifier'><a name='15_9'>transportReceived</a></span>(<span class='keyword'><a name='15_27' href='MockProtocolTransportMessage.html#15_9' title='usrString1'>_</a></span> <span class='identifier'><a name='15_29'>transport</a></span>: <span class='typeidentifier'><a name='15_40' title='usrString0'>ProtocolTransport</a></span>, <span class='identifier'><a name='15_59'>undecodableData</a></span> <span class='identifier'><a name='15_75'>data</a></span>: <span class='typeidentifier'><a name='15_81' title='usrString0'>Data</a></span>) {
+0016        }
+0017    
+0018        <span class='keyword'><a name='18_4' title='usrString0'>func</a></span> <span class='identifier'><a name='18_9'>transportReceived</a></span>(<span class='keyword'><a name='18_27' href='MockProtocolTransportMessage.html#18_9' title='usrString1'>_</a></span> <span class='identifier'><a name='18_29'>transport</a></span>: <span class='typeidentifier'><a name='18_40' title='usrString0'>ProtocolTransport</a></span>, <span class='identifier'><a name='18_59'>notificationMethod</a></span>: <span class='typeidentifier'><a name='18_79' title='usrString0'>String</a></span>, <span class='identifier'><a name='18_87'>data</a></span>: <span class='typeidentifier'><a name='18_93' title='usrString0'>Data</a></span>) {
+0019            <span class='identifier'><a name='19_8'>notificationHandler</a></span>?(<span class='identifier'><a name='19_29'>notificationMethod</a></span>, <span class='identifier'><a name='19_49'>data</a></span>)
+0020        }
+0021    }
+0022    

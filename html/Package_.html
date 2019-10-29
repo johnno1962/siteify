@@ -1,0 +1,29 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+0001    <span class='comment'><a name='1_0' title='usrString0'>// swift-tools-version:5.1
+0002    </a></span><span class='keyword'><a name='2_0' title='usrString0'>import</a></span> <span class='identifier'><a name='2_7'>PackageDescription</a></span>
+0003    
+0004    <span class='keyword'><a name='4_0' title='usrString0'>let</a></span> <span class='identifier'><a name='4_4'>package</a></span> = <span class='identifier'><a name='4_14'>Package</a></span>(
+0005      <span class='identifier'><a name='5_2'>name</a></span>: <span class='string'><a name='5_8' title='usrString0'>"SourceKit"</a></span>
+0006    )
+0007    

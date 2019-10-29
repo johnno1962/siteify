@@ -1,0 +1,56 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+0001    <span class='comment'><a name='1_0' title='usrString0'>//
+0002    </a></span><span class='comment'><a name='2_0' title='usrString0'>//  TextDocumentIndentifier.swift
+0003    </a></span><span class='comment'><a name='3_0' title='usrString0'>//  SwiftLSPClient
+0004    </a></span><span class='comment'><a name='4_0' title='usrString0'>//
+0005    </a></span><span class='comment'><a name='5_0' title='usrString0'>//  Created by Matt Massicotte on 2019-02-07.
+0006    </a></span><span class='comment'><a name='6_0' title='usrString0'>//  Copyright © 2019 Chime Systems. All rights reserved.
+0007    </a></span><span class='comment'><a name='7_0' title='usrString0'>//
+0008    </a></span>
+0009    <span class='keyword'><a name='9_0' title='usrString0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
+0010    
+0011    <span class='builtin'><a name='11_0' title='usrString0'>public</a></span> <span class='keyword'><a name='11_7' title='usrString0'>struct</a></span> <span class='identifier'><a name='11_14'>TextDocumentIdentifier</a></span> {
+0012        <span class='builtin'><a name='12_4' title='usrString0'>public</a></span> <span class='keyword'><a name='12_11' title='usrString0'>let</a></span> <span class='identifier'><a name='12_15'>uri</a></span>: <span class='typeidentifier'><a name='12_20' href='Basic.html#11_17' title='usrString1'>DocumentUri</a></span>
+0013    
+0014        <span class='builtin'><a name='14_4' title='usrString0'>public</a></span> <span class='keyword'><a name='14_11' href='#' title='usrString2' onclick='return expand(this);'>init<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="LanguageFeatures.html#40_17"; event.stopPropagation(); return false;'>LanguageFeatures.swift:40</td><td><pre>        let td = TextDocumentIdentifier(uri: uri)</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="TextSynchronization.html#66_20"; event.stopPropagation(); return false;'>TextSynchronization.swift:66</td><td><pre>        let docId = TextDocumentIdentifier(uri: uri)</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="TextSynchronization.html#86_20"; event.stopPropagation(); return false;'>TextSynchronization.swift:86</td><td><pre>        let docId = TextDocumentIdentifier(uri: uri)</pre></td></table></span></a></span>(<span class='identifier'><a name='14_16'>uri</a></span>: <span class='typeidentifier'><a name='14_21' href='Basic.html#11_17' title='usrString1'>DocumentUri</a></span>) {
+0015            <span class='keyword'><a name='15_8' href='TextDocumentIndentifier.html#14_11' title='usrString1'>self</a></span>.<span class='identifier'><a name='15_13'>uri</a></span> = <span class='identifier'><a name='15_19'>uri</a></span>
+0016        }
+0017    
+0018        <span class='builtin'><a name='18_4' title='usrString0'>public</a></span> <span class='keyword'><a name='18_11' href='#' title='usrString2' onclick='return expand(this);'>init<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.html#225_108"; event.stopPropagation(); return false;'>Siteify.swift:225</td><td><pre>                                self.lspServer!.definition(params: TextDocumentPositionParams(textDocument: TextDocumentIdentifier(path: path), position: pos), block: $0)</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.html#239_101"; event.stopPropagation(); return false;'>Siteify.swift:239</td><td><pre>                                    self.lspServer!.references(params: ReferenceParams(textDocument: TextDocumentIdentifier(path: path), position: pos, context: ReferenceContext(includeDeclaration: false)), block: $0)}) {</pre></td></table></span></a></span>(<span class='identifier'><a name='18_16'>path</a></span>: <span class='typeidentifier'><a name='18_22' title='usrString0'>String</a></span>) {
+0019            <span class='keyword'><a name='19_8' href='TextDocumentIndentifier.html#18_11' title='usrString1'>self</a></span>.<span class='identifier'><a name='19_13'>uri</a></span> = <span class='identifier'><a name='19_19'>URL</a></span>(<span class='identifier'><a name='19_23'>fileURLWithPath</a></span>: <span class='identifier'><a name='19_40'>path</a></span>).<span class='identifier'><a name='19_46'>absoluteString</a></span>
+0020        }
+0021    }
+0022    
+0023    <span class='keyword'><a name='23_0' title='usrString0'>extension</a></span> <span class='typeidentifier'><a name='23_10' href='TextDocumentIndentifier.html#11_14' title='usrString1'>TextDocumentIdentifier</a></span>: <span class='typeidentifier'><a name='23_34' title='usrString0'>Codable</a></span> {
+0024    }
+0025    
+0026    <span class='keyword'><a name='26_0' title='usrString0'>extension</a></span> <span class='typeidentifier'><a name='26_10' href='TextDocumentIndentifier.html#11_14' title='usrString1'>TextDocumentIdentifier</a></span>: <span class='typeidentifier'><a name='26_34' title='usrString0'>Equatable</a></span> {
+0027    }
+0028    
+0029    <span class='keyword'><a name='29_0' title='usrString0'>extension</a></span> <span class='typeidentifier'><a name='29_10' href='TextDocumentIndentifier.html#11_14' title='usrString1'>TextDocumentIdentifier</a></span>: <span class='typeidentifier'><a name='29_34' title='usrString0'>CustomStringConvertible</a></span> {
+0030        <span class='builtin'><a name='30_4' title='usrString0'>public</a></span> <span class='keyword'><a name='30_11' title='usrString0'>var</a></span> <span class='identifier'><a name='30_15'>description</a></span>: <span class='typeidentifier'><a name='30_28' title='usrString0'>String</a></span> {
+0031            <span class='keyword'><a name='31_8' title='usrString0'>return</a></span> <span class='identifier'><a name='31_15'>uri</a></span>.<span class='identifier'><a name='31_19'>description</a></span>
+0032        }
+0033    }
+0034    

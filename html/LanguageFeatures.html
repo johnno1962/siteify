@@ -1,0 +1,242 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+0001    <span class='comment'><a name='1_0' title='usrString0'>//
+0002    </a></span><span class='comment'><a name='2_0' title='usrString0'>//  LanguageFeatures.swift
+0003    </a></span><span class='comment'><a name='3_0' title='usrString0'>//  SwiftLSPClient
+0004    </a></span><span class='comment'><a name='4_0' title='usrString0'>//
+0005    </a></span><span class='comment'><a name='5_0' title='usrString0'>//  Created by Matt Massicotte on 2018-10-15.
+0006    </a></span><span class='comment'><a name='6_0' title='usrString0'>//  Copyright © 2018 Chime Systems. All rights reserved.
+0007    </a></span><span class='comment'><a name='7_0' title='usrString0'>//
+0008    </a></span>
+0009    <span class='keyword'><a name='9_0' title='usrString0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
+0010    
+0011    <span class='comment'><a name='11_0' title='usrString0'>// MARK: Completion
+0012    </a></span><span class='builtin'><a name='12_0' title='usrString0'>public</a></span> <span class='keyword'><a name='12_7' title='usrString0'>enum</a></span> <span class='identifier'><a name='12_12'>CompletionTriggerKind</a></span>: <span class='typeidentifier'><a name='12_35' title='usrString0'>Int</a></span>, <span class='typeidentifier'><a name='12_40' title='usrString0'>Codable</a></span> {
+0013        <span class='keyword'><a name='13_4' title='usrString0'>case</a></span> <span class='identifier'><a name='13_9'>invoked</a></span> = <span class='number'><a name='13_19' title='usrString0'>1</a></span>
+0014        <span class='keyword'><a name='14_4' title='usrString0'>case</a></span> <span class='identifier'><a name='14_9'>triggerCharacter</a></span> = <span class='number'><a name='14_28' title='usrString0'>2</a></span>
+0015        <span class='keyword'><a name='15_4' title='usrString0'>case</a></span> <span class='identifier'><a name='15_9'>triggerForIncompleteCompletions</a></span> = <span class='number'><a name='15_43' title='usrString0'>3</a></span>
+0016    }
+0017    
+0018    <span class='builtin'><a name='18_0' title='usrString0'>public</a></span> <span class='keyword'><a name='18_7' title='usrString0'>struct</a></span> <span class='identifier'><a name='18_14'>CompletionContext</a></span>: <span class='typeidentifier'><a name='18_33' title='usrString0'>Codable</a></span> {
+0019        <span class='builtin'><a name='19_4' title='usrString0'>public</a></span> <span class='keyword'><a name='19_11' title='usrString0'>let</a></span> <span class='identifier'><a name='19_15'>triggerKind</a></span>: <span class='typeidentifier'><a name='19_28' title='usrString0'>CompletionTriggerKind</a></span>
+0020        <span class='builtin'><a name='20_4' title='usrString0'>public</a></span> <span class='keyword'><a name='20_11' title='usrString0'>let</a></span> <span class='identifier'><a name='20_15'>triggerCharacter</a></span>: <span class='typeidentifier'><a name='20_33' title='usrString0'>String</a></span>?
+0021        
+0022        <span class='builtin'><a name='22_4' title='usrString0'>public</a></span> <span class='keyword'><a name='22_11' title='usrString0'>init</a></span>(<span class='identifier'><a name='22_16'>triggerKind</a></span>: <span class='typeidentifier'><a name='22_29' title='usrString0'>CompletionTriggerKind</a></span>, <span class='identifier'><a name='22_52'>triggerCharacter</a></span>: <span class='typeidentifier'><a name='22_70' title='usrString0'>String</a></span>?) {
+0023            <span class='keyword'><a name='23_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='23_13'>triggerKind</a></span> = <span class='identifier'><a name='23_27'>triggerKind</a></span>
+0024            <span class='keyword'><a name='24_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='24_13'>triggerCharacter</a></span> = <span class='identifier'><a name='24_32'>triggerCharacter</a></span>
+0025        }
+0026    }
+0027    
+0028    <span class='builtin'><a name='28_0' title='usrString0'>public</a></span> <span class='keyword'><a name='28_7' title='usrString0'>struct</a></span> <span class='identifier'><a name='28_14'>CompletionParams</a></span>: <span class='typeidentifier'><a name='28_32' title='usrString0'>Codable</a></span> {
+0029        <span class='builtin'><a name='29_4' title='usrString0'>public</a></span> <span class='keyword'><a name='29_11' title='usrString0'>let</a></span> <span class='identifier'><a name='29_15'>textDocument</a></span>: <span class='typeidentifier'><a name='29_29' title='usrString0'>TextDocumentIdentifier</a></span>
+0030        <span class='builtin'><a name='30_4' title='usrString0'>public</a></span> <span class='keyword'><a name='30_11' title='usrString0'>let</a></span> <span class='identifier'><a name='30_15'>position</a></span>: <span class='typeidentifier'><a name='30_25' title='usrString0'>Position</a></span>
+0031        <span class='builtin'><a name='31_4' title='usrString0'>public</a></span> <span class='keyword'><a name='31_11' title='usrString0'>let</a></span> <span class='identifier'><a name='31_15'>context</a></span>: <span class='typeidentifier'><a name='31_24' title='usrString0'>CompletionContext</a></span>?
+0032        
+0033        <span class='builtin'><a name='33_4' title='usrString0'>public</a></span> <span class='keyword'><a name='33_11' title='usrString0'>init</a></span>(<span class='identifier'><a name='33_16'>textDocument</a></span>: <span class='typeidentifier'><a name='33_30' title='usrString0'>TextDocumentIdentifier</a></span>, <span class='identifier'><a name='33_54'>position</a></span>: <span class='typeidentifier'><a name='33_64' title='usrString0'>Position</a></span>, <span class='identifier'><a name='33_74'>context</a></span>: <span class='typeidentifier'><a name='33_83' title='usrString0'>CompletionContext</a></span>?) {
+0034            <span class='keyword'><a name='34_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='34_13'>textDocument</a></span> = <span class='identifier'><a name='34_28'>textDocument</a></span>
+0035            <span class='keyword'><a name='35_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='35_13'>position</a></span> = <span class='identifier'><a name='35_24'>position</a></span>
+0036            <span class='keyword'><a name='36_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='36_13'>context</a></span> = <span class='identifier'><a name='36_23'>context</a></span>
+0037        }
+0038        
+0039        <span class='builtin'><a name='39_4' title='usrString0'>public</a></span> <span class='keyword'><a name='39_11' title='usrString0'>init</a></span>(<span class='identifier'><a name='39_16'>uri</a></span>: <span class='typeidentifier'><a name='39_21' title='usrString0'>DocumentUri</a></span>, <span class='identifier'><a name='39_34'>position</a></span>: <span class='typeidentifier'><a name='39_44' title='usrString0'>Position</a></span>, <span class='identifier'><a name='39_54'>triggerKind</a></span>: <span class='typeidentifier'><a name='39_67' title='usrString0'>CompletionTriggerKind</a></span>, <span class='identifier'><a name='39_90'>triggerCharacter</a></span>: <span class='typeidentifier'><a name='39_108' title='usrString0'>String</a></span>?) {
+0040            <span class='keyword'><a name='40_8' title='usrString0'>let</a></span> <span class='identifier'><a name='40_12'>td</a></span> = <span class='identifier'><a name='40_17'>TextDocumentIdentifier</a></span>(<span class='identifier'><a name='40_40'>uri</a></span>: <span class='identifier'><a name='40_45'>uri</a></span>)
+0041            <span class='keyword'><a name='41_8' title='usrString0'>let</a></span> <span class='identifier'><a name='41_12'>ctx</a></span> = <span class='identifier'><a name='41_18'>CompletionContext</a></span>(<span class='identifier'><a name='41_36'>triggerKind</a></span>: <span class='identifier'><a name='41_49'>triggerKind</a></span>, <span class='identifier'><a name='41_62'>triggerCharacter</a></span>: <span class='identifier'><a name='41_80'>triggerCharacter</a></span>)
+0042            
+0043            <span class='keyword'><a name='43_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='43_13'>init</a></span>(<span class='identifier'><a name='43_18'>textDocument</a></span>: <span class='identifier'><a name='43_32'>td</a></span>, <span class='identifier'><a name='43_36'>position</a></span>: <span class='identifier'><a name='43_46'>position</a></span>, <span class='identifier'><a name='43_56'>context</a></span>: <span class='identifier'><a name='43_65'>ctx</a></span>)
+0044        }
+0045    }
+0046    
+0047    <span class='builtin'><a name='47_0' title='usrString0'>public</a></span> <span class='keyword'><a name='47_7' title='usrString0'>enum</a></span> <span class='identifier'><a name='47_12'>InsertTextFormat</a></span>: <span class='typeidentifier'><a name='47_30' title='usrString0'>Int</a></span>, <span class='typeidentifier'><a name='47_35' title='usrString0'>Codable</a></span> {
+0048        <span class='keyword'><a name='48_4' title='usrString0'>case</a></span> <span class='identifier'><a name='48_9'>plaintext</a></span> = <span class='number'><a name='48_21' title='usrString0'>1</a></span>
+0049        <span class='keyword'><a name='49_4' title='usrString0'>case</a></span> <span class='identifier'><a name='49_9'>snippet</a></span> = <span class='number'><a name='49_19' title='usrString0'>2</a></span>
+0050    }
+0051    
+0052    <span class='builtin'><a name='52_0' title='usrString0'>public</a></span> <span class='keyword'><a name='52_7' title='usrString0'>struct</a></span> <span class='identifier'><a name='52_14'>CompletionItem</a></span>: <span class='typeidentifier'><a name='52_30' title='usrString0'>Codable</a></span> {
+0053        <span class='builtin'><a name='53_4' title='usrString0'>public</a></span> <span class='keyword'><a name='53_11' title='usrString0'>let</a></span> <span class='identifier'><a name='53_15'>label</a></span>: <span class='typeidentifier'><a name='53_22' title='usrString0'>String</a></span>
+0054        <span class='builtin'><a name='54_4' title='usrString0'>public</a></span> <span class='keyword'><a name='54_11' title='usrString0'>let</a></span> <span class='identifier'><a name='54_15'>kind</a></span>: <span class='typeidentifier'><a name='54_21' title='usrString0'>CompletionItemKind</a></span>?
+0055        <span class='builtin'><a name='55_4' title='usrString0'>public</a></span> <span class='keyword'><a name='55_11' title='usrString0'>let</a></span> <span class='identifier'><a name='55_15'>detail</a></span>: <span class='typeidentifier'><a name='55_23' title='usrString0'>String</a></span>?
+0056        <span class='builtin'><a name='56_4' title='usrString0'>public</a></span> <span class='keyword'><a name='56_11' title='usrString0'>let</a></span> <span class='identifier'><a name='56_15'>documentation</a></span>: <span class='typeidentifier'><a name='56_30' title='usrString0'>JSONValue</a></span>?
+0057        <span class='builtin'><a name='57_4' title='usrString0'>public</a></span> <span class='keyword'><a name='57_11' title='usrString0'>let</a></span> <span class='identifier'><a name='57_15'>deprecated</a></span>: <span class='typeidentifier'><a name='57_27' title='usrString0'>Bool</a></span>?
+0058        <span class='builtin'><a name='58_4' title='usrString0'>public</a></span> <span class='keyword'><a name='58_11' title='usrString0'>let</a></span> <span class='identifier'><a name='58_15'>preselect</a></span>: <span class='typeidentifier'><a name='58_26' title='usrString0'>Bool</a></span>?
+0059        <span class='builtin'><a name='59_4' title='usrString0'>public</a></span> <span class='keyword'><a name='59_11' title='usrString0'>let</a></span> <span class='identifier'><a name='59_15'>sortText</a></span>: <span class='typeidentifier'><a name='59_25' title='usrString0'>String</a></span>?
+0060        <span class='builtin'><a name='60_4' title='usrString0'>public</a></span> <span class='keyword'><a name='60_11' title='usrString0'>let</a></span> <span class='identifier'><a name='60_15'>filterText</a></span>: <span class='typeidentifier'><a name='60_27' title='usrString0'>String</a></span>?
+0061        <span class='builtin'><a name='61_4' title='usrString0'>public</a></span> <span class='keyword'><a name='61_11' title='usrString0'>let</a></span> <span class='identifier'><a name='61_15'>insertText</a></span>: <span class='typeidentifier'><a name='61_27' title='usrString0'>String</a></span>?
+0062        <span class='builtin'><a name='62_4' title='usrString0'>public</a></span> <span class='keyword'><a name='62_11' title='usrString0'>let</a></span> <span class='identifier'><a name='62_15'>insertTextFormat</a></span>: <span class='typeidentifier'><a name='62_33' title='usrString0'>InsertTextFormat</a></span>?
+0063        <span class='builtin'><a name='63_4' title='usrString0'>public</a></span> <span class='keyword'><a name='63_11' title='usrString0'>let</a></span> <span class='identifier'><a name='63_15'>textEdit</a></span>: <span class='typeidentifier'><a name='63_25' title='usrString0'>TextEdit</a></span>?
+0064        <span class='builtin'><a name='64_4' title='usrString0'>public</a></span> <span class='keyword'><a name='64_11' title='usrString0'>let</a></span> <span class='identifier'><a name='64_15'>additionalTextEdits</a></span>: [<span class='typeidentifier'><a name='64_37' title='usrString0'>TextEdit</a></span>]?
+0065        <span class='builtin'><a name='65_4' title='usrString0'>public</a></span> <span class='keyword'><a name='65_11' title='usrString0'>let</a></span> <span class='identifier'><a name='65_15'>commitCharacters</a></span>: [<span class='typeidentifier'><a name='65_34' title='usrString0'>String</a></span>]?
+0066        <span class='builtin'><a name='66_4' title='usrString0'>public</a></span> <span class='keyword'><a name='66_11' title='usrString0'>let</a></span> <span class='identifier'><a name='66_15'>command</a></span>: <span class='typeidentifier'><a name='66_24' title='usrString0'>Command</a></span>?
+0067        <span class='builtin'><a name='67_4' title='usrString0'>public</a></span> <span class='keyword'><a name='67_11' title='usrString0'>let</a></span> <span class='identifier'><a name='67_15'>data</a></span>: <span class='typeidentifier'><a name='67_21' title='usrString0'>JSONValue</a></span>?
+0068    }
+0069    
+0070    <span class='builtin'><a name='70_0' title='usrString0'>public</a></span> <span class='keyword'><a name='70_7' title='usrString0'>struct</a></span> <span class='identifier'><a name='70_14'>CompletionList</a></span>: <span class='typeidentifier'><a name='70_30' title='usrString0'>Codable</a></span> {
+0071        <span class='builtin'><a name='71_4' title='usrString0'>public</a></span> <span class='keyword'><a name='71_11' title='usrString0'>let</a></span> <span class='identifier'><a name='71_15'>isIncomplete</a></span>: <span class='typeidentifier'><a name='71_29' title='usrString0'>Bool</a></span>
+0072        <span class='builtin'><a name='72_4' title='usrString0'>public</a></span> <span class='keyword'><a name='72_11' title='usrString0'>let</a></span> <span class='identifier'><a name='72_15'>items</a></span>: [<span class='typeidentifier'><a name='72_23' title='usrString0'>CompletionItem</a></span>]
+0073        
+0074        <span class='builtin'><a name='74_4' title='usrString0'>public</a></span> <span class='keyword'><a name='74_11' title='usrString0'>init</a></span>(<span class='identifier'><a name='74_16'>isIncomplete</a></span>: <span class='typeidentifier'><a name='74_30' title='usrString0'>Bool</a></span>, <span class='identifier'><a name='74_36'>items</a></span>: [<span class='typeidentifier'><a name='74_44' title='usrString0'>CompletionItem</a></span>]) {
+0075            <span class='keyword'><a name='75_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='75_13'>isIncomplete</a></span> = <span class='identifier'><a name='75_28'>isIncomplete</a></span>
+0076            <span class='keyword'><a name='76_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='76_13'>items</a></span> = <span class='identifier'><a name='76_21'>items</a></span>
+0077        }
+0078    }
+0079    
+0080    <span class='builtin'><a name='80_0' title='usrString0'>public</a></span> <span class='keyword'><a name='80_7' title='usrString0'>enum</a></span> <span class='identifier'><a name='80_12'>CompletionResponse</a></span>: <span class='typeidentifier'><a name='80_32' title='usrString0'>Codable</a></span> {
+0081        <span class='keyword'><a name='81_4' title='usrString0'>case</a></span> <span class='identifier'><a name='81_9'>full</a></span>([<span class='typeidentifier'><a name='81_15' title='usrString0'>CompletionItem</a></span>])
+0082        <span class='keyword'><a name='82_4' title='usrString0'>case</a></span> <span class='identifier'><a name='82_9'>partial</a></span>(<span class='typeidentifier'><a name='82_17' title='usrString0'>CompletionList</a></span>)
+0083        
+0084        <span class='builtin'><a name='84_4' title='usrString0'>public</a></span> <span class='keyword'><a name='84_11' title='usrString0'>init</a></span>(<span class='identifier'><a name='84_16'>from</a></span> <span class='identifier'><a name='84_21'>decoder</a></span>: <span class='typeidentifier'><a name='84_30' title='usrString0'>Decoder</a></span>) <span class='keyword'><a name='84_39' title='usrString0'>throws</a></span> {
+0085            <span class='keyword'><a name='85_8' title='usrString0'>let</a></span> <span class='identifier'><a name='85_12'>container</a></span> = <span class='keyword'><a name='85_24' title='usrString0'>try</a></span> <span class='identifier'><a name='85_28'>decoder</a></span>.<span class='identifier'><a name='85_36'>singleValueContainer</a></span>()
+0086            
+0087            <span class='keyword'><a name='87_8' title='usrString0'>do</a></span> {
+0088                <span class='keyword'><a name='88_12' title='usrString0'>let</a></span> <span class='identifier'><a name='88_16'>value</a></span> = <span class='keyword'><a name='88_24' title='usrString0'>try</a></span> <span class='identifier'><a name='88_28'>container</a></span>.<span class='identifier'><a name='88_38'>decode</a></span>([<span class='identifier'><a name='88_46'>CompletionItem</a></span>].<span class='keyword'><a name='88_62' title='usrString0'>self</a></span>)
+0089                <span class='keyword'><a name='89_12' title='usrString0'>self</a></span> = .<span class='identifier'><a name='89_20'>full</a></span>(<span class='identifier'><a name='89_25'>value</a></span>)
+0090            } <span class='keyword'><a name='90_10' title='usrString0'>catch</a></span> <span class='identifier'><a name='90_16'>DecodingError</a></span>.<span class='identifier'><a name='90_30'>typeMismatch</a></span> {
+0091                <span class='keyword'><a name='91_12' title='usrString0'>let</a></span> <span class='identifier'><a name='91_16'>value</a></span> = <span class='keyword'><a name='91_24' title='usrString0'>try</a></span> <span class='identifier'><a name='91_28'>container</a></span>.<span class='identifier'><a name='91_38'>decode</a></span>(<span class='identifier'><a name='91_45'>CompletionList</a></span>.<span class='keyword'><a name='91_60' title='usrString0'>self</a></span>)
+0092                <span class='keyword'><a name='92_12' title='usrString0'>self</a></span> = .<span class='identifier'><a name='92_20'>partial</a></span>(<span class='identifier'><a name='92_28'>value</a></span>)
+0093            }
+0094        }
+0095        
+0096        <span class='builtin'><a name='96_4' title='usrString0'>public</a></span> <span class='keyword'><a name='96_11' title='usrString0'>func</a></span> <span class='identifier'><a name='96_16'>encode</a></span>(<span class='identifier'><a name='96_23'>to</a></span> <span class='identifier'><a name='96_26'>encoder</a></span>: <span class='typeidentifier'><a name='96_35' title='usrString0'>Encoder</a></span>) <span class='keyword'><a name='96_44' title='usrString0'>throws</a></span> {
+0097            <span class='keyword'><a name='97_8' title='usrString0'>var</a></span> <span class='identifier'><a name='97_12'>container</a></span> = <span class='identifier'><a name='97_24'>encoder</a></span>.<span class='identifier'><a name='97_32'>singleValueContainer</a></span>()
+0098            
+0099            <span class='keyword'><a name='99_8' title='usrString0'>switch</a></span> <span class='keyword'><a name='99_15' title='usrString0'>self</a></span> {
+0100            <span class='keyword'><a name='100_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='100_14'>full</a></span>(<span class='keyword'><a name='100_19' title='usrString0'>let</a></span> <span class='identifier'><a name='100_23'>value</a></span>):
+0101                <span class='keyword'><a name='101_12' title='usrString0'>try</a></span> <span class='identifier'><a name='101_16'>container</a></span>.<span class='identifier'><a name='101_26'>encode</a></span>(<span class='identifier'><a name='101_33'>value</a></span>)
+0102            <span class='keyword'><a name='102_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='102_14'>partial</a></span>(<span class='keyword'><a name='102_22' title='usrString0'>let</a></span> <span class='identifier'><a name='102_26'>value</a></span>):
+0103                <span class='keyword'><a name='103_12' title='usrString0'>try</a></span> <span class='identifier'><a name='103_16'>container</a></span>.<span class='identifier'><a name='103_26'>encode</a></span>(<span class='identifier'><a name='103_33'>value</a></span>)
+0104            }
+0105        }
+0106    
+0107        <span class='builtin'><a name='107_4' title='usrString0'>public</a></span> <span class='keyword'><a name='107_11' title='usrString0'>var</a></span> <span class='identifier'><a name='107_15'>items</a></span>: [<span class='typeidentifier'><a name='107_23' title='usrString0'>CompletionItem</a></span>] {
+0108            <span class='keyword'><a name='108_8' title='usrString0'>switch</a></span> <span class='keyword'><a name='108_15' title='usrString0'>self</a></span> {
+0109            <span class='keyword'><a name='109_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='109_14'>full</a></span>(<span class='keyword'><a name='109_19' title='usrString0'>let</a></span> <span class='identifier'><a name='109_23'>v</a></span>):
+0110                <span class='keyword'><a name='110_12' title='usrString0'>return</a></span> <span class='identifier'><a name='110_19'>v</a></span>
+0111            <span class='keyword'><a name='111_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='111_14'>partial</a></span>(<span class='keyword'><a name='111_22' title='usrString0'>let</a></span> <span class='identifier'><a name='111_26'>list</a></span>):
+0112                <span class='keyword'><a name='112_12' title='usrString0'>return</a></span> <span class='identifier'><a name='112_19'>list</a></span>.<span class='identifier'><a name='112_24'>items</a></span>
+0113            }
+0114        }
+0115    
+0116        <span class='builtin'><a name='116_4' title='usrString0'>public</a></span> <span class='keyword'><a name='116_11' title='usrString0'>var</a></span> <span class='identifier'><a name='116_15'>isIncomplete</a></span>: <span class='typeidentifier'><a name='116_29' title='usrString0'>Bool</a></span> {
+0117            <span class='keyword'><a name='117_8' title='usrString0'>switch</a></span> <span class='keyword'><a name='117_15' title='usrString0'>self</a></span> {
+0118            <span class='keyword'><a name='118_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='118_14'>full</a></span>:
+0119                <span class='keyword'><a name='119_12' title='usrString0'>return</a></span> <span class='keyword'><a name='119_19' title='usrString0'>false</a></span>
+0120            <span class='keyword'><a name='120_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='120_14'>partial</a></span>(<span class='keyword'><a name='120_22' title='usrString0'>let</a></span> <span class='identifier'><a name='120_26'>value</a></span>):
+0121                <span class='keyword'><a name='121_12' title='usrString0'>return</a></span> <span class='identifier'><a name='121_19'>value</a></span>.<span class='identifier'><a name='121_25'>isIncomplete</a></span>
+0122            }
+0123        }
+0124    }
+0125    
+0126    <span class='builtin'><a name='126_0' title='usrString0'>public</a></span> <span class='keyword'><a name='126_7' title='usrString0'>struct</a></span> <span class='identifier'><a name='126_14'>CompletionRegistrationOptions</a></span>: <span class='typeidentifier'><a name='126_45' title='usrString0'>Codable</a></span> {
+0127        <span class='builtin'><a name='127_4' title='usrString0'>public</a></span> <span class='keyword'><a name='127_11' title='usrString0'>let</a></span> <span class='identifier'><a name='127_15'>documentSelector</a></span>: <span class='typeidentifier'><a name='127_33' title='usrString0'>DocumentSelector</a></span>?
+0128        <span class='builtin'><a name='128_4' title='usrString0'>public</a></span> <span class='keyword'><a name='128_11' title='usrString0'>let</a></span> <span class='identifier'><a name='128_15'>triggerCharacters</a></span>: [<span class='typeidentifier'><a name='128_35' title='usrString0'>String</a></span>]?
+0129        <span class='builtin'><a name='129_4' title='usrString0'>public</a></span> <span class='keyword'><a name='129_11' title='usrString0'>let</a></span> <span class='identifier'><a name='129_15'>resolveProvider</a></span>: <span class='typeidentifier'><a name='129_32' title='usrString0'>Bool</a></span>?
+0130    }
+0131    
+0132    <span class='comment'><a name='132_0' title='usrString0'>// MARK: Hover
+0133    </a></span><span class='builtin'><a name='133_0' title='usrString0'>public</a></span> <span class='keyword'><a name='133_7' title='usrString0'>struct</a></span> <span class='identifier'><a name='133_14'>LanguageStringPair</a></span>: <span class='typeidentifier'><a name='133_34' title='usrString0'>Codable</a></span> {
+0134        <span class='builtin'><a name='134_4' title='usrString0'>public</a></span> <span class='keyword'><a name='134_11' title='usrString0'>let</a></span> <span class='identifier'><a name='134_15'>language</a></span>: <span class='typeidentifier'><a name='134_25' title='usrString0'>LanguageIdentifier</a></span>
+0135        <span class='builtin'><a name='135_4' title='usrString0'>public</a></span> <span class='keyword'><a name='135_11' title='usrString0'>let</a></span> <span class='identifier'><a name='135_15'>value</a></span>: <span class='typeidentifier'><a name='135_22' title='usrString0'>String</a></span>
+0136    }
+0137    
+0138    <span class='builtin'><a name='138_0' title='usrString0'>public</a></span> <span class='keyword'><a name='138_7' title='usrString0'>enum</a></span> <span class='identifier'><a name='138_12'>MarkedString</a></span>: <span class='typeidentifier'><a name='138_26' title='usrString0'>Codable</a></span> {
+0139        <span class='keyword'><a name='139_4' title='usrString0'>case</a></span> <span class='identifier'><a name='139_9'>string</a></span>(<span class='typeidentifier'><a name='139_16' title='usrString0'>String</a></span>)
+0140        <span class='keyword'><a name='140_4' title='usrString0'>case</a></span> <span class='identifier'><a name='140_9'>languageString</a></span>(<span class='typeidentifier'><a name='140_24' title='usrString0'>LanguageStringPair</a></span>)
+0141        
+0142        <span class='builtin'><a name='142_4' title='usrString0'>public</a></span> <span class='keyword'><a name='142_11' title='usrString0'>init</a></span>(<span class='identifier'><a name='142_16'>from</a></span> <span class='identifier'><a name='142_21'>decoder</a></span>: <span class='typeidentifier'><a name='142_30' title='usrString0'>Decoder</a></span>) <span class='keyword'><a name='142_39' title='usrString0'>throws</a></span> {
+0143            <span class='keyword'><a name='143_8' title='usrString0'>let</a></span> <span class='identifier'><a name='143_12'>container</a></span> = <span class='keyword'><a name='143_24' title='usrString0'>try</a></span> <span class='identifier'><a name='143_28'>decoder</a></span>.<span class='identifier'><a name='143_36'>singleValueContainer</a></span>()
+0144            
+0145            <span class='keyword'><a name='145_8' title='usrString0'>do</a></span> {
+0146                <span class='keyword'><a name='146_12' title='usrString0'>let</a></span> <span class='identifier'><a name='146_16'>value</a></span> = <span class='keyword'><a name='146_24' title='usrString0'>try</a></span> <span class='identifier'><a name='146_28'>container</a></span>.<span class='identifier'><a name='146_38'>decode</a></span>(<span class='identifier'><a name='146_45'>String</a></span>.<span class='keyword'><a name='146_52' title='usrString0'>self</a></span>)
+0147                <span class='keyword'><a name='147_12' title='usrString0'>self</a></span> = .<span class='identifier'><a name='147_20'>string</a></span>(<span class='identifier'><a name='147_27'>value</a></span>)
+0148            } <span class='keyword'><a name='148_10' title='usrString0'>catch</a></span> <span class='identifier'><a name='148_16'>DecodingError</a></span>.<span class='identifier'><a name='148_30'>typeMismatch</a></span> {
+0149                <span class='keyword'><a name='149_12' title='usrString0'>let</a></span> <span class='identifier'><a name='149_16'>value</a></span> = <span class='keyword'><a name='149_24' title='usrString0'>try</a></span> <span class='identifier'><a name='149_28'>container</a></span>.<span class='identifier'><a name='149_38'>decode</a></span>(<span class='identifier'><a name='149_45'>LanguageStringPair</a></span>.<span class='keyword'><a name='149_64' title='usrString0'>self</a></span>)
+0150                <span class='keyword'><a name='150_12' title='usrString0'>self</a></span> = .<span class='identifier'><a name='150_20'>languageString</a></span>(<span class='identifier'><a name='150_35'>value</a></span>)
+0151            }
+0152        }
+0153        
+0154        <span class='builtin'><a name='154_4' title='usrString0'>public</a></span> <span class='keyword'><a name='154_11' title='usrString0'>func</a></span> <span class='identifier'><a name='154_16'>encode</a></span>(<span class='identifier'><a name='154_23'>to</a></span> <span class='identifier'><a name='154_26'>encoder</a></span>: <span class='typeidentifier'><a name='154_35' title='usrString0'>Encoder</a></span>) <span class='keyword'><a name='154_44' title='usrString0'>throws</a></span> {
+0155            <span class='keyword'><a name='155_8' title='usrString0'>var</a></span> <span class='identifier'><a name='155_12'>container</a></span> = <span class='identifier'><a name='155_24'>encoder</a></span>.<span class='identifier'><a name='155_32'>singleValueContainer</a></span>()
+0156            
+0157            <span class='keyword'><a name='157_8' title='usrString0'>switch</a></span> <span class='keyword'><a name='157_15' title='usrString0'>self</a></span> {
+0158            <span class='keyword'><a name='158_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='158_14'>string</a></span>(<span class='keyword'><a name='158_21' title='usrString0'>let</a></span> <span class='identifier'><a name='158_25'>value</a></span>):
+0159                <span class='keyword'><a name='159_12' title='usrString0'>try</a></span> <span class='identifier'><a name='159_16'>container</a></span>.<span class='identifier'><a name='159_26'>encode</a></span>(<span class='identifier'><a name='159_33'>value</a></span>)
+0160            <span class='keyword'><a name='160_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='160_14'>languageString</a></span>(<span class='keyword'><a name='160_29' title='usrString0'>let</a></span> <span class='identifier'><a name='160_33'>value</a></span>):
+0161                <span class='keyword'><a name='161_12' title='usrString0'>try</a></span> <span class='identifier'><a name='161_16'>container</a></span>.<span class='identifier'><a name='161_26'>encode</a></span>(<span class='identifier'><a name='161_33'>value</a></span>)
+0162            }
+0163        }
+0164        
+0165        <span class='builtin'><a name='165_4' title='usrString0'>public</a></span> <span class='keyword'><a name='165_11' title='usrString0'>var</a></span> <span class='identifier'><a name='165_15'>value</a></span>: <span class='typeidentifier'><a name='165_22' title='usrString0'>String</a></span> {
+0166            <span class='keyword'><a name='166_8' title='usrString0'>switch</a></span> <span class='keyword'><a name='166_15' title='usrString0'>self</a></span> {
+0167            <span class='keyword'><a name='167_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='167_14'>string</a></span>(<span class='keyword'><a name='167_21' title='usrString0'>let</a></span> <span class='identifier'><a name='167_25'>value</a></span>):
+0168                <span class='keyword'><a name='168_12' title='usrString0'>return</a></span> <span class='identifier'><a name='168_19'>value</a></span>
+0169            <span class='keyword'><a name='169_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='169_14'>languageString</a></span>(<span class='keyword'><a name='169_29' title='usrString0'>let</a></span> <span class='identifier'><a name='169_33'>pair</a></span>):
+0170                <span class='keyword'><a name='170_12' title='usrString0'>return</a></span> <span class='identifier'><a name='170_19'>pair</a></span>.<span class='identifier'><a name='170_24'>value</a></span>
+0171            }
+0172        }
+0173        
+0174        <span class='builtin'><a name='174_4' title='usrString0'>public</a></span> <span class='keyword'><a name='174_11' title='usrString0'>var</a></span> <span class='identifier'><a name='174_15'>languageIdentifier</a></span>: <span class='typeidentifier'><a name='174_35' title='usrString0'>LanguageIdentifier</a></span>? {
+0175            <span class='keyword'><a name='175_8' title='usrString0'>switch</a></span> <span class='keyword'><a name='175_15' title='usrString0'>self</a></span> {
+0176            <span class='keyword'><a name='176_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='176_14'>languageString</a></span>(<span class='keyword'><a name='176_29' title='usrString0'>let</a></span> <span class='identifier'><a name='176_33'>pair</a></span>):
+0177                <span class='keyword'><a name='177_12' title='usrString0'>return</a></span> <span class='identifier'><a name='177_19'>pair</a></span>.<span class='identifier'><a name='177_24'>language</a></span>
+0178            <span class='keyword'><a name='178_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='178_14'>string</a></span>(<span class='keyword'><a name='178_21' title='usrString0'>_</a></span>):
+0179                <span class='keyword'><a name='179_12' title='usrString0'>return</a></span> <span class='keyword'><a name='179_19' title='usrString0'>nil</a></span>
+0180            }
+0181        }
+0182    }
+0183    
+0184    <span class='builtin'><a name='184_0' title='usrString0'>public</a></span> <span class='keyword'><a name='184_7' title='usrString0'>enum</a></span> <span class='identifier'><a name='184_12'>HoverContents</a></span>: <span class='typeidentifier'><a name='184_27' title='usrString0'>Codable</a></span> {
+0185        <span class='keyword'><a name='185_4' title='usrString0'>case</a></span> <span class='identifier'><a name='185_9'>markedString</a></span>(<span class='typeidentifier'><a name='185_22' title='usrString0'>MarkedString</a></span>)
+0186        <span class='keyword'><a name='186_4' title='usrString0'>case</a></span> <span class='identifier'><a name='186_9'>markedStringArray</a></span>([<span class='typeidentifier'><a name='186_28' title='usrString0'>MarkedString</a></span>])
+0187        <span class='keyword'><a name='187_4' title='usrString0'>case</a></span> <span class='identifier'><a name='187_9'>markupContent</a></span>(<span class='typeidentifier'><a name='187_23' title='usrString0'>MarkupContent</a></span>)
+0188        
+0189        <span class='builtin'><a name='189_4' title='usrString0'>public</a></span> <span class='keyword'><a name='189_11' title='usrString0'>init</a></span>(<span class='identifier'><a name='189_16'>from</a></span> <span class='identifier'><a name='189_21'>decoder</a></span>: <span class='typeidentifier'><a name='189_30' title='usrString0'>Decoder</a></span>) <span class='keyword'><a name='189_39' title='usrString0'>throws</a></span> {
+0190            <span class='keyword'><a name='190_8' title='usrString0'>let</a></span> <span class='identifier'><a name='190_12'>container</a></span> = <span class='keyword'><a name='190_24' title='usrString0'>try</a></span> <span class='identifier'><a name='190_28'>decoder</a></span>.<span class='identifier'><a name='190_36'>singleValueContainer</a></span>()
+0191            
+0192            <span class='keyword'><a name='192_8' title='usrString0'>if</a></span> <span class='keyword'><a name='192_11' title='usrString0'>let</a></span> <span class='identifier'><a name='192_15'>value</a></span> = <span class='keyword'><a name='192_23' title='usrString0'>try</a></span>? <span class='identifier'><a name='192_28'>container</a></span>.<span class='identifier'><a name='192_38'>decode</a></span>(<span class='identifier'><a name='192_45'>MarkedString</a></span>.<span class='keyword'><a name='192_58' title='usrString0'>self</a></span>) {
+0193                <span class='keyword'><a name='193_12' title='usrString0'>self</a></span> = .<span class='identifier'><a name='193_20'>markedString</a></span>(<span class='identifier'><a name='193_33'>value</a></span>)
+0194            } <span class='keyword'><a name='194_10' title='usrString0'>else</a></span> <span class='keyword'><a name='194_15' title='usrString0'>if</a></span> <span class='keyword'><a name='194_18' title='usrString0'>let</a></span> <span class='identifier'><a name='194_22'>value</a></span> = <span class='keyword'><a name='194_30' title='usrString0'>try</a></span>? <span class='identifier'><a name='194_35'>container</a></span>.<span class='identifier'><a name='194_45'>decode</a></span>([<span class='identifier'><a name='194_53'>MarkedString</a></span>].<span class='keyword'><a name='194_67' title='usrString0'>self</a></span>) {
+0195                <span class='keyword'><a name='195_12' title='usrString0'>self</a></span> = .<span class='identifier'><a name='195_20'>markedStringArray</a></span>(<span class='identifier'><a name='195_38'>value</a></span>)
+0196            } <span class='keyword'><a name='196_10' title='usrString0'>else</a></span> {
+0197                <span class='keyword'><a name='197_12' title='usrString0'>let</a></span> <span class='identifier'><a name='197_16'>value</a></span> = <span class='keyword'><a name='197_24' title='usrString0'>try</a></span> <span class='identifier'><a name='197_28'>container</a></span>.<span class='identifier'><a name='197_38'>decode</a></span>(<span class='identifier'><a name='197_45'>MarkupContent</a></span>.<span class='keyword'><a name='197_59' title='usrString0'>self</a></span>)
+0198                <span class='keyword'><a name='198_12' title='usrString0'>self</a></span> = .<span class='identifier'><a name='198_20'>markupContent</a></span>(<span class='identifier'><a name='198_34'>value</a></span>)
+0199            }
+0200        }
+0201        
+0202        <span class='builtin'><a name='202_4' title='usrString0'>public</a></span> <span class='keyword'><a name='202_11' title='usrString0'>func</a></span> <span class='identifier'><a name='202_16'>encode</a></span>(<span class='identifier'><a name='202_23'>to</a></span> <span class='identifier'><a name='202_26'>encoder</a></span>: <span class='typeidentifier'><a name='202_35' title='usrString0'>Encoder</a></span>) <span class='keyword'><a name='202_44' title='usrString0'>throws</a></span> {
+0203            <span class='keyword'><a name='203_8' title='usrString0'>var</a></span> <span class='identifier'><a name='203_12'>container</a></span> = <span class='identifier'><a name='203_24'>encoder</a></span>.<span class='identifier'><a name='203_32'>singleValueContainer</a></span>()
+0204            
+0205            <span class='keyword'><a name='205_8' title='usrString0'>switch</a></span> <span class='keyword'><a name='205_15' title='usrString0'>self</a></span> {
+0206            <span class='keyword'><a name='206_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='206_14'>markedString</a></span>(<span class='keyword'><a name='206_27' title='usrString0'>let</a></span> <span class='identifier'><a name='206_31'>value</a></span>):
+0207                <span class='keyword'><a name='207_12' title='usrString0'>try</a></span> <span class='identifier'><a name='207_16'>container</a></span>.<span class='identifier'><a name='207_26'>encode</a></span>(<span class='identifier'><a name='207_33'>value</a></span>)
+0208            <span class='keyword'><a name='208_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='208_14'>markedStringArray</a></span>(<span class='keyword'><a name='208_32' title='usrString0'>let</a></span> <span class='identifier'><a name='208_36'>value</a></span>):
+0209                <span class='keyword'><a name='209_12' title='usrString0'>try</a></span> <span class='identifier'><a name='209_16'>container</a></span>.<span class='identifier'><a name='209_26'>encode</a></span>(<span class='identifier'><a name='209_33'>value</a></span>)
+0210            <span class='keyword'><a name='210_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='210_14'>markupContent</a></span>(<span class='keyword'><a name='210_28' title='usrString0'>let</a></span> <span class='identifier'><a name='210_32'>value</a></span>):
+0211                <span class='keyword'><a name='211_12' title='usrString0'>try</a></span> <span class='identifier'><a name='211_16'>container</a></span>.<span class='identifier'><a name='211_26'>encode</a></span>(<span class='identifier'><a name='211_33'>value</a></span>)
+0212            }
+0213        }
+0214    }
+0215    
+0216    <span class='builtin'><a name='216_0' title='usrString0'>public</a></span> <span class='keyword'><a name='216_7' title='usrString0'>struct</a></span> <span class='identifier'><a name='216_14'>Hover</a></span>: <span class='typeidentifier'><a name='216_21' title='usrString0'>Codable</a></span> {
+0217        <span class='builtin'><a name='217_4' title='usrString0'>public</a></span> <span class='keyword'><a name='217_11' title='usrString0'>let</a></span> <span class='identifier'><a name='217_15'>contents</a></span>: <span class='typeidentifier'><a name='217_25' title='usrString0'>HoverContents</a></span>
+0218        <span class='builtin'><a name='218_4' title='usrString0'>public</a></span> <span class='keyword'><a name='218_11' title='usrString0'>let</a></span> <span class='identifier'><a name='218_15'>range</a></span>: <span class='typeidentifier'><a name='218_22' title='usrString0'>LSPRange</a></span>?
+0219    }
+0220    

@@ -1,0 +1,101 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+0001    <span class='comment'><a name='1_0' title='usrString0'>//
+0002    </a></span><span class='comment'><a name='2_0' title='usrString0'>//  DocumentSymbol.swift
+0003    </a></span><span class='comment'><a name='3_0' title='usrString0'>//  SwiftLSPClient
+0004    </a></span><span class='comment'><a name='4_0' title='usrString0'>//
+0005    </a></span><span class='comment'><a name='5_0' title='usrString0'>//  Created by Matt Massicotte on 2019-02-08.
+0006    </a></span><span class='comment'><a name='6_0' title='usrString0'>//  Copyright © 2019 Chime Systems. All rights reserved.
+0007    </a></span><span class='comment'><a name='7_0' title='usrString0'>//
+0008    </a></span>
+0009    <span class='keyword'><a name='9_0' title='usrString0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
+0010    
+0011    <span class='builtin'><a name='11_0' title='usrString0'>public</a></span> <span class='keyword'><a name='11_7' title='usrString0'>struct</a></span> <span class='identifier'><a name='11_14'>DocumentSymbolParams</a></span> {
+0012        <span class='builtin'><a name='12_4' title='usrString0'>public</a></span> <span class='keyword'><a name='12_11' title='usrString0'>let</a></span> <span class='identifier'><a name='12_15'>textDocument</a></span>: <span class='typeidentifier'><a name='12_29' title='usrString0'>TextDocumentIdentifier</a></span>
+0013    
+0014        <span class='builtin'><a name='14_4' title='usrString0'>public</a></span> <span class='keyword'><a name='14_11' title='usrString0'>init</a></span>(<span class='identifier'><a name='14_16'>textDocument</a></span>: <span class='typeidentifier'><a name='14_30' title='usrString0'>TextDocumentIdentifier</a></span>) {
+0015            <span class='keyword'><a name='15_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='15_13'>textDocument</a></span> = <span class='identifier'><a name='15_28'>textDocument</a></span>
+0016        }
+0017    }
+0018    
+0019    <span class='keyword'><a name='19_0' title='usrString0'>extension</a></span> <span class='typeidentifier'><a name='19_10' title='usrString0'>DocumentSymbolParams</a></span>: <span class='typeidentifier'><a name='19_32' title='usrString0'>Codable</a></span> {
+0020    }
+0021    
+0022    <span class='keyword'><a name='22_0' title='usrString0'>extension</a></span> <span class='typeidentifier'><a name='22_10' title='usrString0'>DocumentSymbolParams</a></span>: <span class='typeidentifier'><a name='22_32' title='usrString0'>Equatable</a></span> {
+0023    }
+0024    
+0025    <span class='builtin'><a name='25_0' title='usrString0'>public</a></span> <span class='keyword'><a name='25_7' title='usrString0'>enum</a></span> <span class='identifier'><a name='25_12'>DocumentSymbolResponse</a></span>: <span class='typeidentifier'><a name='25_36' title='usrString0'>Codable</a></span> {
+0026        <span class='keyword'><a name='26_4' title='usrString0'>case</a></span> <span class='identifier'><a name='26_9'>documentSymbols</a></span>([<span class='typeidentifier'><a name='26_26' title='usrString0'>DocumentSymbol</a></span>])
+0027        <span class='keyword'><a name='27_4' title='usrString0'>case</a></span> <span class='identifier'><a name='27_9'>symbolInformation</a></span>([<span class='typeidentifier'><a name='27_28' title='usrString0'>SymbolInformation</a></span>])
+0028    
+0029        <span class='builtin'><a name='29_4' title='usrString0'>public</a></span> <span class='keyword'><a name='29_11' title='usrString0'>init</a></span>(<span class='identifier'><a name='29_16'>from</a></span> <span class='identifier'><a name='29_21'>decoder</a></span>: <span class='typeidentifier'><a name='29_30' title='usrString0'>Decoder</a></span>) <span class='keyword'><a name='29_39' title='usrString0'>throws</a></span> {
+0030            <span class='keyword'><a name='30_8' title='usrString0'>let</a></span> <span class='identifier'><a name='30_12'>container</a></span> = <span class='keyword'><a name='30_24' title='usrString0'>try</a></span> <span class='identifier'><a name='30_28'>decoder</a></span>.<span class='identifier'><a name='30_36'>singleValueContainer</a></span>()
+0031    
+0032            <span class='keyword'><a name='32_8' title='usrString0'>do</a></span> {
+0033                <span class='keyword'><a name='33_12' title='usrString0'>let</a></span> <span class='identifier'><a name='33_16'>value</a></span> = <span class='keyword'><a name='33_24' title='usrString0'>try</a></span> <span class='identifier'><a name='33_28'>container</a></span>.<span class='identifier'><a name='33_38'>decode</a></span>([<span class='identifier'><a name='33_46'>DocumentSymbol</a></span>].<span class='keyword'><a name='33_62' title='usrString0'>self</a></span>)
+0034                <span class='keyword'><a name='34_12' title='usrString0'>self</a></span> = .<span class='identifier'><a name='34_20'>documentSymbols</a></span>(<span class='identifier'><a name='34_36'>value</a></span>)
+0035            } <span class='keyword'><a name='35_10' title='usrString0'>catch</a></span> <span class='keyword'><a name='35_16' title='usrString0'>is</a></span> <span class='typeidentifier'><a name='35_19' title='usrString0'>DecodingError</a></span> {
+0036                <span class='keyword'><a name='36_12' title='usrString0'>let</a></span> <span class='identifier'><a name='36_16'>value</a></span> = <span class='keyword'><a name='36_24' title='usrString0'>try</a></span> <span class='identifier'><a name='36_28'>container</a></span>.<span class='identifier'><a name='36_38'>decode</a></span>([<span class='identifier'><a name='36_46'>SymbolInformation</a></span>].<span class='keyword'><a name='36_65' title='usrString0'>self</a></span>)
+0037                <span class='keyword'><a name='37_12' title='usrString0'>self</a></span> = .<span class='identifier'><a name='37_20'>symbolInformation</a></span>(<span class='identifier'><a name='37_38'>value</a></span>)
+0038            }
+0039        }
+0040    
+0041        <span class='builtin'><a name='41_4' title='usrString0'>public</a></span> <span class='keyword'><a name='41_11' title='usrString0'>func</a></span> <span class='identifier'><a name='41_16'>encode</a></span>(<span class='identifier'><a name='41_23'>to</a></span> <span class='identifier'><a name='41_26'>encoder</a></span>: <span class='typeidentifier'><a name='41_35' title='usrString0'>Encoder</a></span>) <span class='keyword'><a name='41_44' title='usrString0'>throws</a></span> {
+0042            <span class='keyword'><a name='42_8' title='usrString0'>var</a></span> <span class='identifier'><a name='42_12'>container</a></span> = <span class='identifier'><a name='42_24'>encoder</a></span>.<span class='identifier'><a name='42_32'>singleValueContainer</a></span>()
+0043    
+0044            <span class='keyword'><a name='44_8' title='usrString0'>switch</a></span> <span class='keyword'><a name='44_15' title='usrString0'>self</a></span> {
+0045            <span class='keyword'><a name='45_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='45_14'>documentSymbols</a></span>(<span class='keyword'><a name='45_30' title='usrString0'>let</a></span> <span class='identifier'><a name='45_34'>value</a></span>):
+0046                <span class='keyword'><a name='46_12' title='usrString0'>try</a></span> <span class='identifier'><a name='46_16'>container</a></span>.<span class='identifier'><a name='46_26'>encode</a></span>(<span class='identifier'><a name='46_33'>value</a></span>)
+0047            <span class='keyword'><a name='47_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='47_14'>symbolInformation</a></span>(<span class='keyword'><a name='47_32' title='usrString0'>let</a></span> <span class='identifier'><a name='47_36'>value</a></span>):
+0048                <span class='keyword'><a name='48_12' title='usrString0'>try</a></span> <span class='identifier'><a name='48_16'>container</a></span>.<span class='identifier'><a name='48_26'>encode</a></span>(<span class='identifier'><a name='48_33'>value</a></span>)
+0049            }
+0050        }
+0051    }
+0052    
+0053    <span class='keyword'><a name='53_0' title='usrString0'>extension</a></span> <span class='typeidentifier'><a name='53_10' title='usrString0'>DocumentSymbolResponse</a></span>: <span class='typeidentifier'><a name='53_34' title='usrString0'>Equatable</a></span> {
+0054    }
+0055    
+0056    <span class='builtin'><a name='56_0' title='usrString0'>public</a></span> <span class='keyword'><a name='56_7' title='usrString0'>struct</a></span> <span class='identifier'><a name='56_14'>DocumentSymbol</a></span>: <span class='typeidentifier'><a name='56_30' title='usrString0'>Codable</a></span> {
+0057        <span class='builtin'><a name='57_4' title='usrString0'>public</a></span> <span class='keyword'><a name='57_11' title='usrString0'>let</a></span> <span class='identifier'><a name='57_15'>name</a></span>: <span class='typeidentifier'><a name='57_21' title='usrString0'>String</a></span>
+0058        <span class='builtin'><a name='58_4' title='usrString0'>public</a></span> <span class='keyword'><a name='58_11' title='usrString0'>let</a></span> <span class='identifier'><a name='58_15'>detail</a></span>: <span class='typeidentifier'><a name='58_23' title='usrString0'>String</a></span>?
+0059        <span class='builtin'><a name='59_4' title='usrString0'>public</a></span> <span class='keyword'><a name='59_11' title='usrString0'>let</a></span> <span class='identifier'><a name='59_15'>kind</a></span>: <span class='typeidentifier'><a name='59_21' title='usrString0'>SymbolKind</a></span>
+0060        <span class='builtin'><a name='60_4' title='usrString0'>public</a></span> <span class='keyword'><a name='60_11' title='usrString0'>let</a></span> <span class='identifier'><a name='60_15'>deprecated</a></span>: <span class='typeidentifier'><a name='60_27' title='usrString0'>Bool</a></span>?
+0061        <span class='builtin'><a name='61_4' title='usrString0'>public</a></span> <span class='keyword'><a name='61_11' title='usrString0'>let</a></span> <span class='identifier'><a name='61_15'>range</a></span>: <span class='typeidentifier'><a name='61_22' title='usrString0'>LSPRange</a></span>
+0062        <span class='builtin'><a name='62_4' title='usrString0'>public</a></span> <span class='keyword'><a name='62_11' title='usrString0'>let</a></span> <span class='identifier'><a name='62_15'>selectionRange</a></span>: <span class='typeidentifier'><a name='62_31' title='usrString0'>LSPRange</a></span>
+0063        <span class='builtin'><a name='63_4' title='usrString0'>public</a></span> <span class='keyword'><a name='63_11' title='usrString0'>let</a></span> <span class='identifier'><a name='63_15'>children</a></span>: [<span class='typeidentifier'><a name='63_26' title='usrString0'>DocumentSymbol</a></span>]?
+0064    }
+0065    
+0066    <span class='keyword'><a name='66_0' title='usrString0'>extension</a></span> <span class='typeidentifier'><a name='66_10' title='usrString0'>DocumentSymbol</a></span>: <span class='typeidentifier'><a name='66_26' title='usrString0'>Equatable</a></span> {
+0067    }
+0068    
+0069    <span class='builtin'><a name='69_0' title='usrString0'>public</a></span> <span class='keyword'><a name='69_7' title='usrString0'>struct</a></span> <span class='identifier'><a name='69_14'>SymbolInformation</a></span>: <span class='typeidentifier'><a name='69_33' title='usrString0'>Codable</a></span> {
+0070        <span class='builtin'><a name='70_4' title='usrString0'>public</a></span> <span class='keyword'><a name='70_11' title='usrString0'>let</a></span> <span class='identifier'><a name='70_15'>name</a></span>: <span class='typeidentifier'><a name='70_21' title='usrString0'>String</a></span>
+0071        <span class='builtin'><a name='71_4' title='usrString0'>public</a></span> <span class='keyword'><a name='71_11' title='usrString0'>let</a></span> <span class='identifier'><a name='71_15'>kind</a></span>: <span class='typeidentifier'><a name='71_21' title='usrString0'>Int</a></span>
+0072        <span class='builtin'><a name='72_4' title='usrString0'>public</a></span> <span class='keyword'><a name='72_11' title='usrString0'>let</a></span> <span class='identifier'><a name='72_15'>deprecated</a></span>: <span class='typeidentifier'><a name='72_27' title='usrString0'>Bool</a></span>?
+0073        <span class='builtin'><a name='73_4' title='usrString0'>public</a></span> <span class='keyword'><a name='73_11' title='usrString0'>let</a></span> <span class='identifier'><a name='73_15'>location</a></span>: <span class='typeidentifier'><a name='73_25' title='usrString0'>Location</a></span>
+0074        <span class='builtin'><a name='74_4' title='usrString0'>public</a></span> <span class='keyword'><a name='74_11' title='usrString0'>let</a></span> <span class='identifier'><a name='74_15'>containerName</a></span>: <span class='typeidentifier'><a name='74_30' title='usrString0'>String</a></span>?
+0075    }
+0076    
+0077    <span class='keyword'><a name='77_0' title='usrString0'>extension</a></span> <span class='typeidentifier'><a name='77_10' title='usrString0'>SymbolInformation</a></span>: <span class='typeidentifier'><a name='77_29' title='usrString0'>Equatable</a></span> {
+0078    }
+0079    

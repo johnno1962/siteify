@@ -1,0 +1,95 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+0001    <span class='comment'><a name='1_0' title='usrString0'>//
+0002    </a></span><span class='comment'><a name='2_0' title='usrString0'>//  StdioDataTransport.swift
+0003    </a></span><span class='comment'><a name='3_0' title='usrString0'>//  SwiftLSPClient
+0004    </a></span><span class='comment'><a name='4_0' title='usrString0'>//
+0005    </a></span><span class='comment'><a name='5_0' title='usrString0'>//  Created by Matt Massicotte on 2018-10-15.
+0006    </a></span><span class='comment'><a name='6_0' title='usrString0'>//  Copyright © 2018 Chime Systems. All rights reserved.
+0007    </a></span><span class='comment'><a name='7_0' title='usrString0'>//
+0008    </a></span>
+0009    <span class='keyword'><a name='9_0' title='usrString0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
+0010    
+0011    <span class='builtin'><a name='11_0' title='usrString0'>public</a></span> <span class='keyword'><a name='11_7' title='usrString0'>class</a></span> <span class='identifier'><a name='11_13'>StdioDataTransport</a></span>: <span class='typeidentifier'><a name='11_33' title='usrString0'>DataTransport</a></span> {
+0012        <span class='builtin'><a name='12_4' title='usrString0'>public</a></span> <span class='keyword'><a name='12_11' title='usrString0'>let</a></span> <span class='identifier'><a name='12_15'>stdinPipe</a></span>: <span class='typeidentifier'><a name='12_26' title='usrString0'>Pipe</a></span>
+0013        <span class='builtin'><a name='13_4' title='usrString0'>public</a></span> <span class='keyword'><a name='13_11' title='usrString0'>let</a></span> <span class='identifier'><a name='13_15'>stdoutPipe</a></span>: <span class='typeidentifier'><a name='13_27' title='usrString0'>Pipe</a></span>
+0014        <span class='builtin'><a name='14_4' title='usrString0'>public</a></span> <span class='keyword'><a name='14_11' title='usrString0'>let</a></span> <span class='identifier'><a name='14_15'>stderrPipe</a></span>: <span class='typeidentifier'><a name='14_27' title='usrString0'>Pipe</a></span>
+0015        <span class='keyword'><a name='15_4' title='usrString0'>var</a></span> <span class='identifier'><a name='15_8'>readHandler</a></span>: <span class='typeidentifier'><a name='15_21' title='usrString0'>ReadHandler</a></span>?
+0016        <span class='builtin'><a name='16_4' title='usrString0'>private</a></span> <span class='keyword'><a name='16_12' title='usrString0'>var</a></span> <span class='identifier'><a name='16_16'>closed</a></span>: <span class='typeidentifier'><a name='16_24' title='usrString0'>Bool</a></span>
+0017        
+0018        <span class='builtin'><a name='18_4' title='usrString0'>public</a></span> <span class='keyword'><a name='18_11' title='usrString0'>init</a></span>() {
+0019            <span class='keyword'><a name='19_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='19_13'>stdinPipe</a></span> = <span class='identifier'><a name='19_25'>Pipe</a></span>()
+0020            <span class='keyword'><a name='20_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='20_13'>stdoutPipe</a></span> = <span class='identifier'><a name='20_26'>Pipe</a></span>()
+0021            <span class='keyword'><a name='21_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='21_13'>stderrPipe</a></span> = <span class='identifier'><a name='21_26'>Pipe</a></span>()
+0022            <span class='keyword'><a name='22_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='22_13'>readHandler</a></span> = <span class='keyword'><a name='22_27' title='usrString0'>nil</a></span>
+0023            <span class='keyword'><a name='23_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='23_13'>closed</a></span> = <span class='keyword'><a name='23_22' title='usrString0'>false</a></span>
+0024            
+0025            <span class='identifier'><a name='25_8'>stdoutPipe</a></span>.<span class='identifier'><a name='25_19'>fileHandleForReading</a></span>.<span class='identifier'><a name='25_40'>readabilityHandler</a></span> = { [<span class='builtin'><a name='25_64' title='usrString0'>unowned</a></span> <span class='keyword'><a name='25_72' title='usrString0'>self</a></span>] <span class='identifier'><a name='25_78'>handle</a></span> <span class='keyword'><a name='25_85' title='usrString0'>in</a></span>
+0026                <span class='keyword'><a name='26_12' title='usrString0'>let</a></span> <span class='identifier'><a name='26_16'>data</a></span> = <span class='identifier'><a name='26_23'>handle</a></span>.<span class='identifier'><a name='26_30'>availableData</a></span>
+0027    
+0028                <span class='keyword'><a name='28_12' title='usrString0'>guard</a></span> <span class='identifier'><a name='28_18'>data</a></span>.<span class='identifier'><a name='28_23'>count</a></span> > <span class='number'><a name='28_31' title='usrString0'>0</a></span> <span class='keyword'><a name='28_33' title='usrString0'>else</a></span> {
+0029                    <span class='keyword'><a name='29_16' title='usrString0'>return</a></span>
+0030                }
+0031                
+0032                <span class='keyword'><a name='32_12' title='usrString0'>self</a></span>.<span class='identifier'><a name='32_17'>readHandler</a></span>?(<span class='identifier'><a name='32_30'>data</a></span>)
+0033            }
+0034            
+0035            <span class='identifier'><a name='35_8'>stderrPipe</a></span>.<span class='identifier'><a name='35_19'>fileHandleForReading</a></span>.<span class='identifier'><a name='35_40'>readabilityHandler</a></span> = { <span class='identifier'><a name='35_63'>handle</a></span> <span class='keyword'><a name='35_70' title='usrString0'>in</a></span>
+0036                <span class='keyword'><a name='36_12' title='usrString0'>let</a></span> <span class='identifier'><a name='36_16'>data</a></span> = <span class='identifier'><a name='36_23'>handle</a></span>.<span class='identifier'><a name='36_30'>availableData</a></span>
+0037                
+0038                <span class='keyword'><a name='38_12' title='usrString0'>guard</a></span> <span class='identifier'><a name='38_18'>data</a></span>.<span class='identifier'><a name='38_23'>count</a></span> > <span class='number'><a name='38_31' title='usrString0'>0</a></span> <span class='keyword'><a name='38_33' title='usrString0'>else</a></span> {
+0039                    <span class='keyword'><a name='39_16' title='usrString0'>return</a></span>
+0040                }
+0041                
+0042                <span class='keyword'><a name='42_12' title='usrString0'>if</a></span> <span class='keyword'><a name='42_15' title='usrString0'>let</a></span> <span class='identifier'><a name='42_19'>string</a></span> = <span class='identifier'><a name='42_28'>String</a></span>(<span class='identifier'><a name='42_35'>bytes</a></span>: <span class='identifier'><a name='42_42'>data</a></span>, <span class='identifier'><a name='42_48'>encoding</a></span>: .<span class='identifier'><a name='42_59'>utf8</a></span>) {
+0043                    <span class='identifier'><a name='43_16'>print</a></span>(<span class='string'><a name='43_22' title='usrString0'>"stderr: </a></span>\<span class='string_interpolation_anchor'><a name='43_32' title='usrString0'>(</a></span><span class='identifier'><a name='43_33'>string</a></span><span class='string_interpolation_anchor'><a name='43_39' title='usrString0'>)</a></span><span class='string'><a name='43_40' title='usrString0'>"</a></span>)
+0044                }
+0045            }
+0046        }
+0047        
+0048        <span class='builtin'><a name='48_4' title='usrString0'>public</a></span> <span class='keyword'><a name='48_11' title='usrString0'>func</a></span> <span class='identifier'><a name='48_16'>write</a></span>(<span class='keyword'><a name='48_22' title='usrString0'>_</a></span> <span class='identifier'><a name='48_24'>data</a></span>: <span class='typeidentifier'><a name='48_30' title='usrString0'>Data</a></span>) {
+0049            <span class='keyword'><a name='49_8' title='usrString0'>if</a></span> <span class='identifier'><a name='49_11'>closed</a></span> {
+0050                <span class='keyword'><a name='50_12' title='usrString0'>return</a></span>
+0051            }
+0052    
+0053            <span class='identifier'><a name='53_8'>stdinPipe</a></span>.<span class='identifier'><a name='53_18'>fileHandleForWriting</a></span>.<span class='identifier'><a name='53_39'>write</a></span>(<span class='identifier'><a name='53_45'>data</a></span>)
+0054        }
+0055        
+0056        <span class='builtin'><a name='56_4' title='usrString0'>public</a></span> <span class='keyword'><a name='56_11' title='usrString0'>func</a></span> <span class='identifier'><a name='56_16'>setReaderHandler</a></span>(<span class='keyword'><a name='56_33' title='usrString0'>_</a></span> <span class='identifier'><a name='56_35'>handler</a></span>: <span class='builtin'><a name='56_44' title='usrString0'>@escaping</a></span> (<span class='typeidentifier'><a name='56_55' title='usrString0'>Data</a></span>) -> <span class='typeidentifier'><a name='56_64' title='usrString0'>Void</a></span>) {
+0057            <span class='keyword'><a name='57_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='57_13'>readHandler</a></span> = <span class='identifier'><a name='57_27'>handler</a></span>
+0058        }
+0059    
+0060        <span class='builtin'><a name='60_4' title='usrString0'>public</a></span> <span class='keyword'><a name='60_11' title='usrString0'>func</a></span> <span class='identifier'><a name='60_16'>close</a></span>() {
+0061            <span class='keyword'><a name='61_8' title='usrString0'>if</a></span> <span class='identifier'><a name='61_11'>closed</a></span> {
+0062                <span class='keyword'><a name='62_12' title='usrString0'>return</a></span>
+0063            }
+0064            
+0065            <span class='identifier'><a name='65_8'>closed</a></span> = <span class='keyword'><a name='65_17' title='usrString0'>true</a></span>
+0066    
+0067            [<span class='identifier'><a name='67_9'>stdoutPipe</a></span>, <span class='identifier'><a name='67_21'>stderrPipe</a></span>, <span class='identifier'><a name='67_33'>stdinPipe</a></span>].<span class='identifier'><a name='67_44'>forEach</a></span> { (<span class='identifier'><a name='67_55'>pipe</a></span>) <span class='keyword'><a name='67_61' title='usrString0'>in</a></span>
+0068                <span class='identifier'><a name='68_12'>pipe</a></span>.<span class='identifier'><a name='68_17'>fileHandleForWriting</a></span>.<span class='identifier'><a name='68_38'>closeFile</a></span>()
+0069                <span class='identifier'><a name='69_12'>pipe</a></span>.<span class='identifier'><a name='69_17'>fileHandleForReading</a></span>.<span class='identifier'><a name='69_38'>closeFile</a></span>()
+0070            }
+0071        }
+0072    }
+0073    

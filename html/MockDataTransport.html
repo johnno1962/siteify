@@ -1,0 +1,62 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+0001    <span class='comment'><a name='1_0' title='usrString0'>//
+0002    </a></span><span class='comment'><a name='2_0' title='usrString0'>//  MockDataTransport.swift
+0003    </a></span><span class='comment'><a name='3_0' title='usrString0'>//  SwiftLSPClientTests
+0004    </a></span><span class='comment'><a name='4_0' title='usrString0'>//
+0005    </a></span><span class='comment'><a name='5_0' title='usrString0'>//  Created by Matt Massicotte on 2019-02-07.
+0006    </a></span><span class='comment'><a name='6_0' title='usrString0'>//  Copyright © 2019 Chime Systems. All rights reserved.
+0007    </a></span><span class='comment'><a name='7_0' title='usrString0'>//
+0008    </a></span>
+0009    <span class='keyword'><a name='9_0' title='usrString0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
+0010    <span class='keyword'><a name='10_0' title='usrString0'>import</a></span> <span class='identifier'><a name='10_7'>SwiftLSPClient</a></span>
+0011    
+0012    <span class='keyword'><a name='12_0' title='usrString0'>class</a></span> <span class='identifier'><a name='12_6'>MockDataTransport</a></span>: <span class='typeidentifier'><a name='12_25' title='usrString0'>DataTransport</a></span> {
+0013        <span class='keyword'><a name='13_4' title='usrString0'>var</a></span> <span class='identifier'><a name='13_8'>writtenData</a></span>: [<span class='typeidentifier'><a name='13_22' title='usrString0'>Data</a></span>]
+0014        <span class='keyword'><a name='14_4' title='usrString0'>var</a></span> <span class='identifier'><a name='14_8'>readHandler</a></span>: <span class='typeidentifier'><a name='14_21' title='usrString0'>ReadHandler</a></span>?
+0015    
+0016        <span class='keyword'><a name='16_4' title='usrString3'>init</a></span>() {
+0017            <span class='keyword'><a name='17_8' href='MockDataTransport.html#16_4' title='usrString1'>self</a></span>.<span class='identifier'><a name='17_13'>writtenData</a></span> = []
+0018            <span class='keyword'><a name='18_8' href='MockDataTransport.html#16_4' title='usrString1'>self</a></span>.<span class='identifier'><a name='18_13'>readHandler</a></span> = <span class='keyword'><a name='18_27' title='usrString0'>nil</a></span>
+0019        }
+0020    
+0021        <span class='keyword'><a name='21_4' title='usrString0'>func</a></span> <span class='identifier'><a name='21_9'>write</a></span>(<span class='keyword'><a name='21_15' href='MockDataTransport.html#21_9' title='usrString1'>_</a></span> <span class='identifier'><a name='21_17'>data</a></span>: <span class='typeidentifier'><a name='21_23' title='usrString0'>Data</a></span>) {
+0022            <span class='identifier'><a name='22_8'>writtenData</a></span>.<span class='identifier'><a name='22_20'>append</a></span>(<span class='identifier'><a name='22_27'>data</a></span>)
+0023        }
+0024    
+0025        <span class='keyword'><a name='25_4' title='usrString0'>func</a></span> <span class='identifier'><a name='25_9'>setReaderHandler</a></span>(<span class='keyword'><a name='25_26' href='MockDataTransport.html#25_9' title='usrString1'>_</a></span> <span class='identifier'><a name='25_28'>handler</a></span>: <span class='builtin'><a name='25_37' title='usrString0'>@escaping</a></span> <span class='typeidentifier'><a name='25_47' title='usrString0'>ReadHandler</a></span>) {
+0026            <span class='identifier'><a name='26_8'>readHandler</a></span> = <span class='identifier'><a name='26_22'>handler</a></span>
+0027        }
+0028    
+0029        <span class='keyword'><a name='29_4' title='usrString0'>func</a></span> <span class='identifier'><a name='29_9'>close</a></span>() {
+0030        }
+0031    
+0032        <span class='keyword'><a name='32_4' title='usrString0'>func</a></span> <span class='identifier'><a name='32_9'>mockRead</a></span>(<span class='keyword'><a name='32_18' href='MockDataTransport.html#32_9' title='usrString1'>_</a></span> <span class='identifier'><a name='32_20'>data</a></span>: <span class='typeidentifier'><a name='32_26' title='usrString0'>Data</a></span>) {
+0033            <span class='keyword'><a name='33_8' href='MockDataTransport.html#32_9' title='usrString1'>self</a></span>.<span class='identifier'><a name='33_13'>readHandler</a></span>?(<span class='identifier'><a name='33_26'>data</a></span>)
+0034        }
+0035    
+0036        <span class='keyword'><a name='36_4' title='usrString0'>func</a></span> <span class='identifier'><a name='36_9'>mockRead</a></span>(<span class='keyword'><a name='36_18' href='MockDataTransport.html#36_9' title='usrString1'>_</a></span> <span class='identifier'><a name='36_20'>string</a></span>: <span class='typeidentifier'><a name='36_28' title='usrString0'>String</a></span>) {
+0037            <span class='identifier'><a name='37_8'>mockRead</a></span>(<span class='identifier'><a name='37_17'>string</a></span>.<span class='identifier'><a name='37_24'>data</a></span>(<span class='identifier'><a name='37_29'>using</a></span>: .<span class='identifier'><a name='37_37'>utf8</a></span>)!)
+0038        }
+0039    }
+0040    

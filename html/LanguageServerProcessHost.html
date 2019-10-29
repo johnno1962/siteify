@@ -1,0 +1,89 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+0001    <span class='comment'><a name='1_0' title='usrString0'>//
+0002    </a></span><span class='comment'><a name='2_0' title='usrString0'>//  LanguageServerProcessHost.swift
+0003    </a></span><span class='comment'><a name='3_0' title='usrString0'>//  SwiftLSPClient
+0004    </a></span><span class='comment'><a name='4_0' title='usrString0'>//
+0005    </a></span><span class='comment'><a name='5_0' title='usrString0'>//  Created by Matt Massicotte on 2018-12-02.
+0006    </a></span><span class='comment'><a name='6_0' title='usrString0'>//  Copyright © 2018 Chime Systems. All rights reserved.
+0007    </a></span><span class='comment'><a name='7_0' title='usrString0'>//
+0008    </a></span>
+0009    <span class='keyword'><a name='9_0' title='usrString0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
+0010    
+0011    <span class='builtin'><a name='11_0' title='usrString0'>public</a></span> <span class='keyword'><a name='11_7' title='usrString0'>class</a></span> <span class='identifier'><a name='11_13'>LanguageServerProcessHost</a></span> {
+0012        <span class='builtin'><a name='12_4' title='usrString0'>private</a></span> <span class='keyword'><a name='12_12' title='usrString0'>let</a></span> <span class='identifier'><a name='12_16'>process</a></span>: <span class='typeidentifier'><a name='12_25' title='usrString0'>Process</a></span>
+0013        <span class='builtin'><a name='13_4' title='usrString0'>private</a></span> <span class='keyword'><a name='13_12' title='usrString0'>let</a></span> <span class='identifier'><a name='13_16'>transport</a></span>: <span class='typeidentifier'><a name='13_27' title='usrString0'>StdioDataTransport</a></span>
+0014        <span class='builtin'><a name='14_4' title='usrString0'>private</a></span> <span class='keyword'><a name='14_12' title='usrString0'>let</a></span> <span class='identifier'><a name='14_16'>server</a></span>: <span class='typeidentifier'><a name='14_24' title='usrString0'>LanguageServer</a></span>
+0015        <span class='builtin'><a name='15_4' title='usrString0'>private</a></span> <span class='keyword'><a name='15_12' title='usrString0'>var</a></span> <span class='identifier'><a name='15_16'>launched</a></span>: <span class='typeidentifier'><a name='15_26' title='usrString0'>Bool</a></span>
+0016    
+0017        <span class='builtin'><a name='17_4' title='usrString0'>public</a></span> <span class='keyword'><a name='17_11' title='usrString0'>init</a></span>(<span class='identifier'><a name='17_16'>path</a></span>: <span class='typeidentifier'><a name='17_22' title='usrString0'>String</a></span>, <span class='identifier'><a name='17_30'>arguments</a></span>: [<span class='typeidentifier'><a name='17_42' title='usrString0'>String</a></span>], <span class='identifier'><a name='17_51'>environment</a></span>: [<span class='typeidentifier'><a name='17_65' title='usrString0'>String</a></span> : <span class='typeidentifier'><a name='17_74' title='usrString0'>String</a></span>] = [:]) {
+0018            <span class='keyword'><a name='18_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='18_13'>process</a></span> = <span class='identifier'><a name='18_23'>Process</a></span>()
+0019            <span class='keyword'><a name='19_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='19_13'>transport</a></span> = <span class='identifier'><a name='19_25'>StdioDataTransport</a></span>()
+0020            <span class='keyword'><a name='20_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='20_13'>server</a></span> = <span class='identifier'><a name='20_22'>JSONRPCLanguageServer</a></span>(<span class='identifier'><a name='20_44'>dataTransport</a></span>: <span class='identifier'><a name='20_59'>transport</a></span>)
+0021            <span class='keyword'><a name='21_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='21_13'>launched</a></span> = <span class='keyword'><a name='21_24' title='usrString0'>false</a></span>
+0022    
+0023            <span class='identifier'><a name='23_8'>process</a></span>.<span class='identifier'><a name='23_16'>standardInput</a></span> = <span class='identifier'><a name='23_32'>transport</a></span>.<span class='identifier'><a name='23_42'>stdinPipe</a></span>
+0024            <span class='identifier'><a name='24_8'>process</a></span>.<span class='identifier'><a name='24_16'>standardOutput</a></span> = <span class='identifier'><a name='24_33'>transport</a></span>.<span class='identifier'><a name='24_43'>stdoutPipe</a></span>
+0025            <span class='identifier'><a name='25_8'>process</a></span>.<span class='identifier'><a name='25_16'>standardError</a></span> = <span class='identifier'><a name='25_32'>transport</a></span>.<span class='identifier'><a name='25_42'>stderrPipe</a></span>
+0026    
+0027            <span class='identifier'><a name='27_8'>process</a></span>.<span class='identifier'><a name='27_16'>launchPath</a></span> = <span class='identifier'><a name='27_29'>path</a></span>
+0028            <span class='identifier'><a name='28_8'>process</a></span>.<span class='identifier'><a name='28_16'>arguments</a></span> = <span class='identifier'><a name='28_28'>arguments</a></span>
+0029            <span class='identifier'><a name='29_8'>process</a></span>.<span class='identifier'><a name='29_16'>environment</a></span> = <span class='identifier'><a name='29_30'>environment</a></span>
+0030    
+0031            <span class='identifier'><a name='31_8'>process</a></span>.<span class='identifier'><a name='31_16'>terminationHandler</a></span> = { [<span class='builtin'><a name='31_40' title='usrString0'>unowned</a></span> <span class='keyword'><a name='31_48' title='usrString0'>self</a></span>] (<span class='identifier'><a name='31_55'>task</a></span>) <span class='keyword'><a name='31_61' title='usrString0'>in</a></span>
+0032                <span class='keyword'><a name='32_12' title='usrString0'>self</a></span>.<span class='identifier'><a name='32_17'>transport</a></span>.<span class='identifier'><a name='32_27'>close</a></span>()
+0033            }
+0034        }
+0035    
+0036        <span class='builtin'><a name='36_4' title='usrString0'>public</a></span> <span class='keyword'><a name='36_11' title='usrString0'>func</a></span> <span class='identifier'><a name='36_16'>start</a></span>(<span class='identifier'><a name='36_22'>block</a></span>: <span class='builtin'><a name='36_29' title='usrString0'>@escaping</a></span> (<span class='typeidentifier'><a name='36_40' title='usrString0'>LanguageServer</a></span>?) -> <span class='typeidentifier'><a name='36_60' title='usrString0'>Void</a></span>) {
+0037            <span class='identifier'><a name='37_8'>process</a></span>.<span class='identifier'><a name='37_16'>launch</a></span>()
+0038            <span class='identifier'><a name='38_8'>launched</a></span> = <span class='keyword'><a name='38_19' title='usrString0'>true</a></span>
+0039    
+0040            <span class='identifier'><a name='40_8'>block</a></span>(<span class='identifier'><a name='40_14'>server</a></span>)
+0041        }
+0042    
+0043        <span class='builtin'><a name='43_4' title='usrString0'>public</a></span> <span class='keyword'><a name='43_11' title='usrString0'>func</a></span> <span class='identifier'><a name='43_16'>stop</a></span>(<span class='identifier'><a name='43_21'>block</a></span>: <span class='builtin'><a name='43_28' title='usrString0'>@escaping</a></span> () -> <span class='typeidentifier'><a name='43_44' title='usrString0'>Void</a></span>) {
+0044            <span class='keyword'><a name='44_8' title='usrString0'>if</a></span> <span class='identifier'><a name='44_11'>launched</a></span> {
+0045                <span class='identifier'><a name='45_12'>process</a></span>.<span class='identifier'><a name='45_20'>terminate</a></span>()
+0046            }
+0047    
+0048            <span class='identifier'><a name='48_8'>block</a></span>()
+0049        }
+0050    
+0051        <span class='builtin'><a name='51_4' title='usrString0'>public</a></span> <span class='keyword'><a name='51_11' title='usrString0'>func</a></span> <span class='identifier'><a name='51_16'>getServer</a></span>(<span class='keyword'><a name='51_26' title='usrString0'>_</a></span> <span class='identifier'><a name='51_28'>block</a></span>: <span class='builtin'><a name='51_35' title='usrString0'>@escaping</a></span> (<span class='typeidentifier'><a name='51_46' title='usrString0'>LanguageServer</a></span>?) -> <span class='typeidentifier'><a name='51_66' title='usrString0'>Void</a></span>) {
+0052            <span class='keyword'><a name='52_8' title='usrString0'>switch</a></span> (<span class='identifier'><a name='52_16'>process</a></span>.<span class='identifier'><a name='52_24'>isRunning</a></span>, <span class='identifier'><a name='52_35'>launched</a></span>) {
+0053            <span class='keyword'><a name='53_8' title='usrString0'>case</a></span> (<span class='keyword'><a name='53_14' title='usrString0'>true</a></span>, <span class='keyword'><a name='53_20' title='usrString0'>true</a></span>):
+0054                <span class='identifier'><a name='54_12'>block</a></span>(<span class='identifier'><a name='54_18'>server</a></span>)
+0055            <span class='keyword'><a name='55_8' title='usrString0'>case</a></span> (<span class='keyword'><a name='55_14' title='usrString0'>true</a></span>, <span class='keyword'><a name='55_20' title='usrString0'>false</a></span>):
+0056                <span class='comment'><a name='56_12' title='usrString0'>// nonsense state
+0057    </a></span>            <span class='identifier'><a name='57_12'>block</a></span>(<span class='keyword'><a name='57_18' title='usrString0'>nil</a></span>)
+0058            <span class='keyword'><a name='58_8' title='usrString0'>case</a></span> (<span class='keyword'><a name='58_14' title='usrString0'>false</a></span>, <span class='keyword'><a name='58_21' title='usrString0'>true</a></span>):
+0059                <span class='identifier'><a name='59_12'>block</a></span>(<span class='keyword'><a name='59_18' title='usrString0'>nil</a></span>)
+0060            <span class='keyword'><a name='60_8' title='usrString0'>case</a></span> (<span class='keyword'><a name='60_14' title='usrString0'>false</a></span>, <span class='keyword'><a name='60_21' title='usrString0'>false</a></span>):
+0061                <span class='identifier'><a name='61_12'>start</a></span> { (<span class='identifier'><a name='61_21'>s</a></span>) <span class='keyword'><a name='61_24' title='usrString0'>in</a></span>
+0062                    <span class='identifier'><a name='62_16'>block</a></span>(<span class='identifier'><a name='62_22'>s</a></span>)
+0063                }
+0064            }
+0065        }
+0066    }
+0067    
