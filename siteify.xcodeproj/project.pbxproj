@@ -17,6 +17,7 @@
 		BBD81FB01C73DE0B0060CF44 /* siteify in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB8BD1E71C7364E3001108DF /* siteify */; };
 		BBD81FB81C74D9F00060CF44 /* xref.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBD81FB71C74D7340060CF44 /* xref.html */; };
 		BBEF4C8D2366C8BB00109F9A /* Siteify.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4C8C2366C8BB00109F9A /* Siteify.swift */; };
+		BBEF4C942369B52000109F9A /* Parallelize.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4C932369B52000109F9A /* Parallelize.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		BBD81FB71C74D7340060CF44 /* xref.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = xref.html; sourceTree = "<group>"; };
 		BBEF4C832364502800109F9A /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		BBEF4C8C2366C8BB00109F9A /* Siteify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Siteify.swift; sourceTree = "<group>"; };
+		BBEF4C932369B52000109F9A /* Parallelize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parallelize.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				BB8BD1EA1C7364E3001108DF /* main.swift */,
 				BBEF4C8C2366C8BB00109F9A /* Siteify.swift */,
 				BB8BD1F21C736CF4001108DF /* SourceKit.swift */,
+				BBEF4C932369B52000109F9A /* Parallelize.swift */,
 				BBD81FB31C74A6EE0060CF44 /* ByteRegex.swift */,
 				BBD81FA41C73767A0060CF44 /* SwiftRegex.swift */,
 				BB8BD1F11C736CF4001108DF /* LineGenerators.swift */,
@@ -230,6 +233,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBEF4C942369B52000109F9A /* Parallelize.swift in Sources */,
 				BB8BD1EB1C7364E3001108DF /* main.swift in Sources */,
 				BBEF4C8D2366C8BB00109F9A /* Siteify.swift in Sources */,
 				BB8BD1F41C736CF4001108DF /* SourceKit.swift in Sources */,

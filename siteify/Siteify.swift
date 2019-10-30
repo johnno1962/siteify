@@ -18,6 +18,8 @@ import SourceKit
 
 var filenameForFile = [String:String](), filesForFileName = [String:String]()
 
+let filenameLock = NSLock()
+
 func fileFilename(file: String) -> String {
     if let filename = filenameForFile[file] {
         return filename
@@ -26,8 +28,10 @@ func fileFilename(file: String) -> String {
     while filesForFileName[filename] != nil {
         filename += "_"
     }
+    filenameLock.lock()
     filesForFileName[filename] = file
     filenameForFile[file] = filename
+    filenameLock.unlock()
     return filename
 }
 
@@ -42,27 +46,21 @@ func progress(str: String) {
     fflush(stdout)
 }
 
-public class Siteify {
+struct LanguageServerSynchronizer {
+    let semaphore = DispatchSemaphore(value: 0)
 
-    let host: LanguageServerProcessHost
-    var lspServer: LanguageServer?
-    let sourceKit = SourceKit(isTTY: false)
-    let projectRoot: String
-
-    let synchronizer = DispatchSemaphore(value: 0)
-
-    func syncCheck(_ block: @escaping (@escaping (LanguageServerError?) -> Void) -> Void) {
+    func sync(_ block: @escaping (@escaping (LanguageServerError?) -> Void) -> Void) {
         block({
             (error: LanguageServerError?) in
             if error != nil {
-                fatalError("syncError: \(error!)")
+                fatalError("LanguageServerError: \(error!)")
             }
-            self.synchronizer.signal()
+            self.semaphore.signal()
         })
-        synchronizer.wait()
+        semaphore.wait()
     }
 
-    func syncResult<RESP>(_ block: @escaping (@escaping (LanguageServerResult<RESP>) -> Void) -> Void) -> RESP {
+    func sync<RESP>(_ block: @escaping (@escaping (LanguageServerResult<RESP>) -> Void) -> Void) -> RESP {
         var theResponse: RESP?
         block({
             (response: LanguageServerResult) in
@@ -72,13 +70,22 @@ public class Siteify {
             case .failure(let error):
                 fatalError("Error response \(error)")
             }
-            self.synchronizer.signal()
+            self.semaphore.signal()
         })
-        synchronizer.wait()
+        semaphore.wait()
         return theResponse!
     }
+}
+
+public class Siteify {
+
+    let host: LanguageServerProcessHost
+    var lspServer: LanguageServer?
+    let sourceKit = SourceKit(isTTY: false)
+    let projectRoot: String
 
     public init(projectRoot: String) {
+        let synchronizer = LanguageServerSynchronizer()
         var rootBuffer = [Int8](repeating: 0, count: 1024)
         let cwd = String(cString: rootBuffer.withUnsafeMutableBufferPointer {
             getcwd($0.baseAddress, $0.count)
@@ -109,7 +116,7 @@ public class Siteify {
                                       trace: Tracing.off,
                                       workspaceFolders: [WorkspaceFolder(uri: "file://\(projectRoot)/", name: "siteify")])
 
-        _ = syncResult({
+        _ = synchronizer.sync({
             self.lspServer!.initialize(params: params, block: $0)
         })
     }
@@ -127,16 +134,25 @@ public class Siteify {
             "__ROOT__": projectRoot.replacingOccurrences(of: home, with: "~")])
         setbuf(index, nil)
 
-        for file in filemgr.enumerator(atPath: projectRoot)! {
-            if let path = file as? String,// !path.starts(with: ".build"),
-                (try? LanguageIdentifier(for: URL(fileURLWithPath: path))) != nil {
-                processFile(path: projectRoot + "/" + path)
+        let fileEnumerator = filemgr.enumerator(atPath: projectRoot)
+
+        parallelize(threads: 4) {
+            guard let file = fileEnumerator?.nextObject() else {
+                return nil
+            }
+            return {
+                if let path = file as? String,
+                    (try? LanguageIdentifier(for: URL(fileURLWithPath: path))) != nil {
+                    self.processFile(path: self.projectRoot + "/" + path)
+                }
             }
         }
-        progress(str: "Site complete")
+
+        progress(str: "Site complete.")
     }
 
     public func processFile(path: String) {
+        let synchronizer = LanguageServerSynchronizer()
         let htmlfile = fileFilename(file: path)+".html"
         let relative = path.replacingOccurrences(of: projectRoot+"/", with: "")
         progress(str: "Saving html/\(htmlfile)")
@@ -147,7 +163,7 @@ public class Siteify {
                 fputs("<a href='\(htmlfile)'>\(relative)<a> \(comma.string(from: NSNumber(value: data.count))!) bytes<br>\n", index)
             }
 
-            syncCheck {
+            synchronizer.sync {
                 self.lspServer!.didOpenTextDocument(params: DidOpenTextDocumentParams(textDocument: try! TextDocumentItem(contentsOfFile: path)), block: $0)
             }
             data.withUnsafeBytes {
@@ -217,7 +233,7 @@ public class Siteify {
                     }
                     if SKApi.sourcekitd_variant_dictionary_get_uid(dict, self.sourceKit.kindID) == self.sourceKit.identifierID {
                         var def: Location?
-                        let res = self.syncResult {
+                        let res = synchronizer.sync {
                             self.lspServer!.definition(params: TextDocumentPositionParams(textDocument: TextDocumentIdentifier(path: path), position: pos), block: $0)
                         }
                         switch res {
@@ -230,7 +246,7 @@ public class Siteify {
 
                         if let decl = def {
                             if decl.file == path && decl.range.start == pos,
-                                let refs = self.syncResult({
+                                let refs = synchronizer.sync({
                                     self.lspServer!.references(params: ReferenceParams(textDocument: TextDocumentIdentifier(path: path), position: pos, context: ReferenceContext(includeDeclaration: false)), block: $0)})?
                                     .sorted(by: { $0.uri < $1.uri }) {
 
@@ -275,6 +291,7 @@ public class Siteify {
             htmp.withCString { _ = fputs($0, out) }
             fclose(out)
         }
+        progress(str: "Saved html/\(htmlfile)")
     }
 
     let home = String(cString: getenv("HOME"))
@@ -296,30 +313,14 @@ public class Siteify {
 
 extension Position {
 
-    var anchor: String {
-        return "\(line+1)_\(character)"
-    }
+    var anchor: String { "\(line+1)_\(character)" }
 }
 
 extension Location {
 
-    var file: String {
-        return URL(string: uri)!.path
-    }
-
-    var filename: String {
-        return fileFilename(file: URL(string: uri)!.path)
-    }
-
-    var href: String {
-        return "\(filename).html#\(range.start.anchor)"
-    }
-
-    var line: Int {
-        return range.start.line
-    }
-
-    var anchor: String {
-        return range.start.anchor
-    }
+    var file: String { URL(string: uri)!.path }
+    var filename: String { fileFilename(file: URL(string: uri)!.path) }
+    var line: Int { range.start.line }
+    var anchor: String { range.start.anchor }
+    var href: String { "\(filename).html#\(anchor)" }
 }
