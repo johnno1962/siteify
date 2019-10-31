@@ -19,6 +19,9 @@ This will build your project recording it's constituent Swift sources, index the
 then build the site in the directory ./html. Any PRs on de-glitching the CSS styling
 more than welcome.
 
+
+This project uses the [ChimeHQ/SwiftLSPClient](https://github.com/ChimeHQ/SwiftLSPClient) under a `BSD 3-Clause "New" or "Revised" License"` to communicate with the [Apple LSP server](https://github.com/apple/sourcekit-lsp)
+
 ### MIT License
 
 Copyright (C) 2016 John Holdsworth
