@@ -10,8 +10,10 @@ clicking on a link on the definition will list the places the symbol is referenc
 ![Icon](http://injectionforxcode.johnholdsworth.com/siteify2.png)
 
 To use, download and build this project using `swift build` or using the
-.xcodeproj in Xcode then _cd_ into into your project's root and type ~/bin/siteify.
-You'll need to download a recent development toolchain from [swift.org](https://swift.org/download/) to get the required sourcekit-lsp executable.
+.xcodeproj in Xcode then _cd_ into into your project's root and run 'swift build'
+to update the index and type ~/bin/siteify. You'll need to download a recent
+development toolchain from [swift.org](https://swift.org/download/) to get the
+required sourcekit-lsp executable.
 
 This will build your project recording it's constituent Swift sources, index them
 then build the site in the directory ./html. Any PRs on de-glitching the CSS styling
