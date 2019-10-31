@@ -1,0 +1,76 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>0001    <span class='comment'><a name='1_0'>//
+0002    </a></span><span class='comment'><a name='2_0'>//  JSONRPCLanguageServerTests.swift
+0003    </a></span><span class='comment'><a name='3_0'>//  SwiftLSPClientTests
+0004    </a></span><span class='comment'><a name='4_0'>//
+0005    </a></span><span class='comment'><a name='5_0'>//  Created by Matt Massicotte on 2019-10-30.
+0006    </a></span><span class='comment'><a name='6_0'>//  Copyright © 2019 Chime Systems. All rights reserved.
+0007    </a></span><span class='comment'><a name='7_0'>//
+0008    </a></span>
+0009    <span class='keyword'><a name='9_0'>import</a></span> <span class='identifier'><a name='9_7'>XCTest</a></span>
+0010    <span class='keyword'><a name='10_0'>import</a></span> <span class='identifier'><a name='10_7'>SwiftLSPClient</a></span>
+0011    
+0012    <span class='keyword'><a name='12_0'>class</a></span> <span class='identifier'><a name='12_6' title='usrString3'>JSONRPCLanguageServerTests</a></span>: <span class='typeidentifier'><a name='12_34'>XCTestCase</a></span> {
+0013        <span class='keyword'><a name='13_4'>func</a></span> <span class='identifier'><a name='13_9' title='usrString3'>testHoverRequest</a></span>() <span class='keyword'><a name='13_28'>throws</a></span> {
+0014            <span class='keyword'><a name='14_8'>let</a></span> <span class='identifier'><a name='14_12' title='usrString3'>dataTransport</a></span> = <span class='identifier'><a name='14_28'>MockDataTransport</a></span>()
+0015    
+0016            <span class='keyword'><a name='16_8'>let</a></span> <span class='identifier'><a name='16_12' title='usrString3'>server</a></span> = <span class='identifier'><a name='16_21'>JSONRPCLanguageServer</a></span>(<span class='identifier'><a name='16_43'>dataTransport</a></span>: <span class='identifier'><a name='16_58' href='JSONRPCLanguageServerTests.html#14_12' title='usrString1'>dataTransport</a></span>)
+0017    
+0018            <span class='keyword'><a name='18_8'>let</a></span> <span class='identifier'><a name='18_12' title='usrString3'>textDocId</a></span> = <span class='identifier'><a name='18_24'>TextDocumentIdentifier</a></span>(<span class='identifier'><a name='18_47'>uri</a></span>: <span class='string'><a name='18_52'>"file://somefile.txt"</a></span>)
+0019            <span class='keyword'><a name='19_8'>let</a></span> <span class='identifier'><a name='19_12' title='usrString3'>position</a></span> = <span class='identifier'><a name='19_23'>Position</a></span>(<span class='identifier'><a name='19_32'>line</a></span>: <span class='number'><a name='19_38'>5</a></span>, <span class='identifier'><a name='19_41'>character</a></span>: <span class='number'><a name='19_52'>5</a></span>)
+0020            <span class='keyword'><a name='20_8'>let</a></span> <span class='identifier'><a name='20_12' title='usrString3'>params</a></span> = <span class='identifier'><a name='20_21'>TextDocumentPositionParams</a></span>(<span class='identifier'><a name='20_48'>textDocument</a></span>: <span class='identifier'><a name='20_62' href='JSONRPCLanguageServerTests.html#18_12' title='usrString1'>textDocId</a></span>, <span class='identifier'><a name='20_73'>position</a></span>: <span class='identifier'><a name='20_83' href='JSONRPCLanguageServerTests.html#19_12' title='usrString1'>position</a></span>)
+0021    
+0022            <span class='keyword'><a name='22_8'>var</a></span> <span class='identifier'><a name='22_12' title='usrString3'>result</a></span>: <span class='typeidentifier'><a name='22_20'>LanguageServerResult</a></span>&lt;<span class='typeidentifier'><a name='22_41'>Hover</a></span>>? = <span class='keyword'><a name='22_51'>nil</a></span>
+0023    
+0024            <span class='keyword'><a name='24_8'>let</a></span> <span class='identifier'><a name='24_12' title='usrString3'>exp</a></span> = <span class='identifier'><a name='24_18'>XCTestExpectation</a></span>(<span class='identifier'><a name='24_36'>description</a></span>: <span class='string'><a name='24_49'>"Server Result Expectation"</a></span>)
+0025    
+0026            <span class='identifier'><a name='26_8' href='JSONRPCLanguageServerTests.html#16_12' title='usrString1'>server</a></span>.<span class='identifier'><a name='26_15'>hover</a></span>(<span class='identifier'><a name='26_21'>params</a></span>: <span class='identifier'><a name='26_29' href='JSONRPCLanguageServerTests.html#20_12' title='usrString1'>params</a></span>) { (<span class='identifier'><a name='26_40' title='usrString3'>serverResult</a></span>) <span class='keyword'><a name='26_54'>in</a></span>
+0027                <span class='identifier'><a name='27_12' href='JSONRPCLanguageServerTests.html#22_12' title='usrString1'>result</a></span> = <span class='identifier'><a name='27_21' href='JSONRPCLanguageServerTests.html#26_40' title='usrString1'>serverResult</a></span>
+0028    
+0029                <span class='identifier'><a name='29_12' href='JSONRPCLanguageServerTests.html#24_12' title='usrString1'>exp</a></span>.<span class='identifier'><a name='29_16'>fulfill</a></span>()
+0030            }
+0031    
+0032            <span class='comment'><a name='32_8'>// now write the response
+0033    </a></span>        <span class='keyword'><a name='33_8'>let</a></span> <span class='identifier'><a name='33_12' title='usrString3'>serverResponse</a></span> = <span class='string'><a name='33_29'>"Content-Length: 130\r\n\r\n{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"contents\":\"foo\",\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":20,\"character\":20}}}}"</a></span>
+0034            <span class='identifier'><a name='34_8' href='JSONRPCLanguageServerTests.html#14_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'><a name='34_22'>mockRead</a></span>(<span class='identifier'><a name='34_31' href='JSONRPCLanguageServerTests.html#33_12' title='usrString1'>serverResponse</a></span>)
+0035    
+0036            <span class='identifier'><a name='36_8'>wait</a></span>(<span class='identifier'><a name='36_13'>for</a></span>: [<span class='identifier'><a name='36_19' href='JSONRPCLanguageServerTests.html#24_12' title='usrString1'>exp</a></span>], <span class='identifier'><a name='36_25'>timeout</a></span>: <span class='number'><a name='36_34'>1.0</a></span>)
+0037    
+0038            <span class='comment'><a name='38_8'>// verify the request
+0039    </a></span>        <span class='keyword'><a name='39_8'>let</a></span> <span class='identifier'><a name='39_12' title='usrString3'>clientRequest</a></span> = <span class='string'><a name='39_28'>"Content-Length: 149\r\n\r\n{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"textDocument\\/hover\",\"params\":{\"textDocument\":{\"uri\":\"file:\\/\\/somefile.txt\"},\"position\":{\"line\":5,\"character\":5}}}"</a></span>
+0040    
+0041            <span class='keyword'><a name='41_8'>let</a></span> <span class='identifier'><a name='41_12' title='usrString3'>writtenStrings</a></span> = <span class='identifier'><a name='41_29' href='JSONRPCLanguageServerTests.html#14_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'><a name='41_43'>writtenData</a></span>.<span class='identifier'><a name='41_55'>compactMap</a></span>({ <span class='identifier'><a name='41_68'>String</a></span>(<span class='identifier'><a name='41_75'>data</a></span>: <span class='identifier'><a name='41_81' href='JSONRPCLanguageServerTests.html#41_66' title='usrString1'>$0</a></span>, <span class='identifier'><a name='41_85'>encoding</a></span>: .<span class='identifier'><a name='41_96'>utf8</a></span>) })
+0042    
+0043            <span class='identifier'><a name='43_8'>XCTAssertEqual</a></span>(<span class='identifier'><a name='43_23' href='JSONRPCLanguageServerTests.html#41_12' title='usrString1'>writtenStrings</a></span>, [<span class='identifier'><a name='43_40' href='JSONRPCLanguageServerTests.html#39_12' title='usrString1'>clientRequest</a></span>])
+0044    
+0045            <span class='comment'><a name='45_8'>// and verify the response
+0046    </a></span>        <span class='keyword'><a name='46_8'>guard</a></span> <span class='keyword'><a name='46_14'>let</a></span> <span class='identifier'><a name='46_18' title='usrString3'>hover</a></span> = <span class='keyword'><a name='46_26'>try</a></span> <span class='identifier'><a name='46_30' href='JSONRPCLanguageServerTests.html#22_12' title='usrString1'>result</a></span>?.<span class='identifier'><a name='46_38'>get</a></span>() <span class='keyword'><a name='46_44'>else</a></span> {
+0047                <span class='identifier'><a name='47_12'>XCTFail</a></span>()
+0048                <span class='keyword'><a name='48_12'>return</a></span>
+0049            }
+0050    
+0051            <span class='identifier'><a name='51_8'>XCTAssertEqual</a></span>(<span class='identifier'><a name='51_23' href='JSONRPCLanguageServerTests.html#46_18' title='usrString1'>hover</a></span>.<span class='identifier'><a name='51_29'>contents</a></span>, <span class='identifier'><a name='51_39'>HoverContents</a></span>.<span class='identifier'><a name='51_53'>markedString</a></span>(<span class='identifier'><a name='51_66'>MarkedString</a></span>.<span class='identifier'><a name='51_79'>string</a></span>(<span class='string'><a name='51_86'>"foo"</a></span>)))
+0052            <span class='identifier'><a name='52_8'>XCTAssertEqual</a></span>(<span class='identifier'><a name='52_23' href='JSONRPCLanguageServerTests.html#46_18' title='usrString1'>hover</a></span>.<span class='identifier'><a name='52_29'>range</a></span>, <span class='identifier'><a name='52_36'>LSPRange</a></span>(<span class='identifier'><a name='52_45'>startPair</a></span>: (<span class='number'><a name='52_57'>10</a></span>, <span class='number'><a name='52_61'>10</a></span>), <span class='identifier'><a name='52_66'>endPair</a></span>: (<span class='number'><a name='52_76'>20</a></span>, <span class='number'><a name='52_80'>20</a></span>)))
+0053        }
+0054    }
+0055    

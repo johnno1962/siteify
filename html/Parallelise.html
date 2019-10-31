@@ -1,0 +1,53 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>
+0001    <span class='comment'><a name='1_0'>//
+0002    </a></span><span class='comment'><a name='2_0'>//  Parallelise.swift
+0003    </a></span><span class='comment'><a name='3_0'>//  siteify
+0004    </a></span><span class='comment'><a name='4_0'>//
+0005    </a></span><span class='comment'><a name='5_0'>//  Created by John Holdsworth on 30/10/2019.
+0006    </a></span><span class='comment'><a name='6_0'>//  Copyright © 2019 John Holdsworth. All rights reserved.
+0007    </a></span><span class='comment'><a name='7_0'>//
+0008    </a></span>
+0009    <span class='keyword'><a name='9_0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
+0010    
+0011    <span class='builtin'><a name='11_0'>public</a></span> <span class='keyword'><a name='11_7'>func</a></span> <span class='identifier'><a name='11_12' title='usrString3'>parallelise</a></span>(<span class='identifier'><a name='11_24' title='usrString3'>threads</a></span>: <span class='typeidentifier'><a name='11_33'>Int</a></span>,
+0012                            <span class='identifier'><a name='12_24' title='usrString3'>name</a></span>: <span class='typeidentifier'><a name='12_30'>String</a></span> = <span class='string'><a name='12_39'>"Parallelize"</a></span>,
+0013                            <span class='identifier'><a name='13_24' title='usrString3'>work</a></span>: () -> (() -> <span class='typeidentifier'><a name='13_43'>Void</a></span>)?) {
+0014        <span class='keyword'><a name='14_4'>let</a></span> <span class='identifier'><a name='14_8' title='usrString3'>concurrentQueue</a></span> = <span class='identifier'><a name='14_26'>DispatchQueue</a></span>(<span class='identifier'><a name='14_40'>label</a></span>: <span class='identifier'><a name='14_47' href='Parallelise.html#12_24' title='usrString1'>name</a></span>, <span class='identifier'><a name='14_53'>qos</a></span>: .<span class='identifier'><a name='14_59'>background</a></span>, <span class='identifier'><a name='14_71'>attributes</a></span>: .<span class='identifier'><a name='14_84'>concurrent</a></span>)
+0015        <span class='keyword'><a name='15_4'>let</a></span> <span class='identifier'><a name='15_8' title='usrString3'>synchroniser</a></span> = <span class='identifier'><a name='15_23'>DispatchSemaphore</a></span>(<span class='identifier'><a name='15_41'>value</a></span>: <span class='identifier'><a name='15_48' href='Parallelise.html#11_24' title='usrString1'>threads</a></span>)
+0016        <span class='keyword'><a name='16_4'>let</a></span> <span class='identifier'><a name='16_8' title='usrString3'>threadGroup</a></span> = <span class='identifier'><a name='16_22'>DispatchGroup</a></span>()
+0017    
+0018        <span class='keyword'><a name='18_4'>while</a></span> <span class='keyword'><a name='18_10'>let</a></span> <span class='identifier'><a name='18_14' title='usrString3'>nextWork</a></span> = <span class='identifier'><a name='18_25' href='Parallelise.html#13_24' title='usrString1'>work</a></span>() {
+0019            <span class='identifier'><a name='19_8' href='Parallelise.html#15_8' title='usrString1'>synchroniser</a></span>.<span class='identifier'><a name='19_21'>wait</a></span>()
+0020            <span class='identifier'><a name='20_8' href='Parallelise.html#16_8' title='usrString1'>threadGroup</a></span>.<span class='identifier'><a name='20_20'>enter</a></span>()
+0021    
+0022            <span class='identifier'><a name='22_8' href='Parallelise.html#14_8' title='usrString1'>concurrentQueue</a></span>.<span class='identifier'><a name='22_24'>async</a></span> {
+0023                <span class='identifier'><a name='23_12' href='Parallelise.html#18_14' title='usrString1'>nextWork</a></span>()
+0024                <span class='identifier'><a name='24_12' href='Parallelise.html#16_8' title='usrString1'>threadGroup</a></span>.<span class='identifier'><a name='24_24'>leave</a></span>()
+0025                <span class='identifier'><a name='25_12' href='Parallelise.html#15_8' title='usrString1'>synchroniser</a></span>.<span class='identifier'><a name='25_25'>signal</a></span>()
+0026            }
+0027        }
+0028    
+0029        <span class='identifier'><a name='29_4' href='Parallelise.html#16_8' title='usrString1'>threadGroup</a></span>.<span class='identifier'><a name='29_16'>wait</a></span>()
+0030    }
+0031    

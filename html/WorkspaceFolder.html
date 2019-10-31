@@ -19,26 +19,25 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><pre>
-0001    <span class='comment'><a name='1_0' title='usrString0'>//
-0002    </a></span><span class='comment'><a name='2_0' title='usrString0'>//  WorkspaceFolder.swift
-0003    </a></span><span class='comment'><a name='3_0' title='usrString0'>//  SwiftLSPClient
-0004    </a></span><span class='comment'><a name='4_0' title='usrString0'>//
-0005    </a></span><span class='comment'><a name='5_0' title='usrString0'>//  Created by Matt Massicotte on 2019-02-07.
-0006    </a></span><span class='comment'><a name='6_0' title='usrString0'>//  Copyright © 2019 Chime Systems. All rights reserved.
-0007    </a></span><span class='comment'><a name='7_0' title='usrString0'>//
+</script></head><body><pre>0001    <span class='comment'><a name='1_0'>//
+0002    </a></span><span class='comment'><a name='2_0'>//  WorkspaceFolder.swift
+0003    </a></span><span class='comment'><a name='3_0'>//  SwiftLSPClient
+0004    </a></span><span class='comment'><a name='4_0'>//
+0005    </a></span><span class='comment'><a name='5_0'>//  Created by Matt Massicotte on 2019-02-07.
+0006    </a></span><span class='comment'><a name='6_0'>//  Copyright © 2019 Chime Systems. All rights reserved.
+0007    </a></span><span class='comment'><a name='7_0'>//
 0008    </a></span>
-0009    <span class='keyword'><a name='9_0' title='usrString0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
+0009    <span class='keyword'><a name='9_0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
 0010    
-0011    <span class='builtin'><a name='11_0' title='usrString0'>public</a></span> <span class='keyword'><a name='11_7' title='usrString0'>struct</a></span> <span class='identifier'><a name='11_14'>WorkspaceFolder</a></span>: <span class='typeidentifier'><a name='11_31' title='usrString0'>Codable</a></span> {
-0012        <span class='builtin'><a name='12_4' title='usrString0'>public</a></span> <span class='keyword'><a name='12_11' title='usrString0'>let</a></span> <span class='identifier'><a name='12_15'>uri</a></span>: <span class='typeidentifier'><a name='12_20' title='usrString0'>String</a></span>
-0013        <span class='builtin'><a name='13_4' title='usrString0'>public</a></span> <span class='keyword'><a name='13_11' title='usrString0'>let</a></span> <span class='identifier'><a name='13_15'>name</a></span>: <span class='typeidentifier'><a name='13_21' title='usrString0'>String</a></span>
+0011    <span class='builtin'><a name='11_0'>public</a></span> <span class='keyword'><a name='11_7'>struct</a></span> <span class='identifier'><a name='11_14' href='#' title='usrString2' onclick='return expand(this);'>WorkspaceFolder<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Initialization.html#24_34"; event.stopPropagation(); return false;'>Initialization.swift:24</td><td><pre>    public let workspaceFolders: [WorkspaceFolder]?</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="Initialization.html#26_179"; event.stopPropagation(); return false;'>Initialization.swift:26</td><td><pre>    public init(processId: Int, rootPath: String?, rootURI: DocumentUri?, initializationOptions: JSONValue?, capabilities: ClientCapabilities, trace: Tracing?, workspaceFolders: [WorkspaceFolder]?) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="WorkspaceFolder.html#21_35"; return false;'>WorkspaceFolder.swift:21</td><td><pre>typealias WorkspaceFolderResult = [WorkspaceFolder]?</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.html#121_57"; event.stopPropagation(); return false;'>Siteify.swift:121</td><td><pre>                                      workspaceFolders: [WorkspaceFolder(uri: "file://\(projectRoot)/", name: "siteify")])</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='11_31'>Codable</a></span> {
+0012        <span class='builtin'><a name='12_4'>public</a></span> <span class='keyword'><a name='12_11'>let</a></span> <span class='identifier'><a name='12_15' href='#' title='usrString2' onclick='return expand(this);'>uri<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="WorkspaceFolder.html#16_13"; return false;'>WorkspaceFolder.swift:16</td><td><pre>        self.uri = uri</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='12_20'>String</a></span>
+0013        <span class='builtin'><a name='13_4'>public</a></span> <span class='keyword'><a name='13_11'>let</a></span> <span class='identifier'><a name='13_15' href='#' title='usrString2' onclick='return expand(this);'>name<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="WorkspaceFolder.html#17_13"; return false;'>WorkspaceFolder.swift:17</td><td><pre>        self.name = name</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='13_21'>String</a></span>
 0014    
-0015        <span class='builtin'><a name='15_4' title='usrString0'>public</a></span> <span class='keyword'><a name='15_11' title='usrString0'>init</a></span>(<span class='identifier'><a name='15_16'>uri</a></span>: <span class='typeidentifier'><a name='15_21' title='usrString0'>String</a></span>, <span class='identifier'><a name='15_29'>name</a></span>: <span class='typeidentifier'><a name='15_35' title='usrString0'>String</a></span>) {
-0016            <span class='keyword'><a name='16_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='16_13'>uri</a></span> = <span class='identifier'><a name='16_19'>uri</a></span>
-0017            <span class='keyword'><a name='17_8' title='usrString0'>self</a></span>.<span class='identifier'><a name='17_13'>name</a></span> = <span class='identifier'><a name='17_20'>name</a></span>
+0015        <span class='builtin'><a name='15_4'>public</a></span> <span class='keyword'><a name='15_11'>init</a></span>(<span class='identifier'><a name='15_16' href='#' title='usrString2' onclick='return expand(this);'>uri<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="WorkspaceFolder.html#16_19"; return false;'>WorkspaceFolder.swift:16</td><td><pre>        self.uri = uri</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='15_21'>String</a></span>, <span class='identifier'><a name='15_29' href='#' title='usrString2' onclick='return expand(this);'>name<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="WorkspaceFolder.html#17_20"; return false;'>WorkspaceFolder.swift:17</td><td><pre>        self.name = name</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='15_35'>String</a></span>) {
+0016            <span class='keyword'><a name='16_8'>self</a></span>.<span class='identifier'><a name='16_13' href='WorkspaceFolder.html#12_15' title='usrString1'>uri</a></span> = <span class='identifier'><a name='16_19' href='WorkspaceFolder.html#15_16' title='usrString1'>uri</a></span>
+0017            <span class='keyword'><a name='17_8'>self</a></span>.<span class='identifier'><a name='17_13' href='WorkspaceFolder.html#13_15' title='usrString1'>name</a></span> = <span class='identifier'><a name='17_20' href='WorkspaceFolder.html#15_29' title='usrString1'>name</a></span>
 0018        }
 0019    }
 0020    
-0021    <span class='keyword'><a name='21_0' title='usrString0'>typealias</a></span> <span class='identifier'><a name='21_10'>WorkspaceFolderResult</a></span> = [<span class='typeidentifier'><a name='21_35' title='usrString0'>WorkspaceFolder</a></span>]?
+0021    <span class='keyword'><a name='21_0'>typealias</a></span> <span class='identifier'><a name='21_10' title='usrString2' onclick='return expand(this);'>WorkspaceFolderResult<span class='references'><table></table></span></a></span> = [<span class='typeidentifier'><a name='21_35'>WorkspaceFolder</a></span>]?
 0022    

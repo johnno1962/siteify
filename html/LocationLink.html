@@ -19,24 +19,23 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><pre>
-0001    <span class='comment'><a name='1_0' title='usrString0'>//
-0002    </a></span><span class='comment'><a name='2_0' title='usrString0'>//  LocationLink.swift
-0003    </a></span><span class='comment'><a name='3_0' title='usrString0'>//  SwiftLSPClient
-0004    </a></span><span class='comment'><a name='4_0' title='usrString0'>//
-0005    </a></span><span class='comment'><a name='5_0' title='usrString0'>//  Created by Matt Massicotte on 2019-02-13.
-0006    </a></span><span class='comment'><a name='6_0' title='usrString0'>//  Copyright © 2019 Chime Systems. All rights reserved.
-0007    </a></span><span class='comment'><a name='7_0' title='usrString0'>//
+</script></head><body><pre>0001    <span class='comment'><a name='1_0'>//
+0002    </a></span><span class='comment'><a name='2_0'>//  LocationLink.swift
+0003    </a></span><span class='comment'><a name='3_0'>//  SwiftLSPClient
+0004    </a></span><span class='comment'><a name='4_0'>//
+0005    </a></span><span class='comment'><a name='5_0'>//  Created by Matt Massicotte on 2019-02-13.
+0006    </a></span><span class='comment'><a name='6_0'>//  Copyright © 2019 Chime Systems. All rights reserved.
+0007    </a></span><span class='comment'><a name='7_0'>//
 0008    </a></span>
-0009    <span class='keyword'><a name='9_0' title='usrString0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
+0009    <span class='keyword'><a name='9_0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
 0010    
-0011    <span class='builtin'><a name='11_0' title='usrString0'>public</a></span> <span class='keyword'><a name='11_7' title='usrString0'>struct</a></span> <span class='identifier'><a name='11_14'>LocationLink</a></span> {
-0012        <span class='builtin'><a name='12_4' title='usrString0'>public</a></span> <span class='keyword'><a name='12_11' title='usrString0'>let</a></span> <span class='identifier'><a name='12_15'>originSelectionRange</a></span>: <span class='typeidentifier'><a name='12_37' title='usrString0'>LSPRange</a></span>?
-0013        <span class='builtin'><a name='13_4' title='usrString0'>public</a></span> <span class='keyword'><a name='13_11' title='usrString0'>let</a></span> <span class='identifier'><a name='13_15'>targetUri</a></span>: <span class='typeidentifier'><a name='13_26' title='usrString0'>String</a></span>
-0014        <span class='builtin'><a name='14_4' title='usrString0'>public</a></span> <span class='keyword'><a name='14_11' title='usrString0'>let</a></span> <span class='identifier'><a name='14_15'>targetRange</a></span>: <span class='typeidentifier'><a name='14_28' title='usrString0'>LSPRange</a></span>
-0015        <span class='builtin'><a name='15_4' title='usrString0'>public</a></span> <span class='keyword'><a name='15_11' title='usrString0'>let</a></span> <span class='identifier'><a name='15_15'>targetSelectionRange</a></span>: <span class='typeidentifier'><a name='15_37' title='usrString0'>LSPRange</a></span>
+0011    <span class='builtin'><a name='11_0'>public</a></span> <span class='keyword'><a name='11_7'>struct</a></span> <span class='identifier'><a name='11_14' href='#' title='usrString2' onclick='return expand(this);'>LocationLink<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="TypeDefinition.html#14_28"; event.stopPropagation(); return false;'>TypeDefinition.swift:14</td><td><pre>    case locationLinkArray([LocationLink])</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="TypeDefinition.html#26_46"; event.stopPropagation(); return false;'>TypeDefinition.swift:26</td><td><pre>            let value = try container.decode([LocationLink].self)</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="LocationLink.html#18_10"; return false;'>LocationLink.swift:18</td><td><pre>extension LocationLink: Codable {</pre></td></table></span></a></span> {
+0012        <span class='builtin'><a name='12_4'>public</a></span> <span class='keyword'><a name='12_11'>let</a></span> <span class='identifier'><a name='12_15' title='usrString2' onclick='return expand(this);'>originSelectionRange<span class='references'><table></table></span></a></span>: <span class='typeidentifier'><a name='12_37'>LSPRange</a></span>?
+0013        <span class='builtin'><a name='13_4'>public</a></span> <span class='keyword'><a name='13_11'>let</a></span> <span class='identifier'><a name='13_15' title='usrString2' onclick='return expand(this);'>targetUri<span class='references'><table></table></span></a></span>: <span class='typeidentifier'><a name='13_26'>String</a></span>
+0014        <span class='builtin'><a name='14_4'>public</a></span> <span class='keyword'><a name='14_11'>let</a></span> <span class='identifier'><a name='14_15' title='usrString2' onclick='return expand(this);'>targetRange<span class='references'><table></table></span></a></span>: <span class='typeidentifier'><a name='14_28'>LSPRange</a></span>
+0015        <span class='builtin'><a name='15_4'>public</a></span> <span class='keyword'><a name='15_11'>let</a></span> <span class='identifier'><a name='15_15' title='usrString2' onclick='return expand(this);'>targetSelectionRange<span class='references'><table></table></span></a></span>: <span class='typeidentifier'><a name='15_37'>LSPRange</a></span>
 0016    }
 0017    
-0018    <span class='keyword'><a name='18_0' title='usrString0'>extension</a></span> <span class='typeidentifier'><a name='18_10' title='usrString0'>LocationLink</a></span>: <span class='typeidentifier'><a name='18_24' title='usrString0'>Codable</a></span> {
+0018    <span class='keyword'><a name='18_0'>extension</a></span> <span class='typeidentifier'><a name='18_10'>LocationLink</a></span>: <span class='typeidentifier'><a name='18_24'>Codable</a></span> {
 0019    }
 0020    

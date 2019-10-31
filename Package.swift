@@ -11,7 +11,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/johnno1962/SourceKit.git", .branch("master")),
-        .package(url: "https://github.com/johnno1962/SwiftLSPClient.git", .branch("master")),
+        .package(url: "https://github.com/ChimeHQ/SwiftLSPClient.git", .branch("master")),
     ],
     targets: [
         .target(name: "siteify", dependencies: ["SwiftLSPClient"], path: "siteify/"),

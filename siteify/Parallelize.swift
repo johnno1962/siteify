@@ -5,6 +5,10 @@
 //  Created by John Holdsworth on 30/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
+//  $Id: //depot/siteify/siteify/Parallelize.swift#1 $
+//
+//  Repo: https://github.com/johnno1962/siteify
+//
 
 import Foundation
 

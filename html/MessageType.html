@@ -19,35 +19,34 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><pre>
-0001    <span class='comment'><a name='1_0' title='usrString0'>//
-0002    </a></span><span class='comment'><a name='2_0' title='usrString0'>//  MessageType.swift
-0003    </a></span><span class='comment'><a name='3_0' title='usrString0'>//  SwiftLSPClient
-0004    </a></span><span class='comment'><a name='4_0' title='usrString0'>//
-0005    </a></span><span class='comment'><a name='5_0' title='usrString0'>//  Created by Matt Massicotte on 2019-09-02.
-0006    </a></span><span class='comment'><a name='6_0' title='usrString0'>//  Copyright © 2019 Chime Systems. All rights reserved.
-0007    </a></span><span class='comment'><a name='7_0' title='usrString0'>//
+</script></head><body><pre>0001    <span class='comment'><a name='1_0'>//
+0002    </a></span><span class='comment'><a name='2_0'>//  MessageType.swift
+0003    </a></span><span class='comment'><a name='3_0'>//  SwiftLSPClient
+0004    </a></span><span class='comment'><a name='4_0'>//
+0005    </a></span><span class='comment'><a name='5_0'>//  Created by Matt Massicotte on 2019-09-02.
+0006    </a></span><span class='comment'><a name='6_0'>//  Copyright © 2019 Chime Systems. All rights reserved.
+0007    </a></span><span class='comment'><a name='7_0'>//
 0008    </a></span>
-0009    <span class='keyword'><a name='9_0' title='usrString0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
+0009    <span class='keyword'><a name='9_0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
 0010    
-0011    <span class='builtin'><a name='11_0' title='usrString0'>public</a></span> <span class='keyword'><a name='11_7' title='usrString0'>enum</a></span> <span class='identifier'><a name='11_12'>MessageType</a></span>: <span class='typeidentifier'><a name='11_25' title='usrString0'>Int</a></span>, <span class='typeidentifier'><a name='11_30' title='usrString0'>Codable</a></span> {
-0012        <span class='keyword'><a name='12_4' title='usrString0'>case</a></span> <span class='identifier'><a name='12_9'>error</a></span> = <span class='number'><a name='12_17' title='usrString0'>1</a></span>
-0013        <span class='keyword'><a name='13_4' title='usrString0'>case</a></span> <span class='identifier'><a name='13_9'>warning</a></span> = <span class='number'><a name='13_19' title='usrString0'>2</a></span>
-0014        <span class='keyword'><a name='14_4' title='usrString0'>case</a></span> <span class='identifier'><a name='14_9'>info</a></span> = <span class='number'><a name='14_16' title='usrString0'>3</a></span>
-0015        <span class='keyword'><a name='15_4' title='usrString0'>case</a></span> <span class='identifier'><a name='15_9'>log</a></span> = <span class='number'><a name='15_15' title='usrString0'>4</a></span>
+0011    <span class='builtin'><a name='11_0'>public</a></span> <span class='keyword'><a name='11_7'>enum</a></span> <span class='identifier'><a name='11_12' href='#' title='usrString2' onclick='return expand(this);'>MessageType<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="LogMessageParams.html#12_21"; event.stopPropagation(); return false;'>LogMessageParams.swift:12</td><td><pre>    public let type: MessageType</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="MessageType.html#18_10"; return false;'>MessageType.swift:18</td><td><pre>extension MessageType: CustomStringConvertible {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="ShowMessageRequest.html#12_21"; event.stopPropagation(); return false;'>ShowMessageRequest.swift:12</td><td><pre>    public let type: MessageType</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='11_25'>Int</a></span>, <span class='typeidentifier'><a name='11_30'>Codable</a></span> {
+0012        <span class='keyword'><a name='12_4'>case</a></span> <span class='identifier'><a name='12_9' href='#' title='usrString2' onclick='return expand(this);'>error<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="MessageType.html#21_14"; return false;'>MessageType.swift:21</td><td><pre>        case .error:</pre></td></table></span></a></span> = <span class='number'><a name='12_17'>1</a></span>
+0013        <span class='keyword'><a name='13_4'>case</a></span> <span class='identifier'><a name='13_9' href='#' title='usrString2' onclick='return expand(this);'>warning<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="MessageType.html#23_14"; return false;'>MessageType.swift:23</td><td><pre>        case .warning:</pre></td></table></span></a></span> = <span class='number'><a name='13_19'>2</a></span>
+0014        <span class='keyword'><a name='14_4'>case</a></span> <span class='identifier'><a name='14_9' href='#' title='usrString2' onclick='return expand(this);'>info<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="MessageType.html#25_14"; return false;'>MessageType.swift:25</td><td><pre>        case .info:</pre></td></table></span></a></span> = <span class='number'><a name='14_16'>3</a></span>
+0015        <span class='keyword'><a name='15_4'>case</a></span> <span class='identifier'><a name='15_9' href='#' title='usrString2' onclick='return expand(this);'>log<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="MessageType.html#27_14"; return false;'>MessageType.swift:27</td><td><pre>        case .log:</pre></td></table></span></a></span> = <span class='number'><a name='15_15'>4</a></span>
 0016    }
 0017    
-0018    <span class='keyword'><a name='18_0' title='usrString0'>extension</a></span> <span class='typeidentifier'><a name='18_10' title='usrString0'>MessageType</a></span>: <span class='typeidentifier'><a name='18_23' title='usrString0'>CustomStringConvertible</a></span> {
-0019        <span class='builtin'><a name='19_4' title='usrString0'>public</a></span> <span class='keyword'><a name='19_11' title='usrString0'>var</a></span> <span class='identifier'><a name='19_15'>description</a></span>: <span class='typeidentifier'><a name='19_28' title='usrString0'>String</a></span> {
-0020            <span class='keyword'><a name='20_8' title='usrString0'>switch</a></span> <span class='keyword'><a name='20_15' title='usrString0'>self</a></span> {
-0021            <span class='keyword'><a name='21_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='21_14'>error</a></span>:
-0022                <span class='keyword'><a name='22_12' title='usrString0'>return</a></span> <span class='string'><a name='22_19' title='usrString0'>"error"</a></span>
-0023            <span class='keyword'><a name='23_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='23_14'>warning</a></span>:
-0024                <span class='keyword'><a name='24_12' title='usrString0'>return</a></span> <span class='string'><a name='24_19' title='usrString0'>"warning"</a></span>
-0025            <span class='keyword'><a name='25_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='25_14'>info</a></span>:
-0026                <span class='keyword'><a name='26_12' title='usrString0'>return</a></span> <span class='string'><a name='26_19' title='usrString0'>"info"</a></span>
-0027            <span class='keyword'><a name='27_8' title='usrString0'>case</a></span> .<span class='identifier'><a name='27_14'>log</a></span>:
-0028                <span class='keyword'><a name='28_12' title='usrString0'>return</a></span> <span class='string'><a name='28_19' title='usrString0'>"log"</a></span>
+0018    <span class='keyword'><a name='18_0'>extension</a></span> <span class='typeidentifier'><a name='18_10'>MessageType</a></span>: <span class='typeidentifier'><a name='18_23'>CustomStringConvertible</a></span> {
+0019        <span class='builtin'><a name='19_4'>public</a></span> <span class='keyword'><a name='19_11'>var</a></span> <span class='identifier'><a name='19_15' title='usrString2' onclick='return expand(this);'>description<span class='references'><table></table></span></a></span>: <span class='typeidentifier'><a name='19_28'>String</a></span> {
+0020            <span class='keyword'><a name='20_8'>switch</a></span> <span class='keyword'><a name='20_15'>self</a></span> {
+0021            <span class='keyword'><a name='21_8'>case</a></span> .<span class='identifier'><a name='21_14' href='MessageType.html#12_9' title='usrString1'>error</a></span>:
+0022                <span class='keyword'><a name='22_12'>return</a></span> <span class='string'><a name='22_19'>"error"</a></span>
+0023            <span class='keyword'><a name='23_8'>case</a></span> .<span class='identifier'><a name='23_14' href='MessageType.html#13_9' title='usrString1'>warning</a></span>:
+0024                <span class='keyword'><a name='24_12'>return</a></span> <span class='string'><a name='24_19'>"warning"</a></span>
+0025            <span class='keyword'><a name='25_8'>case</a></span> .<span class='identifier'><a name='25_14' href='MessageType.html#14_9' title='usrString1'>info</a></span>:
+0026                <span class='keyword'><a name='26_12'>return</a></span> <span class='string'><a name='26_19'>"info"</a></span>
+0027            <span class='keyword'><a name='27_8'>case</a></span> .<span class='identifier'><a name='27_14' href='MessageType.html#15_9' title='usrString1'>log</a></span>:
+0028                <span class='keyword'><a name='28_12'>return</a></span> <span class='string'><a name='28_19'>"log"</a></span>
 0029            }
 0030        }
 0031    }

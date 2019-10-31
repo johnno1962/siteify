@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Entity.swift#7 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#1 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -48,12 +48,16 @@ func progress(str: String) {
 
 struct LanguageServerSynchronizer {
     let semaphore = DispatchSemaphore(value: 0)
+    var errorHandler = {
+        (message: String) in
+        fatalError(message)
+    }
 
     func sync(_ block: @escaping (@escaping (LanguageServerError?) -> Void) -> Void) {
         block({
             (error: LanguageServerError?) in
             if error != nil {
-                fatalError("LanguageServerError: \(error!)")
+                self.errorHandler("LanguageServerError: \(error!)")
             }
             self.semaphore.signal()
         })
@@ -68,7 +72,7 @@ struct LanguageServerSynchronizer {
             case .success(let value):
                 theResponse = value
             case .failure(let error):
-                fatalError("Error response \(error)")
+                self.errorHandler("Error response \(error)")
             }
             self.semaphore.signal()
         })
@@ -298,10 +302,9 @@ public class Siteify {
     let resources = String(cString: getenv("HOME"))+"/Library/siteify/"
 
     func copyTemplate(template: String, patches: [String:String] = [:], dest: String? = nil) -> UnsafeMutablePointer<FILE> {
-        var input = try! NSString(contentsOfFile: resources+template,
-              encoding: String.Encoding.utf8.rawValue)
+        var input = Self.resources[template]!
         for (tag, value) in patches {
-            input = input.replacingOccurrences(of: tag, with: value) as NSString
+            input = input.replacingOccurrences(of: tag, with: value)
         }
         let out = fopen(dest ?? "html/"+template, "w")!
         _ = (input as String).withCString {

@@ -11,13 +11,10 @@
 		BB8BD1F31C736CF4001108DF /* LineGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1F11C736CF4001108DF /* LineGenerators.swift */; };
 		BB8BD1F41C736CF4001108DF /* SourceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1F21C736CF4001108DF /* SourceKit.swift */; };
 		BBD81FA51C73767A0060CF44 /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD81FA41C73767A0060CF44 /* SwiftRegex.swift */; };
-		BBD81FAA1C7393240060CF44 /* index.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBD81FA71C7392EE0060CF44 /* index.html */; };
-		BBD81FAB1C7393240060CF44 /* siteify.css in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBD81FA81C7392FF0060CF44 /* siteify.css */; };
-		BBD81FAC1C7393240060CF44 /* source.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBD81FA91C73930D0060CF44 /* source.html */; };
 		BBD81FB01C73DE0B0060CF44 /* siteify in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB8BD1E71C7364E3001108DF /* siteify */; };
-		BBD81FB81C74D9F00060CF44 /* xref.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBD81FB71C74D7340060CF44 /* xref.html */; };
 		BBEF4C8D2366C8BB00109F9A /* Siteify.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4C8C2366C8BB00109F9A /* Siteify.swift */; };
 		BBEF4C942369B52000109F9A /* Parallelize.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4C932369B52000109F9A /* Parallelize.swift */; };
+		BBEF4C97236A9B6200109F9A /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4C96236A9B6200109F9A /* Resources.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,19 +42,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		BBD81FA61C7392AE0060CF44 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = $HOME/Library/siteify;
-			dstSubfolderSpec = 0;
-			files = (
-				BBD81FB81C74D9F00060CF44 /* xref.html in CopyFiles */,
-				BBD81FAA1C7393240060CF44 /* index.html in CopyFiles */,
-				BBD81FAB1C7393240060CF44 /* siteify.css in CopyFiles */,
-				BBD81FAC1C7393240060CF44 /* source.html in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		BBD81FAF1C73DDFC0060CF44 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -79,15 +63,12 @@
 		BBD81F9E1C736FF70060CF44 /* siteify-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "siteify-Bridging-Header.h"; sourceTree = "<group>"; };
 		BBD81FA11C73703D0060CF44 /* sourcekitd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sourcekitd.h; sourceTree = "<group>"; };
 		BBD81FA41C73767A0060CF44 /* SwiftRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftRegex.swift; sourceTree = "<group>"; };
-		BBD81FA71C7392EE0060CF44 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
-		BBD81FA81C7392FF0060CF44 /* siteify.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = siteify.css; sourceTree = "<group>"; };
-		BBD81FA91C73930D0060CF44 /* source.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = source.html; sourceTree = "<group>"; };
 		BBD81FB11C73DE6E0060CF44 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BBD81FB31C74A6EE0060CF44 /* ByteRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteRegex.swift; sourceTree = "<group>"; };
-		BBD81FB71C74D7340060CF44 /* xref.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = xref.html; sourceTree = "<group>"; };
 		BBEF4C832364502800109F9A /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		BBEF4C8C2366C8BB00109F9A /* Siteify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Siteify.swift; sourceTree = "<group>"; };
 		BBEF4C932369B52000109F9A /* Parallelize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parallelize.swift; sourceTree = "<group>"; };
+		BBEF4C96236A9B6200109F9A /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,15 +117,12 @@
 				BBEF4C8C2366C8BB00109F9A /* Siteify.swift */,
 				BB8BD1F21C736CF4001108DF /* SourceKit.swift */,
 				BBEF4C932369B52000109F9A /* Parallelize.swift */,
+				BBEF4C96236A9B6200109F9A /* Resources.swift */,
 				BBD81FB31C74A6EE0060CF44 /* ByteRegex.swift */,
 				BBD81FA41C73767A0060CF44 /* SwiftRegex.swift */,
 				BB8BD1F11C736CF4001108DF /* LineGenerators.swift */,
 				BBD81F9E1C736FF70060CF44 /* siteify-Bridging-Header.h */,
 				BBD81FA11C73703D0060CF44 /* sourcekitd.h */,
-				BBD81FA71C7392EE0060CF44 /* index.html */,
-				BBD81FA81C7392FF0060CF44 /* siteify.css */,
-				BBD81FA91C73930D0060CF44 /* source.html */,
-				BBD81FB71C74D7340060CF44 /* xref.html */,
 			);
 			path = siteify;
 			sourceTree = "<group>";
@@ -158,7 +136,6 @@
 			buildPhases = (
 				BB8BD1E31C7364E3001108DF /* Sources */,
 				BB8BD1E41C7364E3001108DF /* Frameworks */,
-				BBD81FA61C7392AE0060CF44 /* CopyFiles */,
 				BBD81FAF1C73DDFC0060CF44 /* CopyFiles */,
 			);
 			buildRules = (
@@ -235,6 +212,7 @@
 			files = (
 				BBEF4C942369B52000109F9A /* Parallelize.swift in Sources */,
 				BB8BD1EB1C7364E3001108DF /* main.swift in Sources */,
+				BBEF4C97236A9B6200109F9A /* Resources.swift in Sources */,
 				BBEF4C8D2366C8BB00109F9A /* Siteify.swift in Sources */,
 				BB8BD1F41C736CF4001108DF /* SourceKit.swift in Sources */,
 				BB8BD1F31C736CF4001108DF /* LineGenerators.swift in Sources */,

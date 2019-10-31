@@ -1,15 +1,17 @@
 
 ## siteify - Build a hyperlinked Web Site from project's Swift sources.
 
-Created as a means of testing SourceKit, siteify is a Swift script that creates a
+Created as a means of testing SourceKit but generally useful as a mean for browsing
+sourcecode, siteify is a Swift script that creates a
 hyperlinked and cross referenced version of your Swift source that can be navigated
 in a Web Browser. Links over symbol references take you to their definition and
 clicking on a link on the definition will list the places the symbol is referenced.
 
 ![Icon](http://injectionforxcode.johnholdsworth.com/siteify2.png)
 
-To use, download and build this project first, using `swift build` then using the
-.xcodeproj in Xcode and _cd_ into into your project's root and type ~/bin/siteify.
+To use, download and build this project using `swift build` or using the
+.xcodeproj in Xcode then _cd_ into into your project's root and type ~/bin/siteify.
+You'll need to download a recent development toolchain from [swift.org](https://swift.org/download/) to get the required sourcekit-lsp executable.
 
 This will build your project recording it's constituent Swift sources, index them
 then build the site in the directory ./html. Any PRs on de-glitching the CSS styling
@@ -33,4 +35,4 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-This source includes a header file "sourcekit.h" from Apple's Swift distribution under Apache License v2.0
+This source includes a header file "sourcekit.h" from Apple's Swift Open Source distribution under Apache License v2.0

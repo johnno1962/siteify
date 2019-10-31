@@ -1,0 +1,96 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><pre>0001    <span class='comment'><a name='1_0'>//
+0002    </a></span><span class='comment'><a name='2_0'>//  Resources.swift
+0003    </a></span><span class='comment'><a name='3_0'>//  siteify
+0004    </a></span><span class='comment'><a name='4_0'>//
+0005    </a></span><span class='comment'><a name='5_0'>//  Created by John Holdsworth on 31/10/2019.
+0006    </a></span><span class='comment'><a name='6_0'>//  Copyright © 2019 John Holdsworth. All rights reserved.
+0007    </a></span><span class='comment'><a name='7_0'>//
+0008    </a></span>
+0009    <span class='keyword'><a name='9_0'>extension</a></span> <span class='typeidentifier'><a name='9_10'>Siteify</a></span> {
+0010        <span class='keyword'><a name='10_4'>static</a></span> <span class='keyword'><a name='10_11'>let</a></span> <span class='identifier'><a name='10_15' href='#' title='usrString2' onclick='return expand(this);'>resources<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.html#305_25"; event.stopPropagation(); return false;'>Siteify.swift:305</td><td><pre>        var input = Self.resources[template]!</pre></td></table></span></a></span> = [
+0011            <span class='string'><a name='11_8'>"index.html"</a></span>: <span class='string'><a name='11_22'>"""
+0012            &lt;html>&lt;head>
+0013            &lt;meta charset="UTF-8">
+0014            &lt;style type="text/css">
+0015                body, table { font: 14pt Helvetica Neue; }
+0016            &lt;/style>
+0017            &lt;/head>&lt;body>
+0018            &lt;h4>Generated from __ROOT__ on __DATE__&lt;/h4>
+0019            """</a></span>,
+0020    
+0021            <span class='string'><a name='21_8'>"siteify.css"</a></span>: <span class='string'><a name='21_23'>"""
+0022    
+0023            body, table { font: 10pt Menlo Regular; }
+0024    
+0025            .builtin  { color: #A90D91; }
+0026            .comment  { color: #10743E; }
+0027            .url  { color: blue; }
+0028            .doccomment { color: #10743E; }
+0029            .identifier { color: #3F6E74; }
+0030            .keyword { color: #AD0D91; }
+0031            .number { color: #1D26E1; }
+0032            .string { color: #CB444D; }
+0033            .typeidentifier { color: #5C2599; }
+0034    
+0035            span.references { display: none; position: absolute; border: 2px outset; z-index: 100; }
+0036            span.references table { background-color: white; }
+0037            span.references table tr td { border: 1px inset; }
+0038            """</a></span>,
+0039            
+0040            <span class='string'><a name='40_8'>"source.html"</a></span>: <span class='string'><a name='40_23'>"""
+0041            &lt;html>&lt;head>
+0042                &lt;meta charset="UTF-8">
+0043                &lt;link rel="stylesheet" type="text/css" href="siteify.css">
+0044            &lt;script>
+0045    
+0046            var lastlink;
+0047    
+0048            function expand(a) {
+0049                if ( a.children[0].style.display != "block" ) {
+0050                    if ( lastlink )
+0051                        lastlink.style.display = "none";
+0052                    a.children[0].style.display = "block";
+0053                    lastlink = a.children[0];
+0054                }
+0055                else {
+0056                    a.children[0].style.display = "none";
+0057                    lastlink = null;
+0058                }
+0059                return false;
+0060            }
+0061    
+0062            &lt;/script>&lt;/head>&lt;body>&lt;pre>
+0063            """</a></span>,
+0064    
+0065            <span class='string'><a name='65_8'>"xref.html"</a></span>: <span class='string'><a name='65_21'>"""
+0066            &lt;html>&lt;head>
+0067            &lt;meta charset="UTF-8">
+0068            &lt;style type="text/css">
+0069                body, table { font: 12pt Helvetica Neue; }
+0070            &lt;/style>
+0071            &lt;/head>&lt;body>
+0072            """</a></span>
+0073        ]
+0074    }
+0075    
