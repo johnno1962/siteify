@@ -15,6 +15,7 @@
 		BBEF4C8D2366C8BB00109F9A /* Siteify.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4C8C2366C8BB00109F9A /* Siteify.swift */; };
 		BBEF4C942369B52000109F9A /* Parallelize.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4C932369B52000109F9A /* Parallelize.swift */; };
 		BBEF4C97236A9B6200109F9A /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4C96236A9B6200109F9A /* Resources.swift */; };
+		BBEF4C9E236D92FE00109F9A /* SwiftLSPClient.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB227D902360C046000D4D3E /* SwiftLSPClient.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 			dstPath = $HOME/bin;
 			dstSubfolderSpec = 0;
 			files = (
+				BBEF4C9E236D92FE00109F9A /* SwiftLSPClient.framework in CopyFiles */,
 				BBD81FB01C73DE0B0060CF44 /* siteify in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -322,7 +324,7 @@
 					"$(PROJECT_DIR)/siteify",
 					"$(TOOLCHAIN_DIR)/usr/lib",
 				);
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(TOOLCHAIN_DIR)/usr/lib";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(TOOLCHAIN_DIR)/usr/lib @executable_path";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "siteify/siteify-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -339,7 +341,7 @@
 					"$(PROJECT_DIR)/siteify",
 					"$(TOOLCHAIN_DIR)/usr/lib",
 				);
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(TOOLCHAIN_DIR)/usr/lib";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(TOOLCHAIN_DIR)/usr/lib @executable_path";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "siteify/siteify-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
