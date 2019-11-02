@@ -59,7 +59,7 @@ extension Siteify {
             return false;
         }
 
-        </script></head><body><pre>
+        </script></head><body><h3>__FILE__</h3><pre>
         """,
 
         "xref.html": """

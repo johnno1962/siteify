@@ -261,7 +261,7 @@ public class Siteify {
                                         if ref.href == decl.href {
                                             continue
                                         }
-                                        popup += "<tr><td style='text-decoration: underline;' onclick='document.location.href=\"\(ref.href)\"; \(keepListOpen)return false;'>\(ref.filename).swift:\(ref.line+1)</td>"
+                                        popup += "<tr><td style='text-decoration: underline;' onclick='document.location.href=\"\(ref.href)\"; \(keepListOpen)return false;'>\(ref.filebase):\(ref.line+1)</td>"
                                         popup += "<td><pre>\(reflines(file: ref.file, line: ref.line))</pre></td>"
                                     }
                                     span = "<a name='\(decl.anchor)' \(popup != "" ? "href='#' " : "")title='\("usrString2")' onclick='return expand(this);'>" +
@@ -282,19 +282,22 @@ public class Siteify {
 
                 html += skipTo(offset: data.count)
             }
-
-            var htmp = html
-            var line = 0
-
-            htmp["(^|\n)"] = { (groups: [String], stop) -> String in
-                line += 1
-                return groups[1] + String(format: "%04d    ", line)
-            }
-
-            let out = copyTemplate(template: "source.html", patches: [:], dest: "html/"+htmlfile)
-            htmp.withCString { _ = fputs($0, out) }
-            fclose(out)
         }
+
+        var htmp = html
+        var line = 0
+
+        htmp["(^|\n)"] = { (groups: [String], stop) -> String in
+            line += 1
+            return groups[1] + String(format: "%04d    ", line)
+        }
+
+        let out = copyTemplate(template: "source.html", patches: ["__FILE__":
+            path.replacingOccurrences(of: projectRoot+"/", with: "")],
+                               dest: "html/"+htmlfile)
+        htmp.withCString { _ = fputs($0, out) }
+        fclose(out)
+
         progress(str: "Saved html/\(htmlfile)")
     }
 
@@ -323,6 +326,7 @@ extension Location {
 
     var file: String { URL(string: uri)!.path }
     var filename: String { fileFilename(file: URL(string: uri)!.path) }
+    var filebase: String { URL(string: uri)!.lastPathComponent }
     var line: Int { range.start.line }
     var anchor: String { range.start.anchor }
     var href: String { "\(filename).html#\(anchor)" }
