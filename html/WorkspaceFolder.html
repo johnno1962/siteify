@@ -19,25 +19,25 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClient/Types/WorkspaceFolder.swift</h3><pre><span class=lineno>0001</span>    <span class='comment'>//
-<span class=lineno>0002</span>    </span><span class='comment'>//  WorkspaceFolder.swift
-<span class=lineno>0003</span>    </span><span class='comment'>//  SwiftLSPClient
-<span class=lineno>0004</span>    </span><span class='comment'>//
-<span class=lineno>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2019-02-07.
-<span class=lineno>0006</span>    </span><span class='comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
-<span class=lineno>0007</span>    </span><span class='comment'>//
-<span class=lineno>0008</span>    </span>
-<span class=lineno>0009</span>    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
-<span class=lineno>0010</span>    
-<span class=lineno>0011</span>    <span class='builtin'>public</span> <span class='keyword'>struct</span> <span class='identifier'><a name='11_14' title='usrString3'>WorkspaceFolder</a></span>: <span class='typeidentifier'>Codable</span> {
-<span class=lineno>0012</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='12_15' title='usrString3'>uri</a></span>: <span class='typeidentifier'>String</span>
-<span class=lineno>0013</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='13_15' title='usrString3'>name</a></span>: <span class='typeidentifier'>String</span>
-<span class=lineno>0014</span>    
-<span class=lineno>0015</span>        <span class='builtin'>public</span> <span class='keyword'>init</span>(<span class='identifier'><a name='15_16' title='usrString3'>uri</a></span>: <span class='typeidentifier'>String</span>, <span class='identifier'><a name='15_29' title='usrString3'>name</a></span>: <span class='typeidentifier'>String</span>) {
-<span class=lineno>0016</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='16_13' href='WorkspaceFolder.html#12_15' title='usrString1'>uri</a></span> = <span class='identifier'><a name='16_19' href='WorkspaceFolder.html#15_16' title='usrString1'>uri</a></span>
-<span class=lineno>0017</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='17_13' href='WorkspaceFolder.html#13_15' title='usrString1'>name</a></span> = <span class='identifier'><a name='17_20' href='WorkspaceFolder.html#15_29' title='usrString1'>name</a></span>
-<span class=lineno>0018</span>        }
-<span class=lineno>0019</span>    }
-<span class=lineno>0020</span>    
-<span class=lineno>0021</span>    <span class='keyword'>typealias</span> <span class='identifier'><a name='21_10' title='usrString3'>WorkspaceFolderResult</a></span> = [<span class='typeidentifier'>WorkspaceFolder</span>]?
-<span class=lineno>0022</span>    
+</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClient/Types/WorkspaceFolder.swift</h3><pre><span class=linenum>0001</span>    <span class='comment'>//
+<span class=linenum>0002</span>    </span><span class='comment'>//  WorkspaceFolder.swift
+<span class=linenum>0003</span>    </span><span class='comment'>//  SwiftLSPClient
+<span class=linenum>0004</span>    </span><span class='comment'>//
+<span class=linenum>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2019-02-07.
+<span class=linenum>0006</span>    </span><span class='comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
+<span class=linenum>0007</span>    </span><span class='comment'>//
+<span class=linenum>0008</span>    </span>
+<span class=linenum>0009</span>    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
+<span class=linenum>0010</span>    
+<span class=linenum>0011</span>    <span class='builtin'>public</span> <span class='keyword'>struct</span> <span class='identifier'><a name='11_14' href='#' title='usrString2' onclick='return expand(this);'>WorkspaceFolder<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="WorkspaceFolder.html#21_35"; return false;'>WorkspaceFolder.swift:21</td><td><pre>typealias WorkspaceFolderResult = [WorkspaceFolder]?</pre></td></table></span></a></span>: <span class='typeidentifier'>Codable</span> {
+<span class=linenum>0012</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='12_15' href='#' title='usrString2' onclick='return expand(this);'>uri<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="WorkspaceFolder.html#16_13"; return false;'>WorkspaceFolder.swift:16</td><td><pre>        self.uri = uri</pre></td></table></span></a></span>: <span class='typeidentifier'>String</span>
+<span class=linenum>0013</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='13_15' href='#' title='usrString2' onclick='return expand(this);'>name<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="WorkspaceFolder.html#17_13"; return false;'>WorkspaceFolder.swift:17</td><td><pre>        self.name = name</pre></td></table></span></a></span>: <span class='typeidentifier'>String</span>
+<span class=linenum>0014</span>    
+<span class=linenum>0015</span>        <span class='builtin'>public</span> <span class='keyword'>init</span>(<span class='identifier'><a name='15_16' href='#' title='usrString2' onclick='return expand(this);'>uri<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="WorkspaceFolder.html#16_19"; return false;'>WorkspaceFolder.swift:16</td><td><pre>        self.uri = uri</pre></td></table></span></a></span>: <span class='typeidentifier'>String</span>, <span class='identifier'><a name='15_29' href='#' title='usrString2' onclick='return expand(this);'>name<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="WorkspaceFolder.html#17_20"; return false;'>WorkspaceFolder.swift:17</td><td><pre>        self.name = name</pre></td></table></span></a></span>: <span class='typeidentifier'>String</span>) {
+<span class=linenum>0016</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='16_13' href='WorkspaceFolder.html#12_15' title='usrString1'>uri</a></span> = <span class='identifier'><a name='16_19' href='WorkspaceFolder.html#15_16' title='usrString1'>uri</a></span>
+<span class=linenum>0017</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='17_13' href='WorkspaceFolder.html#13_15' title='usrString1'>name</a></span> = <span class='identifier'><a name='17_20' href='WorkspaceFolder.html#15_29' title='usrString1'>name</a></span>
+<span class=linenum>0018</span>        }
+<span class=linenum>0019</span>    }
+<span class=linenum>0020</span>    
+<span class=linenum>0021</span>    <span class='keyword'>typealias</span> <span class='identifier'><a name='21_10' title='usrString2' onclick='return expand(this);'>WorkspaceFolderResult<span class='references'><table></table></span></a></span> = [<span class='typeidentifier'><a name='21_35' href='WorkspaceFolder.html#11_14' title='usrString1'>WorkspaceFolder</a></span>]?
+<span class=linenum>0022</span>    

@@ -19,79 +19,79 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><h3>siteify/Resources.swift</h3><pre><span class=lineno>0001</span>    <span class='comment'>//
-<span class=lineno>0002</span>    </span><span class='comment'>//  Resources.swift
-<span class=lineno>0003</span>    </span><span class='comment'>//  siteify
-<span class=lineno>0004</span>    </span><span class='comment'>//
-<span class=lineno>0005</span>    </span><span class='comment'>//  Created by John Holdsworth on 31/10/2019.
-<span class=lineno>0006</span>    </span><span class='comment'>//  Copyright © 2019 John Holdsworth. All rights reserved.
-<span class=lineno>0007</span>    </span><span class='comment'>//
-<span class=lineno>0008</span>    </span>
-<span class=lineno>0009</span>    <span class='keyword'>extension</span> <span class='typeidentifier'>Siteify</span> {
-<span class=lineno>0010</span>        <span class='keyword'>static</span> <span class='keyword'>let</span> <span class='identifier'><a name='10_15' href='#' title='usrString2' onclick='return expand(this);'>resources<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.html#304_25"; event.stopPropagation(); return false;'>Siteify.swift:304</td><td><pre>    let resources = String(cString: getenv("HOME"))+"/Library/siteify/"</pre></td></table></span></a></span> = [
-<span class=lineno>0011</span>            <span class='string'>"index.html"</span>: <span class='string'>"""
-<span class=lineno>0012</span>            &lt;html>&lt;head>
-<span class=lineno>0013</span>            &lt;meta charset="UTF-8">
-<span class=lineno>0014</span>            &lt;style type="text/css">
-<span class=lineno>0015</span>                body, table { font: 14pt Helvetica Neue; }
-<span class=lineno>0016</span>            &lt;/style>
-<span class=lineno>0017</span>            &lt;/head>&lt;body>
-<span class=lineno>0018</span>            &lt;h4>Generated from __ROOT__ on __DATE__&lt;/h4>
-<span class=lineno>0019</span>            """</span>,
-<span class=lineno>0020</span>    
-<span class=lineno>0021</span>            <span class='string'>"siteify.css"</span>: <span class='string'>"""
-<span class=lineno>0022</span>    
-<span class=lineno>0023</span>            body, table { font: 10pt Menlo Regular; }
-<span class=lineno>0024</span>    
-<span class=lineno>0025</span>            .builtin  { color: #A90D91; }
-<span class=lineno>0026</span>            .comment  { color: #10743E; }
-<span class=lineno>0027</span>            .url  { color: blue; }
-<span class=lineno>0028</span>            .doccomment { color: #10743E; }
-<span class=lineno>0029</span>            .identifier { color: #3F6E74; }
-<span class=lineno>0030</span>            .keyword { color: #AD0D91; }
-<span class=lineno>0031</span>            .number { color: #1D26E1; }
-<span class=lineno>0032</span>            .string { color: #CB444D; }
-<span class=lineno>0033</span>            .typeidentifier { color: #5C2599; }
-<span class=lineno>0034</span>            .lineno { color: black; }
-<span class=lineno>0035</span>    
-<span class=lineno>0036</span>            span.references { display: none; position: absolute; border: 2px outset; z-index: 100; }
-<span class=lineno>0037</span>            span.references table { background-color: white; }
-<span class=lineno>0038</span>            span.references table tr td { border: 1px inset; }
-<span class=lineno>0039</span>            """</span>,
-<span class=lineno>0040</span>            
-<span class=lineno>0041</span>            <span class='string'>"source.html"</span>: <span class='string'>"""
-<span class=lineno>0042</span>            &lt;html>&lt;head>
-<span class=lineno>0043</span>                &lt;meta charset="UTF-8">
-<span class=lineno>0044</span>                &lt;link rel="stylesheet" type="text/css" href="siteify.css">
-<span class=lineno>0045</span>            &lt;script>
-<span class=lineno>0046</span>    
-<span class=lineno>0047</span>            var lastlink;
-<span class=lineno>0048</span>    
-<span class=lineno>0049</span>            function expand(a) {
-<span class=lineno>0050</span>                if ( a.children[0].style.display != "block" ) {
-<span class=lineno>0051</span>                    if ( lastlink )
-<span class=lineno>0052</span>                        lastlink.style.display = "none";
-<span class=lineno>0053</span>                    a.children[0].style.display = "block";
-<span class=lineno>0054</span>                    lastlink = a.children[0];
-<span class=lineno>0055</span>                }
-<span class=lineno>0056</span>                else {
-<span class=lineno>0057</span>                    a.children[0].style.display = "none";
-<span class=lineno>0058</span>                    lastlink = null;
-<span class=lineno>0059</span>                }
-<span class=lineno>0060</span>                return false;
-<span class=lineno>0061</span>            }
-<span class=lineno>0062</span>    
-<span class=lineno>0063</span>            &lt;/script>&lt;/head>&lt;body>&lt;h3>__FILE__&lt;/h3>&lt;pre>
-<span class=lineno>0064</span>            """</span>,
-<span class=lineno>0065</span>    
-<span class=lineno>0066</span>            <span class='string'>"xref.html"</span>: <span class='string'>"""
-<span class=lineno>0067</span>            &lt;html>&lt;head>
-<span class=lineno>0068</span>            &lt;meta charset="UTF-8">
-<span class=lineno>0069</span>            &lt;style type="text/css">
-<span class=lineno>0070</span>                body, table { font: 12pt Helvetica Neue; }
-<span class=lineno>0071</span>            &lt;/style>
-<span class=lineno>0072</span>            &lt;/head>&lt;body>
-<span class=lineno>0073</span>            """</span>
-<span class=lineno>0074</span>        ]
-<span class=lineno>0075</span>    }
-<span class=lineno>0076</span>    
+</script></head><body><h3>siteify/Resources.swift</h3><pre><span class=linenum>0001</span>    <span class='comment'>//
+<span class=linenum>0002</span>    </span><span class='comment'>//  Resources.swift
+<span class=linenum>0003</span>    </span><span class='comment'>//  siteify
+<span class=linenum>0004</span>    </span><span class='comment'>//
+<span class=linenum>0005</span>    </span><span class='comment'>//  Created by John Holdsworth on 31/10/2019.
+<span class=linenum>0006</span>    </span><span class='comment'>//  Copyright © 2019 John Holdsworth. All rights reserved.
+<span class=linenum>0007</span>    </span><span class='comment'>//
+<span class=linenum>0008</span>    </span>
+<span class=linenum>0009</span>    <span class='keyword'>extension</span> <span class='typeidentifier'><a name='9_10' href='Siteify.html#84_13' title='usrString1'>Siteify</a></span> {
+<span class=linenum>0010</span>        <span class='keyword'>static</span> <span class='keyword'>let</span> <span class='identifier'><a name='10_15' href='#' title='usrString2' onclick='return expand(this);'>resources<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.html#310_25"; event.stopPropagation(); return false;'>Siteify.swift:310</td><td><pre>        var input = Self.resources[template]!</pre></td></table></span></a></span> = [
+<span class=linenum>0011</span>            <span class='string'>"index.html"</span>: <span class='string'>"""
+<span class=linenum>0012</span>            &lt;html>&lt;head>
+<span class=linenum>0013</span>            &lt;meta charset="UTF-8">
+<span class=linenum>0014</span>            &lt;style type="text/css">
+<span class=linenum>0015</span>                body, table { font: 14pt Helvetica Neue; }
+<span class=linenum>0016</span>            &lt;/style>
+<span class=linenum>0017</span>            &lt;/head>&lt;body>
+<span class=linenum>0018</span>            &lt;h4>Generated from __ROOT__ on __DATE__&lt;/h4>
+<span class=linenum>0019</span>            """</span>,
+<span class=linenum>0020</span>    
+<span class=linenum>0021</span>            <span class='string'>"siteify.css"</span>: <span class='string'>"""
+<span class=linenum>0022</span>    
+<span class=linenum>0023</span>            body, table { font: 10pt Menlo Regular; }
+<span class=linenum>0024</span>    
+<span class=linenum>0025</span>            .builtin  { color: #A90D91; }
+<span class=linenum>0026</span>            .comment  { color: #10743E; }
+<span class=linenum>0027</span>            .url  { color: blue; }
+<span class=linenum>0028</span>            .doccomment { color: #10743E; }
+<span class=linenum>0029</span>            .identifier { color: #3F6E74; }
+<span class=linenum>0030</span>            .keyword { color: #AD0D91; }
+<span class=linenum>0031</span>            .number { color: #1D26E1; }
+<span class=linenum>0032</span>            .string { color: #CB444D; }
+<span class=linenum>0033</span>            .typeidentifier { color: #5C2599; }
+<span class=linenum>0034</span>            .linenum { color: black; }
+<span class=linenum>0035</span>    
+<span class=linenum>0036</span>            span.references { display: none; position: absolute; border: 2px outset; z-index: 100; }
+<span class=linenum>0037</span>            span.references table { background-color: white; }
+<span class=linenum>0038</span>            span.references table tr td { border: 1px inset; }
+<span class=linenum>0039</span>            """</span>,
+<span class=linenum>0040</span>            
+<span class=linenum>0041</span>            <span class='string'>"source.html"</span>: <span class='string'>"""
+<span class=linenum>0042</span>            &lt;html>&lt;head>
+<span class=linenum>0043</span>                &lt;meta charset="UTF-8">
+<span class=linenum>0044</span>                &lt;link rel="stylesheet" type="text/css" href="siteify.css">
+<span class=linenum>0045</span>            &lt;script>
+<span class=linenum>0046</span>    
+<span class=linenum>0047</span>            var lastlink;
+<span class=linenum>0048</span>    
+<span class=linenum>0049</span>            function expand(a) {
+<span class=linenum>0050</span>                if ( a.children[0].style.display != "block" ) {
+<span class=linenum>0051</span>                    if ( lastlink )
+<span class=linenum>0052</span>                        lastlink.style.display = "none";
+<span class=linenum>0053</span>                    a.children[0].style.display = "block";
+<span class=linenum>0054</span>                    lastlink = a.children[0];
+<span class=linenum>0055</span>                }
+<span class=linenum>0056</span>                else {
+<span class=linenum>0057</span>                    a.children[0].style.display = "none";
+<span class=linenum>0058</span>                    lastlink = null;
+<span class=linenum>0059</span>                }
+<span class=linenum>0060</span>                return false;
+<span class=linenum>0061</span>            }
+<span class=linenum>0062</span>    
+<span class=linenum>0063</span>            &lt;/script>&lt;/head>&lt;body>&lt;h3>__FILE__&lt;/h3>&lt;pre>
+<span class=linenum>0064</span>            """</span>,
+<span class=linenum>0065</span>    
+<span class=linenum>0066</span>            <span class='string'>"xref.html"</span>: <span class='string'>"""
+<span class=linenum>0067</span>            &lt;html>&lt;head>
+<span class=linenum>0068</span>            &lt;meta charset="UTF-8">
+<span class=linenum>0069</span>            &lt;style type="text/css">
+<span class=linenum>0070</span>                body, table { font: 12pt Helvetica Neue; }
+<span class=linenum>0071</span>            &lt;/style>
+<span class=linenum>0072</span>            &lt;/head>&lt;body>
+<span class=linenum>0073</span>            """</span>
+<span class=linenum>0074</span>        ]
+<span class=linenum>0075</span>    }
+<span class=linenum>0076</span>    

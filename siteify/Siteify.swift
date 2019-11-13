@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#6 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#9 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -81,11 +81,11 @@ struct LanguageServerSynchronizer {
     }
 }
 
-public class Siteify {
+public class Siteify: NotificationResponder {
 
     let host: LanguageServerProcessHost
     var lspServer: LanguageServer?
-    let sourceKit = SourceKit(isTTY: false)
+    let sourceKit = SourceKit(logRequests: false)
     let projectRoot: String
 
     public init(projectRoot: String) {
@@ -103,9 +103,10 @@ public class Siteify {
                                          environment: ["PATH": PATH])
 
         host.start { (server) in
-            guard let server = server else {
+            guard let server = server as? JSONRPCLanguageServer else {
                 fatalError("unable to launch server")
             }
+            server.notificationResponder = self
             self.lspServer = server
         }
 
@@ -204,23 +205,24 @@ public class Siteify {
                 }
 
                 let resp = self.sourceKit.syntaxMap(filePath: path)
-                let dict = SKApi.sourcekitd_response_get_value(resp)
-                let syntaxMap = SKApi.sourcekitd_variant_dictionary_get_value( dict, self.sourceKit.syntaxID )
-                var html = (0..<SKApi.sourcekitd_variant_array_get_count(syntaxMap))
+                let dict = SKApi.response_get_value(resp)
+                let syntaxMap = SKApi.variant_dictionary_get_value( dict, self.sourceKit.syntaxID )
+                var html = (0..<SKApi.variant_array_get_count(syntaxMap))
                     .map {
                         (index: Int) -> (String, sourcekitd_variant_t, Position, String) in
-                        let dict = SKApi.sourcekitd_variant_array_get_value(syntaxMap, index)
+                        let dict = SKApi.variant_array_get_value(syntaxMap, index)
                         let offset = dict.getInt(key: self.sourceKit.offsetID)
                         let length = dict.getInt(key: self.sourceKit.lengthID)
                         let pre = skipTo(offset: offset)
                         let pos = Position(line: lineno, character: col)
                         let text = skipTo(offset: offset+length)
                         return (pre, dict, pos, text)
-                }.concurrentMap(maxConcurrency: 1 /* can not multithread file */) {
+                }.concurrentMap(maxConcurrency: 1
+                                /* cannot multithread per file */) {
                     (arg0, completion: @escaping (String) -> Void) in
                     let (pre, dict, pos, text) = arg0
                     let kind = dict.getUUIDString(key: self.sourceKit.kindID)
-                    let kindID = SKApi.sourcekitd_variant_dictionary_get_uid(dict, self.sourceKit.kindID)
+                    let kindID = SKApi.variant_dictionary_get_uid(dict, self.sourceKit.kindID)
                     let kindSuffix = NSURL(fileURLWithPath: kind).pathExtension!
                     let completion2 = { (span: String) in
                         completion("\(pre)<span class='\(kindSuffix)'>\(span)</span>")
@@ -229,7 +231,8 @@ public class Siteify {
                     if kindSuffix == "url" {
                         return completion2("<a href='\(text)'>\(text)</a>")
                     }
-                    if kindID != self.sourceKit.identifierID {
+                    if kindID != self.sourceKit.identifierID &&
+                        kindID != self.sourceKit.typeID {
                         return completion2(text)
                     }
 
@@ -293,7 +296,7 @@ public class Siteify {
                 html.withCString { _ = fputs($0, out) }
                 fclose(out)
 
-                SKApi.sourcekitd_response_dispose(resp)
+                SKApi.response_dispose(resp)
             }
         }
 
@@ -313,6 +316,33 @@ public class Siteify {
             fputs($0, out)
         }
         return out
+    }
+
+    public func languageServerInitialized(_ server: LanguageServer) {
+    }
+
+    public func languageServer(_ server: LanguageServer, logMessage message: LogMessageParams) {
+        if !message.message.starts(with: "could not open compilation") {
+            NSLog("logMessage: \(message)")
+        }
+    }
+
+    public func languageServer(_ server: LanguageServer, showMessage message: ShowMessageParams) {
+        NSLog("showMessage: \(message)")
+    }
+
+    public func languageServer(_ server: LanguageServer, showMessageRequest messageRequest: ShowMessageRequestParams) {
+        NSLog("showMessageRequest: \(messageRequest)")
+    }
+
+    public func languageServer(_ server: LanguageServer, publishDiagnostics diagnosticsParams: PublishDiagnosticsParams) {
+        if diagnosticsParams.diagnostics.count > 1 {
+            NSLog("publishDiagnostics: \(diagnosticsParams)")
+        }
+    }
+
+    public func languageServer(_ server: LanguageServer, failedToDecodeNotification notificationName: String, with error: Error) {
+        NSLog("failedToDecodeNotification: \(notificationName)  \(error)")
     }
 }
 

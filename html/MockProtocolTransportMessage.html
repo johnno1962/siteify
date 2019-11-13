@@ -19,25 +19,25 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClientTests/MockProtocolTransportMessage.swift</h3><pre><span class=lineno>0001</span>    <span class='comment'>//
-<span class=lineno>0002</span>    </span><span class='comment'>//  MockProtocolTransportMessage.swift
-<span class=lineno>0003</span>    </span><span class='comment'>//  SwiftLSPClientTests
-<span class=lineno>0004</span>    </span><span class='comment'>//
-<span class=lineno>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2019-02-08.
-<span class=lineno>0006</span>    </span><span class='comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
-<span class=lineno>0007</span>    </span><span class='comment'>//
-<span class=lineno>0008</span>    </span>
-<span class=lineno>0009</span>    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
-<span class=lineno>0010</span>    <span class='keyword'>import</span> <span class='identifier'>SwiftLSPClient</span>
-<span class=lineno>0011</span>    
-<span class=lineno>0012</span>    <span class='keyword'>class</span> <span class='identifier'><a name='12_6' title='usrString3'>MockProtocolTransportDelegate</a></span>: <span class='typeidentifier'>ProtocolTransportDelegate</span> {
-<span class=lineno>0013</span>        <span class='keyword'>var</span> <span class='identifier'><a name='13_8' title='usrString3'>notificationHandler</a></span>: ((<span class='typeidentifier'>String</span>, <span class='typeidentifier'>Data</span>) -> <span class='typeidentifier'>Void</span>)?
-<span class=lineno>0014</span>    
-<span class=lineno>0015</span>        <span class='keyword'>func</span> <span class='identifier'><a name='15_9' title='usrString3'>transportReceived</a></span>(<span class='keyword'>_</span> <span class='identifier'><a name='15_29' title='usrString3'>transport</a></span>: <span class='typeidentifier'>ProtocolTransport</span>, <span class='identifier'><a name='15_59' href='MockProtocolTransportMessage.html#15_9' title='usrString1'>undecodableData</a></span> <span class='identifier'><a name='15_75' title='usrString3'>data</a></span>: <span class='typeidentifier'>Data</span>) {
-<span class=lineno>0016</span>        }
-<span class=lineno>0017</span>    
-<span class=lineno>0018</span>        <span class='keyword'>func</span> <span class='identifier'><a name='18_9' title='usrString3'>transportReceived</a></span>(<span class='keyword'>_</span> <span class='identifier'><a name='18_29' title='usrString3'>transport</a></span>: <span class='typeidentifier'>ProtocolTransport</span>, <span class='identifier'><a name='18_59' title='usrString3'>notificationMethod</a></span>: <span class='typeidentifier'>String</span>, <span class='identifier'><a name='18_87' title='usrString3'>data</a></span>: <span class='typeidentifier'>Data</span>) {
-<span class=lineno>0019</span>            <span class='identifier'><a name='19_8' href='MockProtocolTransportMessage.html#13_8' title='usrString1'>notificationHandler</a></span>?(<span class='identifier'><a name='19_29' href='MockProtocolTransportMessage.html#18_59' title='usrString1'>notificationMethod</a></span>, <span class='identifier'><a name='19_49' href='MockProtocolTransportMessage.html#18_87' title='usrString1'>data</a></span>)
-<span class=lineno>0020</span>        }
-<span class=lineno>0021</span>    }
-<span class=lineno>0022</span>    
+</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClientTests/MockProtocolTransportMessage.swift</h3><pre><span class=linenum>0001</span>    <span class='comment'>//
+<span class=linenum>0002</span>    </span><span class='comment'>//  MockProtocolTransportMessage.swift
+<span class=linenum>0003</span>    </span><span class='comment'>//  SwiftLSPClientTests
+<span class=linenum>0004</span>    </span><span class='comment'>//
+<span class=linenum>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2019-02-08.
+<span class=linenum>0006</span>    </span><span class='comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
+<span class=linenum>0007</span>    </span><span class='comment'>//
+<span class=linenum>0008</span>    </span>
+<span class=linenum>0009</span>    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
+<span class=linenum>0010</span>    <span class='keyword'>import</span> <span class='identifier'>SwiftLSPClient</span>
+<span class=linenum>0011</span>    
+<span class=linenum>0012</span>    <span class='keyword'>class</span> <span class='identifier'><a name='12_6' title='usrString3'>MockProtocolTransportDelegate</a></span>: <span class='typeidentifier'>ProtocolTransportDelegate</span> {
+<span class=linenum>0013</span>        <span class='keyword'>var</span> <span class='identifier'><a name='13_8' title='usrString3'>notificationHandler</a></span>: ((<span class='typeidentifier'>String</span>, <span class='typeidentifier'>Data</span>) -> <span class='typeidentifier'>Void</span>)?
+<span class=linenum>0014</span>    
+<span class=linenum>0015</span>        <span class='keyword'>func</span> <span class='identifier'><a name='15_9' title='usrString3'>transportReceived</a></span>(<span class='keyword'>_</span> <span class='identifier'><a name='15_29' title='usrString3'>transport</a></span>: <span class='typeidentifier'>ProtocolTransport</span>, <span class='identifier'><a name='15_59' href='MockProtocolTransportMessage.html#15_9' title='usrString1'>undecodableData</a></span> <span class='identifier'><a name='15_75' title='usrString3'>data</a></span>: <span class='typeidentifier'>Data</span>) {
+<span class=linenum>0016</span>        }
+<span class=linenum>0017</span>    
+<span class=linenum>0018</span>        <span class='keyword'>func</span> <span class='identifier'><a name='18_9' title='usrString3'>transportReceived</a></span>(<span class='keyword'>_</span> <span class='identifier'><a name='18_29' title='usrString3'>transport</a></span>: <span class='typeidentifier'>ProtocolTransport</span>, <span class='identifier'><a name='18_59' title='usrString3'>notificationMethod</a></span>: <span class='typeidentifier'>String</span>, <span class='identifier'><a name='18_87' title='usrString3'>data</a></span>: <span class='typeidentifier'>Data</span>) {
+<span class=linenum>0019</span>            <span class='identifier'><a name='19_8' href='MockProtocolTransportMessage.html#13_8' title='usrString1'>notificationHandler</a></span>?(<span class='identifier'><a name='19_29' href='MockProtocolTransportMessage.html#18_59' title='usrString1'>notificationMethod</a></span>, <span class='identifier'><a name='19_49' href='MockProtocolTransportMessage.html#18_87' title='usrString1'>data</a></span>)
+<span class=linenum>0020</span>        }
+<span class=linenum>0021</span>    }
+<span class=linenum>0022</span>    

@@ -19,43 +19,43 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClient/Types/WillSaveTextDocument.swift</h3><pre><span class=lineno>0001</span>    <span class='comment'>//
-<span class=lineno>0002</span>    </span><span class='comment'>//  WillSaveTextDocument.swift
-<span class=lineno>0003</span>    </span><span class='comment'>//  SwiftLSPClient
-<span class=lineno>0004</span>    </span><span class='comment'>//
-<span class=lineno>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2019-02-10.
-<span class=lineno>0006</span>    </span><span class='comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
-<span class=lineno>0007</span>    </span><span class='comment'>//
-<span class=lineno>0008</span>    </span>
-<span class=lineno>0009</span>    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
-<span class=lineno>0010</span>    
-<span class=lineno>0011</span>    <span class='builtin'>public</span> <span class='keyword'>enum</span> <span class='identifier'><a name='11_12' title='usrString3'>TextDocumentSaveReason</a></span>: <span class='typeidentifier'>Int</span> {
-<span class=lineno>0012</span>        <span class='keyword'>case</span> <span class='identifier'><a name='12_9' title='usrString3'>manual</a></span> = <span class='number'>1</span>
-<span class=lineno>0013</span>        <span class='keyword'>case</span> <span class='identifier'><a name='13_9' title='usrString3'>afterDelay</a></span> = <span class='number'>2</span>
-<span class=lineno>0014</span>        <span class='keyword'>case</span> <span class='identifier'><a name='14_9' title='usrString3'>focusOut</a></span> = <span class='number'>3</span>
-<span class=lineno>0015</span>    }
-<span class=lineno>0016</span>    
-<span class=lineno>0017</span>    <span class='keyword'>extension</span> <span class='typeidentifier'>TextDocumentSaveReason</span>: <span class='typeidentifier'>Codable</span> {
-<span class=lineno>0018</span>    }
-<span class=lineno>0019</span>    
-<span class=lineno>0020</span>    <span class='keyword'>extension</span> <span class='typeidentifier'>TextDocumentSaveReason</span>: <span class='typeidentifier'>Equatable</span> {
-<span class=lineno>0021</span>    }
-<span class=lineno>0022</span>    
-<span class=lineno>0023</span>    <span class='builtin'>public</span> <span class='keyword'>struct</span> <span class='identifier'><a name='23_14' href='#' title='usrString2' onclick='return expand(this);'>WillSaveTextDocumentParams<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.html#266_45"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:266</td><td><pre>        }</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.html#275_54"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:275</td><td><pre>    }</pre></td></table></span></a></span> {
-<span class=lineno>0024</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='24_15' title='usrString3'>textDocument</a></span>: <span class='typeidentifier'>TextDocumentIdentifier</span>
-<span class=lineno>0025</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='25_15' title='usrString3'>reason</a></span>: <span class='typeidentifier'>TextDocumentSaveReason</span>
-<span class=lineno>0026</span>    
-<span class=lineno>0027</span>        <span class='builtin'>public</span> <span class='keyword'>init</span>(<span class='identifier'><a name='27_16' title='usrString3'>textDocument</a></span>: <span class='typeidentifier'>TextDocumentIdentifier</span>, <span class='identifier'><a name='27_54' title='usrString3'>reason</a></span>: <span class='typeidentifier'>TextDocumentSaveReason</span>) {
-<span class=lineno>0028</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='28_13' href='WillSaveTextDocument.html#24_15' title='usrString1'>textDocument</a></span> = <span class='identifier'><a name='28_28' href='WillSaveTextDocument.html#27_16' title='usrString1'>textDocument</a></span>
-<span class=lineno>0029</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='29_13' href='WillSaveTextDocument.html#25_15' title='usrString1'>reason</a></span> = <span class='identifier'><a name='29_22' href='WillSaveTextDocument.html#27_54' title='usrString1'>reason</a></span>
-<span class=lineno>0030</span>        }
-<span class=lineno>0031</span>    }
-<span class=lineno>0032</span>    
-<span class=lineno>0033</span>    <span class='keyword'>extension</span> <span class='typeidentifier'>WillSaveTextDocumentParams</span>: <span class='typeidentifier'>Codable</span> {
-<span class=lineno>0034</span>    }
-<span class=lineno>0035</span>    
-<span class=lineno>0036</span>    <span class='keyword'>extension</span> <span class='typeidentifier'>WillSaveTextDocumentParams</span>: <span class='typeidentifier'>Equatable</span> {
-<span class=lineno>0037</span>    }
-<span class=lineno>0038</span>    
-<span class=lineno>0039</span>    <span class='builtin'>public</span> <span class='keyword'>typealias</span> <span class='identifier'><a name='39_17' href='#' title='usrString2' onclick='return expand(this);'>WillSaveWaitUntilResponse<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.html#275_121"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:275</td><td><pre>    }</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.html#278_90"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:278</td><td><pre></pre></td></table></span></a></span> = [<span class='typeidentifier'>TextEdit</span>]?
-<span class=lineno>0040</span>    
+</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClient/Types/WillSaveTextDocument.swift</h3><pre><span class=linenum>0001</span>    <span class='comment'>//
+<span class=linenum>0002</span>    </span><span class='comment'>//  WillSaveTextDocument.swift
+<span class=linenum>0003</span>    </span><span class='comment'>//  SwiftLSPClient
+<span class=linenum>0004</span>    </span><span class='comment'>//
+<span class=linenum>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2019-02-10.
+<span class=linenum>0006</span>    </span><span class='comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
+<span class=linenum>0007</span>    </span><span class='comment'>//
+<span class=linenum>0008</span>    </span>
+<span class=linenum>0009</span>    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
+<span class=linenum>0010</span>    
+<span class=linenum>0011</span>    <span class='builtin'>public</span> <span class='keyword'>enum</span> <span class='identifier'><a name='11_12' title='usrString3'>TextDocumentSaveReason</a></span>: <span class='typeidentifier'>Int</span> {
+<span class=linenum>0012</span>        <span class='keyword'>case</span> <span class='identifier'><a name='12_9' title='usrString3'>manual</a></span> = <span class='number'>1</span>
+<span class=linenum>0013</span>        <span class='keyword'>case</span> <span class='identifier'><a name='13_9' title='usrString3'>afterDelay</a></span> = <span class='number'>2</span>
+<span class=linenum>0014</span>        <span class='keyword'>case</span> <span class='identifier'><a name='14_9' title='usrString3'>focusOut</a></span> = <span class='number'>3</span>
+<span class=linenum>0015</span>    }
+<span class=linenum>0016</span>    
+<span class=linenum>0017</span>    <span class='keyword'>extension</span> <span class='typeidentifier'><a name='17_10' href='WillSaveTextDocument.html#11_12' title='usrString1'>TextDocumentSaveReason</a></span>: <span class='typeidentifier'>Codable</span> {
+<span class=linenum>0018</span>    }
+<span class=linenum>0019</span>    
+<span class=linenum>0020</span>    <span class='keyword'>extension</span> <span class='typeidentifier'><a name='20_10' href='WillSaveTextDocument.html#11_12' title='usrString1'>TextDocumentSaveReason</a></span>: <span class='typeidentifier'>Equatable</span> {
+<span class=linenum>0021</span>    }
+<span class=linenum>0022</span>    
+<span class=linenum>0023</span>    <span class='builtin'>public</span> <span class='keyword'>struct</span> <span class='identifier'><a name='23_14' href='#' title='usrString2' onclick='return expand(this);'>WillSaveTextDocumentParams<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.html#162_45"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:162</td><td><pre>    public func willSaveTextDocument(params: WillSaveTextDocumentParams, block: @escaping (LanguageServerError?) -> Void) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.html#171_54"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:171</td><td><pre>    public func willSaveWaitUntilTextDocument(params: WillSaveTextDocumentParams, block: @escaping (LanguageServerResult&lt;WillSaveWaitUntilResponse>) -> Void) {</pre></td></table></span></a></span> {
+<span class=linenum>0024</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='24_15' title='usrString3'>textDocument</a></span>: <span class='typeidentifier'><a name='24_29' href='TextDocumentIndentifier.html#11_14' title='usrString1'>TextDocumentIdentifier</a></span>
+<span class=linenum>0025</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='25_15' title='usrString3'>reason</a></span>: <span class='typeidentifier'><a name='25_23' href='WillSaveTextDocument.html#11_12' title='usrString1'>TextDocumentSaveReason</a></span>
+<span class=linenum>0026</span>    
+<span class=linenum>0027</span>        <span class='builtin'>public</span> <span class='keyword'>init</span>(<span class='identifier'><a name='27_16' title='usrString3'>textDocument</a></span>: <span class='typeidentifier'><a name='27_30' href='TextDocumentIndentifier.html#11_14' title='usrString1'>TextDocumentIdentifier</a></span>, <span class='identifier'><a name='27_54' title='usrString3'>reason</a></span>: <span class='typeidentifier'><a name='27_62' href='WillSaveTextDocument.html#11_12' title='usrString1'>TextDocumentSaveReason</a></span>) {
+<span class=linenum>0028</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='28_13' href='WillSaveTextDocument.html#24_15' title='usrString1'>textDocument</a></span> = <span class='identifier'><a name='28_28' href='WillSaveTextDocument.html#27_16' title='usrString1'>textDocument</a></span>
+<span class=linenum>0029</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='29_13' href='WillSaveTextDocument.html#25_15' title='usrString1'>reason</a></span> = <span class='identifier'><a name='29_22' href='WillSaveTextDocument.html#27_54' title='usrString1'>reason</a></span>
+<span class=linenum>0030</span>        }
+<span class=linenum>0031</span>    }
+<span class=linenum>0032</span>    
+<span class=linenum>0033</span>    <span class='keyword'>extension</span> <span class='typeidentifier'><a name='33_10' href='WillSaveTextDocument.html#23_14' title='usrString1'>WillSaveTextDocumentParams</a></span>: <span class='typeidentifier'>Codable</span> {
+<span class=linenum>0034</span>    }
+<span class=linenum>0035</span>    
+<span class=linenum>0036</span>    <span class='keyword'>extension</span> <span class='typeidentifier'><a name='36_10' href='WillSaveTextDocument.html#23_14' title='usrString1'>WillSaveTextDocumentParams</a></span>: <span class='typeidentifier'>Equatable</span> {
+<span class=linenum>0037</span>    }
+<span class=linenum>0038</span>    
+<span class=linenum>0039</span>    <span class='builtin'>public</span> <span class='keyword'>typealias</span> <span class='identifier'><a name='39_17' href='#' title='usrString2' onclick='return expand(this);'>WillSaveWaitUntilResponse<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.html#171_121"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:171</td><td><pre>    public func willSaveWaitUntilTextDocument(params: WillSaveTextDocumentParams, block: @escaping (LanguageServerResult&lt;WillSaveWaitUntilResponse>) -> Void) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.html#174_90"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:174</td><td><pre>        protocolTransport.sendRequest(params, method: method) { (result: ProtocolResponse&lt;WillSaveWaitUntilResponse>) in</pre></td></table></span></a></span> = [<span class='typeidentifier'><a name='39_46' href='Basic.html#145_14' title='usrString1'>TextEdit</a></span>]?
+<span class=linenum>0040</span>    

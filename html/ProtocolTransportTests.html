@@ -19,128 +19,128 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClientTests/ProtocolTransportTests.swift</h3><pre><span class=lineno>0001</span>    <span class='comment'>//
-<span class=lineno>0002</span>    </span><span class='comment'>//  ProtocolTransportTests.swift
-<span class=lineno>0003</span>    </span><span class='comment'>//  SwiftLSPClientTests
-<span class=lineno>0004</span>    </span><span class='comment'>//
-<span class=lineno>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2019-02-07.
-<span class=lineno>0006</span>    </span><span class='comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
-<span class=lineno>0007</span>    </span><span class='comment'>//
-<span class=lineno>0008</span>    </span>
-<span class=lineno>0009</span>    <span class='keyword'>import</span> <span class='identifier'>XCTest</span>
-<span class=lineno>0010</span>    <span class='builtin'>@testable</span> <span class='keyword'>import</span> <span class='identifier'>SwiftLSPClient</span>
-<span class=lineno>0011</span>    
-<span class=lineno>0012</span>    <span class='keyword'>class</span> <span class='identifier'><a name='12_6' title='usrString3'>ProtocolTransportTests</a></span>: <span class='typeidentifier'>XCTestCase</span> {
-<span class=lineno>0013</span>        <span class='keyword'>typealias</span> <span class='identifier'><a name='13_14' title='usrString3'>TestResult</a></span> = <span class='typeidentifier'>Result</span>&lt;<span class='typeidentifier'>JSONRPCResultResponse</span>&lt;<span class='typeidentifier'>TextDocumentIdentifier</span>>, <span class='typeidentifier'>ProtocolTransportError</span>>
-<span class=lineno>0014</span>    
-<span class=lineno>0015</span>        <span class='keyword'>func</span> <span class='identifier'><a name='15_9' title='usrString3'>testSendRequest</a></span>() {
-<span class=lineno>0016</span>            <span class='keyword'>let</span> <span class='identifier'><a name='16_12' title='usrString3'>dataTransport</a></span> = <span class='identifier'>MockDataTransport</span>()
-<span class=lineno>0017</span>            <span class='keyword'>let</span> <span class='identifier'><a name='17_12' title='usrString3'>messageTransport</a></span> = <span class='identifier'>MessageTransport</span>(<span class='identifier'>dataTransport</span>: <span class='identifier'><a name='17_63' href='ProtocolTransportTests.html#16_12' title='usrString1'>dataTransport</a></span>)
-<span class=lineno>0018</span>            <span class='keyword'>let</span> <span class='identifier'><a name='18_12' title='usrString3'>transport</a></span> = <span class='identifier'>ProtocolTransport</span>(<span class='identifier'>messageTransport</span>: <span class='identifier'><a name='18_60' href='ProtocolTransportTests.html#17_12' title='usrString1'>messageTransport</a></span>)
-<span class=lineno>0019</span>    
-<span class=lineno>0020</span>            <span class='keyword'>let</span> <span class='identifier'><a name='20_12' title='usrString3'>expectation</a></span> = <span class='identifier'>XCTestExpectation</span>(<span class='identifier'>description</span>: <span class='string'>"Response Message"</span>)
-<span class=lineno>0021</span>    
-<span class=lineno>0022</span>            <span class='keyword'>let</span> <span class='identifier'><a name='22_12' title='usrString3'>request</a></span> = <span class='identifier'>TextDocumentIdentifier</span>(<span class='identifier'>uri</span>: <span class='string'>"hello"</span>)
-<span class=lineno>0023</span>            <span class='identifier'><a name='23_8' href='ProtocolTransportTests.html#18_12' title='usrString1'>transport</a></span>.<span class='identifier'>sendRequest</span>(<span class='identifier'><a name='23_30' href='ProtocolTransportTests.html#22_12' title='usrString1'>request</a></span>, <span class='identifier'>method</span>: <span class='string'>"mymethod"</span>) { (<span class='identifier'><a name='23_62' title='usrString3'>result</a></span>: <span class='typeidentifier'>TestResult</span>) <span class='keyword'>in</span>
-<span class=lineno>0024</span>                <span class='keyword'>let</span> <span class='identifier'><a name='24_16' title='usrString3'>value</a></span> = <span class='keyword'>try</span>? <span class='identifier'><a name='24_29' href='ProtocolTransportTests.html#23_62' title='usrString1'>result</a></span>.<span class='identifier'>get</span>()
-<span class=lineno>0025</span>                <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='25_27' href='ProtocolTransportTests.html#24_16' title='usrString1'>value</a></span>?.<span class='identifier'>result</span>, <span class='identifier'>TextDocumentIdentifier</span>(<span class='identifier'>uri</span>: <span class='string'>"goodbye"</span>))
-<span class=lineno>0026</span>    
-<span class=lineno>0027</span>                <span class='identifier'><a name='27_12' href='ProtocolTransportTests.html#20_12' title='usrString1'>expectation</a></span>.<span class='identifier'>fulfill</span>()
-<span class=lineno>0028</span>            }
-<span class=lineno>0029</span>    
-<span class=lineno>0030</span>            <span class='identifier'><a name='30_8' href='ProtocolTransportTests.html#16_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'>mockRead</span>(<span class='string'>"Content-Length: 51\r\n\r\n"</span>)
-<span class=lineno>0031</span>            <span class='identifier'><a name='31_8' href='ProtocolTransportTests.html#16_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'>mockRead</span>(<span class='string'>"""
-<span class=lineno>0032</span>    {"jsonrpc":"2.0","id":1,"result":{"uri":"goodbye"}}
-<span class=lineno>0033</span>    """</span>)
-<span class=lineno>0034</span>    
-<span class=lineno>0035</span>            <span class='identifier'>wait</span>(<span class='identifier'>for</span>: [<span class='identifier'><a name='35_19' href='ProtocolTransportTests.html#20_12' title='usrString1'>expectation</a></span>], <span class='identifier'>timeout</span>: <span class='number'>1.0</span>)
-<span class=lineno>0036</span>        }
-<span class=lineno>0037</span>    
-<span class=lineno>0038</span>        <span class='keyword'>func</span> <span class='identifier'><a name='38_9' title='usrString3'>testManySendRequestsWithResponsesDeliveredOnABackgroundQueueTest</a></span>() {
-<span class=lineno>0039</span>            <span class='keyword'>let</span> <span class='identifier'><a name='39_12' title='usrString3'>dataTransport</a></span> = <span class='identifier'>MockDataTransport</span>()
-<span class=lineno>0040</span>            <span class='keyword'>let</span> <span class='identifier'><a name='40_12' title='usrString3'>messageTransport</a></span> = <span class='identifier'>MessageTransport</span>(<span class='identifier'>dataTransport</span>: <span class='identifier'><a name='40_63' href='ProtocolTransportTests.html#39_12' title='usrString1'>dataTransport</a></span>)
-<span class=lineno>0041</span>            <span class='keyword'>let</span> <span class='identifier'><a name='41_12' title='usrString3'>transport</a></span> = <span class='identifier'>ProtocolTransport</span>(<span class='identifier'>messageTransport</span>: <span class='identifier'><a name='41_60' href='ProtocolTransportTests.html#40_12' title='usrString1'>messageTransport</a></span>)
-<span class=lineno>0042</span>    
-<span class=lineno>0043</span>            <span class='keyword'>let</span> <span class='identifier'><a name='43_12' title='usrString3'>iterations</a></span> = <span class='number'>1000</span>
-<span class=lineno>0044</span>            <span class='keyword'>let</span> <span class='identifier'><a name='44_12' title='usrString3'>expectation</a></span> = <span class='identifier'>XCTestExpectation</span>(<span class='identifier'>description</span>: <span class='string'>"Response Message"</span>)
-<span class=lineno>0045</span>            <span class='identifier'><a name='45_8' href='ProtocolTransportTests.html#44_12' title='usrString1'>expectation</a></span>.<span class='identifier'>expectedFulfillmentCount</span> = <span class='identifier'><a name='45_47' href='ProtocolTransportTests.html#43_12' title='usrString1'>iterations</a></span>
-<span class=lineno>0046</span>    
-<span class=lineno>0047</span>            <span class='keyword'>let</span> <span class='identifier'><a name='47_12' title='usrString3'>request</a></span> = <span class='identifier'>TextDocumentIdentifier</span>(<span class='identifier'>uri</span>: <span class='string'>"hello"</span>)
-<span class=lineno>0048</span>            <span class='keyword'>let</span> <span class='identifier'><a name='48_12' title='usrString3'>encoder</a></span> = <span class='identifier'>JSONEncoder</span>()
-<span class=lineno>0049</span>            <span class='keyword'>let</span> <span class='identifier'><a name='49_12' title='usrString3'>queue</a></span> = <span class='identifier'>DispatchQueue</span>(<span class='identifier'>label</span>: <span class='string'>"SimluatedFileHandleQueue"</span>)
-<span class=lineno>0050</span>    
-<span class=lineno>0051</span>            <span class='comment'>// be sure to start at 1, to match ProtocolTransport's id generation
-<span class=lineno>0052</span>    </span>        <span class='keyword'>for</span> <span class='identifier'><a name='52_12' title='usrString3'>i</a></span> <span class='keyword'>in</span> <span class='number'>1</span>...<span class='identifier'><a name='52_21' href='ProtocolTransportTests.html#43_12' title='usrString1'>iterations</a></span> {
-<span class=lineno>0053</span>                <span class='keyword'>let</span> <span class='identifier'><a name='53_16' title='usrString3'>responseDocIdentifier</a></span> = <span class='identifier'>TextDocumentIdentifier</span>(<span class='identifier'>uri</span>: <span class='string'>"goodbye-</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'><a name='53_79' href='ProtocolTransportTests.html#52_12' title='usrString1'>i</a></span><span class='string_interpolation_anchor'>)</span><span class='string'>"</span>)
-<span class=lineno>0054</span>    
-<span class=lineno>0055</span>                <span class='identifier'><a name='55_12' href='ProtocolTransportTests.html#41_12' title='usrString1'>transport</a></span>.<span class='identifier'>sendRequest</span>(<span class='identifier'><a name='55_34' href='ProtocolTransportTests.html#47_12' title='usrString1'>request</a></span>, <span class='identifier'>method</span>: <span class='string'>"mymethod"</span>) { (<span class='identifier'><a name='55_66' title='usrString3'>result</a></span>: <span class='typeidentifier'>TestResult</span>) <span class='keyword'>in</span>
-<span class=lineno>0056</span>                    <span class='keyword'>let</span> <span class='identifier'><a name='56_20' title='usrString3'>value</a></span> = <span class='keyword'>try</span>? <span class='identifier'><a name='56_33' href='ProtocolTransportTests.html#55_66' title='usrString1'>result</a></span>.<span class='identifier'>get</span>()
-<span class=lineno>0057</span>                    <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='57_31' href='ProtocolTransportTests.html#56_20' title='usrString1'>value</a></span>?.<span class='identifier'>result</span>, <span class='identifier'><a name='57_46' href='ProtocolTransportTests.html#53_16' title='usrString1'>responseDocIdentifier</a></span>)
-<span class=lineno>0058</span>    
-<span class=lineno>0059</span>                    <span class='identifier'><a name='59_16' href='ProtocolTransportTests.html#44_12' title='usrString1'>expectation</a></span>.<span class='identifier'>fulfill</span>()
-<span class=lineno>0060</span>                }
-<span class=lineno>0061</span>    
-<span class=lineno>0062</span>                <span class='keyword'>let</span> <span class='identifier'><a name='62_16' title='usrString3'>response</a></span> = <span class='identifier'>JSONRPCResultResponse</span>&lt;<span class='typeidentifier'>TextDocumentIdentifier</span>>(<span class='identifier'>id</span>: <span class='identifier'><a name='62_77' href='ProtocolTransportTests.html#52_12' title='usrString1'>i</a></span>, <span class='identifier'>result</span>: <span class='identifier'><a name='62_88' href='ProtocolTransportTests.html#53_16' title='usrString1'>responseDocIdentifier</a></span>)
-<span class=lineno>0063</span>                <span class='keyword'>let</span> <span class='identifier'><a name='63_16' title='usrString3'>responseData</a></span> = <span class='keyword'>try</span>! <span class='identifier'><a name='63_36' href='ProtocolTransportTests.html#48_12' title='usrString1'>encoder</a></span>.<span class='identifier'>encode</span>(<span class='identifier'><a name='63_51' href='ProtocolTransportTests.html#62_16' title='usrString1'>response</a></span>)
-<span class=lineno>0064</span>                <span class='keyword'>let</span> <span class='identifier'><a name='64_16' title='usrString3'>responseMessage</a></span> = <span class='identifier'>MessageTransport</span>.<span class='identifier'>createMessage</span>(<span class='identifier'>with</span>: <span class='identifier'><a name='64_71' href='ProtocolTransportTests.html#63_16' title='usrString1'>responseData</a></span>)
-<span class=lineno>0065</span>    
-<span class=lineno>0066</span>                <span class='comment'>// this must happen asynchronously to match the behavior of NSFileHandle
-<span class=lineno>0067</span>    </span>            <span class='identifier'><a name='67_12' href='ProtocolTransportTests.html#49_12' title='usrString1'>queue</a></span>.<span class='identifier'>async</span> {
-<span class=lineno>0068</span>                    <span class='identifier'><a name='68_16' href='ProtocolTransportTests.html#39_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'>mockRead</span>(<span class='identifier'><a name='68_39' href='ProtocolTransportTests.html#64_16' title='usrString1'>responseMessage</a></span>)
-<span class=lineno>0069</span>                }
-<span class=lineno>0070</span>            }
-<span class=lineno>0071</span>    
-<span class=lineno>0072</span>            <span class='identifier'>wait</span>(<span class='identifier'>for</span>: [<span class='identifier'><a name='72_19' href='ProtocolTransportTests.html#44_12' title='usrString1'>expectation</a></span>], <span class='identifier'>timeout</span>: <span class='number'>2.0</span>)
-<span class=lineno>0073</span>        }
-<span class=lineno>0074</span>    
-<span class=lineno>0075</span>        <span class='keyword'>func</span> <span class='identifier'><a name='75_9' title='usrString3'>testSendNotification</a></span>() {
-<span class=lineno>0076</span>            <span class='keyword'>let</span> <span class='identifier'><a name='76_12' title='usrString3'>dataTransport</a></span> = <span class='identifier'>MockDataTransport</span>()
-<span class=lineno>0077</span>            <span class='keyword'>let</span> <span class='identifier'><a name='77_12' title='usrString3'>messageTransport</a></span> = <span class='identifier'>MessageTransport</span>(<span class='identifier'>dataTransport</span>: <span class='identifier'><a name='77_63' href='ProtocolTransportTests.html#76_12' title='usrString1'>dataTransport</a></span>)
-<span class=lineno>0078</span>            <span class='keyword'>let</span> <span class='identifier'><a name='78_12' title='usrString3'>transport</a></span> = <span class='identifier'>ProtocolTransport</span>(<span class='identifier'>messageTransport</span>: <span class='identifier'><a name='78_60' href='ProtocolTransportTests.html#77_12' title='usrString1'>messageTransport</a></span>)
-<span class=lineno>0079</span>    
-<span class=lineno>0080</span>            <span class='keyword'>let</span> <span class='identifier'><a name='80_12' title='usrString3'>expectation</a></span> = <span class='identifier'>XCTestExpectation</span>(<span class='identifier'>description</span>: <span class='string'>"Notification Message"</span>)
-<span class=lineno>0081</span>    
-<span class=lineno>0082</span>            <span class='keyword'>let</span> <span class='identifier'><a name='82_12' title='usrString3'>request</a></span> = <span class='identifier'>TextDocumentIdentifier</span>(<span class='identifier'>uri</span>: <span class='string'>"hello"</span>)
-<span class=lineno>0083</span>    
-<span class=lineno>0084</span>            <span class='identifier'><a name='84_8' href='ProtocolTransportTests.html#78_12' title='usrString1'>transport</a></span>.<span class='identifier'>sendNotification</span>(<span class='identifier'><a name='84_35' href='ProtocolTransportTests.html#82_12' title='usrString1'>request</a></span>, <span class='identifier'>method</span>: <span class='string'>"mynotification"</span>) { (<span class='identifier'><a name='84_73' title='usrString3'>error</a></span>) <span class='keyword'>in</span>
-<span class=lineno>0085</span>                <span class='identifier'>XCTAssertNil</span>(<span class='identifier'><a name='85_25' href='ProtocolTransportTests.html#84_73' title='usrString1'>error</a></span>)
-<span class=lineno>0086</span>                <span class='identifier'><a name='86_12' href='ProtocolTransportTests.html#80_12' title='usrString1'>expectation</a></span>.<span class='identifier'>fulfill</span>()
-<span class=lineno>0087</span>            }
-<span class=lineno>0088</span>    
-<span class=lineno>0089</span>            <span class='identifier'>wait</span>(<span class='identifier'>for</span>: [<span class='identifier'><a name='89_19' href='ProtocolTransportTests.html#80_12' title='usrString1'>expectation</a></span>], <span class='identifier'>timeout</span>: <span class='number'>1.0</span>)
-<span class=lineno>0090</span>    
-<span class=lineno>0091</span>            <span class='keyword'>let</span> <span class='identifier'><a name='91_12' title='usrString3'>result</a></span> = <span class='string'>"Content-Length: 68\r\n\r\n{\"jsonrpc\":\"2.0\",\"method\":\"mynotification\",\"params\":{\"uri\":\"hello\"}}"</span>
-<span class=lineno>0092</span>    
-<span class=lineno>0093</span>            <span class='keyword'>let</span> <span class='identifier'><a name='93_12' title='usrString3'>writtenStrings</a></span> = <span class='identifier'><a name='93_29' href='ProtocolTransportTests.html#76_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'>writtenData</span>.<span class='identifier'>compactMap</span>({ <span class='identifier'>String</span>(<span class='identifier'>data</span>: <span class='identifier'><a name='93_81' href='ProtocolTransportTests.html#93_66' title='usrString1'>$0</a></span>, <span class='identifier'>encoding</span>: .<span class='identifier'>utf8</span>) })
-<span class=lineno>0094</span>    
-<span class=lineno>0095</span>            <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='95_23' href='ProtocolTransportTests.html#93_12' title='usrString1'>writtenStrings</a></span>, [<span class='identifier'><a name='95_40' href='ProtocolTransportTests.html#91_12' title='usrString1'>result</a></span>])
-<span class=lineno>0096</span>        }
-<span class=lineno>0097</span>    
-<span class=lineno>0098</span>        <span class='keyword'>func</span> <span class='identifier'><a name='98_9' title='usrString3'>testServerToClientNotification</a></span>() {
-<span class=lineno>0099</span>            <span class='keyword'>let</span> <span class='identifier'><a name='99_12' title='usrString3'>dataTransport</a></span> = <span class='identifier'>MockDataTransport</span>()
-<span class=lineno>0100</span>            <span class='keyword'>let</span> <span class='identifier'><a name='100_12' title='usrString3'>messageTransport</a></span> = <span class='identifier'>MessageTransport</span>(<span class='identifier'>dataTransport</span>: <span class='identifier'><a name='100_63' href='ProtocolTransportTests.html#99_12' title='usrString1'>dataTransport</a></span>)
-<span class=lineno>0101</span>            <span class='keyword'>let</span> <span class='identifier'><a name='101_12' title='usrString3'>transport</a></span> = <span class='identifier'>ProtocolTransport</span>(<span class='identifier'>messageTransport</span>: <span class='identifier'><a name='101_60' href='ProtocolTransportTests.html#100_12' title='usrString1'>messageTransport</a></span>)
-<span class=lineno>0102</span>            <span class='keyword'>let</span> <span class='identifier'><a name='102_12' title='usrString3'>transportDelegate</a></span> = <span class='identifier'>MockProtocolTransportDelegate</span>()
-<span class=lineno>0103</span>    
-<span class=lineno>0104</span>            <span class='identifier'><a name='104_8' href='ProtocolTransportTests.html#101_12' title='usrString1'>transport</a></span>.<span class='identifier'>delegate</span> = <span class='identifier'><a name='104_29' href='ProtocolTransportTests.html#102_12' title='usrString1'>transportDelegate</a></span>
-<span class=lineno>0105</span>    
-<span class=lineno>0106</span>            <span class='keyword'>let</span> <span class='identifier'><a name='106_12' title='usrString3'>expectation</a></span> = <span class='identifier'>XCTestExpectation</span>(<span class='identifier'>description</span>: <span class='string'>"Notification Message"</span>)
-<span class=lineno>0107</span>    
-<span class=lineno>0108</span>            <span class='identifier'><a name='108_8' href='ProtocolTransportTests.html#102_12' title='usrString1'>transportDelegate</a></span>.<span class='identifier'>notificationHandler</span> = { (<span class='identifier'><a name='108_51' title='usrString3'>method</a></span>, <span class='identifier'><a name='108_59' title='usrString3'>data</a></span>) <span class='keyword'>in</span>
-<span class=lineno>0109</span>                <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='109_27' href='ProtocolTransportTests.html#108_51' title='usrString1'>method</a></span>, <span class='string'>"iamnotification"</span>)
-<span class=lineno>0110</span>    
-<span class=lineno>0111</span>                <span class='keyword'>let</span> <span class='identifier'><a name='111_16' title='usrString3'>result</a></span> = <span class='keyword'>try</span>? <span class='identifier'>JSONDecoder</span>().<span class='identifier'>decode</span>(<span class='identifier'>JSONRPCNotificationParams</span>&lt;<span class='typeidentifier'>String</span>>.<span class='keyword'>self</span>, <span class='identifier'>from</span>: <span class='identifier'><a name='111_97' href='ProtocolTransportTests.html#108_59' title='usrString1'>data</a></span>)
-<span class=lineno>0112</span>    
-<span class=lineno>0113</span>                <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='113_27' href='ProtocolTransportTests.html#111_16' title='usrString1'>result</a></span>?.<span class='identifier'>params</span>, <span class='string'>"iamstring"</span>)
-<span class=lineno>0114</span>                <span class='identifier'><a name='114_12' href='ProtocolTransportTests.html#106_12' title='usrString1'>expectation</a></span>.<span class='identifier'>fulfill</span>()
-<span class=lineno>0115</span>            }
-<span class=lineno>0116</span>    
-<span class=lineno>0117</span>            <span class='identifier'><a name='117_8' href='ProtocolTransportTests.html#99_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'>mockRead</span>(<span class='string'>"Content-Length: 65\r\n\r\n"</span>)
-<span class=lineno>0118</span>            <span class='identifier'><a name='118_8' href='ProtocolTransportTests.html#99_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'>mockRead</span>(<span class='string'>"""
-<span class=lineno>0119</span>    {"jsonrpc":"2.0","method":"iamnotification","params":"iamstring"}
-<span class=lineno>0120</span>    """</span>)
-<span class=lineno>0121</span>    
-<span class=lineno>0122</span>            <span class='identifier'>wait</span>(<span class='identifier'>for</span>: [<span class='identifier'><a name='122_19' href='ProtocolTransportTests.html#106_12' title='usrString1'>expectation</a></span>], <span class='identifier'>timeout</span>: <span class='number'>1.0</span>)
-<span class=lineno>0123</span>        }
-<span class=lineno>0124</span>    }
-<span class=lineno>0125</span>    
+</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClientTests/ProtocolTransportTests.swift</h3><pre><span class=linenum>0001</span>    <span class='comment'>//
+<span class=linenum>0002</span>    </span><span class='comment'>//  ProtocolTransportTests.swift
+<span class=linenum>0003</span>    </span><span class='comment'>//  SwiftLSPClientTests
+<span class=linenum>0004</span>    </span><span class='comment'>//
+<span class=linenum>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2019-02-07.
+<span class=linenum>0006</span>    </span><span class='comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
+<span class=linenum>0007</span>    </span><span class='comment'>//
+<span class=linenum>0008</span>    </span>
+<span class=linenum>0009</span>    <span class='keyword'>import</span> <span class='identifier'>XCTest</span>
+<span class=linenum>0010</span>    <span class='builtin'>@testable</span> <span class='keyword'>import</span> <span class='identifier'>SwiftLSPClient</span>
+<span class=linenum>0011</span>    
+<span class=linenum>0012</span>    <span class='keyword'>class</span> <span class='identifier'><a name='12_6' title='usrString3'>ProtocolTransportTests</a></span>: <span class='typeidentifier'>XCTestCase</span> {
+<span class=linenum>0013</span>        <span class='keyword'>typealias</span> <span class='identifier'><a name='13_14' title='usrString3'>TestResult</a></span> = <span class='typeidentifier'>Result</span>&lt;<span class='typeidentifier'>JSONRPCResultResponse</span>&lt;<span class='typeidentifier'>TextDocumentIdentifier</span>>, <span class='typeidentifier'>ProtocolTransportError</span>>
+<span class=linenum>0014</span>    
+<span class=linenum>0015</span>        <span class='keyword'>func</span> <span class='identifier'><a name='15_9' title='usrString3'>testSendRequest</a></span>() {
+<span class=linenum>0016</span>            <span class='keyword'>let</span> <span class='identifier'><a name='16_12' title='usrString3'>dataTransport</a></span> = <span class='identifier'>MockDataTransport</span>()
+<span class=linenum>0017</span>            <span class='keyword'>let</span> <span class='identifier'><a name='17_12' title='usrString3'>messageTransport</a></span> = <span class='identifier'>MessageTransport</span>(<span class='identifier'>dataTransport</span>: <span class='identifier'><a name='17_63' href='ProtocolTransportTests.html#16_12' title='usrString1'>dataTransport</a></span>)
+<span class=linenum>0018</span>            <span class='keyword'>let</span> <span class='identifier'><a name='18_12' title='usrString3'>transport</a></span> = <span class='identifier'>ProtocolTransport</span>(<span class='identifier'>messageTransport</span>: <span class='identifier'><a name='18_60' href='ProtocolTransportTests.html#17_12' title='usrString1'>messageTransport</a></span>)
+<span class=linenum>0019</span>    
+<span class=linenum>0020</span>            <span class='keyword'>let</span> <span class='identifier'><a name='20_12' title='usrString3'>expectation</a></span> = <span class='identifier'>XCTestExpectation</span>(<span class='identifier'>description</span>: <span class='string'>"Response Message"</span>)
+<span class=linenum>0021</span>    
+<span class=linenum>0022</span>            <span class='keyword'>let</span> <span class='identifier'><a name='22_12' title='usrString3'>request</a></span> = <span class='identifier'>TextDocumentIdentifier</span>(<span class='identifier'>uri</span>: <span class='string'>"hello"</span>)
+<span class=linenum>0023</span>            <span class='identifier'><a name='23_8' href='ProtocolTransportTests.html#18_12' title='usrString1'>transport</a></span>.<span class='identifier'>sendRequest</span>(<span class='identifier'><a name='23_30' href='ProtocolTransportTests.html#22_12' title='usrString1'>request</a></span>, <span class='identifier'>method</span>: <span class='string'>"mymethod"</span>) { (<span class='identifier'><a name='23_62' title='usrString3'>result</a></span>: <span class='typeidentifier'>TestResult</span>) <span class='keyword'>in</span>
+<span class=linenum>0024</span>                <span class='keyword'>let</span> <span class='identifier'><a name='24_16' title='usrString3'>value</a></span> = <span class='keyword'>try</span>? <span class='identifier'><a name='24_29' href='ProtocolTransportTests.html#23_62' title='usrString1'>result</a></span>.<span class='identifier'>get</span>()
+<span class=linenum>0025</span>                <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='25_27' href='ProtocolTransportTests.html#24_16' title='usrString1'>value</a></span>?.<span class='identifier'>result</span>, <span class='identifier'>TextDocumentIdentifier</span>(<span class='identifier'>uri</span>: <span class='string'>"goodbye"</span>))
+<span class=linenum>0026</span>    
+<span class=linenum>0027</span>                <span class='identifier'><a name='27_12' href='ProtocolTransportTests.html#20_12' title='usrString1'>expectation</a></span>.<span class='identifier'>fulfill</span>()
+<span class=linenum>0028</span>            }
+<span class=linenum>0029</span>    
+<span class=linenum>0030</span>            <span class='identifier'><a name='30_8' href='ProtocolTransportTests.html#16_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'>mockRead</span>(<span class='string'>"Content-Length: 51\r\n\r\n"</span>)
+<span class=linenum>0031</span>            <span class='identifier'><a name='31_8' href='ProtocolTransportTests.html#16_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'>mockRead</span>(<span class='string'>"""
+<span class=linenum>0032</span>    {"jsonrpc":"2.0","id":1,"result":{"uri":"goodbye"}}
+<span class=linenum>0033</span>    """</span>)
+<span class=linenum>0034</span>    
+<span class=linenum>0035</span>            <span class='identifier'>wait</span>(<span class='identifier'>for</span>: [<span class='identifier'><a name='35_19' href='ProtocolTransportTests.html#20_12' title='usrString1'>expectation</a></span>], <span class='identifier'>timeout</span>: <span class='number'>1.0</span>)
+<span class=linenum>0036</span>        }
+<span class=linenum>0037</span>    
+<span class=linenum>0038</span>        <span class='keyword'>func</span> <span class='identifier'><a name='38_9' title='usrString3'>testManySendRequestsWithResponsesDeliveredOnABackgroundQueueTest</a></span>() {
+<span class=linenum>0039</span>            <span class='keyword'>let</span> <span class='identifier'><a name='39_12' title='usrString3'>dataTransport</a></span> = <span class='identifier'>MockDataTransport</span>()
+<span class=linenum>0040</span>            <span class='keyword'>let</span> <span class='identifier'><a name='40_12' title='usrString3'>messageTransport</a></span> = <span class='identifier'>MessageTransport</span>(<span class='identifier'>dataTransport</span>: <span class='identifier'><a name='40_63' href='ProtocolTransportTests.html#39_12' title='usrString1'>dataTransport</a></span>)
+<span class=linenum>0041</span>            <span class='keyword'>let</span> <span class='identifier'><a name='41_12' title='usrString3'>transport</a></span> = <span class='identifier'>ProtocolTransport</span>(<span class='identifier'>messageTransport</span>: <span class='identifier'><a name='41_60' href='ProtocolTransportTests.html#40_12' title='usrString1'>messageTransport</a></span>)
+<span class=linenum>0042</span>    
+<span class=linenum>0043</span>            <span class='keyword'>let</span> <span class='identifier'><a name='43_12' title='usrString3'>iterations</a></span> = <span class='number'>1000</span>
+<span class=linenum>0044</span>            <span class='keyword'>let</span> <span class='identifier'><a name='44_12' title='usrString3'>expectation</a></span> = <span class='identifier'>XCTestExpectation</span>(<span class='identifier'>description</span>: <span class='string'>"Response Message"</span>)
+<span class=linenum>0045</span>            <span class='identifier'><a name='45_8' href='ProtocolTransportTests.html#44_12' title='usrString1'>expectation</a></span>.<span class='identifier'>expectedFulfillmentCount</span> = <span class='identifier'><a name='45_47' href='ProtocolTransportTests.html#43_12' title='usrString1'>iterations</a></span>
+<span class=linenum>0046</span>    
+<span class=linenum>0047</span>            <span class='keyword'>let</span> <span class='identifier'><a name='47_12' title='usrString3'>request</a></span> = <span class='identifier'>TextDocumentIdentifier</span>(<span class='identifier'>uri</span>: <span class='string'>"hello"</span>)
+<span class=linenum>0048</span>            <span class='keyword'>let</span> <span class='identifier'><a name='48_12' title='usrString3'>encoder</a></span> = <span class='identifier'>JSONEncoder</span>()
+<span class=linenum>0049</span>            <span class='keyword'>let</span> <span class='identifier'><a name='49_12' title='usrString3'>queue</a></span> = <span class='identifier'>DispatchQueue</span>(<span class='identifier'>label</span>: <span class='string'>"SimluatedFileHandleQueue"</span>)
+<span class=linenum>0050</span>    
+<span class=linenum>0051</span>            <span class='comment'>// be sure to start at 1, to match ProtocolTransport's id generation
+<span class=linenum>0052</span>    </span>        <span class='keyword'>for</span> <span class='identifier'><a name='52_12' title='usrString3'>i</a></span> <span class='keyword'>in</span> <span class='number'>1</span>...<span class='identifier'><a name='52_21' href='ProtocolTransportTests.html#43_12' title='usrString1'>iterations</a></span> {
+<span class=linenum>0053</span>                <span class='keyword'>let</span> <span class='identifier'><a name='53_16' title='usrString3'>responseDocIdentifier</a></span> = <span class='identifier'>TextDocumentIdentifier</span>(<span class='identifier'>uri</span>: <span class='string'>"goodbye-</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'><a name='53_79' href='ProtocolTransportTests.html#52_12' title='usrString1'>i</a></span><span class='string_interpolation_anchor'>)</span><span class='string'>"</span>)
+<span class=linenum>0054</span>    
+<span class=linenum>0055</span>                <span class='identifier'><a name='55_12' href='ProtocolTransportTests.html#41_12' title='usrString1'>transport</a></span>.<span class='identifier'>sendRequest</span>(<span class='identifier'><a name='55_34' href='ProtocolTransportTests.html#47_12' title='usrString1'>request</a></span>, <span class='identifier'>method</span>: <span class='string'>"mymethod"</span>) { (<span class='identifier'><a name='55_66' title='usrString3'>result</a></span>: <span class='typeidentifier'>TestResult</span>) <span class='keyword'>in</span>
+<span class=linenum>0056</span>                    <span class='keyword'>let</span> <span class='identifier'><a name='56_20' title='usrString3'>value</a></span> = <span class='keyword'>try</span>? <span class='identifier'><a name='56_33' href='ProtocolTransportTests.html#55_66' title='usrString1'>result</a></span>.<span class='identifier'>get</span>()
+<span class=linenum>0057</span>                    <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='57_31' href='ProtocolTransportTests.html#56_20' title='usrString1'>value</a></span>?.<span class='identifier'>result</span>, <span class='identifier'><a name='57_46' href='ProtocolTransportTests.html#53_16' title='usrString1'>responseDocIdentifier</a></span>)
+<span class=linenum>0058</span>    
+<span class=linenum>0059</span>                    <span class='identifier'><a name='59_16' href='ProtocolTransportTests.html#44_12' title='usrString1'>expectation</a></span>.<span class='identifier'>fulfill</span>()
+<span class=linenum>0060</span>                }
+<span class=linenum>0061</span>    
+<span class=linenum>0062</span>                <span class='keyword'>let</span> <span class='identifier'><a name='62_16' title='usrString3'>response</a></span> = <span class='identifier'>JSONRPCResultResponse</span>&lt;<span class='typeidentifier'>TextDocumentIdentifier</span>>(<span class='identifier'>id</span>: <span class='identifier'><a name='62_77' href='ProtocolTransportTests.html#52_12' title='usrString1'>i</a></span>, <span class='identifier'>result</span>: <span class='identifier'><a name='62_88' href='ProtocolTransportTests.html#53_16' title='usrString1'>responseDocIdentifier</a></span>)
+<span class=linenum>0063</span>                <span class='keyword'>let</span> <span class='identifier'><a name='63_16' title='usrString3'>responseData</a></span> = <span class='keyword'>try</span>! <span class='identifier'><a name='63_36' href='ProtocolTransportTests.html#48_12' title='usrString1'>encoder</a></span>.<span class='identifier'>encode</span>(<span class='identifier'><a name='63_51' href='ProtocolTransportTests.html#62_16' title='usrString1'>response</a></span>)
+<span class=linenum>0064</span>                <span class='keyword'>let</span> <span class='identifier'><a name='64_16' title='usrString3'>responseMessage</a></span> = <span class='identifier'>MessageTransport</span>.<span class='identifier'>createMessage</span>(<span class='identifier'>with</span>: <span class='identifier'><a name='64_71' href='ProtocolTransportTests.html#63_16' title='usrString1'>responseData</a></span>)
+<span class=linenum>0065</span>    
+<span class=linenum>0066</span>                <span class='comment'>// this must happen asynchronously to match the behavior of NSFileHandle
+<span class=linenum>0067</span>    </span>            <span class='identifier'><a name='67_12' href='ProtocolTransportTests.html#49_12' title='usrString1'>queue</a></span>.<span class='identifier'>async</span> {
+<span class=linenum>0068</span>                    <span class='identifier'><a name='68_16' href='ProtocolTransportTests.html#39_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'>mockRead</span>(<span class='identifier'><a name='68_39' href='ProtocolTransportTests.html#64_16' title='usrString1'>responseMessage</a></span>)
+<span class=linenum>0069</span>                }
+<span class=linenum>0070</span>            }
+<span class=linenum>0071</span>    
+<span class=linenum>0072</span>            <span class='identifier'>wait</span>(<span class='identifier'>for</span>: [<span class='identifier'><a name='72_19' href='ProtocolTransportTests.html#44_12' title='usrString1'>expectation</a></span>], <span class='identifier'>timeout</span>: <span class='number'>2.0</span>)
+<span class=linenum>0073</span>        }
+<span class=linenum>0074</span>    
+<span class=linenum>0075</span>        <span class='keyword'>func</span> <span class='identifier'><a name='75_9' title='usrString3'>testSendNotification</a></span>() {
+<span class=linenum>0076</span>            <span class='keyword'>let</span> <span class='identifier'><a name='76_12' title='usrString3'>dataTransport</a></span> = <span class='identifier'>MockDataTransport</span>()
+<span class=linenum>0077</span>            <span class='keyword'>let</span> <span class='identifier'><a name='77_12' title='usrString3'>messageTransport</a></span> = <span class='identifier'>MessageTransport</span>(<span class='identifier'>dataTransport</span>: <span class='identifier'><a name='77_63' href='ProtocolTransportTests.html#76_12' title='usrString1'>dataTransport</a></span>)
+<span class=linenum>0078</span>            <span class='keyword'>let</span> <span class='identifier'><a name='78_12' title='usrString3'>transport</a></span> = <span class='identifier'>ProtocolTransport</span>(<span class='identifier'>messageTransport</span>: <span class='identifier'><a name='78_60' href='ProtocolTransportTests.html#77_12' title='usrString1'>messageTransport</a></span>)
+<span class=linenum>0079</span>    
+<span class=linenum>0080</span>            <span class='keyword'>let</span> <span class='identifier'><a name='80_12' title='usrString3'>expectation</a></span> = <span class='identifier'>XCTestExpectation</span>(<span class='identifier'>description</span>: <span class='string'>"Notification Message"</span>)
+<span class=linenum>0081</span>    
+<span class=linenum>0082</span>            <span class='keyword'>let</span> <span class='identifier'><a name='82_12' title='usrString3'>request</a></span> = <span class='identifier'>TextDocumentIdentifier</span>(<span class='identifier'>uri</span>: <span class='string'>"hello"</span>)
+<span class=linenum>0083</span>    
+<span class=linenum>0084</span>            <span class='identifier'><a name='84_8' href='ProtocolTransportTests.html#78_12' title='usrString1'>transport</a></span>.<span class='identifier'>sendNotification</span>(<span class='identifier'><a name='84_35' href='ProtocolTransportTests.html#82_12' title='usrString1'>request</a></span>, <span class='identifier'>method</span>: <span class='string'>"mynotification"</span>) { (<span class='identifier'><a name='84_73' title='usrString3'>error</a></span>) <span class='keyword'>in</span>
+<span class=linenum>0085</span>                <span class='identifier'>XCTAssertNil</span>(<span class='identifier'><a name='85_25' href='ProtocolTransportTests.html#84_73' title='usrString1'>error</a></span>)
+<span class=linenum>0086</span>                <span class='identifier'><a name='86_12' href='ProtocolTransportTests.html#80_12' title='usrString1'>expectation</a></span>.<span class='identifier'>fulfill</span>()
+<span class=linenum>0087</span>            }
+<span class=linenum>0088</span>    
+<span class=linenum>0089</span>            <span class='identifier'>wait</span>(<span class='identifier'>for</span>: [<span class='identifier'><a name='89_19' href='ProtocolTransportTests.html#80_12' title='usrString1'>expectation</a></span>], <span class='identifier'>timeout</span>: <span class='number'>1.0</span>)
+<span class=linenum>0090</span>    
+<span class=linenum>0091</span>            <span class='keyword'>let</span> <span class='identifier'><a name='91_12' title='usrString3'>result</a></span> = <span class='string'>"Content-Length: 68\r\n\r\n{\"jsonrpc\":\"2.0\",\"method\":\"mynotification\",\"params\":{\"uri\":\"hello\"}}"</span>
+<span class=linenum>0092</span>    
+<span class=linenum>0093</span>            <span class='keyword'>let</span> <span class='identifier'><a name='93_12' title='usrString3'>writtenStrings</a></span> = <span class='identifier'><a name='93_29' href='ProtocolTransportTests.html#76_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'>writtenData</span>.<span class='identifier'>compactMap</span>({ <span class='identifier'>String</span>(<span class='identifier'>data</span>: <span class='identifier'><a name='93_81' href='ProtocolTransportTests.html#93_66' title='usrString1'>$0</a></span>, <span class='identifier'>encoding</span>: .<span class='identifier'>utf8</span>) })
+<span class=linenum>0094</span>    
+<span class=linenum>0095</span>            <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='95_23' href='ProtocolTransportTests.html#93_12' title='usrString1'>writtenStrings</a></span>, [<span class='identifier'><a name='95_40' href='ProtocolTransportTests.html#91_12' title='usrString1'>result</a></span>])
+<span class=linenum>0096</span>        }
+<span class=linenum>0097</span>    
+<span class=linenum>0098</span>        <span class='keyword'>func</span> <span class='identifier'><a name='98_9' title='usrString3'>testServerToClientNotification</a></span>() {
+<span class=linenum>0099</span>            <span class='keyword'>let</span> <span class='identifier'><a name='99_12' title='usrString3'>dataTransport</a></span> = <span class='identifier'>MockDataTransport</span>()
+<span class=linenum>0100</span>            <span class='keyword'>let</span> <span class='identifier'><a name='100_12' title='usrString3'>messageTransport</a></span> = <span class='identifier'>MessageTransport</span>(<span class='identifier'>dataTransport</span>: <span class='identifier'><a name='100_63' href='ProtocolTransportTests.html#99_12' title='usrString1'>dataTransport</a></span>)
+<span class=linenum>0101</span>            <span class='keyword'>let</span> <span class='identifier'><a name='101_12' title='usrString3'>transport</a></span> = <span class='identifier'>ProtocolTransport</span>(<span class='identifier'>messageTransport</span>: <span class='identifier'><a name='101_60' href='ProtocolTransportTests.html#100_12' title='usrString1'>messageTransport</a></span>)
+<span class=linenum>0102</span>            <span class='keyword'>let</span> <span class='identifier'><a name='102_12' title='usrString3'>transportDelegate</a></span> = <span class='identifier'>MockProtocolTransportDelegate</span>()
+<span class=linenum>0103</span>    
+<span class=linenum>0104</span>            <span class='identifier'><a name='104_8' href='ProtocolTransportTests.html#101_12' title='usrString1'>transport</a></span>.<span class='identifier'>delegate</span> = <span class='identifier'><a name='104_29' href='ProtocolTransportTests.html#102_12' title='usrString1'>transportDelegate</a></span>
+<span class=linenum>0105</span>    
+<span class=linenum>0106</span>            <span class='keyword'>let</span> <span class='identifier'><a name='106_12' title='usrString3'>expectation</a></span> = <span class='identifier'>XCTestExpectation</span>(<span class='identifier'>description</span>: <span class='string'>"Notification Message"</span>)
+<span class=linenum>0107</span>    
+<span class=linenum>0108</span>            <span class='identifier'><a name='108_8' href='ProtocolTransportTests.html#102_12' title='usrString1'>transportDelegate</a></span>.<span class='identifier'>notificationHandler</span> = { (<span class='identifier'><a name='108_51' title='usrString3'>method</a></span>, <span class='identifier'><a name='108_59' title='usrString3'>data</a></span>) <span class='keyword'>in</span>
+<span class=linenum>0109</span>                <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='109_27' href='ProtocolTransportTests.html#108_51' title='usrString1'>method</a></span>, <span class='string'>"iamnotification"</span>)
+<span class=linenum>0110</span>    
+<span class=linenum>0111</span>                <span class='keyword'>let</span> <span class='identifier'><a name='111_16' title='usrString3'>result</a></span> = <span class='keyword'>try</span>? <span class='identifier'>JSONDecoder</span>().<span class='identifier'>decode</span>(<span class='identifier'>JSONRPCNotificationParams</span>&lt;<span class='typeidentifier'>String</span>>.<span class='keyword'>self</span>, <span class='identifier'>from</span>: <span class='identifier'><a name='111_97' href='ProtocolTransportTests.html#108_59' title='usrString1'>data</a></span>)
+<span class=linenum>0112</span>    
+<span class=linenum>0113</span>                <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='113_27' href='ProtocolTransportTests.html#111_16' title='usrString1'>result</a></span>?.<span class='identifier'>params</span>, <span class='string'>"iamstring"</span>)
+<span class=linenum>0114</span>                <span class='identifier'><a name='114_12' href='ProtocolTransportTests.html#106_12' title='usrString1'>expectation</a></span>.<span class='identifier'>fulfill</span>()
+<span class=linenum>0115</span>            }
+<span class=linenum>0116</span>    
+<span class=linenum>0117</span>            <span class='identifier'><a name='117_8' href='ProtocolTransportTests.html#99_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'>mockRead</span>(<span class='string'>"Content-Length: 65\r\n\r\n"</span>)
+<span class=linenum>0118</span>            <span class='identifier'><a name='118_8' href='ProtocolTransportTests.html#99_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'>mockRead</span>(<span class='string'>"""
+<span class=linenum>0119</span>    {"jsonrpc":"2.0","method":"iamnotification","params":"iamstring"}
+<span class=linenum>0120</span>    """</span>)
+<span class=linenum>0121</span>    
+<span class=linenum>0122</span>            <span class='identifier'>wait</span>(<span class='identifier'>for</span>: [<span class='identifier'><a name='122_19' href='ProtocolTransportTests.html#106_12' title='usrString1'>expectation</a></span>], <span class='identifier'>timeout</span>: <span class='number'>1.0</span>)
+<span class=linenum>0123</span>        }
+<span class=linenum>0124</span>    }
+<span class=linenum>0125</span>    
