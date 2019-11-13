@@ -1,0 +1,46 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClient/Types/Window/ShowMessageRequest.swift</h3><pre><span class=linenum>0001</span>    <span class='comment'>//
+<span class=linenum>0002</span>    </span><span class='comment'>//  ShowMessageRequest.swift
+<span class=linenum>0003</span>    </span><span class='comment'>//  SwiftLSPClient
+<span class=linenum>0004</span>    </span><span class='comment'>//
+<span class=linenum>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2019-09-01.
+<span class=linenum>0006</span>    </span><span class='comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
+<span class=linenum>0007</span>    </span><span class='comment'>//
+<span class=linenum>0008</span>    </span>
+<span class=linenum>0009</span>    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
+<span class=linenum>0010</span>    
+<span class=linenum>0011</span>    <span class='builtin'>public</span> <span class='keyword'>struct</span> <span class='identifier'><a name='11_14' href='#' title='usrString2' onclick='return expand(this);'>ShowMessageRequestParams<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="ShowMessageRequest.swift.html#17_10"; return false;'>ShowMessageRequest.swift:17</td><td><pre>extension ShowMessageRequestParams: Codable {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="ShowMessageRequest.swift.html#20_10"; return false;'>ShowMessageRequest.swift:20</td><td><pre>extension ShowMessageRequestParams: CustomStringConvertible {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="LanguageServer.swift.html#81_85"; event.stopPropagation(); return false;'>LanguageServer.swift:81</td><td><pre>    func languageServer(_ server: LanguageServer, showMessageRequest messageRequest: ShowMessageRequestParams)</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.swift.html#51_80"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:51</td><td><pre>            decodeNotification(named: notificationMethod, data: data) { (value: ShowMessageRequestParams) in</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.swift.html#334_92"; event.stopPropagation(); return false;'>Siteify.swift:334</td><td><pre>        if !message.message.starts(with: "could not open compilation") {</pre></td></table></span></a></span> {
+<span class=linenum>0012</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='12_15' href='#' title='usrString2' onclick='return expand(this);'>type<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="ShowMessageRequest.swift.html#22_18"; return false;'>ShowMessageRequest.swift:22</td><td><pre>        return "\(type): \(message)"</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='12_21' href='MessageType.swift.html#11_12' title='usrString1'>MessageType</a></span>
+<span class=linenum>0013</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='13_15' href='#' title='usrString2' onclick='return expand(this);'>message<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="ShowMessageRequest.swift.html#22_27"; return false;'>ShowMessageRequest.swift:22</td><td><pre>        return "\(type): \(message)"</pre></td></table></span></a></span>: <span class='typeidentifier'>String</span>
+<span class=linenum>0014</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='14_15' title='usrString2' onclick='return expand(this);'>actions<span class='references'><table></table></span></a></span>: [<span class='typeidentifier'><a name='14_25' href='MessageActionItem.swift.html#11_14' title='usrString1'>MessageActionItem</a></span>]?
+<span class=linenum>0015</span>    }
+<span class=linenum>0016</span>    
+<span class=linenum>0017</span>    <span class='keyword'>extension</span> <span class='typeidentifier'><a name='17_10' href='ShowMessageRequest.swift.html#11_14' title='usrString1'>ShowMessageRequestParams</a></span>: <span class='typeidentifier'>Codable</span> {
+<span class=linenum>0018</span>    }
+<span class=linenum>0019</span>    
+<span class=linenum>0020</span>    <span class='keyword'>extension</span> <span class='typeidentifier'><a name='20_10' href='ShowMessageRequest.swift.html#11_14' title='usrString1'>ShowMessageRequestParams</a></span>: <span class='typeidentifier'>CustomStringConvertible</span> {
+<span class=linenum>0021</span>        <span class='builtin'>public</span> <span class='keyword'>var</span> <span class='identifier'><a name='21_15' title='usrString2' onclick='return expand(this);'>description<span class='references'><table></table></span></a></span>: <span class='typeidentifier'>String</span> {
+<span class=linenum>0022</span>            <span class='keyword'>return</span> <span class='string'>"</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'><a name='22_18' href='ShowMessageRequest.swift.html#12_15' title='usrString1'>type</a></span><span class='string_interpolation_anchor'>)</span><span class='string'>: </span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'><a name='22_27' href='ShowMessageRequest.swift.html#13_15' title='usrString1'>message</a></span><span class='string_interpolation_anchor'>)</span><span class='string'>"</span>
+<span class=linenum>0023</span>        }
+<span class=linenum>0024</span>    }
+<span class=linenum>0025</span>    

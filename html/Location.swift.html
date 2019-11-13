@@ -1,0 +1,42 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClient/Types/Location.swift</h3><pre><span class=linenum>0001</span>    <span class='comment'>//
+<span class=linenum>0002</span>    </span><span class='comment'>//  Location.swift
+<span class=linenum>0003</span>    </span><span class='comment'>//  SwiftLSPClient
+<span class=linenum>0004</span>    </span><span class='comment'>//
+<span class=linenum>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2019-01-21.
+<span class=linenum>0006</span>    </span><span class='comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
+<span class=linenum>0007</span>    </span><span class='comment'>//
+<span class=linenum>0008</span>    </span>
+<span class=linenum>0009</span>    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
+<span class=linenum>0010</span>    
+<span class=linenum>0011</span>    <span class='builtin'>public</span> <span class='keyword'>struct</span> <span class='identifier'><a name='11_14' title='usrString3'>Location</a></span> {
+<span class=linenum>0012</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='12_15' title='usrString3'>uri</a></span>: <span class='typeidentifier'><a name='12_20' href='Basic.swift.html#11_14' title='usrString1'>DocumentUri</a></span>
+<span class=linenum>0013</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='13_15' title='usrString3'>range</a></span>: <span class='typeidentifier'><a name='13_22' href='LSPRange.swift.html#11_14' title='usrString1'>LSPRange</a></span>
+<span class=linenum>0014</span>    }
+<span class=linenum>0015</span>    
+<span class=linenum>0016</span>    <span class='keyword'>extension</span> <span class='typeidentifier'><a name='16_10' href='Location.swift.html#11_14' title='usrString1'>Location</a></span>: <span class='typeidentifier'>Codable</span> {
+<span class=linenum>0017</span>    }
+<span class=linenum>0018</span>    
+<span class=linenum>0019</span>    <span class='keyword'>extension</span> <span class='typeidentifier'><a name='19_10' href='Location.swift.html#11_14' title='usrString1'>Location</a></span>: <span class='typeidentifier'>Hashable</span> {
+<span class=linenum>0020</span>    }
+<span class=linenum>0021</span>    

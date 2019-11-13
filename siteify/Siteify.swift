@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#9 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#17 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -26,7 +26,7 @@ func fileFilename(file: String) -> String {
     if let filename = filenameForFile[file] {
         return filename
     }
-    var filename = NSURL(fileURLWithPath: file).deletingPathExtension!.lastPathComponent
+    var filename = NSURL(fileURLWithPath: file).lastPathComponent!
     while filesForFileName[filename] != nil {
         filename += "_"
     }
@@ -169,21 +169,27 @@ public class Siteify: NotificationResponder {
                 self.lspServer!.didOpenTextDocument(params: DidOpenTextDocumentParams(textDocument: try! TextDocumentItem(contentsOfFile: path)), block: $0)
             }
             data.withUnsafeBytes {
-                (start: UnsafePointer<Int8>) in
-                var ptr = 0, lineno = 0, col = 0
+                (buffer: UnsafeRawBufferPointer) in
+                let start = buffer.baseAddress!.assumingMemoryBound(to: Int8.self)
+                var ptr = 0, linestart = 0, lineno = 0, col = 0
 
                 func skipTo(offset: Int) -> String {
-                    let out = NSString(bytes: start+ptr, length: offset-ptr, encoding: String.Encoding.utf8.rawValue) ?? ""
-                    while ptr < offset {
-                        if start[ptr] == UInt8(ascii: "\n") {
-                            lineno += 1
-                            col = 0
+                    while let line = memchr(start + linestart,
+                                            Int32(UInt8(ascii: "\n")), offset - linestart) {
+                        lineno += 1
+                        linestart = UnsafePointer<Int8>(line
+                            .assumingMemoryBound(to: Int8.self)) - start + 1
+                        if start[linestart] == UInt8(ascii: "\r") {
+                            linestart += 1
                         }
-                        else {
-                            col += 1
-                        }
-                        ptr += 1
                     }
+                    col = (NSString(bytes: start + linestart,
+                                    length: offset - linestart,
+                                    encoding: String.Encoding.utf8.rawValue) ?? "").length
+                    
+                    let out = NSString(bytes: start+ptr, length: offset-ptr,
+                                       encoding: String.Encoding.utf8.rawValue) ?? ""
+                    ptr = offset
                     return out
                         .replacingOccurrences(of: "&", with: "&amp;")
                         .replacingOccurrences(of: "<", with: "&lt;") as String
@@ -297,6 +303,9 @@ public class Siteify: NotificationResponder {
                 fclose(out)
 
                 SKApi.response_dispose(resp)
+                synchronizer.sync {
+                    self.lspServer!.didCloseTextDocument(params: DidCloseTextDocumentParams(textDocument: TextDocumentIdentifier(path: path)), block: $0)
+                }
             }
         }
 

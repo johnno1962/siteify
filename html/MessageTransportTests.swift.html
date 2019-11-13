@@ -1,0 +1,171 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClientTests/MessageTransportTests.swift</h3><pre><span class=linenum>0001</span>    <span class='comment'>//
+<span class=linenum>0002</span>    </span><span class='comment'>//  MessageTransportTests.swift
+<span class=linenum>0003</span>    </span><span class='comment'>//  SwiftLSPClientTests
+<span class=linenum>0004</span>    </span><span class='comment'>//
+<span class=linenum>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2018-10-15.
+<span class=linenum>0006</span>    </span><span class='comment'>//  Copyright © 2018 Chime Systems. All rights reserved.
+<span class=linenum>0007</span>    </span><span class='comment'>//
+<span class=linenum>0008</span>    </span>
+<span class=linenum>0009</span>    <span class='keyword'>import</span> <span class='identifier'>XCTest</span>
+<span class=linenum>0010</span>    <span class='builtin'>@testable</span> <span class='keyword'>import</span> <span class='identifier'>SwiftLSPClient</span>
+<span class=linenum>0011</span>    
+<span class=linenum>0012</span>    <span class='keyword'>class</span> <span class='identifier'><a name='12_6' title='usrString3'>MessageTransportTests</a></span>: <span class='typeidentifier'>XCTestCase</span> {
+<span class=linenum>0013</span>        <span class='keyword'>func</span> <span class='identifier'><a name='13_9' title='usrString3'>writeMessageAndReadResult</a></span>(<span class='keyword'>_</span> <span class='identifier'><a name='13_37' title='usrString3'>message</a></span>: <span class='typeidentifier'>String</span>) -> <span class='typeidentifier'>Data</span>? {
+<span class=linenum>0014</span>            <span class='keyword'>let</span> <span class='identifier'><a name='14_12' title='usrString3'>results</a></span> = <span class='identifier'>writeMessagesAndReadResult</span>([<span class='identifier'><a name='14_50' href='MessageTransportTests.swift.html#13_37' title='usrString1'>message</a></span>])
+<span class=linenum>0015</span>            
+<span class=linenum>0016</span>            <span class='keyword'>guard</span> <span class='identifier'><a name='16_14' href='MessageTransportTests.swift.html#14_12' title='usrString1'>results</a></span>.<span class='identifier'>count</span> == <span class='number'>1</span> <span class='keyword'>else</span> {
+<span class=linenum>0017</span>                <span class='keyword'>return</span> <span class='keyword'>nil</span>
+<span class=linenum>0018</span>            }
+<span class=linenum>0019</span>            
+<span class=linenum>0020</span>            <span class='keyword'>return</span> <span class='identifier'><a name='20_15' href='MessageTransportTests.swift.html#14_12' title='usrString1'>results</a></span>[<span class='number'>0</span>]
+<span class=linenum>0021</span>        }
+<span class=linenum>0022</span>        
+<span class=linenum>0023</span>        <span class='keyword'>func</span> <span class='identifier'><a name='23_9' title='usrString3'>writeMessagesAndReadResult</a></span>(<span class='keyword'>_</span> <span class='identifier'><a name='23_38' title='usrString3'>messages</a></span>: [<span class='typeidentifier'>String</span>], <span class='identifier'><a name='23_58' title='usrString3'>resultCount</a></span>: <span class='typeidentifier'>Int</span> = <span class='number'>1</span>) -> [<span class='typeidentifier'>Data</span>] {
+<span class=linenum>0024</span>            <span class='keyword'>let</span> <span class='identifier'><a name='24_12' title='usrString3'>dataTransport</a></span> = <span class='identifier'>MockDataTransport</span>()
+<span class=linenum>0025</span>            
+<span class=linenum>0026</span>            <span class='keyword'>let</span> <span class='identifier'><a name='26_12' title='usrString3'>transport</a></span> = <span class='identifier'>MessageTransport</span>(<span class='identifier'>dataTransport</span>: <span class='identifier'><a name='26_56' href='MessageTransportTests.swift.html#24_12' title='usrString1'>dataTransport</a></span>)
+<span class=linenum>0027</span>            
+<span class=linenum>0028</span>            <span class='keyword'>var</span> <span class='identifier'><a name='28_12' title='usrString3'>receivedData</a></span>: [<span class='typeidentifier'>Data</span>] = []
+<span class=linenum>0029</span>    
+<span class=linenum>0030</span>            <span class='keyword'>let</span> <span class='identifier'><a name='30_12' title='usrString3'>exp</a></span> = <span class='identifier'>XCTestExpectation</span>(<span class='identifier'>description</span>: <span class='string'>"Message Content"</span>)
+<span class=linenum>0031</span>            <span class='identifier'><a name='31_8' href='MessageTransportTests.swift.html#30_12' title='usrString1'>exp</a></span>.<span class='identifier'>expectedFulfillmentCount</span> = <span class='identifier'><a name='31_39' href='MessageTransportTests.swift.html#23_58' title='usrString1'>resultCount</a></span>
+<span class=linenum>0032</span>    
+<span class=linenum>0033</span>            <span class='identifier'><a name='33_8' href='MessageTransportTests.swift.html#26_12' title='usrString1'>transport</a></span>.<span class='identifier'>dataHandler</span> = { (<span class='identifier'><a name='33_35' title='usrString3'>data</a></span>) <span class='keyword'>in</span>
+<span class=linenum>0034</span>                <span class='identifier'><a name='34_12' href='MessageTransportTests.swift.html#28_12' title='usrString1'>receivedData</a></span>.<span class='identifier'>append</span>(<span class='identifier'><a name='34_32' href='MessageTransportTests.swift.html#33_35' title='usrString1'>data</a></span>)
+<span class=linenum>0035</span>    
+<span class=linenum>0036</span>                <span class='identifier'><a name='36_12' href='MessageTransportTests.swift.html#30_12' title='usrString1'>exp</a></span>.<span class='identifier'>fulfill</span>()
+<span class=linenum>0037</span>            }
+<span class=linenum>0038</span>    
+<span class=linenum>0039</span>            <span class='keyword'>for</span> <span class='identifier'><a name='39_12' title='usrString3'>message</a></span> <span class='keyword'>in</span> <span class='identifier'><a name='39_23' href='MessageTransportTests.swift.html#23_38' title='usrString1'>messages</a></span> {
+<span class=linenum>0040</span>                <span class='identifier'><a name='40_12' href='MessageTransportTests.swift.html#24_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'>mockRead</span>(<span class='identifier'><a name='40_35' href='MessageTransportTests.swift.html#39_12' title='usrString1'>message</a></span>)
+<span class=linenum>0041</span>            }
+<span class=linenum>0042</span>    
+<span class=linenum>0043</span>            <span class='identifier'>wait</span>(<span class='identifier'>for</span>: [<span class='identifier'><a name='43_19' href='MessageTransportTests.swift.html#30_12' title='usrString1'>exp</a></span>], <span class='identifier'>timeout</span>: <span class='number'>1.0</span>)
+<span class=linenum>0044</span>    
+<span class=linenum>0045</span>            <span class='keyword'>return</span> <span class='identifier'><a name='45_15' href='MessageTransportTests.swift.html#28_12' title='usrString1'>receivedData</a></span>
+<span class=linenum>0046</span>        }
+<span class=linenum>0047</span>        
+<span class=linenum>0048</span>        <span class='keyword'>func</span> <span class='identifier'><a name='48_9' title='usrString3'>testBasicMessageDecode</a></span>() {
+<span class=linenum>0049</span>            <span class='keyword'>let</span> <span class='identifier'><a name='49_12' title='usrString3'>content</a></span> = <span class='string'>"{\"jsonrpc\":\"2.0\",\"params\":\"Something\"}"</span>
+<span class=linenum>0050</span>            <span class='keyword'>let</span> <span class='identifier'><a name='50_12' title='usrString3'>message</a></span> = <span class='string'>"Content-Length: 38\r\n\r\n</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'><a name='50_51' href='MessageTransportTests.swift.html#49_12' title='usrString1'>content</a></span><span class='string_interpolation_anchor'>)</span><span class='string'>"</span>
+<span class=linenum>0051</span>            
+<span class=linenum>0052</span>            <span class='keyword'>let</span> <span class='identifier'><a name='52_12' title='usrString3'>data</a></span> = <span class='identifier'>writeMessageAndReadResult</span>(<span class='identifier'><a name='52_45' href='MessageTransportTests.swift.html#50_12' title='usrString1'>message</a></span>)
+<span class=linenum>0053</span>            
+<span class=linenum>0054</span>            <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='54_23' href='MessageTransportTests.swift.html#52_12' title='usrString1'>data</a></span>, <span class='identifier'><a name='54_29' href='MessageTransportTests.swift.html#49_12' title='usrString1'>content</a></span>.<span class='identifier'>data</span>(<span class='identifier'>using</span>: .<span class='identifier'>utf8</span>)!)
+<span class=linenum>0055</span>        }
+<span class=linenum>0056</span>        
+<span class=linenum>0057</span>        <span class='keyword'>func</span> <span class='identifier'><a name='57_9' title='usrString3'>testMultiHeaderMessage</a></span>() {
+<span class=linenum>0058</span>            <span class='keyword'>let</span> <span class='identifier'><a name='58_12' title='usrString3'>content</a></span> = <span class='string'>"{\"jsonrpc\":\"2.0\",\"params\":\"Something\"}"</span>
+<span class=linenum>0059</span>            <span class='keyword'>let</span> <span class='identifier'><a name='59_12' title='usrString3'>header1</a></span> = <span class='string'>"Content-Length: 38\r\n"</span>
+<span class=linenum>0060</span>            <span class='keyword'>let</span> <span class='identifier'><a name='60_12' title='usrString3'>header2</a></span> = <span class='string'>"Another-Header: Something\r\n"</span>
+<span class=linenum>0061</span>            <span class='keyword'>let</span> <span class='identifier'><a name='61_12' title='usrString3'>header3</a></span> = <span class='string'>"And-Another: third\r\n"</span>
+<span class=linenum>0062</span>            <span class='keyword'>let</span> <span class='identifier'><a name='62_12' title='usrString3'>message</a></span> = <span class='identifier'><a name='62_22' href='MessageTransportTests.swift.html#59_12' title='usrString1'>header1</a></span> + <span class='identifier'><a name='62_32' href='MessageTransportTests.swift.html#60_12' title='usrString1'>header2</a></span> + <span class='identifier'><a name='62_42' href='MessageTransportTests.swift.html#61_12' title='usrString1'>header3</a></span> + <span class='string'>"\r\n"</span> + <span class='identifier'><a name='62_61' href='MessageTransportTests.swift.html#58_12' title='usrString1'>content</a></span>
+<span class=linenum>0063</span>            
+<span class=linenum>0064</span>            <span class='keyword'>let</span> <span class='identifier'><a name='64_12' title='usrString3'>data</a></span> = <span class='identifier'>writeMessageAndReadResult</span>(<span class='identifier'><a name='64_45' href='MessageTransportTests.swift.html#62_12' title='usrString1'>message</a></span>)
+<span class=linenum>0065</span>            
+<span class=linenum>0066</span>            <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='66_23' href='MessageTransportTests.swift.html#64_12' title='usrString1'>data</a></span>, <span class='identifier'><a name='66_29' href='MessageTransportTests.swift.html#58_12' title='usrString1'>content</a></span>.<span class='identifier'>data</span>(<span class='identifier'>using</span>: .<span class='identifier'>utf8</span>)!)
+<span class=linenum>0067</span>        }
+<span class=linenum>0068</span>        
+<span class=linenum>0069</span>        <span class='keyword'>func</span> <span class='identifier'><a name='69_9' title='usrString3'>testMultiReadMessage</a></span>() {
+<span class=linenum>0070</span>            <span class='keyword'>let</span> <span class='identifier'><a name='70_12' title='usrString3'>messages</a></span> = [
+<span class=linenum>0071</span>                <span class='string'>"Content-Le"</span>,
+<span class=linenum>0072</span>                <span class='string'>"ngth: 30\r\n"</span>,
+<span class=linenum>0073</span>                <span class='string'>"Header2: h"</span>,
+<span class=linenum>0074</span>                <span class='string'>"llo\r\n\r\n"</span>,
+<span class=linenum>0075</span>                <span class='string'>"abcdefghij"</span>,
+<span class=linenum>0076</span>                <span class='string'>"klmnopqurs"</span>,
+<span class=linenum>0077</span>                <span class='string'>"tuvwxyz123"</span>
+<span class=linenum>0078</span>            ]
+<span class=linenum>0079</span>            
+<span class=linenum>0080</span>            <span class='keyword'>let</span> <span class='identifier'><a name='80_12' title='usrString3'>content</a></span> = <span class='string'>"abcdefghijklmnopqurstuvwxyz123"</span>
+<span class=linenum>0081</span>    
+<span class=linenum>0082</span>            <span class='keyword'>let</span> <span class='identifier'><a name='82_12' title='usrString3'>results</a></span> = <span class='identifier'>writeMessagesAndReadResult</span>(<span class='identifier'><a name='82_49' href='MessageTransportTests.swift.html#70_12' title='usrString1'>messages</a></span>)
+<span class=linenum>0083</span>    
+<span class=linenum>0084</span>            <span class='keyword'>if</span> <span class='identifier'><a name='84_11' href='MessageTransportTests.swift.html#82_12' title='usrString1'>results</a></span>.<span class='identifier'>count</span> != <span class='number'>1</span> {
+<span class=linenum>0085</span>                <span class='identifier'>XCTFail</span>()
+<span class=linenum>0086</span>                <span class='keyword'>return</span>
+<span class=linenum>0087</span>            }
+<span class=linenum>0088</span>    
+<span class=linenum>0089</span>            <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='89_23' href='MessageTransportTests.swift.html#82_12' title='usrString1'>results</a></span>[<span class='number'>0</span>], <span class='identifier'><a name='89_35' href='MessageTransportTests.swift.html#80_12' title='usrString1'>content</a></span>.<span class='identifier'>data</span>(<span class='identifier'>using</span>: .<span class='identifier'>utf8</span>)!)
+<span class=linenum>0090</span>        }
+<span class=linenum>0091</span>        
+<span class=linenum>0092</span>        <span class='keyword'>func</span> <span class='identifier'><a name='92_9' title='usrString3'>testMultiReadMessageWithSecondMessageInARead</a></span>() {
+<span class=linenum>0093</span>            <span class='keyword'>let</span> <span class='identifier'><a name='93_12' title='usrString3'>messages</a></span> = [
+<span class=linenum>0094</span>                <span class='string'>"Content-Length: 6\r\n"</span>,
+<span class=linenum>0095</span>                <span class='string'>"Another-Header: hello\r\n\r\n"</span>,
+<span class=linenum>0096</span>                <span class='string'>"abcdefContent-Length: 10\r\n"</span>,
+<span class=linenum>0097</span>                <span class='string'>"\r\nabcdefghij"</span>,
+<span class=linenum>0098</span>            ]
+<span class=linenum>0099</span>            
+<span class=linenum>0100</span>            <span class='keyword'>let</span> <span class='identifier'><a name='100_12' title='usrString3'>results</a></span> = <span class='identifier'>writeMessagesAndReadResult</span>(<span class='identifier'><a name='100_49' href='MessageTransportTests.swift.html#93_12' title='usrString1'>messages</a></span>, <span class='identifier'>resultCount</span>: <span class='number'>2</span>)
+<span class=linenum>0101</span>    
+<span class=linenum>0102</span>            <span class='keyword'>if</span> <span class='identifier'><a name='102_11' href='MessageTransportTests.swift.html#100_12' title='usrString1'>results</a></span>.<span class='identifier'>count</span> != <span class='number'>2</span> {
+<span class=linenum>0103</span>                <span class='identifier'>XCTFail</span>()
+<span class=linenum>0104</span>                <span class='keyword'>return</span>
+<span class=linenum>0105</span>            }
+<span class=linenum>0106</span>    
+<span class=linenum>0107</span>            <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='107_23' href='MessageTransportTests.swift.html#100_12' title='usrString1'>results</a></span>[<span class='number'>0</span>], <span class='string'>"abcdef"</span>.<span class='identifier'>data</span>(<span class='identifier'>using</span>: .<span class='identifier'>utf8</span>)!)
+<span class=linenum>0108</span>            <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='108_23' href='MessageTransportTests.swift.html#100_12' title='usrString1'>results</a></span>[<span class='number'>1</span>], <span class='string'>"abcdefghij"</span>.<span class='identifier'>data</span>(<span class='identifier'>using</span>: .<span class='identifier'>utf8</span>)!)
+<span class=linenum>0109</span>        }
+<span class=linenum>0110</span>        
+<span class=linenum>0111</span>        <span class='keyword'>func</span> <span class='identifier'><a name='111_9' title='usrString3'>testDecodeMessagePerformance</a></span>() {
+<span class=linenum>0112</span>            <span class='keyword'>let</span> <span class='identifier'><a name='112_12' title='usrString3'>dataTransport</a></span> = <span class='identifier'>MockDataTransport</span>()
+<span class=linenum>0113</span>            
+<span class=linenum>0114</span>            <span class='keyword'>let</span> <span class='identifier'><a name='114_12' title='usrString3'>transport</a></span> = <span class='identifier'>MessageTransport</span>(<span class='identifier'>dataTransport</span>: <span class='identifier'><a name='114_56' href='MessageTransportTests.swift.html#112_12' title='usrString1'>dataTransport</a></span>)
+<span class=linenum>0115</span>            
+<span class=linenum>0116</span>            <span class='keyword'>var</span> <span class='identifier'><a name='116_12' title='usrString3'>receiveCount</a></span>: <span class='typeidentifier'>Int</span> = <span class='number'>0</span>
+<span class=linenum>0117</span>            
+<span class=linenum>0118</span>            <span class='identifier'><a name='118_8' href='MessageTransportTests.swift.html#114_12' title='usrString1'>transport</a></span>.<span class='identifier'>dataHandler</span> = { (<span class='identifier'><a name='118_35' title='usrString3'>data</a></span>) <span class='keyword'>in</span>
+<span class=linenum>0119</span>                <span class='identifier'><a name='119_12' href='MessageTransportTests.swift.html#116_12' title='usrString1'>receiveCount</a></span> += <span class='number'>1</span>
+<span class=linenum>0120</span>            }
+<span class=linenum>0121</span>            
+<span class=linenum>0122</span>            <span class='keyword'>let</span> <span class='identifier'><a name='122_12' title='usrString3'>content</a></span> = <span class='string'>"{\"jsonrpc\":\"2.0\",\"params\":\"Something\"}"</span>
+<span class=linenum>0123</span>            <span class='keyword'>let</span> <span class='identifier'><a name='123_12' title='usrString3'>message</a></span> = <span class='string'>"Content-Length: 38\r\n\r\n</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'><a name='123_51' href='MessageTransportTests.swift.html#122_12' title='usrString1'>content</a></span><span class='string_interpolation_anchor'>)</span><span class='string'>"</span>
+<span class=linenum>0124</span>            
+<span class=linenum>0125</span>            <span class='identifier'>measure</span> {
+<span class=linenum>0126</span>                <span class='keyword'>for</span> <span class='keyword'>_</span> <span class='keyword'>in</span> <span class='number'>0</span>..&lt;<span class='number'>1000</span> {
+<span class=linenum>0127</span>                    <span class='identifier'><a name='127_16' href='MessageTransportTests.swift.html#112_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'>mockRead</span>(<span class='identifier'><a name='127_39' href='MessageTransportTests.swift.html#123_12' title='usrString1'>message</a></span>)
+<span class=linenum>0128</span>                }
+<span class=linenum>0129</span>            }
+<span class=linenum>0130</span>            
+<span class=linenum>0131</span>            <span class='identifier'>XCTAssert</span>(<span class='identifier'><a name='131_18' href='MessageTransportTests.swift.html#116_12' title='usrString1'>receiveCount</a></span> >= <span class='number'>1000</span>)
+<span class=linenum>0132</span>        }
+<span class=linenum>0133</span>    
+<span class=linenum>0134</span>        <span class='keyword'>func</span> <span class='identifier'><a name='134_9' title='usrString3'>testTwoFullMessagesInOneRead</a></span>() {
+<span class=linenum>0135</span>            <span class='keyword'>let</span> <span class='identifier'><a name='135_12' title='usrString3'>messages</a></span> = [
+<span class=linenum>0136</span>                <span class='string'>"Content-Length: 6\r\n\r\nabcdefContent-Length: 10\r\n\r\nabcdefghij"</span>
+<span class=linenum>0137</span>            ]
+<span class=linenum>0138</span>    
+<span class=linenum>0139</span>            <span class='keyword'>let</span> <span class='identifier'><a name='139_12' title='usrString3'>results</a></span> = <span class='identifier'>writeMessagesAndReadResult</span>(<span class='identifier'><a name='139_49' href='MessageTransportTests.swift.html#135_12' title='usrString1'>messages</a></span>, <span class='identifier'>resultCount</span>: <span class='number'>2</span>)
+<span class=linenum>0140</span>    
+<span class=linenum>0141</span>            <span class='keyword'>if</span> <span class='identifier'><a name='141_11' href='MessageTransportTests.swift.html#139_12' title='usrString1'>results</a></span>.<span class='identifier'>count</span> != <span class='number'>2</span> {
+<span class=linenum>0142</span>                <span class='identifier'>XCTFail</span>()
+<span class=linenum>0143</span>                <span class='keyword'>return</span>
+<span class=linenum>0144</span>            }
+<span class=linenum>0145</span>    
+<span class=linenum>0146</span>            <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='146_23' href='MessageTransportTests.swift.html#139_12' title='usrString1'>results</a></span>[<span class='number'>0</span>], <span class='string'>"abcdef"</span>.<span class='identifier'>data</span>(<span class='identifier'>using</span>: .<span class='identifier'>utf8</span>)!)
+<span class=linenum>0147</span>            <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='147_23' href='MessageTransportTests.swift.html#139_12' title='usrString1'>results</a></span>[<span class='number'>1</span>], <span class='string'>"abcdefghij"</span>.<span class='identifier'>data</span>(<span class='identifier'>using</span>: .<span class='identifier'>utf8</span>)!)
+<span class=linenum>0148</span>        }
+<span class=linenum>0149</span>    }
+<span class=linenum>0150</span>    

@@ -1,0 +1,40 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClient/JSONRPC/DataTransport.swift</h3><pre><span class=linenum>0001</span>    <span class='comment'>//
+<span class=linenum>0002</span>    </span><span class='comment'>//  DataTransport.swift
+<span class=linenum>0003</span>    </span><span class='comment'>//  SwiftLSPClient
+<span class=linenum>0004</span>    </span><span class='comment'>//
+<span class=linenum>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2018-10-15.
+<span class=linenum>0006</span>    </span><span class='comment'>//  Copyright © 2018 Chime Systems. All rights reserved.
+<span class=linenum>0007</span>    </span><span class='comment'>//
+<span class=linenum>0008</span>    </span>
+<span class=linenum>0009</span>    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
+<span class=linenum>0010</span>    
+<span class=linenum>0011</span>    <span class='builtin'>public</span> <span class='keyword'>protocol</span> <span class='identifier'><a name='11_16' href='#' title='usrString2' onclick='return expand(this);'>DataTransport<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="MessageTransport.swift.html#12_31"; event.stopPropagation(); return false;'>MessageTransport.swift:12</td><td><pre>    private let dataTransport: DataTransport</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="MessageTransport.swift.html#13_21"; event.stopPropagation(); return false;'>MessageTransport.swift:13</td><td><pre>    var dataHandler: DataTransport.ReadHandler?</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="MessageTransport.swift.html#19_31"; event.stopPropagation(); return false;'>MessageTransport.swift:19</td><td><pre>    public init(dataTransport: DataTransport) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="MessageTransport.swift.html#155_28"; event.stopPropagation(); return false;'>MessageTransport.swift:155</td><td><pre>extension MessageTransport: DataTransport {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="MessageTransport.swift.html#162_54"; event.stopPropagation(); return false;'>MessageTransport.swift:162</td><td><pre>    public func setReaderHandler(_ handler: @escaping DataTransport.ReadHandler) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="StdioDataTransport.swift.html#11_33"; event.stopPropagation(); return false;'>StdioDataTransport.swift:11</td><td><pre>public class StdioDataTransport: DataTransport {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.swift.html#16_31"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:16</td><td><pre>    public init(dataTransport: DataTransport) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="ProtocolTransport.swift.html#48_43"; event.stopPropagation(); return false;'>ProtocolTransport.swift:48</td><td><pre>    public convenience init(dataTransport: DataTransport) {</pre></td></table></span></a></span> {
+<span class=linenum>0012</span>        <span class='keyword'>typealias</span> <span class='identifier'><a name='12_14' href='#' title='usrString2' onclick='return expand(this);'>ReadHandler<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="MessageTransport.swift.html#13_35"; event.stopPropagation(); return false;'>MessageTransport.swift:13</td><td><pre>    var dataHandler: DataTransport.ReadHandler?</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="MessageTransport.swift.html#162_68"; event.stopPropagation(); return false;'>MessageTransport.swift:162</td><td><pre>    public func setReaderHandler(_ handler: @escaping DataTransport.ReadHandler) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="StdioDataTransport.swift.html#15_21"; event.stopPropagation(); return false;'>StdioDataTransport.swift:15</td><td><pre>    var readHandler: ReadHandler?</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="DataTransport.swift.html#15_47"; return false;'>DataTransport.swift:15</td><td><pre>    func setReaderHandler(_ handler: @escaping ReadHandler)</pre></td></table></span></a></span> = (<span class='typeidentifier'>Data</span>) -> <span class='typeidentifier'>Void</span>
+<span class=linenum>0013</span>        
+<span class=linenum>0014</span>        <span class='keyword'>func</span> <span class='identifier'><a name='14_9' href='#' title='usrString2' onclick='return expand(this);'>write<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="MessageTransport.swift.html#159_22"; event.stopPropagation(); return false;'>MessageTransport.swift:159</td><td><pre>        dataTransport.write(messageData)</pre></td></table></span></a></span>(<span class='keyword'>_</span> <span class='identifier'><a name='14_17' title='usrString2' onclick='return expand(this);'>data<span class='references'><table></table></span></a></span>: <span class='typeidentifier'>Data</span>)
+<span class=linenum>0015</span>        <span class='keyword'>func</span> <span class='identifier'><a name='15_9' href='#' title='usrString2' onclick='return expand(this);'>setReaderHandler<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="MessageTransport.swift.html#27_22"; event.stopPropagation(); return false;'>MessageTransport.swift:27</td><td><pre>        dataTransport.setReaderHandler({ [unowned self] (data) in</pre></td></table></span></a></span>(<span class='keyword'>_</span> <span class='identifier'><a name='15_28' title='usrString2' onclick='return expand(this);'>handler<span class='references'><table></table></span></a></span>: <span class='builtin'>@escaping</span> <span class='typeidentifier'><a name='15_47' href='DataTransport.swift.html#12_14' title='usrString1'>ReadHandler</a></span>)
+<span class=linenum>0016</span>    
+<span class=linenum>0017</span>        <span class='keyword'>func</span> <span class='identifier'><a name='17_9' href='#' title='usrString2' onclick='return expand(this);'>close<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="MessageTransport.swift.html#167_22"; event.stopPropagation(); return false;'>MessageTransport.swift:167</td><td><pre>        dataTransport.close()</pre></td></table></span></a></span>()
+<span class=linenum>0018</span>    }
+<span class=linenum>0019</span>    

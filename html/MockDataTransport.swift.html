@@ -1,0 +1,61 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClientTests/MockDataTransport.swift</h3><pre><span class=linenum>0001</span>    <span class='comment'>//
+<span class=linenum>0002</span>    </span><span class='comment'>//  MockDataTransport.swift
+<span class=linenum>0003</span>    </span><span class='comment'>//  SwiftLSPClientTests
+<span class=linenum>0004</span>    </span><span class='comment'>//
+<span class=linenum>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2019-02-07.
+<span class=linenum>0006</span>    </span><span class='comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
+<span class=linenum>0007</span>    </span><span class='comment'>//
+<span class=linenum>0008</span>    </span>
+<span class=linenum>0009</span>    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
+<span class=linenum>0010</span>    <span class='keyword'>import</span> <span class='identifier'>SwiftLSPClient</span>
+<span class=linenum>0011</span>    
+<span class=linenum>0012</span>    <span class='keyword'>class</span> <span class='identifier'><a name='12_6' title='usrString3'>MockDataTransport</a></span>: <span class='typeidentifier'>DataTransport</span> {
+<span class=linenum>0013</span>        <span class='keyword'>var</span> <span class='identifier'><a name='13_8' title='usrString3'>writtenData</a></span>: [<span class='typeidentifier'>Data</span>]
+<span class=linenum>0014</span>        <span class='keyword'>var</span> <span class='identifier'><a name='14_8' title='usrString3'>readHandler</a></span>: <span class='typeidentifier'>ReadHandler</span>?
+<span class=linenum>0015</span>    
+<span class=linenum>0016</span>        <span class='keyword'>init</span>() {
+<span class=linenum>0017</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='17_13' href='MockDataTransport.swift.html#13_8' title='usrString1'>writtenData</a></span> = []
+<span class=linenum>0018</span>            <span class='keyword'>self</span>.<span class='identifier'>readHandler</span> = <span class='keyword'>nil</span>
+<span class=linenum>0019</span>        }
+<span class=linenum>0020</span>    
+<span class=linenum>0021</span>        <span class='keyword'>func</span> <span class='identifier'><a name='21_9' title='usrString3'>write</a></span>(<span class='keyword'>_</span> <span class='identifier'><a name='21_17' title='usrString3'>data</a></span>: <span class='typeidentifier'>Data</span>) {
+<span class=linenum>0022</span>            <span class='identifier'><a name='22_8' href='MockDataTransport.swift.html#13_8' title='usrString1'>writtenData</a></span>.<span class='identifier'>append</span>(<span class='identifier'><a name='22_27' href='MockDataTransport.swift.html#21_17' title='usrString1'>data</a></span>)
+<span class=linenum>0023</span>        }
+<span class=linenum>0024</span>    
+<span class=linenum>0025</span>        <span class='keyword'>func</span> <span class='identifier'><a name='25_9' title='usrString3'>setReaderHandler</a></span>(<span class='keyword'>_</span> <span class='identifier'><a name='25_28' title='usrString3'>handler</a></span>: <span class='builtin'>@escaping</span> <span class='typeidentifier'>ReadHandler</span>) {
+<span class=linenum>0026</span>            <span class='identifier'>readHandler</span> = <span class='identifier'><a name='26_22' href='MockDataTransport.swift.html#25_28' title='usrString1'>handler</a></span>
+<span class=linenum>0027</span>        }
+<span class=linenum>0028</span>    
+<span class=linenum>0029</span>        <span class='keyword'>func</span> <span class='identifier'><a name='29_9' title='usrString3'>close</a></span>() {
+<span class=linenum>0030</span>        }
+<span class=linenum>0031</span>    
+<span class=linenum>0032</span>        <span class='keyword'>func</span> <span class='identifier'><a name='32_9' title='usrString3'>mockRead</a></span>(<span class='keyword'>_</span> <span class='identifier'><a name='32_20' title='usrString3'>data</a></span>: <span class='typeidentifier'>Data</span>) {
+<span class=linenum>0033</span>            <span class='keyword'>self</span>.<span class='identifier'>readHandler</span>?(<span class='identifier'><a name='33_26' href='MockDataTransport.swift.html#32_20' title='usrString1'>data</a></span>)
+<span class=linenum>0034</span>        }
+<span class=linenum>0035</span>    
+<span class=linenum>0036</span>        <span class='keyword'>func</span> <span class='identifier'><a name='36_9' title='usrString3'>mockRead</a></span>(<span class='keyword'>_</span> <span class='identifier'><a name='36_20' title='usrString3'>string</a></span>: <span class='typeidentifier'>String</span>) {
+<span class=linenum>0037</span>            <span class='identifier'><a name='37_8' href='MockDataTransport.swift.html#32_9' title='usrString1'>mockRead</a></span>(<span class='identifier'><a name='37_17' href='MockDataTransport.swift.html#36_20' title='usrString1'>string</a></span>.<span class='identifier'>data</span>(<span class='identifier'>using</span>: .<span class='identifier'>utf8</span>)!)
+<span class=linenum>0038</span>        }
+<span class=linenum>0039</span>    }
+<span class=linenum>0040</span>    

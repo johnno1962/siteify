@@ -1,0 +1,38 @@
+<html><head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="siteify.css">
+<script>
+
+var lastlink;
+
+function expand(a) {
+    if ( a.children[0].style.display != "block" ) {
+        if ( lastlink )
+            lastlink.style.display = "none";
+        a.children[0].style.display = "block";
+        lastlink = a.children[0];
+    }
+    else {
+        a.children[0].style.display = "none";
+        lastlink = null;
+    }
+    return false;
+}
+
+</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClient/Types/Window/MessageActionItem.swift</h3><pre><span class=linenum>0001</span>    <span class='comment'>//
+<span class=linenum>0002</span>    </span><span class='comment'>//  MessageActionItem.swift
+<span class=linenum>0003</span>    </span><span class='comment'>//  SwiftLSPClient
+<span class=linenum>0004</span>    </span><span class='comment'>//
+<span class=linenum>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2019-09-02.
+<span class=linenum>0006</span>    </span><span class='comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
+<span class=linenum>0007</span>    </span><span class='comment'>//
+<span class=linenum>0008</span>    </span>
+<span class=linenum>0009</span>    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
+<span class=linenum>0010</span>    
+<span class=linenum>0011</span>    <span class='builtin'>public</span> <span class='keyword'>struct</span> <span class='identifier'><a name='11_14' href='#' title='usrString2' onclick='return expand(this);'>MessageActionItem<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="ShowMessageRequest.swift.html#14_25"; event.stopPropagation(); return false;'>ShowMessageRequest.swift:14</td><td><pre>    public let actions: [MessageActionItem]?</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="MessageActionItem.swift.html#15_10"; return false;'>MessageActionItem.swift:15</td><td><pre>extension MessageActionItem: Codable {</pre></td></table></span></a></span> {
+<span class=linenum>0012</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='12_15' title='usrString2' onclick='return expand(this);'>title<span class='references'><table></table></span></a></span>: <span class='typeidentifier'>String</span>
+<span class=linenum>0013</span>    }
+<span class=linenum>0014</span>    
+<span class=linenum>0015</span>    <span class='keyword'>extension</span> <span class='typeidentifier'><a name='15_10' href='MessageActionItem.swift.html#11_14' title='usrString1'>MessageActionItem</a></span>: <span class='typeidentifier'>Codable</span> {
+<span class=linenum>0016</span>    }
+<span class=linenum>0017</span>    
