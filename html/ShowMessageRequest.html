@@ -19,28 +19,28 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><pre>0001    <span class='comment'><a name='1_0'>//
-0002    </a></span><span class='comment'><a name='2_0'>//  ShowMessageRequest.swift
-0003    </a></span><span class='comment'><a name='3_0'>//  SwiftLSPClient
-0004    </a></span><span class='comment'><a name='4_0'>//
-0005    </a></span><span class='comment'><a name='5_0'>//  Created by Matt Massicotte on 2019-09-01.
-0006    </a></span><span class='comment'><a name='6_0'>//  Copyright © 2019 Chime Systems. All rights reserved.
-0007    </a></span><span class='comment'><a name='7_0'>//
-0008    </a></span>
-0009    <span class='keyword'><a name='9_0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
-0010    
-0011    <span class='builtin'><a name='11_0'>public</a></span> <span class='keyword'><a name='11_7'>struct</a></span> <span class='identifier'><a name='11_14' href='#' title='usrString2' onclick='return expand(this);'>ShowMessageRequestParams<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.html#51_80"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:51</td><td><pre>            decodeNotification(named: notificationMethod, data: data) { (value: ShowMessageRequestParams) in</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="LanguageServer.html#81_85"; event.stopPropagation(); return false;'>LanguageServer.swift:81</td><td><pre>    func languageServer(_ server: LanguageServer, showMessageRequest messageRequest: ShowMessageRequestParams)</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="ShowMessageRequest.html#17_10"; return false;'>ShowMessageRequest.swift:17</td><td><pre>extension ShowMessageRequestParams: Codable {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="ShowMessageRequest.html#20_10"; return false;'>ShowMessageRequest.swift:20</td><td><pre>extension ShowMessageRequestParams: CustomStringConvertible {</pre></td></table></span></a></span> {
-0012        <span class='builtin'><a name='12_4'>public</a></span> <span class='keyword'><a name='12_11'>let</a></span> <span class='identifier'><a name='12_15' href='#' title='usrString2' onclick='return expand(this);'>type<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="ShowMessageRequest.html#22_18"; return false;'>ShowMessageRequest.swift:22</td><td><pre>        return "\(type): \(message)"</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='12_21'>MessageType</a></span>
-0013        <span class='builtin'><a name='13_4'>public</a></span> <span class='keyword'><a name='13_11'>let</a></span> <span class='identifier'><a name='13_15' href='#' title='usrString2' onclick='return expand(this);'>message<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="ShowMessageRequest.html#22_27"; return false;'>ShowMessageRequest.swift:22</td><td><pre>        return "\(type): \(message)"</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='13_24'>String</a></span>
-0014        <span class='builtin'><a name='14_4'>public</a></span> <span class='keyword'><a name='14_11'>let</a></span> <span class='identifier'><a name='14_15' title='usrString2' onclick='return expand(this);'>actions<span class='references'><table></table></span></a></span>: [<span class='typeidentifier'><a name='14_25'>MessageActionItem</a></span>]?
-0015    }
-0016    
-0017    <span class='keyword'><a name='17_0'>extension</a></span> <span class='typeidentifier'><a name='17_10'>ShowMessageRequestParams</a></span>: <span class='typeidentifier'><a name='17_36'>Codable</a></span> {
-0018    }
-0019    
-0020    <span class='keyword'><a name='20_0'>extension</a></span> <span class='typeidentifier'><a name='20_10'>ShowMessageRequestParams</a></span>: <span class='typeidentifier'><a name='20_36'>CustomStringConvertible</a></span> {
-0021        <span class='builtin'><a name='21_4'>public</a></span> <span class='keyword'><a name='21_11'>var</a></span> <span class='identifier'><a name='21_15' title='usrString2' onclick='return expand(this);'>description<span class='references'><table></table></span></a></span>: <span class='typeidentifier'><a name='21_28'>String</a></span> {
-0022            <span class='keyword'><a name='22_8'>return</a></span> <span class='string'><a name='22_15'>"</a></span>\<span class='string_interpolation_anchor'><a name='22_17'>(</a></span><span class='identifier'><a name='22_18' href='ShowMessageRequest.html#12_15' title='usrString1'>type</a></span><span class='string_interpolation_anchor'><a name='22_22'>)</a></span><span class='string'><a name='22_23'>: </a></span>\<span class='string_interpolation_anchor'><a name='22_26'>(</a></span><span class='identifier'><a name='22_27' href='ShowMessageRequest.html#13_15' title='usrString1'>message</a></span><span class='string_interpolation_anchor'><a name='22_34'>)</a></span><span class='string'><a name='22_35'>"</a></span>
-0023        }
-0024    }
-0025    
+</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClient/Types/Window/ShowMessageRequest.swift</h3><pre><span class=lineno>0001</span>    <span class='comment'>//
+<span class=lineno>0002</span>    </span><span class='comment'>//  ShowMessageRequest.swift
+<span class=lineno>0003</span>    </span><span class='comment'>//  SwiftLSPClient
+<span class=lineno>0004</span>    </span><span class='comment'>//
+<span class=lineno>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2019-09-01.
+<span class=lineno>0006</span>    </span><span class='comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
+<span class=lineno>0007</span>    </span><span class='comment'>//
+<span class=lineno>0008</span>    </span>
+<span class=lineno>0009</span>    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
+<span class=lineno>0010</span>    
+<span class=lineno>0011</span>    <span class='builtin'>public</span> <span class='keyword'>struct</span> <span class='identifier'><a name='11_14' href='#' title='usrString2' onclick='return expand(this);'>ShowMessageRequestParams<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.html#51_80"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:51</td><td><pre>            decodeNotification(named: notificationMethod, data: data) { (value: ShowMessageRequestParams) in</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="LanguageServer.html#81_85"; event.stopPropagation(); return false;'>LanguageServer.swift:81</td><td><pre>    func languageServer(_ server: LanguageServer, showMessageRequest messageRequest: ShowMessageRequestParams)</pre></td></table></span></a></span> {
+<span class=lineno>0012</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='12_15' title='usrString3'>type</a></span>: <span class='typeidentifier'>MessageType</span>
+<span class=lineno>0013</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='13_15' title='usrString3'>message</a></span>: <span class='typeidentifier'>String</span>
+<span class=lineno>0014</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='14_15' title='usrString3'>actions</a></span>: [<span class='typeidentifier'>MessageActionItem</span>]?
+<span class=lineno>0015</span>    }
+<span class=lineno>0016</span>    
+<span class=lineno>0017</span>    <span class='keyword'>extension</span> <span class='typeidentifier'>ShowMessageRequestParams</span>: <span class='typeidentifier'>Codable</span> {
+<span class=lineno>0018</span>    }
+<span class=lineno>0019</span>    
+<span class=lineno>0020</span>    <span class='keyword'>extension</span> <span class='typeidentifier'>ShowMessageRequestParams</span>: <span class='typeidentifier'>CustomStringConvertible</span> {
+<span class=lineno>0021</span>        <span class='builtin'>public</span> <span class='keyword'>var</span> <span class='identifier'><a name='21_15' title='usrString3'>description</a></span>: <span class='typeidentifier'>String</span> {
+<span class=lineno>0022</span>            <span class='keyword'>return</span> <span class='string'>"</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'><a name='22_18' href='ShowMessageRequest.html#12_15' title='usrString1'>type</a></span><span class='string_interpolation_anchor'>)</span><span class='string'>: </span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'><a name='22_27' href='ShowMessageRequest.html#13_15' title='usrString1'>message</a></span><span class='string_interpolation_anchor'>)</span><span class='string'>"</span>
+<span class=lineno>0023</span>        }
+<span class=lineno>0024</span>    }
+<span class=lineno>0025</span>    

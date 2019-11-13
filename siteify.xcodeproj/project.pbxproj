@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		BB8BD1EB1C7364E3001108DF /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1EA1C7364E3001108DF /* main.swift */; };
-		BB8BD1F31C736CF4001108DF /* LineGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1F11C736CF4001108DF /* LineGenerators.swift */; };
 		BB8BD1F41C736CF4001108DF /* SourceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1F21C736CF4001108DF /* SourceKit.swift */; };
 		BBD81FA51C73767A0060CF44 /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD81FA41C73767A0060CF44 /* SwiftRegex.swift */; };
 		BBD81FB01C73DE0B0060CF44 /* siteify in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB8BD1E71C7364E3001108DF /* siteify */; };
@@ -217,7 +216,6 @@
 				BBEF4C97236A9B6200109F9A /* Resources.swift in Sources */,
 				BBEF4C8D2366C8BB00109F9A /* Siteify.swift in Sources */,
 				BB8BD1F41C736CF4001108DF /* SourceKit.swift in Sources */,
-				BB8BD1F31C736CF4001108DF /* LineGenerators.swift in Sources */,
 				BBD81FA51C73767A0060CF44 /* SwiftRegex.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,7 +268,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -309,7 +307,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};

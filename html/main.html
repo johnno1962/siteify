@@ -19,24 +19,25 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><pre>0001    <span class='comment'><a name='1_0'>//
-0002    </a></span><span class='comment'><a name='2_0'>//  main.swift
-0003    </a></span><span class='comment'><a name='3_0'>//  siteify
-0004    </a></span><span class='comment'><a name='4_0'>//
-0005    </a></span><span class='comment'><a name='5_0'>//  Created by John Holdsworth on 16/02/2016.
-0006    </a></span><span class='comment'><a name='6_0'>//  Copyright © 2016 John Holdsworth. All rights reserved.
-0007    </a></span><span class='comment'><a name='7_0'>//
-0008    </a></span><span class='comment'><a name='8_0'>//  $Id: //depot/siteify/siteify/main.swift#39 $
-0009    </a></span><span class='comment'><a name='9_0'>//
-0010    </a></span><span class='comment'><a name='10_0'>//  Repo: </a></span><span class='url'><a href='https://github.com/johnno1962/siteify'>https://github.com/johnno1962/siteify</a></span><span class='comment'><a name='10_47'>
-0011    </a></span><span class='comment'><a name='11_0'>//
-0012    </a></span>
-0013    <span class='keyword'><a name='13_0'>import</a></span> <span class='identifier'><a name='13_7'>Cocoa</a></span>
-0014    <span class='keyword'><a name='14_0'>#if</a></span> <span class='id'><a name='14_4'>SWIFT_PACKAGE</a></span>
-0015    <span class='keyword'><a name='15_0'>import</a></span> <span class='identifier'><a name='15_7'>SourceKit</a></span>
-0016    <span class='keyword'><a name='16_0'>#endif</a></span>
-0017    
-0018    <span class='identifier'><a name='18_0' href='Siteify.html#84_13' title='usrString1'>Siteify</a></span>(<span class='identifier'><a name='18_8' href='Siteify.html#91_11' title='usrString1'>projectRoot</a></span>: <span class='string'><a name='18_21'>"."</a></span>).<span class='identifier'><a name='18_26' href='Siteify.html#130_16' title='usrString1'>generateSite</a></span>(<span class='identifier'><a name='18_39' href='Siteify.html#130_16' title='usrString1'>into</a></span>: <span class='string'><a name='18_45'>"html"</a></span>)
-0019    
-0020    <span class='identifier'><a name='20_0'>NSWorkspace</a></span>.<span class='identifier'><a name='20_12'>shared</a></span>.<span class='identifier'><a name='20_19'>open</a></span>(<span class='identifier'><a name='20_24'>URL</a></span>(<span class='identifier'><a name='20_28'>fileURLWithPath</a></span>: <span class='string'><a name='20_45'>"html/index.html"</a></span>))
-0021    
+</script></head><body><h3>siteify/main.swift</h3><pre><span class=lineno>0001</span>    <span class='comment'>//
+<span class=lineno>0002</span>    </span><span class='comment'>//  main.swift
+<span class=lineno>0003</span>    </span><span class='comment'>//  siteify
+<span class=lineno>0004</span>    </span><span class='comment'>//
+<span class=lineno>0005</span>    </span><span class='comment'>//  Created by John Holdsworth on 16/02/2016.
+<span class=lineno>0006</span>    </span><span class='comment'>//  Copyright © 2016 John Holdsworth. All rights reserved.
+<span class=lineno>0007</span>    </span><span class='comment'>//
+<span class=lineno>0008</span>    </span><span class='comment'>//  $Id: //depot/siteify/siteify/main.swift#40 $
+<span class=lineno>0009</span>    </span><span class='comment'>//
+<span class=lineno>0010</span>    </span><span class='comment'>//  Repo: </span><span class='url'><a href='https://github.com/johnno1962/siteify'>https://github.com/johnno1962/siteify</a></span><span class='comment'>
+<span class=lineno>0011</span>    </span><span class='comment'>//
+<span class=lineno>0012</span>    </span>
+<span class=lineno>0013</span>    <span class='keyword'>import</span> <span class='identifier'>Cocoa</span>
+<span class=lineno>0014</span>    <span class='keyword'>#if</span> <span class='id'>SWIFT_PACKAGE</span>
+<span class=lineno>0015</span>    <span class='keyword'>import</span> <span class='identifier'>SourceKit</span>
+<span class=lineno>0016</span>    <span class='keyword'>#endif</span>
+<span class=lineno>0017</span>    
+<span class=lineno>0018</span>    <span class='keyword'>let</span> <span class='identifier'><a name='18_4' href='#' title='usrString2' onclick='return expand(this);'>projectRoot<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="main.html#19_21"; return false;'>main.swift:19</td><td><pre>Siteify(projectRoot: projectRoot ?? ".").generateSite(into: "html")</pre></td></table></span></a></span> = <span class='identifier'>CommandLine</span>.<span class='identifier'>arguments</span>.<span class='identifier'>dropFirst</span>().<span class='identifier'>first</span>
+<span class=lineno>0019</span>    <span class='identifier'><a name='19_0' href='Siteify.html#84_13' title='usrString1'>Siteify</a></span>(<span class='identifier'><a name='19_8' href='Siteify.html#91_11' title='usrString1'>projectRoot</a></span>: <span class='identifier'><a name='19_21' href='main.html#18_4' title='usrString1'>projectRoot</a></span> ?? <span class='string'>"."</span>).<span class='identifier'><a name='19_41' href='Siteify.html#130_16' title='usrString1'>generateSite</a></span>(<span class='identifier'><a name='19_54' href='Siteify.html#130_16' title='usrString1'>into</a></span>: <span class='string'>"html"</span>)
+<span class=lineno>0020</span>    
+<span class=lineno>0021</span>    <span class='identifier'>NSWorkspace</span>.<span class='identifier'>shared</span>.<span class='identifier'>open</span>(<span class='identifier'>URL</span>(<span class='identifier'>fileURLWithPath</span>: <span class='string'>"html/index.html"</span>))
+<span class=lineno>0022</span>    

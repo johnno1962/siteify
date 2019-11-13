@@ -19,38 +19,206 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><pre>0001    <span class='comment'><a name='1_0'>//
-0002    </a></span><span class='comment'><a name='2_0'>//  Parallelise.swift
-0003    </a></span><span class='comment'><a name='3_0'>//  siteify
-0004    </a></span><span class='comment'><a name='4_0'>//
-0005    </a></span><span class='comment'><a name='5_0'>//  Created by John Holdsworth on 30/10/2019.
-0006    </a></span><span class='comment'><a name='6_0'>//  Copyright © 2019 John Holdsworth. All rights reserved.
-0007    </a></span><span class='comment'><a name='7_0'>//
-0008    </a></span><span class='comment'><a name='8_0'>//  $Id: //depot/siteify/siteify/Parallelize.swift#1 $
-0009    </a></span><span class='comment'><a name='9_0'>//
-0010    </a></span><span class='comment'><a name='10_0'>//  Repo: </a></span><span class='url'><a href='https://github.com/johnno1962/siteify'>https://github.com/johnno1962/siteify</a></span><span class='comment'><a name='10_47'>
-0011    </a></span><span class='comment'><a name='11_0'>//
-0012    </a></span>
-0013    <span class='keyword'><a name='13_0'>import</a></span> <span class='identifier'><a name='13_7'>Foundation</a></span>
-0014    
-0015    <span class='builtin'><a name='15_0'>public</a></span> <span class='keyword'><a name='15_7'>func</a></span> <span class='identifier'><a name='15_12' href='#' title='usrString2' onclick='return expand(this);'>parallelize<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.html#143_8"; event.stopPropagation(); return false;'>Siteify.swift:143</td><td><pre>        parallelize(threads: 4) {</pre></td></table></span></a></span>(<span class='identifier'><a name='15_24' href='#' title='usrString2' onclick='return expand(this);'>threads<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Parallelize.html#19_45"; return false;'>Parallelize.swift:19</td><td><pre>    let semaphore = DispatchSemaphore(value: threads)</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='15_33'>Int</a></span>,
-0016                            <span class='identifier'><a name='16_24' href='#' title='usrString2' onclick='return expand(this);'>name<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Parallelize.html#18_47"; return false;'>Parallelize.swift:18</td><td><pre>    let concurrentQueue = DispatchQueue(label: name, attributes: .concurrent)</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='16_30'>String</a></span> = <span class='string'><a name='16_39'>"Parallelize"</a></span>,
-0017                            <span class='identifier'><a name='17_24' href='#' title='usrString2' onclick='return expand(this);'>work<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Parallelize.html#22_25"; return false;'>Parallelize.swift:22</td><td><pre>    while let nextWork = work() {</pre></td></table></span></a></span>: () -> (() -> <span class='typeidentifier'><a name='17_43'>Void</a></span>)?) {
-0018        <span class='keyword'><a name='18_4'>let</a></span> <span class='identifier'><a name='18_8' title='usrString3'>concurrentQueue</a></span> = <span class='identifier'><a name='18_26'>DispatchQueue</a></span>(<span class='identifier'><a name='18_40'>label</a></span>: <span class='identifier'><a name='18_47' href='Parallelize.html#16_24' title='usrString1'>name</a></span>, <span class='identifier'><a name='18_53'>attributes</a></span>: .<span class='identifier'><a name='18_66'>concurrent</a></span>)
-0019        <span class='keyword'><a name='19_4'>let</a></span> <span class='identifier'><a name='19_8' title='usrString3'>semaphore</a></span> = <span class='identifier'><a name='19_20'>DispatchSemaphore</a></span>(<span class='identifier'><a name='19_38'>value</a></span>: <span class='identifier'><a name='19_45' href='Parallelize.html#15_24' title='usrString1'>threads</a></span>)
-0020        <span class='keyword'><a name='20_4'>let</a></span> <span class='identifier'><a name='20_8' title='usrString3'>threadGroup</a></span> = <span class='identifier'><a name='20_22'>DispatchGroup</a></span>()
-0021    
-0022        <span class='keyword'><a name='22_4'>while</a></span> <span class='keyword'><a name='22_10'>let</a></span> <span class='identifier'><a name='22_14' title='usrString3'>nextWork</a></span> = <span class='identifier'><a name='22_25' href='Parallelize.html#17_24' title='usrString1'>work</a></span>() {
-0023            <span class='identifier'><a name='23_8' href='Parallelize.html#19_8' title='usrString1'>semaphore</a></span>.<span class='identifier'><a name='23_18'>wait</a></span>()
-0024            <span class='identifier'><a name='24_8' href='Parallelize.html#20_8' title='usrString1'>threadGroup</a></span>.<span class='identifier'><a name='24_20'>enter</a></span>()
-0025    
-0026            <span class='identifier'><a name='26_8' href='Parallelize.html#18_8' title='usrString1'>concurrentQueue</a></span>.<span class='identifier'><a name='26_24'>async</a></span> {
-0027                <span class='identifier'><a name='27_12' href='Parallelize.html#22_14' title='usrString1'>nextWork</a></span>()
-0028                <span class='identifier'><a name='28_12' href='Parallelize.html#20_8' title='usrString1'>threadGroup</a></span>.<span class='identifier'><a name='28_24'>leave</a></span>()
-0029                <span class='identifier'><a name='29_12' href='Parallelize.html#19_8' title='usrString1'>semaphore</a></span>.<span class='identifier'><a name='29_22'>signal</a></span>()
-0030            }
-0031        }
-0032    
-0033        <span class='identifier'><a name='33_4' href='Parallelize.html#20_8' title='usrString1'>threadGroup</a></span>.<span class='identifier'><a name='33_16'>wait</a></span>()
-0034    }
-0035    
+</script></head><body><h3>siteify/Parallelize.swift</h3><pre><span class=lineno>0001</span>    <span class='comment'>//
+<span class=lineno>0002</span>    </span><span class='comment'>//  Parallelise.swift
+<span class=lineno>0003</span>    </span><span class='comment'>//  siteify
+<span class=lineno>0004</span>    </span><span class='comment'>//
+<span class=lineno>0005</span>    </span><span class='comment'>//  Created by John Holdsworth on 30/10/2019.
+<span class=lineno>0006</span>    </span><span class='comment'>//  Copyright © 2019 John Holdsworth. All rights reserved.
+<span class=lineno>0007</span>    </span><span class='comment'>//
+<span class=lineno>0008</span>    </span><span class='comment'>//  $Id: //depot/siteify/siteify/Parallelize.swift#3 $
+<span class=lineno>0009</span>    </span><span class='comment'>//
+<span class=lineno>0010</span>    </span><span class='comment'>//  Repo: </span><span class='url'><a href='https://github.com/johnno1962/siteify'>https://github.com/johnno1962/siteify</a></span><span class='comment'>
+<span class=lineno>0011</span>    </span><span class='comment'>//
+<span class=lineno>0012</span>    </span>
+<span class=lineno>0013</span>    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
+<span class=lineno>0014</span>    
+<span class=lineno>0015</span>    <span class='keyword'>extension</span> <span class='typeidentifier'>Sequence</span> {
+<span class=lineno>0016</span>    
+<span class=lineno>0017</span>        <span class='builtin'>@discardableResult</span>
+<span class=lineno>0018</span>        <span class='keyword'>func</span> <span class='identifier'><a name='18_9' title='usrString3'>concurrentMap</a></span>&lt;<span class='identifier'><a name='18_23' title='usrString3'>Output</a></span>>(<span class='identifier'><a name='18_31' title='usrString3'>maxConcurrency</a></span>: <span class='typeidentifier'>Int</span>,
+<span class=lineno>0019</span>                           <span class='identifier'><a name='19_23' title='usrString3'>queueName</a></span>: <span class='typeidentifier'>String</span> = <span class='string'>"concurrentMap2"</span>,
+<span class=lineno>0020</span>                        <span class='identifier'><a name='20_20' title='usrString3'>priority</a></span>: <span class='typeidentifier'>DispatchQoS</span> = .<span class='identifier'>default</span>,
+<span class=lineno>0021</span>                        <span class='identifier'><a name='21_20' title='usrString3'>worker</a></span>: <span class='builtin'>@escaping</span> (<span class='typeidentifier'>Element</span>, <span class='builtin'>@escaping</span> (<span class='typeidentifier'>Output</span>) -> <span class='typeidentifier'>Void</span>) -> <span class='typeidentifier'>Void</span>) -> [<span class='typeidentifier'>Output</span>] {
+<span class=lineno>0022</span>            <span class='keyword'>let</span> <span class='identifier'><a name='22_12' title='usrString3'>input</a></span> = <span class='identifier'>Array</span>(<span class='keyword'>self</span>)
+<span class=lineno>0023</span>            <span class='keyword'>var</span> <span class='identifier'><a name='23_12' title='usrString3'>output</a></span> = <span class='identifier'>Array</span>&lt;<span class='typeidentifier'>Output</span>>(<span class='identifier'>unsafeUninitializedCapacity</span>: <span class='identifier'><a name='23_64' href='Parallelize.html#22_12' title='usrString1'>input</a></span>.<span class='identifier'>count</span>,
+<span class=lineno>0024</span>                                       <span class='identifier'>initializingWith</span>: {
+<span class=lineno>0025</span>                                        (<span class='identifier'><a name='25_37' title='usrString3'>buffer</a></span>, <span class='identifier'><a name='25_45' title='usrString3'>initializedCount</a></span>) <span class='keyword'>in</span>
+<span class=lineno>0026</span>                                        <span class='keyword'>let</span> <span class='identifier'><a name='26_40' title='usrString3'>stride</a></span> = <span class='identifier'>MemoryLayout</span>&lt;<span class='typeidentifier'>Output</span>>.<span class='identifier'>stride</span>
+<span class=lineno>0027</span>                                        <span class='identifier'>memset</span>(<span class='identifier'><a name='27_43' href='Parallelize.html#25_37' title='usrString1'>buffer</a></span>.<span class='identifier'>baseAddress</span>, <span class='number'>0</span>,
+<span class=lineno>0028</span>                                               <span class='identifier'><a name='28_43' href='Parallelize.html#26_40' title='usrString1'>stride</a></span> * <span class='identifier'><a name='28_52' href='Parallelize.html#22_12' title='usrString1'>input</a></span>.<span class='identifier'>count</span>)
+<span class=lineno>0029</span>                                        <span class='identifier'><a name='29_36' href='Parallelize.html#25_45' title='usrString1'>initializedCount</a></span> = <span class='identifier'><a name='29_55' href='Parallelize.html#22_12' title='usrString1'>input</a></span>.<span class='identifier'>count</span>})
+<span class=lineno>0030</span>    
+<span class=lineno>0031</span>            <span class='identifier'><a name='31_8' href='Parallelize.html#23_12' title='usrString1'>output</a></span>.<span class='identifier'>withUnsafeMutableBufferPointer</span> {
+<span class=lineno>0032</span>                <span class='identifier'><a name='32_12' title='usrString3'>buffer</a></span> <span class='keyword'>in</span>
+<span class=lineno>0033</span>                <span class='keyword'>let</span> <span class='identifier'><a name='33_16' title='usrString3'>buff</a></span> = <span class='identifier'><a name='33_23' href='Parallelize.html#32_12' title='usrString1'>buffer</a></span>
+<span class=lineno>0034</span>                <span class='keyword'>let</span> <span class='identifier'><a name='34_16' title='usrString3'>concurrentQueue</a></span> = <span class='identifier'>DispatchQueue</span>(<span class='identifier'>label</span>: <span class='identifier'><a name='34_55' href='Parallelize.html#19_23' title='usrString1'>queueName</a></span>, <span class='identifier'>qos</span>: <span class='identifier'><a name='34_71' href='Parallelize.html#20_20' title='usrString1'>priority</a></span>,
+<span class=lineno>0035</span>                                                    <span class='identifier'>attributes</span>: .<span class='identifier'>concurrent</span>)
+<span class=lineno>0036</span>                <span class='keyword'>let</span> <span class='identifier'><a name='36_16' title='usrString3'>semaphore</a></span> = <span class='identifier'>DispatchSemaphore</span>(<span class='identifier'>value</span>: <span class='identifier'><a name='36_53' href='Parallelize.html#18_31' title='usrString1'>maxConcurrency</a></span>)
+<span class=lineno>0037</span>                <span class='keyword'>let</span> <span class='identifier'><a name='37_16' title='usrString3'>threadGroup</a></span> = <span class='identifier'>DispatchGroup</span>()
+<span class=lineno>0038</span>    
+<span class=lineno>0039</span>                <span class='keyword'>for</span> <span class='identifier'><a name='39_16' title='usrString3'>index</a></span> <span class='keyword'>in</span> <span class='number'>0</span>..&lt;<span class='identifier'><a name='39_29' href='Parallelize.html#22_12' title='usrString1'>input</a></span>.<span class='identifier'>count</span> {
+<span class=lineno>0040</span>                    <span class='identifier'><a name='40_16' href='Parallelize.html#37_16' title='usrString1'>threadGroup</a></span>.<span class='identifier'>enter</span>()
+<span class=lineno>0041</span>                    <span class='identifier'><a name='41_16' href='Parallelize.html#36_16' title='usrString1'>semaphore</a></span>.<span class='identifier'>wait</span>()
+<span class=lineno>0042</span>    
+<span class=lineno>0043</span>                    <span class='identifier'><a name='43_16' href='Parallelize.html#34_16' title='usrString1'>concurrentQueue</a></span>.<span class='identifier'>async</span> {
+<span class=lineno>0044</span>                        <span class='identifier'><a name='44_20' href='Parallelize.html#21_20' title='usrString1'>worker</a></span>(<span class='identifier'><a name='44_27' href='Parallelize.html#22_12' title='usrString1'>input</a></span>[<span class='identifier'><a name='44_33' href='Parallelize.html#39_16' title='usrString1'>index</a></span>], { <span class='identifier'><a name='44_43' title='usrString3'>result</a></span> <span class='keyword'>in</span>
+<span class=lineno>0045</span>                            <span class='identifier'><a name='45_24' href='Parallelize.html#33_16' title='usrString1'>buff</a></span>[<span class='identifier'><a name='45_29' href='Parallelize.html#39_16' title='usrString1'>index</a></span>] = <span class='identifier'><a name='45_38' href='Parallelize.html#44_43' title='usrString1'>result</a></span>
+<span class=lineno>0046</span>                            <span class='identifier'><a name='46_24' href='Parallelize.html#37_16' title='usrString1'>threadGroup</a></span>.<span class='identifier'>leave</span>()
+<span class=lineno>0047</span>                            <span class='identifier'><a name='47_24' href='Parallelize.html#36_16' title='usrString1'>semaphore</a></span>.<span class='identifier'>signal</span>()
+<span class=lineno>0048</span>                        })
+<span class=lineno>0049</span>                    }
+<span class=lineno>0050</span>                }
+<span class=lineno>0051</span>    
+<span class=lineno>0052</span>                <span class='identifier'><a name='52_12' href='Parallelize.html#37_16' title='usrString1'>threadGroup</a></span>.<span class='identifier'>wait</span>()
+<span class=lineno>0053</span>            }
+<span class=lineno>0054</span>    
+<span class=lineno>0055</span>            <span class='keyword'>return</span> <span class='identifier'><a name='55_15' href='Parallelize.html#23_12' title='usrString1'>output</a></span>
+<span class=lineno>0056</span>        }
+<span class=lineno>0057</span>    }
+<span class=lineno>0058</span>    
+<span class=lineno>0059</span>    <span class='comment'>//extension DispatchGroup {
+<span class=lineno>0060</span>    </span><span class='comment'>//
+<span class=lineno>0061</span>    </span><span class='comment'>//    public static func parallelize(threads: Int,
+<span class=lineno>0062</span>    </span><span class='comment'>//                            name: String = "Parallelize",
+<span class=lineno>0063</span>    </span><span class='comment'>//                            priority: DispatchQoS = .default,
+<span class=lineno>0064</span>    </span><span class='comment'>//                            workProvider: () -> (() -> Void)?) {
+<span class=lineno>0065</span>    </span><span class='comment'>//        let concurrentQueue = DispatchQueue(label: name, qos: priority, attributes: .concurrent)
+<span class=lineno>0066</span>    </span><span class='comment'>//        let semaphore = DispatchSemaphore(value: threads)
+<span class=lineno>0067</span>    </span><span class='comment'>//        let threadGroup = DispatchGroup()
+<span class=lineno>0068</span>    </span><span class='comment'>//
+<span class=lineno>0069</span>    </span><span class='comment'>//        while let nextWork = workProvider() {
+<span class=lineno>0070</span>    </span><span class='comment'>//            semaphore.wait()
+<span class=lineno>0071</span>    </span><span class='comment'>//            threadGroup.enter()
+<span class=lineno>0072</span>    </span><span class='comment'>//
+<span class=lineno>0073</span>    </span><span class='comment'>//            concurrentQueue.async {
+<span class=lineno>0074</span>    </span><span class='comment'>//                nextWork()
+<span class=lineno>0075</span>    </span><span class='comment'>//                threadGroup.leave()
+<span class=lineno>0076</span>    </span><span class='comment'>//                semaphore.signal()
+<span class=lineno>0077</span>    </span><span class='comment'>//            }
+<span class=lineno>0078</span>    </span><span class='comment'>//        }
+<span class=lineno>0079</span>    </span><span class='comment'>//
+<span class=lineno>0080</span>    </span><span class='comment'>//        threadGroup.wait()
+<span class=lineno>0081</span>    </span><span class='comment'>//    }
+<span class=lineno>0082</span>    </span><span class='comment'>//
+<span class=lineno>0083</span>    </span><span class='comment'>//    static func forEach&lt;Seq: Sequence>(in sequence: Seq,
+<span class=lineno>0084</span>    </span><span class='comment'>//                 maxConcurrency: Int,
+<span class=lineno>0085</span>    </span><span class='comment'>//                 queueName: String = "concurrentEach",
+<span class=lineno>0086</span>    </span><span class='comment'>//                 priority: DispatchQoS = .default,
+<span class=lineno>0087</span>    </span><span class='comment'>//                 worker: @escaping (Seq.Element) -> Void) {
+<span class=lineno>0088</span>    </span><span class='comment'>//        let concurrentQueue = DispatchQueue(label: queueName, qos: priority, attributes: .concurrent)
+<span class=lineno>0089</span>    </span><span class='comment'>//        let semaphore = DispatchSemaphore(value: maxConcurrency)
+<span class=lineno>0090</span>    </span><span class='comment'>//        let threadGroup = DispatchGroup()
+<span class=lineno>0091</span>    </span><span class='comment'>//        var iterator = sequence.makeIterator()
+<span class=lineno>0092</span>    </span><span class='comment'>//
+<span class=lineno>0093</span>    </span><span class='comment'>//        while let next = iterator.next() {
+<span class=lineno>0094</span>    </span><span class='comment'>//            semaphore.wait()
+<span class=lineno>0095</span>    </span><span class='comment'>//            threadGroup.enter()
+<span class=lineno>0096</span>    </span><span class='comment'>//
+<span class=lineno>0097</span>    </span><span class='comment'>//            concurrentQueue.async {
+<span class=lineno>0098</span>    </span><span class='comment'>//                worker(next)
+<span class=lineno>0099</span>    </span><span class='comment'>//                threadGroup.leave()
+<span class=lineno>0100</span>    </span><span class='comment'>//                semaphore.signal()
+<span class=lineno>0101</span>    </span><span class='comment'>//            }
+<span class=lineno>0102</span>    </span><span class='comment'>//        }
+<span class=lineno>0103</span>    </span><span class='comment'>//
+<span class=lineno>0104</span>    </span><span class='comment'>//        threadGroup.wait()
+<span class=lineno>0105</span>    </span><span class='comment'>//    }
+<span class=lineno>0106</span>    </span><span class='comment'>//}
+<span class=lineno>0107</span>    </span><span class='comment'>//
+<span class=lineno>0108</span>    </span><span class='comment'>//extension Sequence {
+<span class=lineno>0109</span>    </span><span class='comment'>//
+<span class=lineno>0110</span>    </span><span class='comment'>//    @discardableResult
+<span class=lineno>0111</span>    </span><span class='comment'>//    func concurrentMap&lt;Output>(queueName: String = "concurrentMap",
+<span class=lineno>0112</span>    </span><span class='comment'>//                 priority: DispatchQoS = .default,
+<span class=lineno>0113</span>    </span><span class='comment'>//                 worker: @escaping (Element) -> Output) -> [Output] {
+<span class=lineno>0114</span>    </span><span class='comment'>//        let input = Array(self)
+<span class=lineno>0115</span>    </span><span class='comment'>//        var output = Array&lt;Output>(unsafeUninitializedCapacity: input.count,
+<span class=lineno>0116</span>    </span><span class='comment'>//                                   initializingWith: {
+<span class=lineno>0117</span>    </span><span class='comment'>//                                    (buffer, initializedCount) in
+<span class=lineno>0118</span>    </span><span class='comment'>//                                    let stride = MemoryLayout&lt;Output>.stride
+<span class=lineno>0119</span>    </span><span class='comment'>//                                    memset(buffer.baseAddress, 0,
+<span class=lineno>0120</span>    </span><span class='comment'>//                                           stride * buffer.count)
+<span class=lineno>0121</span>    </span><span class='comment'>//                                    initializedCount = buffer.count})
+<span class=lineno>0122</span>    </span><span class='comment'>//        let concurrentQueue = DispatchQueue(label: queueName, qos: priority,
+<span class=lineno>0123</span>    </span><span class='comment'>//                                            attributes: .concurrent)
+<span class=lineno>0124</span>    </span><span class='comment'>//
+<span class=lineno>0125</span>    </span><span class='comment'>//        concurrentQueue.sync {
+<span class=lineno>0126</span>    </span><span class='comment'>//            output.withUnsafeMutableBufferPointer {
+<span class=lineno>0127</span>    </span><span class='comment'>//                buffer in
+<span class=lineno>0128</span>    </span><span class='comment'>//                DispatchQueue.concurrentPerform(iterations: input.count) {
+<span class=lineno>0129</span>    </span><span class='comment'>//                    index in
+<span class=lineno>0130</span>    </span><span class='comment'>//                    buffer.baseAddress![index] = worker(input[index])
+<span class=lineno>0131</span>    </span><span class='comment'>//                }
+<span class=lineno>0132</span>    </span><span class='comment'>//            }
+<span class=lineno>0133</span>    </span><span class='comment'>//        }
+<span class=lineno>0134</span>    </span><span class='comment'>//
+<span class=lineno>0135</span>    </span><span class='comment'>//        return output
+<span class=lineno>0136</span>    </span><span class='comment'>//    }
+<span class=lineno>0137</span>    </span><span class='comment'>//
+<span class=lineno>0138</span>    </span><span class='comment'>//    func forEach(maxConcurrency: Int,
+<span class=lineno>0139</span>    </span><span class='comment'>//                 queueName: String = "concurrentEach",
+<span class=lineno>0140</span>    </span><span class='comment'>//                 priority: DispatchQoS = .default,
+<span class=lineno>0141</span>    </span><span class='comment'>//                 worker: @escaping (Element) -> Void) {
+<span class=lineno>0142</span>    </span><span class='comment'>//        DispatchGroup.forEach(in: self,
+<span class=lineno>0143</span>    </span><span class='comment'>//                              maxConcurrency: maxConcurrency,
+<span class=lineno>0144</span>    </span><span class='comment'>//                              queueName: queueName,
+<span class=lineno>0145</span>    </span><span class='comment'>//                              priority: priority,
+<span class=lineno>0146</span>    </span><span class='comment'>//                              worker: worker)
+<span class=lineno>0147</span>    </span><span class='comment'>//    }
+<span class=lineno>0148</span>    </span><span class='comment'>//}
+<span class=lineno>0149</span>    </span><span class='comment'>//
+<span class=lineno>0150</span>    </span><span class='comment'>//extension NSLock {
+<span class=lineno>0151</span>    </span><span class='comment'>//    func synchronize&lt;V>(block: () -> V) -> V {
+<span class=lineno>0152</span>    </span><span class='comment'>//        lock()
+<span class=lineno>0153</span>    </span><span class='comment'>//        let value = block()
+<span class=lineno>0154</span>    </span><span class='comment'>//        unlock()
+<span class=lineno>0155</span>    </span><span class='comment'>//        return value
+<span class=lineno>0156</span>    </span><span class='comment'>//    }
+<span class=lineno>0157</span>    </span><span class='comment'>//}
+<span class=lineno>0158</span>    </span><span class='comment'>//
+<span class=lineno>0159</span>    </span><span class='comment'>//#if true
+<span class=lineno>0160</span>    </span><span class='comment'>//private class OSLock {
+<span class=lineno>0161</span>    </span><span class='comment'>//
+<span class=lineno>0162</span>    </span><span class='comment'>//    private var _lockPtr: os_unfair_lock_t
+<span class=lineno>0163</span>    </span><span class='comment'>//
+<span class=lineno>0164</span>    </span><span class='comment'>//    init() {
+<span class=lineno>0165</span>    </span><span class='comment'>//        _lockPtr = .allocate(capacity: 1)
+<span class=lineno>0166</span>    </span><span class='comment'>//        _lockPtr.initialize(to: os_unfair_lock())
+<span class=lineno>0167</span>    </span><span class='comment'>//    }
+<span class=lineno>0168</span>    </span><span class='comment'>//
+<span class=lineno>0169</span>    </span><span class='comment'>//    func synchronize&lt;V>(block: () -> V) -> V {
+<span class=lineno>0170</span>    </span><span class='comment'>//        os_unfair_lock_lock(_lockPtr)
+<span class=lineno>0171</span>    </span><span class='comment'>//        defer { os_unfair_lock_unlock(_lockPtr) }
+<span class=lineno>0172</span>    </span><span class='comment'>//        return block()
+<span class=lineno>0173</span>    </span><span class='comment'>//    }
+<span class=lineno>0174</span>    </span><span class='comment'>//
+<span class=lineno>0175</span>    </span><span class='comment'>//    deinit {
+<span class=lineno>0176</span>    </span><span class='comment'>//        _lockPtr.deinitialize(count: 1)
+<span class=lineno>0177</span>    </span><span class='comment'>//        _lockPtr.deallocate()
+<span class=lineno>0178</span>    </span><span class='comment'>//    }
+<span class=lineno>0179</span>    </span><span class='comment'>//}
+<span class=lineno>0180</span>    </span><span class='comment'>//#else
+<span class=lineno>0181</span>    </span><span class='comment'>//private class OSLock {
+<span class=lineno>0182</span>    </span><span class='comment'>//
+<span class=lineno>0183</span>    </span><span class='comment'>//    private var _lockPtr: UnsafeMutablePointer&lt;pthread_mutex_t>
+<span class=lineno>0184</span>    </span><span class='comment'>//
+<span class=lineno>0185</span>    </span><span class='comment'>//    init() {
+<span class=lineno>0186</span>    </span><span class='comment'>//        _lockPtr = .allocate(capacity: 1)
+<span class=lineno>0187</span>    </span><span class='comment'>//        pthread_mutex_init(_lockPtr, nil)
+<span class=lineno>0188</span>    </span><span class='comment'>//    }
+<span class=lineno>0189</span>    </span><span class='comment'>//
+<span class=lineno>0190</span>    </span><span class='comment'>//    func synchronize&lt;V>(block: () -> V) -> V {
+<span class=lineno>0191</span>    </span><span class='comment'>//        pthread_mutex_lock(_lockPtr)
+<span class=lineno>0192</span>    </span><span class='comment'>//        let value = block()
+<span class=lineno>0193</span>    </span><span class='comment'>//        pthread_mutex_unlock(_lockPtr)
+<span class=lineno>0194</span>    </span><span class='comment'>//        return value
+<span class=lineno>0195</span>    </span><span class='comment'>//    }
+<span class=lineno>0196</span>    </span><span class='comment'>//
+<span class=lineno>0197</span>    </span><span class='comment'>//    deinit {
+<span class=lineno>0198</span>    </span><span class='comment'>//        _lockPtr.deinitialize(count: 1)
+<span class=lineno>0199</span>    </span><span class='comment'>//        _lockPtr.deallocate()
+<span class=lineno>0200</span>    </span><span class='comment'>//    }
+<span class=lineno>0201</span>    </span><span class='comment'>//}
+<span class=lineno>0202</span>    </span><span class='comment'>//#endif
+<span class=lineno>0203</span>    </span>

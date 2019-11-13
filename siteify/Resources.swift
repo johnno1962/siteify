@@ -31,6 +31,7 @@ extension Siteify {
         .number { color: #1D26E1; }
         .string { color: #CB444D; }
         .typeidentifier { color: #5C2599; }
+        .linenum { color: black; }
 
         span.references { display: none; position: absolute; border: 2px outset; z-index: 100; }
         span.references table { background-color: white; }

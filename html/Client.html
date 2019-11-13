@@ -19,35 +19,35 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><pre>0001    <span class='comment'><a name='1_0'>//
-0002    </a></span><span class='comment'><a name='2_0'>//  Client.swift
-0003    </a></span><span class='comment'><a name='3_0'>//  SwiftLSPClient
-0004    </a></span><span class='comment'><a name='4_0'>//
-0005    </a></span><span class='comment'><a name='5_0'>//  Created by Matt Massicotte on 2018-10-15.
-0006    </a></span><span class='comment'><a name='6_0'>//  Copyright © 2018 Chime Systems. All rights reserved.
-0007    </a></span><span class='comment'><a name='7_0'>//
-0008    </a></span>
-0009    <span class='keyword'><a name='9_0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
-0010    
-0011    <span class='builtin'><a name='11_0'>public</a></span> <span class='keyword'><a name='11_7'>struct</a></span> <span class='identifier'><a name='11_14' title='usrString2' onclick='return expand(this);'>TextDocumentRegistrationOptions<span class='references'><table></table></span></a></span>: <span class='typeidentifier'><a name='11_47'>Codable</a></span> {
-0012        <span class='builtin'><a name='12_4'>public</a></span> <span class='keyword'><a name='12_11'>let</a></span> <span class='identifier'><a name='12_15' title='usrString2' onclick='return expand(this);'>documentSelector<span class='references'><table></table></span></a></span>: <span class='typeidentifier'><a name='12_33'>DocumentSelector</a></span>?
-0013    }
-0014    
-0015    <span class='builtin'><a name='15_0'>public</a></span> <span class='keyword'><a name='15_7'>struct</a></span> <span class='identifier'><a name='15_14' title='usrString2' onclick='return expand(this);'>StaticRegistrationOptions<span class='references'><table></table></span></a></span>: <span class='typeidentifier'><a name='15_41'>Codable</a></span> {
-0016        <span class='builtin'><a name='16_4'>public</a></span> <span class='keyword'><a name='16_11'>let</a></span> <span class='identifier'><a name='16_15' href='#' title='usrString2' onclick='return expand(this);'>id<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Client.html#19_13"; return false;'>Client.swift:19</td><td><pre>        self.id = id</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='16_19'>String</a></span>?
-0017    
-0018        <span class='builtin'><a name='18_4'>public</a></span> <span class='keyword'><a name='18_11'>init</a></span>(<span class='identifier'><a name='18_16' href='#' title='usrString2' onclick='return expand(this);'>id<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Client.html#19_18"; return false;'>Client.swift:19</td><td><pre>        self.id = id</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='18_20'>String</a></span>) {
-0019            <span class='keyword'><a name='19_8'>self</a></span>.<span class='identifier'><a name='19_13' href='Client.html#16_15' title='usrString1'>id</a></span> = <span class='identifier'><a name='19_18' href='Client.html#18_16' title='usrString1'>id</a></span>
-0020        }
-0021    }
-0022    
-0023    <span class='builtin'><a name='23_0'>public</a></span> <span class='keyword'><a name='23_7'>struct</a></span> <span class='identifier'><a name='23_14' href='#' title='usrString2' onclick='return expand(this);'>TextDocumentAndStaticRegistrationOptions<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="ServerCapabilities.html#79_29"; event.stopPropagation(); return false;'>ServerCapabilities.swift:79</td><td><pre>    case registrationOptions(TextDocumentAndStaticRegistrationOptions)</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="ServerCapabilities.html#88_45"; event.stopPropagation(); return false;'>ServerCapabilities.swift:88</td><td><pre>            let value = try container.decode(TextDocumentAndStaticRegistrationOptions.self)</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='23_56'>Codable</a></span> {
-0024        <span class='builtin'><a name='24_4'>public</a></span> <span class='keyword'><a name='24_11'>let</a></span> <span class='identifier'><a name='24_15' href='#' title='usrString2' onclick='return expand(this);'>documentSelector<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Client.html#28_13"; return false;'>Client.swift:28</td><td><pre>        self.documentSelector = documentSelector</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='24_33'>DocumentSelector</a></span>?
-0025        <span class='builtin'><a name='25_4'>public</a></span> <span class='keyword'><a name='25_11'>let</a></span> <span class='identifier'><a name='25_15' href='#' title='usrString2' onclick='return expand(this);'>id<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Client.html#29_13"; return false;'>Client.swift:29</td><td><pre>        self.id = id</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='25_19'>String</a></span>?
-0026    
-0027        <span class='builtin'><a name='27_4'>public</a></span> <span class='keyword'><a name='27_11'>init</a></span>(<span class='identifier'><a name='27_16' href='#' title='usrString2' onclick='return expand(this);'>documentSelector<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Client.html#28_32"; return false;'>Client.swift:28</td><td><pre>        self.documentSelector = documentSelector</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='27_34'>DocumentSelector</a></span>?, <span class='identifier'><a name='27_53' href='#' title='usrString2' onclick='return expand(this);'>id<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Client.html#29_18"; return false;'>Client.swift:29</td><td><pre>        self.id = id</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='27_57'>String</a></span>?) {
-0028            <span class='keyword'><a name='28_8'>self</a></span>.<span class='identifier'><a name='28_13' href='Client.html#24_15' title='usrString1'>documentSelector</a></span> = <span class='identifier'><a name='28_32' href='Client.html#27_16' title='usrString1'>documentSelector</a></span>
-0029            <span class='keyword'><a name='29_8'>self</a></span>.<span class='identifier'><a name='29_13' href='Client.html#25_15' title='usrString1'>id</a></span> = <span class='identifier'><a name='29_18' href='Client.html#27_53' title='usrString1'>id</a></span>
-0030        }
-0031    }
-0032    
+</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClient/Types/Client.swift</h3><pre><span class=lineno>0001</span>    <span class='comment'>//
+<span class=lineno>0002</span>    </span><span class='comment'>//  Client.swift
+<span class=lineno>0003</span>    </span><span class='comment'>//  SwiftLSPClient
+<span class=lineno>0004</span>    </span><span class='comment'>//
+<span class=lineno>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2018-10-15.
+<span class=lineno>0006</span>    </span><span class='comment'>//  Copyright © 2018 Chime Systems. All rights reserved.
+<span class=lineno>0007</span>    </span><span class='comment'>//
+<span class=lineno>0008</span>    </span>
+<span class=lineno>0009</span>    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
+<span class=lineno>0010</span>    
+<span class=lineno>0011</span>    <span class='builtin'>public</span> <span class='keyword'>struct</span> <span class='identifier'><a name='11_14' title='usrString3'>TextDocumentRegistrationOptions</a></span>: <span class='typeidentifier'>Codable</span> {
+<span class=lineno>0012</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='12_15' title='usrString3'>documentSelector</a></span>: <span class='typeidentifier'>DocumentSelector</span>?
+<span class=lineno>0013</span>    }
+<span class=lineno>0014</span>    
+<span class=lineno>0015</span>    <span class='builtin'>public</span> <span class='keyword'>struct</span> <span class='identifier'><a name='15_14' title='usrString3'>StaticRegistrationOptions</a></span>: <span class='typeidentifier'>Codable</span> {
+<span class=lineno>0016</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='16_15' title='usrString3'>id</a></span>: <span class='typeidentifier'>String</span>?
+<span class=lineno>0017</span>    
+<span class=lineno>0018</span>        <span class='builtin'>public</span> <span class='keyword'>init</span>(<span class='identifier'><a name='18_16' title='usrString3'>id</a></span>: <span class='typeidentifier'>String</span>) {
+<span class=lineno>0019</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='19_13' href='Client.html#16_15' title='usrString1'>id</a></span> = <span class='identifier'><a name='19_18' href='Client.html#18_16' title='usrString1'>id</a></span>
+<span class=lineno>0020</span>        }
+<span class=lineno>0021</span>    }
+<span class=lineno>0022</span>    
+<span class=lineno>0023</span>    <span class='builtin'>public</span> <span class='keyword'>struct</span> <span class='identifier'><a name='23_14' title='usrString3'>TextDocumentAndStaticRegistrationOptions</a></span>: <span class='typeidentifier'>Codable</span> {
+<span class=lineno>0024</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='24_15' title='usrString3'>documentSelector</a></span>: <span class='typeidentifier'>DocumentSelector</span>?
+<span class=lineno>0025</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='25_15' title='usrString3'>id</a></span>: <span class='typeidentifier'>String</span>?
+<span class=lineno>0026</span>    
+<span class=lineno>0027</span>        <span class='builtin'>public</span> <span class='keyword'>init</span>(<span class='identifier'><a name='27_16' title='usrString3'>documentSelector</a></span>: <span class='typeidentifier'>DocumentSelector</span>?, <span class='identifier'><a name='27_53' title='usrString3'>id</a></span>: <span class='typeidentifier'>String</span>?) {
+<span class=lineno>0028</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='28_13' href='Client.html#24_15' title='usrString1'>documentSelector</a></span> = <span class='identifier'><a name='28_32' href='Client.html#27_16' title='usrString1'>documentSelector</a></span>
+<span class=lineno>0029</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='29_13' href='Client.html#25_15' title='usrString1'>id</a></span> = <span class='identifier'><a name='29_18' href='Client.html#27_53' title='usrString1'>id</a></span>
+<span class=lineno>0030</span>        }
+<span class=lineno>0031</span>    }
+<span class=lineno>0032</span>    

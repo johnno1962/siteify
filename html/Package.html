@@ -19,21 +19,21 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><pre>0001    <span class='comment'><a name='1_0'>// swift-tools-version:5.0
-0002    </a></span><span class='comment'><a name='2_0'>// The swift-tools-version declares the minimum version of Swift required to build this package.
-0003    </a></span>
-0004    <span class='keyword'><a name='4_0'>import</a></span> <span class='identifier'><a name='4_7'>PackageDescription</a></span>
-0005    
-0006    <span class='keyword'><a name='6_0'>let</a></span> <span class='identifier'><a name='6_4' title='usrString3'>package</a></span> = <span class='identifier'><a name='6_14'>Package</a></span>(
-0007        <span class='identifier'><a name='7_4'>name</a></span>: <span class='string'><a name='7_10'>"SwiftLSPClient"</a></span>,
-0008        <span class='identifier'><a name='8_4'>platforms</a></span>: [.<span class='identifier'><a name='8_17'>macOS</a></span>(<span class='string'><a name='8_23'>"10.10"</a></span>)],
-0009        <span class='identifier'><a name='9_4'>products</a></span>: [
-0010            .<span class='identifier'><a name='10_9'>library</a></span>(<span class='identifier'><a name='10_17'>name</a></span>: <span class='string'><a name='10_23'>"SwiftLSPClient"</a></span>, <span class='identifier'><a name='10_41'>targets</a></span>: [<span class='string'><a name='10_51'>"SwiftLSPClient"</a></span>]),
-0011        ],
-0012        <span class='identifier'><a name='12_4'>dependencies</a></span>: [],
-0013        <span class='identifier'><a name='13_4'>targets</a></span>: [
-0014            .<span class='identifier'><a name='14_9'>target</a></span>(<span class='identifier'><a name='14_16'>name</a></span>: <span class='string'><a name='14_22'>"SwiftLSPClient"</a></span>, <span class='identifier'><a name='14_40'>dependencies</a></span>: [], <span class='identifier'><a name='14_58'>path</a></span>: <span class='string'><a name='14_64'>"SwiftLSPClient/"</a></span>),
-0015            .<span class='identifier'><a name='15_9'>testTarget</a></span>(<span class='identifier'><a name='15_20'>name</a></span>: <span class='string'><a name='15_26'>"SwiftLSPClientTests"</a></span>, <span class='identifier'><a name='15_49'>dependencies</a></span>: [<span class='string'><a name='15_64'>"SwiftLSPClient"</a></span>], <span class='identifier'><a name='15_83'>path</a></span>: <span class='string'><a name='15_89'>"SwiftLSPClientTests/"</a></span>),
-0016        ]
-0017    )
-0018    
+</script></head><body><h3>.build/checkouts/SwiftLSPClient/Package.swift</h3><pre><span class=lineno>0001</span>    <span class='comment'>// swift-tools-version:5.0
+<span class=lineno>0002</span>    </span><span class='comment'>// The swift-tools-version declares the minimum version of Swift required to build this package.
+<span class=lineno>0003</span>    </span>
+<span class=lineno>0004</span>    <span class='keyword'>import</span> <span class='identifier'>PackageDescription</span>
+<span class=lineno>0005</span>    
+<span class=lineno>0006</span>    <span class='keyword'>let</span> <span class='identifier'><a name='6_4' title='usrString3'>package</a></span> = <span class='identifier'>Package</span>(
+<span class=lineno>0007</span>        <span class='identifier'>name</span>: <span class='string'>"SwiftLSPClient"</span>,
+<span class=lineno>0008</span>        <span class='identifier'>platforms</span>: [.<span class='identifier'>macOS</span>(<span class='string'>"10.10"</span>)],
+<span class=lineno>0009</span>        <span class='identifier'>products</span>: [
+<span class=lineno>0010</span>            .<span class='identifier'>library</span>(<span class='identifier'>name</span>: <span class='string'>"SwiftLSPClient"</span>, <span class='identifier'>targets</span>: [<span class='string'>"SwiftLSPClient"</span>]),
+<span class=lineno>0011</span>        ],
+<span class=lineno>0012</span>        <span class='identifier'>dependencies</span>: [],
+<span class=lineno>0013</span>        <span class='identifier'>targets</span>: [
+<span class=lineno>0014</span>            .<span class='identifier'>target</span>(<span class='identifier'>name</span>: <span class='string'>"SwiftLSPClient"</span>, <span class='identifier'>dependencies</span>: [], <span class='identifier'>path</span>: <span class='string'>"SwiftLSPClient/"</span>),
+<span class=lineno>0015</span>            .<span class='identifier'>testTarget</span>(<span class='identifier'>name</span>: <span class='string'>"SwiftLSPClientTests"</span>, <span class='identifier'>dependencies</span>: [<span class='string'>"SwiftLSPClient"</span>], <span class='identifier'>path</span>: <span class='string'>"SwiftLSPClientTests/"</span>),
+<span class=lineno>0016</span>        ]
+<span class=lineno>0017</span>    )
+<span class=lineno>0018</span>    

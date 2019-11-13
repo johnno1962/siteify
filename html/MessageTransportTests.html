@@ -19,153 +19,153 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><pre>0001    <span class='comment'><a name='1_0'>//
-0002    </a></span><span class='comment'><a name='2_0'>//  MessageTransportTests.swift
-0003    </a></span><span class='comment'><a name='3_0'>//  SwiftLSPClientTests
-0004    </a></span><span class='comment'><a name='4_0'>//
-0005    </a></span><span class='comment'><a name='5_0'>//  Created by Matt Massicotte on 2018-10-15.
-0006    </a></span><span class='comment'><a name='6_0'>//  Copyright © 2018 Chime Systems. All rights reserved.
-0007    </a></span><span class='comment'><a name='7_0'>//
-0008    </a></span>
-0009    <span class='keyword'><a name='9_0'>import</a></span> <span class='identifier'><a name='9_7'>XCTest</a></span>
-0010    <span class='builtin'><a name='10_0'>@testable</a></span> <span class='keyword'><a name='10_10'>import</a></span> <span class='identifier'><a name='10_17'>SwiftLSPClient</a></span>
-0011    
-0012    <span class='keyword'><a name='12_0'>class</a></span> <span class='identifier'><a name='12_6' title='usrString3'>MessageTransportTests</a></span>: <span class='typeidentifier'><a name='12_29'>XCTestCase</a></span> {
-0013        <span class='keyword'><a name='13_4'>func</a></span> <span class='identifier'><a name='13_9' title='usrString3'>writeMessageAndReadResult</a></span>(<span class='keyword'><a name='13_35'>_</a></span> <span class='identifier'><a name='13_37' title='usrString3'>message</a></span>: <span class='typeidentifier'><a name='13_46'>String</a></span>) -> <span class='typeidentifier'><a name='13_57'>Data</a></span>? {
-0014            <span class='keyword'><a name='14_8'>let</a></span> <span class='identifier'><a name='14_12' title='usrString3'>results</a></span> = <span class='identifier'><a name='14_22'>writeMessagesAndReadResult</a></span>([<span class='identifier'><a name='14_50' href='MessageTransportTests.html#13_37' title='usrString1'>message</a></span>])
-0015            
-0016            <span class='keyword'><a name='16_8'>guard</a></span> <span class='identifier'><a name='16_14' href='MessageTransportTests.html#14_12' title='usrString1'>results</a></span>.<span class='identifier'><a name='16_22'>count</a></span> == <span class='number'><a name='16_31'>1</a></span> <span class='keyword'><a name='16_33'>else</a></span> {
-0017                <span class='keyword'><a name='17_12'>return</a></span> <span class='keyword'><a name='17_19'>nil</a></span>
-0018            }
-0019            
-0020            <span class='keyword'><a name='20_8'>return</a></span> <span class='identifier'><a name='20_15' href='MessageTransportTests.html#14_12' title='usrString1'>results</a></span>[<span class='number'><a name='20_23'>0</a></span>]
-0021        }
-0022        
-0023        <span class='keyword'><a name='23_4'>func</a></span> <span class='identifier'><a name='23_9' title='usrString3'>writeMessagesAndReadResult</a></span>(<span class='keyword'><a name='23_36'>_</a></span> <span class='identifier'><a name='23_38' title='usrString3'>messages</a></span>: [<span class='typeidentifier'><a name='23_49'>String</a></span>], <span class='identifier'><a name='23_58' title='usrString3'>resultCount</a></span>: <span class='typeidentifier'><a name='23_71'>Int</a></span> = <span class='number'><a name='23_77'>1</a></span>) -> [<span class='typeidentifier'><a name='23_84'>Data</a></span>] {
-0024            <span class='keyword'><a name='24_8'>let</a></span> <span class='identifier'><a name='24_12' title='usrString3'>dataTransport</a></span> = <span class='identifier'><a name='24_28'>MockDataTransport</a></span>()
-0025            
-0026            <span class='keyword'><a name='26_8'>let</a></span> <span class='identifier'><a name='26_12' title='usrString3'>transport</a></span> = <span class='identifier'><a name='26_24'>MessageTransport</a></span>(<span class='identifier'><a name='26_41'>dataTransport</a></span>: <span class='identifier'><a name='26_56' href='MessageTransportTests.html#24_12' title='usrString1'>dataTransport</a></span>)
-0027            
-0028            <span class='keyword'><a name='28_8'>var</a></span> <span class='identifier'><a name='28_12' title='usrString3'>receivedData</a></span>: [<span class='typeidentifier'><a name='28_27'>Data</a></span>] = []
-0029    
-0030            <span class='keyword'><a name='30_8'>let</a></span> <span class='identifier'><a name='30_12' title='usrString3'>exp</a></span> = <span class='identifier'><a name='30_18'>XCTestExpectation</a></span>(<span class='identifier'><a name='30_36'>description</a></span>: <span class='string'><a name='30_49'>"Message Content"</a></span>)
-0031            <span class='identifier'><a name='31_8' href='MessageTransportTests.html#30_12' title='usrString1'>exp</a></span>.<span class='identifier'><a name='31_12'>expectedFulfillmentCount</a></span> = <span class='identifier'><a name='31_39' href='MessageTransportTests.html#23_58' title='usrString1'>resultCount</a></span>
-0032    
-0033            <span class='identifier'><a name='33_8' href='MessageTransportTests.html#26_12' title='usrString1'>transport</a></span>.<span class='identifier'><a name='33_18'>dataHandler</a></span> = { (<span class='identifier'><a name='33_35' title='usrString3'>data</a></span>) <span class='keyword'><a name='33_41'>in</a></span>
-0034                <span class='identifier'><a name='34_12' href='MessageTransportTests.html#28_12' title='usrString1'>receivedData</a></span>.<span class='identifier'><a name='34_25'>append</a></span>(<span class='identifier'><a name='34_32' href='MessageTransportTests.html#33_35' title='usrString1'>data</a></span>)
-0035    
-0036                <span class='identifier'><a name='36_12' href='MessageTransportTests.html#30_12' title='usrString1'>exp</a></span>.<span class='identifier'><a name='36_16'>fulfill</a></span>()
-0037            }
-0038    
-0039            <span class='keyword'><a name='39_8'>for</a></span> <span class='identifier'><a name='39_12' title='usrString3'>message</a></span> <span class='keyword'><a name='39_20'>in</a></span> <span class='identifier'><a name='39_23' href='MessageTransportTests.html#23_38' title='usrString1'>messages</a></span> {
-0040                <span class='identifier'><a name='40_12' href='MessageTransportTests.html#24_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'><a name='40_26'>mockRead</a></span>(<span class='identifier'><a name='40_35' href='MessageTransportTests.html#39_12' title='usrString1'>message</a></span>)
-0041            }
-0042    
-0043            <span class='identifier'><a name='43_8'>wait</a></span>(<span class='identifier'><a name='43_13'>for</a></span>: [<span class='identifier'><a name='43_19' href='MessageTransportTests.html#30_12' title='usrString1'>exp</a></span>], <span class='identifier'><a name='43_25'>timeout</a></span>: <span class='number'><a name='43_34'>1.0</a></span>)
-0044    
-0045            <span class='keyword'><a name='45_8'>return</a></span> <span class='identifier'><a name='45_15' href='MessageTransportTests.html#28_12' title='usrString1'>receivedData</a></span>
-0046        }
-0047        
-0048        <span class='keyword'><a name='48_4'>func</a></span> <span class='identifier'><a name='48_9' title='usrString3'>testBasicMessageDecode</a></span>() {
-0049            <span class='keyword'><a name='49_8'>let</a></span> <span class='identifier'><a name='49_12' title='usrString3'>content</a></span> = <span class='string'><a name='49_22'>"{\"jsonrpc\":\"2.0\",\"params\":\"Something\"}"</a></span>
-0050            <span class='keyword'><a name='50_8'>let</a></span> <span class='identifier'><a name='50_12' title='usrString3'>message</a></span> = <span class='string'><a name='50_22'>"Content-Length: 38\r\n\r\n</a></span>\<span class='string_interpolation_anchor'><a name='50_50'>(</a></span><span class='identifier'><a name='50_51' href='MessageTransportTests.html#49_12' title='usrString1'>content</a></span><span class='string_interpolation_anchor'><a name='50_58'>)</a></span><span class='string'><a name='50_59'>"</a></span>
-0051            
-0052            <span class='keyword'><a name='52_8'>let</a></span> <span class='identifier'><a name='52_12' title='usrString3'>data</a></span> = <span class='identifier'><a name='52_19'>writeMessageAndReadResult</a></span>(<span class='identifier'><a name='52_45' href='MessageTransportTests.html#50_12' title='usrString1'>message</a></span>)
-0053            
-0054            <span class='identifier'><a name='54_8'>XCTAssertEqual</a></span>(<span class='identifier'><a name='54_23' href='MessageTransportTests.html#52_12' title='usrString1'>data</a></span>, <span class='identifier'><a name='54_29' href='MessageTransportTests.html#49_12' title='usrString1'>content</a></span>.<span class='identifier'><a name='54_37'>data</a></span>(<span class='identifier'><a name='54_42'>using</a></span>: .<span class='identifier'><a name='54_50'>utf8</a></span>)!)
-0055        }
-0056        
-0057        <span class='keyword'><a name='57_4'>func</a></span> <span class='identifier'><a name='57_9' title='usrString3'>testMultiHeaderMessage</a></span>() {
-0058            <span class='keyword'><a name='58_8'>let</a></span> <span class='identifier'><a name='58_12' title='usrString3'>content</a></span> = <span class='string'><a name='58_22'>"{\"jsonrpc\":\"2.0\",\"params\":\"Something\"}"</a></span>
-0059            <span class='keyword'><a name='59_8'>let</a></span> <span class='identifier'><a name='59_12' title='usrString3'>header1</a></span> = <span class='string'><a name='59_22'>"Content-Length: 38\r\n"</a></span>
-0060            <span class='keyword'><a name='60_8'>let</a></span> <span class='identifier'><a name='60_12' title='usrString3'>header2</a></span> = <span class='string'><a name='60_22'>"Another-Header: Something\r\n"</a></span>
-0061            <span class='keyword'><a name='61_8'>let</a></span> <span class='identifier'><a name='61_12' title='usrString3'>header3</a></span> = <span class='string'><a name='61_22'>"And-Another: third\r\n"</a></span>
-0062            <span class='keyword'><a name='62_8'>let</a></span> <span class='identifier'><a name='62_12' title='usrString3'>message</a></span> = <span class='identifier'><a name='62_22' href='MessageTransportTests.html#59_12' title='usrString1'>header1</a></span> + <span class='identifier'><a name='62_32' href='MessageTransportTests.html#60_12' title='usrString1'>header2</a></span> + <span class='identifier'><a name='62_42' href='MessageTransportTests.html#61_12' title='usrString1'>header3</a></span> + <span class='string'><a name='62_52'>"\r\n"</a></span> + <span class='identifier'><a name='62_61' href='MessageTransportTests.html#58_12' title='usrString1'>content</a></span>
-0063            
-0064            <span class='keyword'><a name='64_8'>let</a></span> <span class='identifier'><a name='64_12' title='usrString3'>data</a></span> = <span class='identifier'><a name='64_19'>writeMessageAndReadResult</a></span>(<span class='identifier'><a name='64_45' href='MessageTransportTests.html#62_12' title='usrString1'>message</a></span>)
-0065            
-0066            <span class='identifier'><a name='66_8'>XCTAssertEqual</a></span>(<span class='identifier'><a name='66_23' href='MessageTransportTests.html#64_12' title='usrString1'>data</a></span>, <span class='identifier'><a name='66_29' href='MessageTransportTests.html#58_12' title='usrString1'>content</a></span>.<span class='identifier'><a name='66_37'>data</a></span>(<span class='identifier'><a name='66_42'>using</a></span>: .<span class='identifier'><a name='66_50'>utf8</a></span>)!)
-0067        }
-0068        
-0069        <span class='keyword'><a name='69_4'>func</a></span> <span class='identifier'><a name='69_9' title='usrString3'>testMultiReadMessage</a></span>() {
-0070            <span class='keyword'><a name='70_8'>let</a></span> <span class='identifier'><a name='70_12' title='usrString3'>messages</a></span> = [
-0071                <span class='string'><a name='71_12'>"Content-Le"</a></span>,
-0072                <span class='string'><a name='72_12'>"ngth: 30\r\n"</a></span>,
-0073                <span class='string'><a name='73_12'>"Header2: h"</a></span>,
-0074                <span class='string'><a name='74_12'>"llo\r\n\r\n"</a></span>,
-0075                <span class='string'><a name='75_12'>"abcdefghij"</a></span>,
-0076                <span class='string'><a name='76_12'>"klmnopqurs"</a></span>,
-0077                <span class='string'><a name='77_12'>"tuvwxyz123"</a></span>
-0078            ]
-0079            
-0080            <span class='keyword'><a name='80_8'>let</a></span> <span class='identifier'><a name='80_12' title='usrString3'>content</a></span> = <span class='string'><a name='80_22'>"abcdefghijklmnopqurstuvwxyz123"</a></span>
-0081    
-0082            <span class='keyword'><a name='82_8'>let</a></span> <span class='identifier'><a name='82_12' title='usrString3'>results</a></span> = <span class='identifier'><a name='82_22'>writeMessagesAndReadResult</a></span>(<span class='identifier'><a name='82_49' href='MessageTransportTests.html#70_12' title='usrString1'>messages</a></span>)
-0083    
-0084            <span class='keyword'><a name='84_8'>if</a></span> <span class='identifier'><a name='84_11' href='MessageTransportTests.html#82_12' title='usrString1'>results</a></span>.<span class='identifier'><a name='84_19'>count</a></span> != <span class='number'><a name='84_28'>1</a></span> {
-0085                <span class='identifier'><a name='85_12'>XCTFail</a></span>()
-0086                <span class='keyword'><a name='86_12'>return</a></span>
-0087            }
-0088    
-0089            <span class='identifier'><a name='89_8'>XCTAssertEqual</a></span>(<span class='identifier'><a name='89_23' href='MessageTransportTests.html#82_12' title='usrString1'>results</a></span>[<span class='number'><a name='89_31'>0</a></span>], <span class='identifier'><a name='89_35' href='MessageTransportTests.html#80_12' title='usrString1'>content</a></span>.<span class='identifier'><a name='89_43'>data</a></span>(<span class='identifier'><a name='89_48'>using</a></span>: .<span class='identifier'><a name='89_56'>utf8</a></span>)!)
-0090        }
-0091        
-0092        <span class='keyword'><a name='92_4'>func</a></span> <span class='identifier'><a name='92_9' title='usrString3'>testMultiReadMessageWithSecondMessageInARead</a></span>() {
-0093            <span class='keyword'><a name='93_8'>let</a></span> <span class='identifier'><a name='93_12' title='usrString3'>messages</a></span> = [
-0094                <span class='string'><a name='94_12'>"Content-Length: 6\r\n"</a></span>,
-0095                <span class='string'><a name='95_12'>"Another-Header: hello\r\n\r\n"</a></span>,
-0096                <span class='string'><a name='96_12'>"abcdefContent-Length: 10\r\n"</a></span>,
-0097                <span class='string'><a name='97_12'>"\r\nabcdefghij"</a></span>,
-0098            ]
-0099            
-0100            <span class='keyword'><a name='100_8'>let</a></span> <span class='identifier'><a name='100_12' title='usrString3'>results</a></span> = <span class='identifier'><a name='100_22'>writeMessagesAndReadResult</a></span>(<span class='identifier'><a name='100_49' href='MessageTransportTests.html#93_12' title='usrString1'>messages</a></span>, <span class='identifier'><a name='100_59'>resultCount</a></span>: <span class='number'><a name='100_72'>2</a></span>)
-0101    
-0102            <span class='keyword'><a name='102_8'>if</a></span> <span class='identifier'><a name='102_11' href='MessageTransportTests.html#100_12' title='usrString1'>results</a></span>.<span class='identifier'><a name='102_19'>count</a></span> != <span class='number'><a name='102_28'>2</a></span> {
-0103                <span class='identifier'><a name='103_12'>XCTFail</a></span>()
-0104                <span class='keyword'><a name='104_12'>return</a></span>
-0105            }
-0106    
-0107            <span class='identifier'><a name='107_8'>XCTAssertEqual</a></span>(<span class='identifier'><a name='107_23' href='MessageTransportTests.html#100_12' title='usrString1'>results</a></span>[<span class='number'><a name='107_31'>0</a></span>], <span class='string'><a name='107_35'>"abcdef"</a></span>.<span class='identifier'><a name='107_44'>data</a></span>(<span class='identifier'><a name='107_49'>using</a></span>: .<span class='identifier'><a name='107_57'>utf8</a></span>)!)
-0108            <span class='identifier'><a name='108_8'>XCTAssertEqual</a></span>(<span class='identifier'><a name='108_23' href='MessageTransportTests.html#100_12' title='usrString1'>results</a></span>[<span class='number'><a name='108_31'>1</a></span>], <span class='string'><a name='108_35'>"abcdefghij"</a></span>.<span class='identifier'><a name='108_48'>data</a></span>(<span class='identifier'><a name='108_53'>using</a></span>: .<span class='identifier'><a name='108_61'>utf8</a></span>)!)
-0109        }
-0110        
-0111        <span class='keyword'><a name='111_4'>func</a></span> <span class='identifier'><a name='111_9' title='usrString3'>testDecodeMessagePerformance</a></span>() {
-0112            <span class='keyword'><a name='112_8'>let</a></span> <span class='identifier'><a name='112_12' title='usrString3'>dataTransport</a></span> = <span class='identifier'><a name='112_28'>MockDataTransport</a></span>()
-0113            
-0114            <span class='keyword'><a name='114_8'>let</a></span> <span class='identifier'><a name='114_12' title='usrString3'>transport</a></span> = <span class='identifier'><a name='114_24'>MessageTransport</a></span>(<span class='identifier'><a name='114_41'>dataTransport</a></span>: <span class='identifier'><a name='114_56' href='MessageTransportTests.html#112_12' title='usrString1'>dataTransport</a></span>)
-0115            
-0116            <span class='keyword'><a name='116_8'>var</a></span> <span class='identifier'><a name='116_12' title='usrString3'>receiveCount</a></span>: <span class='typeidentifier'><a name='116_26'>Int</a></span> = <span class='number'><a name='116_32'>0</a></span>
-0117            
-0118            <span class='identifier'><a name='118_8' href='MessageTransportTests.html#114_12' title='usrString1'>transport</a></span>.<span class='identifier'><a name='118_18'>dataHandler</a></span> = { (<span class='identifier'><a name='118_35' title='usrString3'>data</a></span>) <span class='keyword'><a name='118_41'>in</a></span>
-0119                <span class='identifier'><a name='119_12' href='MessageTransportTests.html#116_12' title='usrString1'>receiveCount</a></span> += <span class='number'><a name='119_28'>1</a></span>
-0120            }
-0121            
-0122            <span class='keyword'><a name='122_8'>let</a></span> <span class='identifier'><a name='122_12' title='usrString3'>content</a></span> = <span class='string'><a name='122_22'>"{\"jsonrpc\":\"2.0\",\"params\":\"Something\"}"</a></span>
-0123            <span class='keyword'><a name='123_8'>let</a></span> <span class='identifier'><a name='123_12' title='usrString3'>message</a></span> = <span class='string'><a name='123_22'>"Content-Length: 38\r\n\r\n</a></span>\<span class='string_interpolation_anchor'><a name='123_50'>(</a></span><span class='identifier'><a name='123_51' href='MessageTransportTests.html#122_12' title='usrString1'>content</a></span><span class='string_interpolation_anchor'><a name='123_58'>)</a></span><span class='string'><a name='123_59'>"</a></span>
-0124            
-0125            <span class='identifier'><a name='125_8'>measure</a></span> {
-0126                <span class='keyword'><a name='126_12'>for</a></span> <span class='keyword'><a name='126_16'>_</a></span> <span class='keyword'><a name='126_18'>in</a></span> <span class='number'><a name='126_21'>0</a></span>..&lt;<span class='number'><a name='126_25'>1000</a></span> {
-0127                    <span class='identifier'><a name='127_16' href='MessageTransportTests.html#112_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'><a name='127_30'>mockRead</a></span>(<span class='identifier'><a name='127_39' href='MessageTransportTests.html#123_12' title='usrString1'>message</a></span>)
-0128                }
-0129            }
-0130            
-0131            <span class='identifier'><a name='131_8'>XCTAssert</a></span>(<span class='identifier'><a name='131_18' href='MessageTransportTests.html#116_12' title='usrString1'>receiveCount</a></span> >= <span class='number'><a name='131_34'>1000</a></span>)
-0132        }
-0133    
-0134        <span class='keyword'><a name='134_4'>func</a></span> <span class='identifier'><a name='134_9' title='usrString3'>testTwoFullMessagesInOneRead</a></span>() {
-0135            <span class='keyword'><a name='135_8'>let</a></span> <span class='identifier'><a name='135_12' title='usrString3'>messages</a></span> = [
-0136                <span class='string'><a name='136_12'>"Content-Length: 6\r\n\r\nabcdefContent-Length: 10\r\n\r\nabcdefghij"</a></span>
-0137            ]
-0138    
-0139            <span class='keyword'><a name='139_8'>let</a></span> <span class='identifier'><a name='139_12' title='usrString3'>results</a></span> = <span class='identifier'><a name='139_22'>writeMessagesAndReadResult</a></span>(<span class='identifier'><a name='139_49' href='MessageTransportTests.html#135_12' title='usrString1'>messages</a></span>, <span class='identifier'><a name='139_59'>resultCount</a></span>: <span class='number'><a name='139_72'>2</a></span>)
-0140    
-0141            <span class='keyword'><a name='141_8'>if</a></span> <span class='identifier'><a name='141_11' href='MessageTransportTests.html#139_12' title='usrString1'>results</a></span>.<span class='identifier'><a name='141_19'>count</a></span> != <span class='number'><a name='141_28'>2</a></span> {
-0142                <span class='identifier'><a name='142_12'>XCTFail</a></span>()
-0143                <span class='keyword'><a name='143_12'>return</a></span>
-0144            }
-0145    
-0146            <span class='identifier'><a name='146_8'>XCTAssertEqual</a></span>(<span class='identifier'><a name='146_23' href='MessageTransportTests.html#139_12' title='usrString1'>results</a></span>[<span class='number'><a name='146_31'>0</a></span>], <span class='string'><a name='146_35'>"abcdef"</a></span>.<span class='identifier'><a name='146_44'>data</a></span>(<span class='identifier'><a name='146_49'>using</a></span>: .<span class='identifier'><a name='146_57'>utf8</a></span>)!)
-0147            <span class='identifier'><a name='147_8'>XCTAssertEqual</a></span>(<span class='identifier'><a name='147_23' href='MessageTransportTests.html#139_12' title='usrString1'>results</a></span>[<span class='number'><a name='147_31'>1</a></span>], <span class='string'><a name='147_35'>"abcdefghij"</a></span>.<span class='identifier'><a name='147_48'>data</a></span>(<span class='identifier'><a name='147_53'>using</a></span>: .<span class='identifier'><a name='147_61'>utf8</a></span>)!)
-0148        }
-0149    }
-0150    
+</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClientTests/MessageTransportTests.swift</h3><pre><span class=lineno>0001</span>    <span class='comment'>//
+<span class=lineno>0002</span>    </span><span class='comment'>//  MessageTransportTests.swift
+<span class=lineno>0003</span>    </span><span class='comment'>//  SwiftLSPClientTests
+<span class=lineno>0004</span>    </span><span class='comment'>//
+<span class=lineno>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2018-10-15.
+<span class=lineno>0006</span>    </span><span class='comment'>//  Copyright © 2018 Chime Systems. All rights reserved.
+<span class=lineno>0007</span>    </span><span class='comment'>//
+<span class=lineno>0008</span>    </span>
+<span class=lineno>0009</span>    <span class='keyword'>import</span> <span class='identifier'>XCTest</span>
+<span class=lineno>0010</span>    <span class='builtin'>@testable</span> <span class='keyword'>import</span> <span class='identifier'>SwiftLSPClient</span>
+<span class=lineno>0011</span>    
+<span class=lineno>0012</span>    <span class='keyword'>class</span> <span class='identifier'><a name='12_6' title='usrString3'>MessageTransportTests</a></span>: <span class='typeidentifier'>XCTestCase</span> {
+<span class=lineno>0013</span>        <span class='keyword'>func</span> <span class='identifier'><a name='13_9' title='usrString3'>writeMessageAndReadResult</a></span>(<span class='keyword'>_</span> <span class='identifier'><a name='13_37' title='usrString3'>message</a></span>: <span class='typeidentifier'>String</span>) -> <span class='typeidentifier'>Data</span>? {
+<span class=lineno>0014</span>            <span class='keyword'>let</span> <span class='identifier'><a name='14_12' title='usrString3'>results</a></span> = <span class='identifier'>writeMessagesAndReadResult</span>([<span class='identifier'><a name='14_50' href='MessageTransportTests.html#13_37' title='usrString1'>message</a></span>])
+<span class=lineno>0015</span>            
+<span class=lineno>0016</span>            <span class='keyword'>guard</span> <span class='identifier'><a name='16_14' href='MessageTransportTests.html#14_12' title='usrString1'>results</a></span>.<span class='identifier'>count</span> == <span class='number'>1</span> <span class='keyword'>else</span> {
+<span class=lineno>0017</span>                <span class='keyword'>return</span> <span class='keyword'>nil</span>
+<span class=lineno>0018</span>            }
+<span class=lineno>0019</span>            
+<span class=lineno>0020</span>            <span class='keyword'>return</span> <span class='identifier'><a name='20_15' href='MessageTransportTests.html#14_12' title='usrString1'>results</a></span>[<span class='number'>0</span>]
+<span class=lineno>0021</span>        }
+<span class=lineno>0022</span>        
+<span class=lineno>0023</span>        <span class='keyword'>func</span> <span class='identifier'><a name='23_9' title='usrString3'>writeMessagesAndReadResult</a></span>(<span class='keyword'>_</span> <span class='identifier'><a name='23_38' title='usrString3'>messages</a></span>: [<span class='typeidentifier'>String</span>], <span class='identifier'><a name='23_58' title='usrString3'>resultCount</a></span>: <span class='typeidentifier'>Int</span> = <span class='number'>1</span>) -> [<span class='typeidentifier'>Data</span>] {
+<span class=lineno>0024</span>            <span class='keyword'>let</span> <span class='identifier'><a name='24_12' title='usrString3'>dataTransport</a></span> = <span class='identifier'>MockDataTransport</span>()
+<span class=lineno>0025</span>            
+<span class=lineno>0026</span>            <span class='keyword'>let</span> <span class='identifier'><a name='26_12' title='usrString3'>transport</a></span> = <span class='identifier'>MessageTransport</span>(<span class='identifier'>dataTransport</span>: <span class='identifier'><a name='26_56' href='MessageTransportTests.html#24_12' title='usrString1'>dataTransport</a></span>)
+<span class=lineno>0027</span>            
+<span class=lineno>0028</span>            <span class='keyword'>var</span> <span class='identifier'><a name='28_12' title='usrString3'>receivedData</a></span>: [<span class='typeidentifier'>Data</span>] = []
+<span class=lineno>0029</span>    
+<span class=lineno>0030</span>            <span class='keyword'>let</span> <span class='identifier'><a name='30_12' title='usrString3'>exp</a></span> = <span class='identifier'>XCTestExpectation</span>(<span class='identifier'>description</span>: <span class='string'>"Message Content"</span>)
+<span class=lineno>0031</span>            <span class='identifier'><a name='31_8' href='MessageTransportTests.html#30_12' title='usrString1'>exp</a></span>.<span class='identifier'>expectedFulfillmentCount</span> = <span class='identifier'><a name='31_39' href='MessageTransportTests.html#23_58' title='usrString1'>resultCount</a></span>
+<span class=lineno>0032</span>    
+<span class=lineno>0033</span>            <span class='identifier'><a name='33_8' href='MessageTransportTests.html#26_12' title='usrString1'>transport</a></span>.<span class='identifier'>dataHandler</span> = { (<span class='identifier'><a name='33_35' title='usrString3'>data</a></span>) <span class='keyword'>in</span>
+<span class=lineno>0034</span>                <span class='identifier'><a name='34_12' href='MessageTransportTests.html#28_12' title='usrString1'>receivedData</a></span>.<span class='identifier'>append</span>(<span class='identifier'><a name='34_32' href='MessageTransportTests.html#33_35' title='usrString1'>data</a></span>)
+<span class=lineno>0035</span>    
+<span class=lineno>0036</span>                <span class='identifier'><a name='36_12' href='MessageTransportTests.html#30_12' title='usrString1'>exp</a></span>.<span class='identifier'>fulfill</span>()
+<span class=lineno>0037</span>            }
+<span class=lineno>0038</span>    
+<span class=lineno>0039</span>            <span class='keyword'>for</span> <span class='identifier'><a name='39_12' title='usrString3'>message</a></span> <span class='keyword'>in</span> <span class='identifier'><a name='39_23' href='MessageTransportTests.html#23_38' title='usrString1'>messages</a></span> {
+<span class=lineno>0040</span>                <span class='identifier'><a name='40_12' href='MessageTransportTests.html#24_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'>mockRead</span>(<span class='identifier'><a name='40_35' href='MessageTransportTests.html#39_12' title='usrString1'>message</a></span>)
+<span class=lineno>0041</span>            }
+<span class=lineno>0042</span>    
+<span class=lineno>0043</span>            <span class='identifier'>wait</span>(<span class='identifier'>for</span>: [<span class='identifier'><a name='43_19' href='MessageTransportTests.html#30_12' title='usrString1'>exp</a></span>], <span class='identifier'>timeout</span>: <span class='number'>1.0</span>)
+<span class=lineno>0044</span>    
+<span class=lineno>0045</span>            <span class='keyword'>return</span> <span class='identifier'><a name='45_15' href='MessageTransportTests.html#28_12' title='usrString1'>receivedData</a></span>
+<span class=lineno>0046</span>        }
+<span class=lineno>0047</span>        
+<span class=lineno>0048</span>        <span class='keyword'>func</span> <span class='identifier'><a name='48_9' title='usrString3'>testBasicMessageDecode</a></span>() {
+<span class=lineno>0049</span>            <span class='keyword'>let</span> <span class='identifier'><a name='49_12' title='usrString3'>content</a></span> = <span class='string'>"{\"jsonrpc\":\"2.0\",\"params\":\"Something\"}"</span>
+<span class=lineno>0050</span>            <span class='keyword'>let</span> <span class='identifier'><a name='50_12' title='usrString3'>message</a></span> = <span class='string'>"Content-Length: 38\r\n\r\n</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'><a name='50_51' href='MessageTransportTests.html#49_12' title='usrString1'>content</a></span><span class='string_interpolation_anchor'>)</span><span class='string'>"</span>
+<span class=lineno>0051</span>            
+<span class=lineno>0052</span>            <span class='keyword'>let</span> <span class='identifier'><a name='52_12' title='usrString3'>data</a></span> = <span class='identifier'>writeMessageAndReadResult</span>(<span class='identifier'><a name='52_45' href='MessageTransportTests.html#50_12' title='usrString1'>message</a></span>)
+<span class=lineno>0053</span>            
+<span class=lineno>0054</span>            <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='54_23' href='MessageTransportTests.html#52_12' title='usrString1'>data</a></span>, <span class='identifier'><a name='54_29' href='MessageTransportTests.html#49_12' title='usrString1'>content</a></span>.<span class='identifier'>data</span>(<span class='identifier'>using</span>: .<span class='identifier'>utf8</span>)!)
+<span class=lineno>0055</span>        }
+<span class=lineno>0056</span>        
+<span class=lineno>0057</span>        <span class='keyword'>func</span> <span class='identifier'><a name='57_9' title='usrString3'>testMultiHeaderMessage</a></span>() {
+<span class=lineno>0058</span>            <span class='keyword'>let</span> <span class='identifier'><a name='58_12' title='usrString3'>content</a></span> = <span class='string'>"{\"jsonrpc\":\"2.0\",\"params\":\"Something\"}"</span>
+<span class=lineno>0059</span>            <span class='keyword'>let</span> <span class='identifier'><a name='59_12' title='usrString3'>header1</a></span> = <span class='string'>"Content-Length: 38\r\n"</span>
+<span class=lineno>0060</span>            <span class='keyword'>let</span> <span class='identifier'><a name='60_12' title='usrString3'>header2</a></span> = <span class='string'>"Another-Header: Something\r\n"</span>
+<span class=lineno>0061</span>            <span class='keyword'>let</span> <span class='identifier'><a name='61_12' title='usrString3'>header3</a></span> = <span class='string'>"And-Another: third\r\n"</span>
+<span class=lineno>0062</span>            <span class='keyword'>let</span> <span class='identifier'><a name='62_12' title='usrString3'>message</a></span> = <span class='identifier'><a name='62_22' href='MessageTransportTests.html#59_12' title='usrString1'>header1</a></span> + <span class='identifier'><a name='62_32' href='MessageTransportTests.html#60_12' title='usrString1'>header2</a></span> + <span class='identifier'><a name='62_42' href='MessageTransportTests.html#61_12' title='usrString1'>header3</a></span> + <span class='string'>"\r\n"</span> + <span class='identifier'><a name='62_61' href='MessageTransportTests.html#58_12' title='usrString1'>content</a></span>
+<span class=lineno>0063</span>            
+<span class=lineno>0064</span>            <span class='keyword'>let</span> <span class='identifier'><a name='64_12' title='usrString3'>data</a></span> = <span class='identifier'>writeMessageAndReadResult</span>(<span class='identifier'><a name='64_45' href='MessageTransportTests.html#62_12' title='usrString1'>message</a></span>)
+<span class=lineno>0065</span>            
+<span class=lineno>0066</span>            <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='66_23' href='MessageTransportTests.html#64_12' title='usrString1'>data</a></span>, <span class='identifier'><a name='66_29' href='MessageTransportTests.html#58_12' title='usrString1'>content</a></span>.<span class='identifier'>data</span>(<span class='identifier'>using</span>: .<span class='identifier'>utf8</span>)!)
+<span class=lineno>0067</span>        }
+<span class=lineno>0068</span>        
+<span class=lineno>0069</span>        <span class='keyword'>func</span> <span class='identifier'><a name='69_9' title='usrString3'>testMultiReadMessage</a></span>() {
+<span class=lineno>0070</span>            <span class='keyword'>let</span> <span class='identifier'><a name='70_12' title='usrString3'>messages</a></span> = [
+<span class=lineno>0071</span>                <span class='string'>"Content-Le"</span>,
+<span class=lineno>0072</span>                <span class='string'>"ngth: 30\r\n"</span>,
+<span class=lineno>0073</span>                <span class='string'>"Header2: h"</span>,
+<span class=lineno>0074</span>                <span class='string'>"llo\r\n\r\n"</span>,
+<span class=lineno>0075</span>                <span class='string'>"abcdefghij"</span>,
+<span class=lineno>0076</span>                <span class='string'>"klmnopqurs"</span>,
+<span class=lineno>0077</span>                <span class='string'>"tuvwxyz123"</span>
+<span class=lineno>0078</span>            ]
+<span class=lineno>0079</span>            
+<span class=lineno>0080</span>            <span class='keyword'>let</span> <span class='identifier'><a name='80_12' title='usrString3'>content</a></span> = <span class='string'>"abcdefghijklmnopqurstuvwxyz123"</span>
+<span class=lineno>0081</span>    
+<span class=lineno>0082</span>            <span class='keyword'>let</span> <span class='identifier'><a name='82_12' title='usrString3'>results</a></span> = <span class='identifier'>writeMessagesAndReadResult</span>(<span class='identifier'><a name='82_49' href='MessageTransportTests.html#70_12' title='usrString1'>messages</a></span>)
+<span class=lineno>0083</span>    
+<span class=lineno>0084</span>            <span class='keyword'>if</span> <span class='identifier'><a name='84_11' href='MessageTransportTests.html#82_12' title='usrString1'>results</a></span>.<span class='identifier'>count</span> != <span class='number'>1</span> {
+<span class=lineno>0085</span>                <span class='identifier'>XCTFail</span>()
+<span class=lineno>0086</span>                <span class='keyword'>return</span>
+<span class=lineno>0087</span>            }
+<span class=lineno>0088</span>    
+<span class=lineno>0089</span>            <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='89_23' href='MessageTransportTests.html#82_12' title='usrString1'>results</a></span>[<span class='number'>0</span>], <span class='identifier'><a name='89_35' href='MessageTransportTests.html#80_12' title='usrString1'>content</a></span>.<span class='identifier'>data</span>(<span class='identifier'>using</span>: .<span class='identifier'>utf8</span>)!)
+<span class=lineno>0090</span>        }
+<span class=lineno>0091</span>        
+<span class=lineno>0092</span>        <span class='keyword'>func</span> <span class='identifier'><a name='92_9' title='usrString3'>testMultiReadMessageWithSecondMessageInARead</a></span>() {
+<span class=lineno>0093</span>            <span class='keyword'>let</span> <span class='identifier'><a name='93_12' title='usrString3'>messages</a></span> = [
+<span class=lineno>0094</span>                <span class='string'>"Content-Length: 6\r\n"</span>,
+<span class=lineno>0095</span>                <span class='string'>"Another-Header: hello\r\n\r\n"</span>,
+<span class=lineno>0096</span>                <span class='string'>"abcdefContent-Length: 10\r\n"</span>,
+<span class=lineno>0097</span>                <span class='string'>"\r\nabcdefghij"</span>,
+<span class=lineno>0098</span>            ]
+<span class=lineno>0099</span>            
+<span class=lineno>0100</span>            <span class='keyword'>let</span> <span class='identifier'><a name='100_12' title='usrString3'>results</a></span> = <span class='identifier'>writeMessagesAndReadResult</span>(<span class='identifier'><a name='100_49' href='MessageTransportTests.html#93_12' title='usrString1'>messages</a></span>, <span class='identifier'>resultCount</span>: <span class='number'>2</span>)
+<span class=lineno>0101</span>    
+<span class=lineno>0102</span>            <span class='keyword'>if</span> <span class='identifier'><a name='102_11' href='MessageTransportTests.html#100_12' title='usrString1'>results</a></span>.<span class='identifier'>count</span> != <span class='number'>2</span> {
+<span class=lineno>0103</span>                <span class='identifier'>XCTFail</span>()
+<span class=lineno>0104</span>                <span class='keyword'>return</span>
+<span class=lineno>0105</span>            }
+<span class=lineno>0106</span>    
+<span class=lineno>0107</span>            <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='107_23' href='MessageTransportTests.html#100_12' title='usrString1'>results</a></span>[<span class='number'>0</span>], <span class='string'>"abcdef"</span>.<span class='identifier'>data</span>(<span class='identifier'>using</span>: .<span class='identifier'>utf8</span>)!)
+<span class=lineno>0108</span>            <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='108_23' href='MessageTransportTests.html#100_12' title='usrString1'>results</a></span>[<span class='number'>1</span>], <span class='string'>"abcdefghij"</span>.<span class='identifier'>data</span>(<span class='identifier'>using</span>: .<span class='identifier'>utf8</span>)!)
+<span class=lineno>0109</span>        }
+<span class=lineno>0110</span>        
+<span class=lineno>0111</span>        <span class='keyword'>func</span> <span class='identifier'><a name='111_9' title='usrString3'>testDecodeMessagePerformance</a></span>() {
+<span class=lineno>0112</span>            <span class='keyword'>let</span> <span class='identifier'><a name='112_12' title='usrString3'>dataTransport</a></span> = <span class='identifier'>MockDataTransport</span>()
+<span class=lineno>0113</span>            
+<span class=lineno>0114</span>            <span class='keyword'>let</span> <span class='identifier'><a name='114_12' title='usrString3'>transport</a></span> = <span class='identifier'>MessageTransport</span>(<span class='identifier'>dataTransport</span>: <span class='identifier'><a name='114_56' href='MessageTransportTests.html#112_12' title='usrString1'>dataTransport</a></span>)
+<span class=lineno>0115</span>            
+<span class=lineno>0116</span>            <span class='keyword'>var</span> <span class='identifier'><a name='116_12' title='usrString3'>receiveCount</a></span>: <span class='typeidentifier'>Int</span> = <span class='number'>0</span>
+<span class=lineno>0117</span>            
+<span class=lineno>0118</span>            <span class='identifier'><a name='118_8' href='MessageTransportTests.html#114_12' title='usrString1'>transport</a></span>.<span class='identifier'>dataHandler</span> = { (<span class='identifier'><a name='118_35' title='usrString3'>data</a></span>) <span class='keyword'>in</span>
+<span class=lineno>0119</span>                <span class='identifier'><a name='119_12' href='MessageTransportTests.html#116_12' title='usrString1'>receiveCount</a></span> += <span class='number'>1</span>
+<span class=lineno>0120</span>            }
+<span class=lineno>0121</span>            
+<span class=lineno>0122</span>            <span class='keyword'>let</span> <span class='identifier'><a name='122_12' title='usrString3'>content</a></span> = <span class='string'>"{\"jsonrpc\":\"2.0\",\"params\":\"Something\"}"</span>
+<span class=lineno>0123</span>            <span class='keyword'>let</span> <span class='identifier'><a name='123_12' title='usrString3'>message</a></span> = <span class='string'>"Content-Length: 38\r\n\r\n</span>\<span class='string_interpolation_anchor'>(</span><span class='identifier'><a name='123_51' href='MessageTransportTests.html#122_12' title='usrString1'>content</a></span><span class='string_interpolation_anchor'>)</span><span class='string'>"</span>
+<span class=lineno>0124</span>            
+<span class=lineno>0125</span>            <span class='identifier'>measure</span> {
+<span class=lineno>0126</span>                <span class='keyword'>for</span> <span class='keyword'>_</span> <span class='keyword'>in</span> <span class='number'>0</span>..&lt;<span class='number'>1000</span> {
+<span class=lineno>0127</span>                    <span class='identifier'><a name='127_16' href='MessageTransportTests.html#112_12' title='usrString1'>dataTransport</a></span>.<span class='identifier'>mockRead</span>(<span class='identifier'><a name='127_39' href='MessageTransportTests.html#123_12' title='usrString1'>message</a></span>)
+<span class=lineno>0128</span>                }
+<span class=lineno>0129</span>            }
+<span class=lineno>0130</span>            
+<span class=lineno>0131</span>            <span class='identifier'>XCTAssert</span>(<span class='identifier'><a name='131_18' href='MessageTransportTests.html#116_12' title='usrString1'>receiveCount</a></span> >= <span class='number'>1000</span>)
+<span class=lineno>0132</span>        }
+<span class=lineno>0133</span>    
+<span class=lineno>0134</span>        <span class='keyword'>func</span> <span class='identifier'><a name='134_9' title='usrString3'>testTwoFullMessagesInOneRead</a></span>() {
+<span class=lineno>0135</span>            <span class='keyword'>let</span> <span class='identifier'><a name='135_12' title='usrString3'>messages</a></span> = [
+<span class=lineno>0136</span>                <span class='string'>"Content-Length: 6\r\n\r\nabcdefContent-Length: 10\r\n\r\nabcdefghij"</span>
+<span class=lineno>0137</span>            ]
+<span class=lineno>0138</span>    
+<span class=lineno>0139</span>            <span class='keyword'>let</span> <span class='identifier'><a name='139_12' title='usrString3'>results</a></span> = <span class='identifier'>writeMessagesAndReadResult</span>(<span class='identifier'><a name='139_49' href='MessageTransportTests.html#135_12' title='usrString1'>messages</a></span>, <span class='identifier'>resultCount</span>: <span class='number'>2</span>)
+<span class=lineno>0140</span>    
+<span class=lineno>0141</span>            <span class='keyword'>if</span> <span class='identifier'><a name='141_11' href='MessageTransportTests.html#139_12' title='usrString1'>results</a></span>.<span class='identifier'>count</span> != <span class='number'>2</span> {
+<span class=lineno>0142</span>                <span class='identifier'>XCTFail</span>()
+<span class=lineno>0143</span>                <span class='keyword'>return</span>
+<span class=lineno>0144</span>            }
+<span class=lineno>0145</span>    
+<span class=lineno>0146</span>            <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='146_23' href='MessageTransportTests.html#139_12' title='usrString1'>results</a></span>[<span class='number'>0</span>], <span class='string'>"abcdef"</span>.<span class='identifier'>data</span>(<span class='identifier'>using</span>: .<span class='identifier'>utf8</span>)!)
+<span class=lineno>0147</span>            <span class='identifier'>XCTAssertEqual</span>(<span class='identifier'><a name='147_23' href='MessageTransportTests.html#139_12' title='usrString1'>results</a></span>[<span class='number'>1</span>], <span class='string'>"abcdefghij"</span>.<span class='identifier'>data</span>(<span class='identifier'>using</span>: .<span class='identifier'>utf8</span>)!)
+<span class=lineno>0148</span>        }
+<span class=lineno>0149</span>    }
+<span class=lineno>0150</span>    

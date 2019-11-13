@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#1 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#6 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -21,6 +21,8 @@ var filenameForFile = [String:String](), filesForFileName = [String:String]()
 let filenameLock = NSLock()
 
 func fileFilename(file: String) -> String {
+    filenameLock.lock()
+    defer { filenameLock.unlock() }
     if let filename = filenameForFile[file] {
         return filename
     }
@@ -28,10 +30,8 @@ func fileFilename(file: String) -> String {
     while filesForFileName[filename] != nil {
         filename += "_"
     }
-    filenameLock.lock()
     filesForFileName[filename] = file
     filenameForFile[file] = filename
-    filenameLock.unlock()
     return filename
 }
 
@@ -138,19 +138,17 @@ public class Siteify {
             "__ROOT__": projectRoot.replacingOccurrences(of: home, with: "~")])
         setbuf(index, nil)
 
-        let fileEnumerator = filemgr.enumerator(atPath: projectRoot)
-
-        parallelize(threads: 4) {
-            guard let file = fileEnumerator?.nextObject() else {
-                return nil
-            }
-            return {
-                if let path = file as? String,
-                    (try? LanguageIdentifier(for: URL(fileURLWithPath: path))) != nil {
-                    self.processFile(path: self.projectRoot + "/" + path)
+        filemgr.enumerator(atPath: projectRoot)?
+            .concurrentMap(maxConcurrency: 8) {
+                (file, completion: (String?) -> Void) in
+                guard let path = file as? String,
+                    (try? LanguageIdentifier(for: URL(fileURLWithPath: path))) != nil else {
+                    return completion(nil)
                 }
+
+                self.processFile(path: self.projectRoot + "/" + path)
+                return completion(path)
             }
-        }
 
         progress(str: "Site complete.")
     }
@@ -160,7 +158,6 @@ public class Siteify {
         let htmlfile = fileFilename(file: path)+".html"
         let relative = path.replacingOccurrences(of: projectRoot+"/", with: "")
         progress(str: "Saving html/\(htmlfile)")
-        var html = ""
 
         if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
             if index != nil {
@@ -172,27 +169,14 @@ public class Siteify {
             }
             data.withUnsafeBytes {
                 (start: UnsafePointer<Int8>) in
-                var curr = start
-                var line = 0
-                func position(for offset: Int) -> Position {
-                    while let next = UnsafePointer<Int8>(strchr(curr, Int32("\n".utf8.first!))),
-                        next - start < offset {
-                            curr = next + 1
-                            line += 1
-                    }
-                    return Position(line: line,
-                                    character: offset - (curr - start))
-                }
-
-                let newline = Int8("\n".utf16.last!)
-                var ptr = 0, lineno = 1, col = 1
+                var ptr = 0, lineno = 0, col = 0
 
                 func skipTo(offset: Int) -> String {
                     let out = NSString(bytes: start+ptr, length: offset-ptr, encoding: String.Encoding.utf8.rawValue) ?? ""
                     while ptr < offset {
-                        if start[ptr] == newline {
+                        if start[ptr] == UInt8(ascii: "\n") {
                             lineno += 1
-                            col = 1
+                            col = 0
                         }
                         else {
                             col += 1
@@ -221,82 +205,97 @@ public class Siteify {
 
                 let resp = self.sourceKit.syntaxMap(filePath: path)
                 let dict = SKApi.sourcekitd_response_get_value(resp)
-                sourceKit.recurseOver(childID: self.sourceKit.syntaxID, resp: dict) { dict in
-                    let offset = dict.getInt(key: self.sourceKit.offsetID)
-                    let length = dict.getInt(key: self.sourceKit.lengthID)
-                    let pos = position(for: offset)
-//                    print(offset, pos)
-
-                    html += skipTo(offset: offset)
-                    let text = skipTo(offset: offset+length)
+                let syntaxMap = SKApi.sourcekitd_variant_dictionary_get_value( dict, self.sourceKit.syntaxID )
+                var html = (0..<SKApi.sourcekitd_variant_array_get_count(syntaxMap))
+                    .map {
+                        (index: Int) -> (String, sourcekitd_variant_t, Position, String) in
+                        let dict = SKApi.sourcekitd_variant_array_get_value(syntaxMap, index)
+                        let offset = dict.getInt(key: self.sourceKit.offsetID)
+                        let length = dict.getInt(key: self.sourceKit.lengthID)
+                        let pre = skipTo(offset: offset)
+                        let pos = Position(line: lineno, character: col)
+                        let text = skipTo(offset: offset+length)
+                        return (pre, dict, pos, text)
+                }.concurrentMap(maxConcurrency: 1 /* can not multithread file */) {
+                    (arg0, completion: @escaping (String) -> Void) in
+                    let (pre, dict, pos, text) = arg0
                     let kind = dict.getUUIDString(key: self.sourceKit.kindID)
+                    let kindID = SKApi.sourcekitd_variant_dictionary_get_uid(dict, self.sourceKit.kindID)
                     let kindSuffix = NSURL(fileURLWithPath: kind).pathExtension!
-                    var span = "<a name='\(pos.anchor)'>\(text)</a>"
+                    let completion2 = { (span: String) in
+                        completion("\(pre)<span class='\(kindSuffix)'>\(span)</span>")
+                    }
+
                     if kindSuffix == "url" {
-                        span = "<a href='\(text)'>\(text)</a>"
+                        return completion2("<a href='\(text)'>\(text)</a>")
                     }
-                    if SKApi.sourcekitd_variant_dictionary_get_uid(dict, self.sourceKit.kindID) == self.sourceKit.identifierID {
-                        var def: Location?
-                        let res = synchronizer.sync {
-                            self.lspServer!.definition(params: TextDocumentPositionParams(textDocument: TextDocumentIdentifier(path: path), position: pos), block: $0)
-                        }
-                        switch res {
-                        case .locationArray(let a) where a.count > 0:
-                            def = a.first
-//                            print(res as Any)
-                        default:
-                            break
-                        }
+                    if kindID != self.sourceKit.identifierID {
+                        return completion2(text)
+                    }
 
-                        if let decl = def {
-                            if decl.file == path && decl.range.start == pos,
-                                let refs = synchronizer.sync({
-                                    self.lspServer!.references(params: ReferenceParams(textDocument: TextDocumentIdentifier(path: path), position: pos, context: ReferenceContext(includeDeclaration: false)), block: $0)})?
-                                    .sorted(by: { $0.uri < $1.uri }) {
-
-                                if refs.count > 0 && decl.file.starts(with: self.projectRoot) {
-                                    var popup = ""
-                                    for ref in refs {
-                                        let keepListOpen = ref.file != decl.file ? "event.stopPropagation(); " : ""
-                                        if ref.href == decl.href {
-                                            continue
+                    let docPos = TextDocumentPositionParams(textDocument: TextDocumentIdentifier(path: path), position: pos)
+                    self.lspServer!.definition(params: docPos) { result in
+                        switch result {
+                        case .success(let value):
+                            switch value {
+                            case .locationArray(let a) where a.count > 0:
+                                let decl = a.first!
+                                if decl.file == path && decl.range.start == pos {
+                                    self.lspServer!.references(params: ReferenceParams(textDocument: TextDocumentIdentifier(path: path), position: pos, context: ReferenceContext(includeDeclaration: false))) {
+                                        result in
+                                        switch result {
+                                        case .success(let refs):
+                                            if let refs = refs, refs.count > 0 &&
+                                                decl.file.starts(with: self.projectRoot) {
+                                                var popup = ""
+                                                for ref in refs {
+                                                    let keepListOpen = ref.file != decl.file ? "event.stopPropagation(); " : ""
+                                                    if ref.href == decl.href {
+                                                        continue
+                                                    }
+                                                    popup += "<tr><td style='text-decoration: underline;' onclick='document.location.href=\"\(ref.href)\"; \(keepListOpen)return false;'>\(ref.filebase):\(ref.line+1)</td>"
+                                                    popup += "<td><pre>\(reflines(file: ref.file, line: ref.line))</pre></td>"
+                                                }
+                                                completion2("<a name='\(decl.anchor)' \(popup != "" ? "href='#' " : "")title='\("usrString2")' onclick='return expand(this);'>" +
+                                                    "\(text)<span class='references'><table>\(popup)</table></span></a>")
+                                            } else {
+                                                completion2("<a name='\(decl.anchor)' title='\("usrString3")'>\(text)</a>")
+                                            }
+                                        case .failure(let err):
+                                            return completion2("<span title='\(err)'>#ERROR \(text)</span>")
                                         }
-                                        popup += "<tr><td style='text-decoration: underline;' onclick='document.location.href=\"\(ref.href)\"; \(keepListOpen)return false;'>\(ref.filebase):\(ref.line+1)</td>"
-                                        popup += "<td><pre>\(reflines(file: ref.file, line: ref.line))</pre></td>"
                                     }
-                                    span = "<a name='\(decl.anchor)' \(popup != "" ? "href='#' " : "")title='\("usrString2")' onclick='return expand(this);'>" +
-                                            "\(text)<span class='references'><table>\(popup)</table></span></a>"
+                                } else if decl.file.starts(with: self.projectRoot) {
+                                    completion2("<a name='\(pos.anchor)' href='\(decl.href)' title='\("usrString1")'>\(text)</a>")
+                                } else {
+                                    completion2(text)
                                 }
-                                else {
-                                    span = "<a name='\(decl.anchor)' title='\("usrString3")'>\(text)</a>"
-                                }
+                            default:
+                                completion2(text)
+                                break
                             }
-                            else if decl.file.starts(with: self.projectRoot) {
-                                span = "<a name='\(pos.anchor)' href='\(decl.href)' title='\("usrString1")'>\(text)</a>"
-                            }
+
+                        case .failure(let err):
+                            return completion2("<span title='\(err)'>#ERROR \(text)</span>")
                         }
                     }
+                }.joined() + skipTo(offset: data.count)
 
-                    html += "<span class='\(kindSuffix)'>\(span)</span>"
+                lineno = 0
+                html["(^|\n)"] = { (groups: [String], stop) -> String in
+                    lineno += 1
+                    return groups[1] + String(format: "<span class=linenum>%04d</span>    ", lineno)
                 }
 
-                html += skipTo(offset: data.count)
+                let out = copyTemplate(template: "source.html", patches: ["__FILE__":
+                    path.replacingOccurrences(of: projectRoot+"/", with: "")],
+                                       dest: "html/"+htmlfile)
+                html.withCString { _ = fputs($0, out) }
+                fclose(out)
+
+                SKApi.sourcekitd_response_dispose(resp)
             }
         }
-
-        var htmp = html
-        var line = 0
-
-        htmp["(^|\n)"] = { (groups: [String], stop) -> String in
-            line += 1
-            return groups[1] + String(format: "%04d    ", line)
-        }
-
-        let out = copyTemplate(template: "source.html", patches: ["__FILE__":
-            path.replacingOccurrences(of: projectRoot+"/", with: "")],
-                               dest: "html/"+htmlfile)
-        htmp.withCString { _ = fputs($0, out) }
-        fclose(out)
 
         progress(str: "Saved html/\(htmlfile)")
     }

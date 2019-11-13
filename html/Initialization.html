@@ -19,43 +19,43 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><pre>0001    <span class='comment'><a name='1_0'>//
-0002    </a></span><span class='comment'><a name='2_0'>//  General.swift
-0003    </a></span><span class='comment'><a name='3_0'>//  SwiftLSPClient
-0004    </a></span><span class='comment'><a name='4_0'>//
-0005    </a></span><span class='comment'><a name='5_0'>//  Created by Matt Massicotte on 2018-10-13.
-0006    </a></span><span class='comment'><a name='6_0'>//  Copyright © 2018 Matt Massicotte. All rights reserved.
-0007    </a></span><span class='comment'><a name='7_0'>//
-0008    </a></span>
-0009    <span class='keyword'><a name='9_0'>import</a></span> <span class='identifier'><a name='9_7'>Foundation</a></span>
-0010    
-0011    <span class='builtin'><a name='11_0'>public</a></span> <span class='keyword'><a name='11_7'>enum</a></span> <span class='identifier'><a name='11_12' title='usrString3'>Tracing</a></span>: <span class='typeidentifier'><a name='11_21'>String</a></span>, <span class='typeidentifier'><a name='11_29'>Codable</a></span> {
-0012        <span class='keyword'><a name='12_4'>case</a></span> <span class='identifier'><a name='12_9' title='usrString3'>off</a></span>
-0013        <span class='keyword'><a name='13_4'>case</a></span> <span class='identifier'><a name='13_9' title='usrString3'>messages</a></span>
-0014        <span class='keyword'><a name='14_4'>case</a></span> <span class='identifier'><a name='14_9' title='usrString3'>verbose</a></span>
-0015    }
-0016    
-0017    <span class='builtin'><a name='17_0'>public</a></span> <span class='keyword'><a name='17_7'>struct</a></span> <span class='identifier'><a name='17_14' href='#' title='usrString2' onclick='return expand(this);'>InitializeParams<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.html#103_35"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:103</td><td><pre>    public func initialize(params: InitializeParams, block: @escaping (LanguageServerResult&lt;InitializationResponse>) -> Void) {</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='17_32'>Codable</a></span> {
-0018        <span class='builtin'><a name='18_4'>public</a></span> <span class='keyword'><a name='18_11'>let</a></span> <span class='identifier'><a name='18_15' title='usrString3'>processId</a></span>: <span class='typeidentifier'><a name='18_26'>Int</a></span>
-0019        <span class='builtin'><a name='19_4'>public</a></span> <span class='keyword'><a name='19_11'>let</a></span> <span class='identifier'><a name='19_15' title='usrString3'>rootPath</a></span>: <span class='typeidentifier'><a name='19_25'>String</a></span>?
-0020        <span class='builtin'><a name='20_4'>public</a></span> <span class='keyword'><a name='20_11'>let</a></span> <span class='identifier'><a name='20_15' title='usrString3'>rootURI</a></span>: <span class='typeidentifier'><a name='20_24'>DocumentUri</a></span>?
-0021        <span class='builtin'><a name='21_4'>public</a></span> <span class='keyword'><a name='21_11'>let</a></span> <span class='identifier'><a name='21_15' title='usrString3'>initializationOptions</a></span>: <span class='typeidentifier'><a name='21_38'>JSONValue</a></span>?
-0022        <span class='builtin'><a name='22_4'>public</a></span> <span class='keyword'><a name='22_11'>let</a></span> <span class='identifier'><a name='22_15' title='usrString3'>capabilities</a></span>: <span class='typeidentifier'><a name='22_29'>ClientCapabilities</a></span>
-0023        <span class='builtin'><a name='23_4'>public</a></span> <span class='keyword'><a name='23_11'>let</a></span> <span class='identifier'><a name='23_15' title='usrString3'>trace</a></span>: <span class='typeidentifier'><a name='23_22'>Tracing</a></span>?
-0024        <span class='builtin'><a name='24_4'>public</a></span> <span class='keyword'><a name='24_11'>let</a></span> <span class='identifier'><a name='24_15' title='usrString3'>workspaceFolders</a></span>: [<span class='typeidentifier'><a name='24_34'>WorkspaceFolder</a></span>]?
-0025        
-0026        <span class='builtin'><a name='26_4'>public</a></span> <span class='keyword'><a name='26_11'>init</a></span>(<span class='identifier'><a name='26_16' title='usrString3'>processId</a></span>: <span class='typeidentifier'><a name='26_27'>Int</a></span>, <span class='identifier'><a name='26_32' title='usrString3'>rootPath</a></span>: <span class='typeidentifier'><a name='26_42'>String</a></span>?, <span class='identifier'><a name='26_51' title='usrString3'>rootURI</a></span>: <span class='typeidentifier'><a name='26_60'>DocumentUri</a></span>?, <span class='identifier'><a name='26_74' title='usrString3'>initializationOptions</a></span>: <span class='typeidentifier'><a name='26_97'>JSONValue</a></span>?, <span class='identifier'><a name='26_109' title='usrString3'>capabilities</a></span>: <span class='typeidentifier'><a name='26_123'>ClientCapabilities</a></span>, <span class='identifier'><a name='26_143' title='usrString3'>trace</a></span>: <span class='typeidentifier'><a name='26_150'>Tracing</a></span>?, <span class='identifier'><a name='26_160' title='usrString3'>workspaceFolders</a></span>: [<span class='typeidentifier'><a name='26_179'>WorkspaceFolder</a></span>]?) {
-0027            <span class='keyword'><a name='27_8'>self</a></span>.<span class='identifier'><a name='27_13' href='Initialization.html#18_15' title='usrString1'>processId</a></span> = <span class='identifier'><a name='27_25' href='Initialization.html#26_16' title='usrString1'>processId</a></span>
-0028            <span class='keyword'><a name='28_8'>self</a></span>.<span class='identifier'><a name='28_13' href='Initialization.html#19_15' title='usrString1'>rootPath</a></span> = <span class='identifier'><a name='28_24' href='Initialization.html#26_32' title='usrString1'>rootPath</a></span>
-0029            <span class='keyword'><a name='29_8'>self</a></span>.<span class='identifier'><a name='29_13' href='Initialization.html#20_15' title='usrString1'>rootURI</a></span> = <span class='identifier'><a name='29_23' href='Initialization.html#26_51' title='usrString1'>rootURI</a></span>
-0030            <span class='keyword'><a name='30_8'>self</a></span>.<span class='identifier'><a name='30_13' href='Initialization.html#21_15' title='usrString1'>initializationOptions</a></span> = <span class='identifier'><a name='30_37' href='Initialization.html#26_74' title='usrString1'>initializationOptions</a></span>
-0031            <span class='keyword'><a name='31_8'>self</a></span>.<span class='identifier'><a name='31_13' href='Initialization.html#22_15' title='usrString1'>capabilities</a></span> = <span class='identifier'><a name='31_28' href='Initialization.html#26_109' title='usrString1'>capabilities</a></span>
-0032            <span class='keyword'><a name='32_8'>self</a></span>.<span class='identifier'><a name='32_13' href='Initialization.html#23_15' title='usrString1'>trace</a></span> = <span class='identifier'><a name='32_21' href='Initialization.html#26_143' title='usrString1'>trace</a></span>
-0033            <span class='keyword'><a name='33_8'>self</a></span>.<span class='identifier'><a name='33_13' href='Initialization.html#24_15' title='usrString1'>workspaceFolders</a></span> = <span class='identifier'><a name='33_32' href='Initialization.html#26_160' title='usrString1'>workspaceFolders</a></span>
-0034        }
-0035    }
-0036    
-0037    <span class='builtin'><a name='37_0'>public</a></span> <span class='keyword'><a name='37_7'>struct</a></span> <span class='identifier'><a name='37_14' href='#' title='usrString2' onclick='return expand(this);'>InitializationResponse<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.html#103_92"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:103</td><td><pre>    public func initialize(params: InitializeParams, block: @escaping (LanguageServerResult&lt;InitializationResponse>) -> Void) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.html#106_90"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:106</td><td><pre>        protocolTransport.sendRequest(params, method: method) { (result: ProtocolResponse&lt;InitializationResponse>) in</pre></td></table></span></a></span>: <span class='typeidentifier'><a name='37_38'>Codable</a></span> {
-0038        <span class='builtin'><a name='38_4'>public</a></span> <span class='keyword'><a name='38_11'>let</a></span> <span class='identifier'><a name='38_15' title='usrString3'>capabilities</a></span>: <span class='typeidentifier'><a name='38_29'>ServerCapabilities</a></span>
-0039    }
-0040    
+</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClient/Types/Initialization.swift</h3><pre><span class=lineno>0001</span>    <span class='comment'>//
+<span class=lineno>0002</span>    </span><span class='comment'>//  General.swift
+<span class=lineno>0003</span>    </span><span class='comment'>//  SwiftLSPClient
+<span class=lineno>0004</span>    </span><span class='comment'>//
+<span class=lineno>0005</span>    </span><span class='comment'>//  Created by Matt Massicotte on 2018-10-13.
+<span class=lineno>0006</span>    </span><span class='comment'>//  Copyright © 2018 Matt Massicotte. All rights reserved.
+<span class=lineno>0007</span>    </span><span class='comment'>//
+<span class=lineno>0008</span>    </span>
+<span class=lineno>0009</span>    <span class='keyword'>import</span> <span class='identifier'>Foundation</span>
+<span class=lineno>0010</span>    
+<span class=lineno>0011</span>    <span class='builtin'>public</span> <span class='keyword'>enum</span> <span class='identifier'><a name='11_12' title='usrString3'>Tracing</a></span>: <span class='typeidentifier'>String</span>, <span class='typeidentifier'>Codable</span> {
+<span class=lineno>0012</span>        <span class='keyword'>case</span> <span class='identifier'><a name='12_9' title='usrString3'>off</a></span>
+<span class=lineno>0013</span>        <span class='keyword'>case</span> <span class='identifier'><a name='13_9' title='usrString3'>messages</a></span>
+<span class=lineno>0014</span>        <span class='keyword'>case</span> <span class='identifier'><a name='14_9' title='usrString3'>verbose</a></span>
+<span class=lineno>0015</span>    }
+<span class=lineno>0016</span>    
+<span class=lineno>0017</span>    <span class='builtin'>public</span> <span class='keyword'>struct</span> <span class='identifier'><a name='17_14' title='usrString3'>InitializeParams</a></span>: <span class='typeidentifier'>Codable</span> {
+<span class=lineno>0018</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='18_15' title='usrString3'>processId</a></span>: <span class='typeidentifier'>Int</span>
+<span class=lineno>0019</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='19_15' title='usrString3'>rootPath</a></span>: <span class='typeidentifier'>String</span>?
+<span class=lineno>0020</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='20_15' title='usrString3'>rootURI</a></span>: <span class='typeidentifier'>DocumentUri</span>?
+<span class=lineno>0021</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='21_15' title='usrString3'>initializationOptions</a></span>: <span class='typeidentifier'>JSONValue</span>?
+<span class=lineno>0022</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='22_15' title='usrString3'>capabilities</a></span>: <span class='typeidentifier'>ClientCapabilities</span>
+<span class=lineno>0023</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='23_15' title='usrString3'>trace</a></span>: <span class='typeidentifier'>Tracing</span>?
+<span class=lineno>0024</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='24_15' title='usrString3'>workspaceFolders</a></span>: [<span class='typeidentifier'>WorkspaceFolder</span>]?
+<span class=lineno>0025</span>        
+<span class=lineno>0026</span>        <span class='builtin'>public</span> <span class='keyword'>init</span>(<span class='identifier'><a name='26_16' title='usrString3'>processId</a></span>: <span class='typeidentifier'>Int</span>, <span class='identifier'><a name='26_32' title='usrString3'>rootPath</a></span>: <span class='typeidentifier'>String</span>?, <span class='identifier'><a name='26_51' title='usrString3'>rootURI</a></span>: <span class='typeidentifier'>DocumentUri</span>?, <span class='identifier'><a name='26_74' title='usrString3'>initializationOptions</a></span>: <span class='typeidentifier'>JSONValue</span>?, <span class='identifier'><a name='26_109' title='usrString3'>capabilities</a></span>: <span class='typeidentifier'>ClientCapabilities</span>, <span class='identifier'><a name='26_143' title='usrString3'>trace</a></span>: <span class='typeidentifier'>Tracing</span>?, <span class='identifier'><a name='26_160' title='usrString3'>workspaceFolders</a></span>: [<span class='typeidentifier'>WorkspaceFolder</span>]?) {
+<span class=lineno>0027</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='27_13' href='Initialization.html#18_15' title='usrString1'>processId</a></span> = <span class='identifier'><a name='27_25' href='Initialization.html#26_16' title='usrString1'>processId</a></span>
+<span class=lineno>0028</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='28_13' href='Initialization.html#19_15' title='usrString1'>rootPath</a></span> = <span class='identifier'><a name='28_24' href='Initialization.html#26_32' title='usrString1'>rootPath</a></span>
+<span class=lineno>0029</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='29_13' href='Initialization.html#20_15' title='usrString1'>rootURI</a></span> = <span class='identifier'><a name='29_23' href='Initialization.html#26_51' title='usrString1'>rootURI</a></span>
+<span class=lineno>0030</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='30_13' href='Initialization.html#21_15' title='usrString1'>initializationOptions</a></span> = <span class='identifier'><a name='30_37' href='Initialization.html#26_74' title='usrString1'>initializationOptions</a></span>
+<span class=lineno>0031</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='31_13' href='Initialization.html#22_15' title='usrString1'>capabilities</a></span> = <span class='identifier'><a name='31_28' href='Initialization.html#26_109' title='usrString1'>capabilities</a></span>
+<span class=lineno>0032</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='32_13' href='Initialization.html#23_15' title='usrString1'>trace</a></span> = <span class='identifier'><a name='32_21' href='Initialization.html#26_143' title='usrString1'>trace</a></span>
+<span class=lineno>0033</span>            <span class='keyword'>self</span>.<span class='identifier'><a name='33_13' href='Initialization.html#24_15' title='usrString1'>workspaceFolders</a></span> = <span class='identifier'><a name='33_32' href='Initialization.html#26_160' title='usrString1'>workspaceFolders</a></span>
+<span class=lineno>0034</span>        }
+<span class=lineno>0035</span>    }
+<span class=lineno>0036</span>    
+<span class=lineno>0037</span>    <span class='builtin'>public</span> <span class='keyword'>struct</span> <span class='identifier'><a name='37_14' title='usrString3'>InitializationResponse</a></span>: <span class='typeidentifier'>Codable</span> {
+<span class=lineno>0038</span>        <span class='builtin'>public</span> <span class='keyword'>let</span> <span class='identifier'><a name='38_15' title='usrString3'>capabilities</a></span>: <span class='typeidentifier'>ServerCapabilities</span>
+<span class=lineno>0039</span>    }
+<span class=lineno>0040</span>    
