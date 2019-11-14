@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 19/12/2015.
 //  Copyright © 2015 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/SourceKit.swift#15 $
+//  $Id: //depot/siteify/siteify/SourceKit.swift#16 $
 //
 //  Repo: https://github.com/johnno1962/Refactorator
 //
@@ -97,34 +97,34 @@ private let library = toolchainLoader.load(path: path)
 
 public class SourceKitEntryPoints {
 
-    public lazy var initialize: @convention(c) () -> () = library.load(symbol: "sourcekitd_initialize")
-    public lazy var shutdown: @convention(c) () -> () = library.load(symbol: "sourcekitd_shutdown")
-    public lazy var set_interrupted_connection_handler: @convention(c) (@escaping sourcekitd_interrupted_connection_handler_t) -> () = library.load(symbol: "sourcekitd_set_interrupted_connection_handler")
+    public lazy var initialize: @convention(c) () -> Void = library.load(symbol: "sourcekitd_initialize")
+    public lazy var shutdown: @convention(c) () -> Void = library.load(symbol: "sourcekitd_shutdown")
+    public lazy var set_interrupted_connection_handler: @convention(c) (@escaping sourcekitd_interrupted_connection_handler_t) -> Void = library.load(symbol: "sourcekitd_set_interrupted_connection_handler")
     public lazy var uid_get_from_cstr: @convention(c) (UnsafePointer<Int8>) -> (sourcekitd_uid_t?) = library.load(symbol: "sourcekitd_uid_get_from_cstr")
     public lazy var uid_get_from_buf: @convention(c) (UnsafePointer<Int8>, Int) -> (sourcekitd_uid_t?) = library.load(symbol: "sourcekitd_uid_get_from_buf")
     public lazy var uid_get_length: @convention(c) (sourcekitd_uid_t) -> (Int) = library.load(symbol: "sourcekitd_uid_get_length")
     public lazy var uid_get_string_ptr: @convention(c) (sourcekitd_uid_t) -> (UnsafePointer<Int8>?) = library.load(symbol: "sourcekitd_uid_get_string_ptr")
     public lazy var request_retain: @convention(c) (sourcekitd_object_t) -> (sourcekitd_object_t?) = library.load(symbol: "sourcekitd_request_retain")
-    public lazy var request_release: @convention(c) (sourcekitd_object_t) -> () = library.load(symbol: "sourcekitd_request_release")
+    public lazy var request_release: @convention(c) (sourcekitd_object_t) -> Void = library.load(symbol: "sourcekitd_request_release")
     public lazy var request_dictionary_create: @convention(c) (UnsafePointer<sourcekitd_uid_t?>?, UnsafePointer<sourcekitd_object_t?>?, Int) -> (sourcekitd_object_t?) = library.load(symbol: "sourcekitd_request_dictionary_create")
-    public lazy var request_dictionary_set_value: @convention(c) (sourcekitd_object_t, sourcekitd_uid_t, sourcekitd_object_t) -> () = library.load(symbol: "sourcekitd_request_dictionary_set_value")
-    public lazy var request_dictionary_set_string: @convention(c) (sourcekitd_object_t, sourcekitd_uid_t, UnsafePointer<Int8>) -> () = library.load(symbol: "sourcekitd_request_dictionary_set_string")
-    public lazy var request_dictionary_set_stringbuf: @convention(c) (sourcekitd_object_t, sourcekitd_uid_t, UnsafePointer<Int8>, Int) -> () = library.load(symbol: "sourcekitd_request_dictionary_set_stringbuf")
-    public lazy var request_dictionary_set_int64: @convention(c) (sourcekitd_object_t, sourcekitd_uid_t, Int64) -> () = library.load(symbol: "sourcekitd_request_dictionary_set_int64")
-    public lazy var request_dictionary_set_uid: @convention(c) (sourcekitd_object_t, sourcekitd_uid_t, sourcekitd_uid_t) -> () = library.load(symbol: "sourcekitd_request_dictionary_set_uid")
+    public lazy var request_dictionary_set_value: @convention(c) (sourcekitd_object_t, sourcekitd_uid_t, sourcekitd_object_t) -> Void = library.load(symbol: "sourcekitd_request_dictionary_set_value")
+    public lazy var request_dictionary_set_string: @convention(c) (sourcekitd_object_t, sourcekitd_uid_t, UnsafePointer<Int8>) -> Void = library.load(symbol: "sourcekitd_request_dictionary_set_string")
+    public lazy var request_dictionary_set_stringbuf: @convention(c) (sourcekitd_object_t, sourcekitd_uid_t, UnsafePointer<Int8>, Int) -> Void = library.load(symbol: "sourcekitd_request_dictionary_set_stringbuf")
+    public lazy var request_dictionary_set_int64: @convention(c) (sourcekitd_object_t, sourcekitd_uid_t, Int64) -> Void = library.load(symbol: "sourcekitd_request_dictionary_set_int64")
+    public lazy var request_dictionary_set_uid: @convention(c) (sourcekitd_object_t, sourcekitd_uid_t, sourcekitd_uid_t) -> Void = library.load(symbol: "sourcekitd_request_dictionary_set_uid")
     public lazy var request_array_create: @convention(c) (UnsafePointer<sourcekitd_object_t?>?, Int) -> (sourcekitd_object_t?) = library.load(symbol: "sourcekitd_request_array_create")
-    public lazy var request_array_set_value: @convention(c) (sourcekitd_object_t, Int, sourcekitd_object_t) -> () = library.load(symbol: "sourcekitd_request_array_set_value")
-    public lazy var request_array_set_string: @convention(c) (sourcekitd_object_t, Int, UnsafePointer<Int8>) -> () = library.load(symbol: "sourcekitd_request_array_set_string")
-    public lazy var request_array_set_stringbuf: @convention(c) (sourcekitd_object_t, Int, UnsafePointer<Int8>, Int) -> () = library.load(symbol: "sourcekitd_request_array_set_stringbuf")
-    public lazy var request_array_set_int64: @convention(c) (sourcekitd_object_t, Int, Int64) -> () = library.load(symbol: "sourcekitd_request_array_set_int64")
-    public lazy var request_array_set_uid: @convention(c) (sourcekitd_object_t, Int, sourcekitd_uid_t) -> () = library.load(symbol: "sourcekitd_request_array_set_uid")
+    public lazy var request_array_set_value: @convention(c) (sourcekitd_object_t, Int, sourcekitd_object_t) -> Void = library.load(symbol: "sourcekitd_request_array_set_value")
+    public lazy var request_array_set_string: @convention(c) (sourcekitd_object_t, Int, UnsafePointer<Int8>) -> Void = library.load(symbol: "sourcekitd_request_array_set_string")
+    public lazy var request_array_set_stringbuf: @convention(c) (sourcekitd_object_t, Int, UnsafePointer<Int8>, Int) -> Void = library.load(symbol: "sourcekitd_request_array_set_stringbuf")
+    public lazy var request_array_set_int64: @convention(c) (sourcekitd_object_t, Int, Int64) -> Void = library.load(symbol: "sourcekitd_request_array_set_int64")
+    public lazy var request_array_set_uid: @convention(c) (sourcekitd_object_t, Int, sourcekitd_uid_t) -> Void = library.load(symbol: "sourcekitd_request_array_set_uid")
     public lazy var request_int64_create: @convention(c) (Int64) -> (sourcekitd_object_t?) = library.load(symbol: "sourcekitd_request_int64_create")
     public lazy var request_string_create: @convention(c) (UnsafePointer<Int8>) -> (sourcekitd_object_t?) = library.load(symbol: "sourcekitd_request_string_create")
     public lazy var request_uid_create: @convention(c) (sourcekitd_uid_t) -> (sourcekitd_object_t?) = library.load(symbol: "sourcekitd_request_uid_create")
     public lazy var request_create_from_yaml: @convention(c) (UnsafePointer<Int8>, UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>?) -> (sourcekitd_object_t?) = library.load(symbol: "sourcekitd_request_create_from_yaml")
-    public lazy var request_description_dump: @convention(c) (sourcekitd_object_t) -> () = library.load(symbol: "sourcekitd_request_description_dump")
+    public lazy var request_description_dump: @convention(c) (sourcekitd_object_t) -> Void = library.load(symbol: "sourcekitd_request_description_dump")
     public lazy var request_description_copy: @convention(c) (sourcekitd_object_t) -> (UnsafeMutablePointer<Int8>?) = library.load(symbol: "sourcekitd_request_description_copy")
-    public lazy var response_dispose: @convention(c) (sourcekitd_response_t) -> () = library.load(symbol: "sourcekitd_response_dispose")
+    public lazy var response_dispose: @convention(c) (sourcekitd_response_t) -> Void = library.load(symbol: "sourcekitd_response_dispose")
     public lazy var response_is_error: @convention(c) (sourcekitd_response_t) -> (Bool) = library.load(symbol: "sourcekitd_response_is_error")
     public lazy var response_error_get_kind: @convention(c) (sourcekitd_response_t) -> (sourcekitd_error_t) = library.load(symbol: "sourcekitd_response_error_get_kind")
     public lazy var response_error_get_description: @convention(c) (sourcekitd_response_t) -> (UnsafePointer<Int8>?) = library.load(symbol: "sourcekitd_response_error_get_description")
@@ -149,19 +149,19 @@ public class SourceKitEntryPoints {
     public lazy var variant_string_get_length: @convention(c) (sourcekitd_variant_t) -> (Int) = library.load(symbol: "sourcekitd_variant_string_get_length")
     public lazy var variant_string_get_ptr: @convention(c) (sourcekitd_variant_t) -> (UnsafePointer<Int8>?) = library.load(symbol: "sourcekitd_variant_string_get_ptr")
     public lazy var variant_uid_get_value: @convention(c) (sourcekitd_variant_t) -> (sourcekitd_uid_t?) = library.load(symbol: "sourcekitd_variant_uid_get_value")
-    public lazy var response_description_dump: @convention(c) (sourcekitd_response_t) -> () = library.load(symbol: "sourcekitd_response_description_dump")
-    public lazy var response_description_dump_filedesc: @convention(c) (sourcekitd_response_t, Int32) -> () = library.load(symbol: "sourcekitd_response_description_dump_filedesc")
+    public lazy var response_description_dump: @convention(c) (sourcekitd_response_t) -> Void = library.load(symbol: "sourcekitd_response_description_dump")
+    public lazy var response_description_dump_filedesc: @convention(c) (sourcekitd_response_t, Int32) -> Void = library.load(symbol: "sourcekitd_response_description_dump_filedesc")
     public lazy var response_description_copy: @convention(c) (sourcekitd_response_t) -> (UnsafeMutablePointer<Int8>?) = library.load(symbol: "sourcekitd_response_description_copy")
-    public lazy var variant_description_dump: @convention(c) (sourcekitd_variant_t) -> () = library.load(symbol: "sourcekitd_variant_description_dump")
-    public lazy var variant_description_dump_filedesc: @convention(c) (sourcekitd_variant_t, Int32) -> () = library.load(symbol: "sourcekitd_variant_description_dump_filedesc")
+    public lazy var variant_description_dump: @convention(c) (sourcekitd_variant_t) -> Void = library.load(symbol: "sourcekitd_variant_description_dump")
+    public lazy var variant_description_dump_filedesc: @convention(c) (sourcekitd_variant_t, Int32) -> Void = library.load(symbol: "sourcekitd_variant_description_dump_filedesc")
     public lazy var variant_description_copy: @convention(c) (sourcekitd_variant_t) -> (UnsafeMutablePointer<Int8>?) = library.load(symbol: "sourcekitd_variant_description_copy")
     public lazy var variant_json_description_copy: @convention(c) (sourcekitd_variant_t) -> (UnsafeMutablePointer<Int8>?) = library.load(symbol: "sourcekitd_variant_json_description_copy")
     public lazy var send_request_sync: @convention(c) (sourcekitd_object_t) -> (sourcekitd_response_t?) = library.load(symbol: "sourcekitd_send_request_sync")
-    public lazy var send_request: @convention(c) (sourcekitd_object_t, UnsafeMutablePointer<sourcekitd_request_handle_t?>?, sourcekitd_response_receiver_t?) -> () = library.load(symbol: "sourcekitd_send_request")
-    public lazy var cancel_request: @convention(c) (sourcekitd_request_handle_t?) -> () = library.load(symbol: "sourcekitd_cancel_request")
-    public lazy var set_notification_handler: @convention(c) (sourcekitd_response_receiver_t?) -> () = library.load(symbol: "sourcekitd_set_notification_handler")
-    public lazy var set_uid_handler: @convention(c) (sourcekitd_uid_handler_t?) -> () = library.load(symbol: "sourcekitd_set_uid_handler")
-    public lazy var set_uid_handlers: @convention(c) (sourcekitd_uid_from_str_handler_t?, sourcekitd_str_from_uid_handler_t?) -> () = library.load(symbol: "sourcekitd_set_uid_handlers")
+    public lazy var send_request: @convention(c) (sourcekitd_object_t, UnsafeMutablePointer<sourcekitd_request_handle_t?>?, sourcekitd_response_receiver_t?) -> Void = library.load(symbol: "sourcekitd_send_request")
+    public lazy var cancel_request: @convention(c) (sourcekitd_request_handle_t?) -> Void = library.load(symbol: "sourcekitd_cancel_request")
+    public lazy var set_notification_handler: @convention(c) (sourcekitd_response_receiver_t?) -> Void = library.load(symbol: "sourcekitd_set_notification_handler")
+    public lazy var set_uid_handler: @convention(c) (sourcekitd_uid_handler_t?) -> Void = library.load(symbol: "sourcekitd_set_uid_handler")
+    public lazy var set_uid_handlers: @convention(c) (sourcekitd_uid_from_str_handler_t?, sourcekitd_str_from_uid_handler_t?) -> Void = library.load(symbol: "sourcekitd_set_uid_handlers")
 }
 
 public let SKApi = SourceKitEntryPoints()
@@ -252,8 +252,7 @@ public class SourceKit {
             if err == "restoring service" || err == "semantic editor is disabled" {
                 sleep(1)
                 continue
-            }
-            else {
+            } else {
                 break
             }
         }
@@ -267,7 +266,8 @@ public class SourceKit {
         return resp
     }
 
-    public func cursorInfo(filePath: String, byteOffset: Int32, compilerArgs: sourcekitd_object_t) -> sourcekitd_response_t {
+    public func cursorInfo(filePath: String, byteOffset: Int32,
+                           compilerArgs: sourcekitd_object_t) -> sourcekitd_response_t {
         let req = SKApi.request_dictionary_create(nil, nil, 0)!
 
         SKApi.request_dictionary_set_uid(req, requestID, cursorRequestID)
@@ -312,18 +312,19 @@ public class SourceKit {
     }
 
     func recurseOver(childID: sourcekitd_uid_t, resp: sourcekitd_variant_t,
-        indent: String = "", visualiser: Visualiser? = nil,
-        block: @escaping (_ dict: sourcekitd_variant_t) -> ()) {
+                     indent: String = "", visualiser: Visualiser? = nil,
+                     block: @escaping (_ dict: sourcekitd_variant_t) -> Void) {
         let children = SKApi.variant_dictionary_get_value(resp, childID)
             if SKApi.variant_get_type(children) == SOURCEKITD_VARIANT_TYPE_ARRAY {
 
                 visualiser?.enter()
-                _ = SKApi.variant_array_apply(children) { (_,dict) in
+                _ = SKApi.variant_array_apply(children) { (_, dict) in
 
                     block(dict)
                     visualiser?.present(dict: dict, indent: indent)
 
-                    self.recurseOver(childID: childID, resp: dict, indent: indent+"  ", visualiser: visualiser, block: block)
+                    self.recurseOver(childID: childID, resp: dict, indent: indent+"  ",
+                                     visualiser: visualiser, block: block)
                     return true
                 }
                 visualiser?.exit()
@@ -344,31 +345,26 @@ public class SourceKit {
                     .replacingOccurrences(of: "---", with: "\"") }
 
         var out = [String]()
-        var i=1
+        var argno  = 1
 
-        while i<argv.count {
-            let arg = argv[i]
+        while argno < argv.count {
+            let arg = argv[argno ]
             if arg == "-frontend" {
                 out.append("-Xfrontend")
                 out.append("-j4")
-            }
-            else if arg == "-primary-file" {
-            }
-            else if arg.hasPrefix("-emit-") ||
+            } else if arg == "-primary-file" {
+            } else if arg.hasPrefix("-emit-") ||
                 arg == "-serialize-diagnostics-path" {
-                    i += 1
-            }
-            else if arg == "-o" {
+                    argno  += 1
+            } else if arg == "-o" {
                 break
-            }
-            else if arg == "-filelist" && filelist != nil {
+            } else if arg == "-filelist" && filelist != nil {
                 out += filelist!
-                i += 1
-            }
-            else {
+                argno  += 1
+            } else {
                 out.append(arg)
             }
-            i += 1
+            argno  += 1
         }
 
         return out
@@ -390,8 +386,7 @@ public class SourceKit {
                 if wasZero {
                     out[out.count-1] += "0" + name
                     wasZero = false
-                }
-                else {
+                } else {
                     out.append(name)
                 }
             }
@@ -411,8 +406,7 @@ public class SourceKit {
             out.append(usr.substring(with: range))
             scanner.scanLocation += len
         }
-        
+
         return out
     }
-    
 }

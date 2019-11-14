@@ -11,11 +11,9 @@ extension Siteify {
         "index.html": """
         <html><head>
         <meta charset="UTF-8">
-        <style type="text/css">
-            body, table { font: 14pt Helvetica Neue; }
-        </style>
+        <link rel="stylesheet" type="text/css" href="siteify.css">
         </head><body>
-        <h4>Generated from __ROOT__ on __DATE__</h4>
+        <h3>Generated from __ROOT__ on __DATE__</h3>
         """,
 
         "siteify.css": """
@@ -33,8 +31,23 @@ extension Siteify {
         .typeidentifier { color: #5C2599; }
         .linenum { color: black; }
 
+        @media (prefers-color-scheme: dark) {
+            body { background: #292A30; color: #DFDFE0; }
+            .builtin  { color: #A90D91; }
+            .comment  { color: #7F8C98; }
+            .url, a:link  { color: #6699FC; }
+            .doccomment { color: #7F8C98; }
+            .identifier { color: #D9C97C; }
+            .keyword { color: #EE77B1; }
+            .number { color: #D9C97C; }
+            .string { color: #EF7E6E; }
+            .typeidentifier { color: #DABAFE; }
+            .linenum { color: #717276; }
+            a:visited { color: #7679DC }
+        }
+
         span.references { display: none; position: absolute; border: 2px outset; z-index: 100; }
-        span.references table { background-color: white; }
+        span.references table { background-color: white; color: #292A30; }
         span.references table tr td { border: 1px inset; }
         """,
         

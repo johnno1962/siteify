@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#17 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#22 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -16,7 +16,7 @@ import SwiftLSPClient
 import SourceKit
 #endif
 
-var filenameForFile = [String:String](), filesForFileName = [String:String]()
+var filenameForFile = [String: String](), filesForFileName = [String: String]()
 
 let filenameLock = NSLock()
 
@@ -54,8 +54,7 @@ struct LanguageServerSynchronizer {
     }
 
     func sync(_ block: @escaping (@escaping (LanguageServerError?) -> Void) -> Void) {
-        block({
-            (error: LanguageServerError?) in
+        block({ (error: LanguageServerError?) in
             if error != nil {
                 self.errorHandler("LanguageServerError: \(error!)")
             }
@@ -66,8 +65,7 @@ struct LanguageServerSynchronizer {
 
     func sync<RESP>(_ block: @escaping (@escaping (LanguageServerResult<RESP>) -> Void) -> Void) -> RESP {
         var theResponse: RESP?
-        block({
-            (response: LanguageServerResult) in
+        block({ (response: LanguageServerResult) in
             switch response {
             case .success(let value):
                 theResponse = value
@@ -83,10 +81,10 @@ struct LanguageServerSynchronizer {
 
 public class Siteify: NotificationResponder {
 
-    let host: LanguageServerProcessHost
-    var lspServer: LanguageServer?
     let sourceKit = SourceKit(logRequests: false)
-    let projectRoot: String
+    let executablePath = "/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin/sourcekit-lsp"
+    var lspServer: LanguageServer!
+    let projectRoot: URL
 
     public init(projectRoot: String) {
         let synchronizer = LanguageServerSynchronizer()
@@ -95,11 +93,10 @@ public class Siteify: NotificationResponder {
             getcwd($0.baseAddress, $0.count)
         })
         self.projectRoot = URL(fileURLWithPath: projectRoot,
-            relativeTo: URL(fileURLWithPath: cwd)).path
+                               relativeTo: URL(fileURLWithPath: cwd))
 
-        let executablePath = "/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin/sourcekit-lsp"
         let PATH = ProcessInfo.processInfo.environment["PATH"] ?? "/usr/bin"
-        host = LanguageServerProcessHost(path: executablePath, arguments: [],
+        let host = LanguageServerProcessHost(path: executablePath, arguments: [],
                                          environment: ["PATH": PATH])
 
         host.start { (server) in
@@ -113,20 +110,21 @@ public class Siteify: NotificationResponder {
         let processId = Int(ProcessInfo.processInfo.processIdentifier)
         let capabilities = ClientCapabilities(workspace: nil, textDocument: nil, experimental: nil)
 
+        let workspace = WorkspaceFolder(uri: self.projectRoot.absoluteString, name: "siteify")
         let params = InitializeParams(processId: processId,
                                       rootPath: projectRoot,
                                       rootURI: nil,
                                       initializationOptions: nil,
                                       capabilities: capabilities,
                                       trace: Tracing.off,
-                                      workspaceFolders: [WorkspaceFolder(uri: "file://\(projectRoot)/", name: "siteify")])
+                                      workspaceFolders: [workspace])
 
         _ = synchronizer.sync({
-            self.lspServer!.initialize(params: params, block: $0)
+            self.lspServer.initialize(params: params, block: $0)
         })
     }
 
-    var index: UnsafeMutablePointer<FILE>?
+    var indexFILE: UnsafeMutablePointer<FILE>?
 
     public func generateSite(into: String) {
         let filemgr = FileManager.default
@@ -134,20 +132,17 @@ public class Siteify: NotificationResponder {
             try! filemgr.createDirectory(atPath: "html", withIntermediateDirectories: false, attributes: nil)
         }
         fclose(copyTemplate(template: "siteify.css"))
-        index = copyTemplate(template: "index.html", patches: [
+        indexFILE = copyTemplate(template: "index.html", patches: [
             "__DATE__": NSDate().description,
-            "__ROOT__": projectRoot.replacingOccurrences(of: home, with: "~")])
-        setbuf(index, nil)
+            "__ROOT__": projectRoot.path.replacingOccurrences(of: home, with: "~")])
+        setbuf(indexFILE, nil)
 
-        filemgr.enumerator(atPath: projectRoot)?
-            .concurrentMap(maxConcurrency: 8) {
-                (file, completion: (String?) -> Void) in
-                guard let path = file as? String,
-                    (try? LanguageIdentifier(for: URL(fileURLWithPath: path))) != nil else {
-                    return completion(nil)
+        filemgr.enumerator(atPath: projectRoot.path)?
+            .compactMap { $0 as? String }.sorted()
+            .concurrentMap(maxConcurrency: 8) { (path, completion: (String?) -> Void) in
+                if (try? LanguageIdentifier(for: URL(fileURLWithPath: path))) != nil {
+                    self.processFile(path: self.projectRoot.appendingPathComponent(path).path)
                 }
-
-                self.processFile(path: self.projectRoot + "/" + path)
                 return completion(path)
             }
 
@@ -157,19 +152,18 @@ public class Siteify: NotificationResponder {
     public func processFile(path: String) {
         let synchronizer = LanguageServerSynchronizer()
         let htmlfile = fileFilename(file: path)+".html"
-        let relative = path.replacingOccurrences(of: projectRoot+"/", with: "")
+        let relative = path.replacingOccurrences(of: projectRoot.path+"/", with: "")
         progress(str: "Saving html/\(htmlfile)")
 
         if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
-            if index != nil {
-                fputs("<a href='\(htmlfile)'>\(relative)<a> \(comma.string(from: NSNumber(value: data.count))!) bytes<br>\n", index)
+            if indexFILE != nil {
+                fputs("<a href='\(htmlfile)'>\(relative)<a> \(comma.string(from: NSNumber(value: data.count))!) bytes<br>\n", indexFILE)
             }
 
             synchronizer.sync {
-                self.lspServer!.didOpenTextDocument(params: DidOpenTextDocumentParams(textDocument: try! TextDocumentItem(contentsOfFile: path)), block: $0)
+                self.lspServer.didOpenTextDocument(params: DidOpenTextDocumentParams(textDocument: try! TextDocumentItem(contentsOfFile: path)), block: $0)
             }
-            data.withUnsafeBytes {
-                (buffer: UnsafeRawBufferPointer) in
+            data.withUnsafeBytes { (buffer: UnsafeRawBufferPointer) in
                 let start = buffer.baseAddress!.assumingMemoryBound(to: Int8.self)
                 var ptr = 0, linestart = 0, lineno = 0, col = 0
 
@@ -214,8 +208,7 @@ public class Siteify: NotificationResponder {
                 let dict = SKApi.response_get_value(resp)
                 let syntaxMap = SKApi.variant_dictionary_get_value( dict, self.sourceKit.syntaxID )
                 var html = (0..<SKApi.variant_array_get_count(syntaxMap))
-                    .map {
-                        (index: Int) -> (String, sourcekitd_variant_t, Position, String) in
+                    .map { (index: Int) -> (String, sourcekitd_variant_t, Position, String) in
                         let dict = SKApi.variant_array_get_value(syntaxMap, index)
                         let offset = dict.getInt(key: self.sourceKit.offsetID)
                         let length = dict.getInt(key: self.sourceKit.lengthID)
@@ -237,25 +230,25 @@ public class Siteify: NotificationResponder {
                     if kindSuffix == "url" {
                         return completion2("<a href='\(text)'>\(text)</a>")
                     }
-                    if kindID != self.sourceKit.identifierID &&
-                        kindID != self.sourceKit.typeID {
+                    guard kindID == self.sourceKit.identifierID ||
+                        kindID == self.sourceKit.typeID else {
                         return completion2(text)
                     }
 
                     let docPos = TextDocumentPositionParams(textDocument: TextDocumentIdentifier(path: path), position: pos)
-                    self.lspServer!.definition(params: docPos) { result in
+                    self.lspServer.definition(params: docPos) { result in
                         switch result {
                         case .success(let value):
                             switch value {
                             case .locationArray(let a) where a.count > 0:
                                 let decl = a.first!
                                 if decl.file == path && decl.range.start == pos {
-                                    self.lspServer!.references(params: ReferenceParams(textDocument: TextDocumentIdentifier(path: path), position: pos, context: ReferenceContext(includeDeclaration: false))) {
+                                    self.lspServer.references(params: ReferenceParams(textDocument: TextDocumentIdentifier(path: path), position: pos, context: ReferenceContext(includeDeclaration: false))) {
                                         result in
                                         switch result {
                                         case .success(let refs):
                                             if let refs = refs, refs.count > 0 &&
-                                                decl.file.starts(with: self.projectRoot) {
+                                                decl.file.starts(with: self.projectRoot.path) {
                                                 var popup = ""
                                                 for ref in refs {
                                                     let keepListOpen = ref.file != decl.file ? "event.stopPropagation(); " : ""
@@ -274,7 +267,7 @@ public class Siteify: NotificationResponder {
                                             return completion2("<span title='\(err)'>#ERROR \(text)</span>")
                                         }
                                     }
-                                } else if decl.file.starts(with: self.projectRoot) {
+                                } else if decl.file.starts(with: self.projectRoot.path) {
                                     completion2("<a name='\(pos.anchor)' href='\(decl.href)' title='\("usrString1")'>\(text)</a>")
                                 } else {
                                     completion2(text)
@@ -296,15 +289,15 @@ public class Siteify: NotificationResponder {
                     return groups[1] + String(format: "<span class=linenum>%04d</span>    ", lineno)
                 }
 
-                let out = copyTemplate(template: "source.html", patches: ["__FILE__":
-                    path.replacingOccurrences(of: projectRoot+"/", with: "")],
+                let htmlFILE = copyTemplate(template: "source.html", patches: ["__FILE__":
+                    path.replacingOccurrences(of: projectRoot.path + "/", with: "")],
                                        dest: "html/"+htmlfile)
-                html.withCString { _ = fputs($0, out) }
-                fclose(out)
+                _ = html.withCString { fputs($0, htmlFILE) }
+                fclose(htmlFILE)
 
                 SKApi.response_dispose(resp)
                 synchronizer.sync {
-                    self.lspServer!.didCloseTextDocument(params: DidCloseTextDocumentParams(textDocument: TextDocumentIdentifier(path: path)), block: $0)
+                    self.lspServer.didCloseTextDocument(params: DidCloseTextDocumentParams(textDocument: TextDocumentIdentifier(path: path)), block: $0)
                 }
             }
         }
@@ -321,7 +314,7 @@ public class Siteify: NotificationResponder {
             input = input.replacingOccurrences(of: tag, with: value)
         }
         let out = fopen(dest ?? "html/"+template, "w")!
-        _ = (input as String).withCString {
+        _ = input.withCString {
             fputs($0, out)
         }
         return out
