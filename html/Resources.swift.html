@@ -1,5 +1,6 @@
 <html><head>
     <meta charset="UTF-8">
+    <title>siteify/Resources.swift</title>
     <link rel="stylesheet" type="text/css" href="siteify.css">
 <script>
 
@@ -75,36 +76,37 @@ function expand(a) {
 <span class=linenum>0054</span>            <span class='string'>"source.html"</span>: <span class='string'>"""
 <span class=linenum>0055</span>            &lt;html>&lt;head>
 <span class=linenum>0056</span>                &lt;meta charset="UTF-8">
-<span class=linenum>0057</span>                &lt;link rel="stylesheet" type="text/css" href="siteify.css">
-<span class=linenum>0058</span>            &lt;script>
-<span class=linenum>0059</span>    
-<span class=linenum>0060</span>            var lastlink;
-<span class=linenum>0061</span>    
-<span class=linenum>0062</span>            function expand(a) {
-<span class=linenum>0063</span>                if ( a.children[0].style.display != "block" ) {
-<span class=linenum>0064</span>                    if ( lastlink )
-<span class=linenum>0065</span>                        lastlink.style.display = "none";
-<span class=linenum>0066</span>                    a.children[0].style.display = "block";
-<span class=linenum>0067</span>                    lastlink = a.children[0];
-<span class=linenum>0068</span>                }
-<span class=linenum>0069</span>                else {
-<span class=linenum>0070</span>                    a.children[0].style.display = "none";
-<span class=linenum>0071</span>                    lastlink = null;
-<span class=linenum>0072</span>                }
-<span class=linenum>0073</span>                return false;
-<span class=linenum>0074</span>            }
-<span class=linenum>0075</span>    
-<span class=linenum>0076</span>            &lt;/script>&lt;/head>&lt;body>&lt;h3>__FILE__&lt;/h3>&lt;pre>
-<span class=linenum>0077</span>            """</span>,
-<span class=linenum>0078</span>    
-<span class=linenum>0079</span>            <span class='string'>"xref.html"</span>: <span class='string'>"""
-<span class=linenum>0080</span>            &lt;html>&lt;head>
-<span class=linenum>0081</span>            &lt;meta charset="UTF-8">
-<span class=linenum>0082</span>            &lt;style type="text/css">
-<span class=linenum>0083</span>                body, table { font: 12pt Helvetica Neue; }
-<span class=linenum>0084</span>            &lt;/style>
-<span class=linenum>0085</span>            &lt;/head>&lt;body>
-<span class=linenum>0086</span>            """</span>
-<span class=linenum>0087</span>        ]
-<span class=linenum>0088</span>    }
-<span class=linenum>0089</span>    
+<span class=linenum>0057</span>                &lt;title>__FILE__&lt;/title>
+<span class=linenum>0058</span>                &lt;link rel="stylesheet" type="text/css" href="siteify.css">
+<span class=linenum>0059</span>            &lt;script>
+<span class=linenum>0060</span>    
+<span class=linenum>0061</span>            var lastlink;
+<span class=linenum>0062</span>    
+<span class=linenum>0063</span>            function expand(a) {
+<span class=linenum>0064</span>                if ( a.children[0].style.display != "block" ) {
+<span class=linenum>0065</span>                    if ( lastlink )
+<span class=linenum>0066</span>                        lastlink.style.display = "none";
+<span class=linenum>0067</span>                    a.children[0].style.display = "block";
+<span class=linenum>0068</span>                    lastlink = a.children[0];
+<span class=linenum>0069</span>                }
+<span class=linenum>0070</span>                else {
+<span class=linenum>0071</span>                    a.children[0].style.display = "none";
+<span class=linenum>0072</span>                    lastlink = null;
+<span class=linenum>0073</span>                }
+<span class=linenum>0074</span>                return false;
+<span class=linenum>0075</span>            }
+<span class=linenum>0076</span>    
+<span class=linenum>0077</span>            &lt;/script>&lt;/head>&lt;body>&lt;h3>__FILE__&lt;/h3>&lt;pre>
+<span class=linenum>0078</span>            """</span>,
+<span class=linenum>0079</span>    
+<span class=linenum>0080</span>            <span class='string'>"xref.html"</span>: <span class='string'>"""
+<span class=linenum>0081</span>            &lt;html>&lt;head>
+<span class=linenum>0082</span>            &lt;meta charset="UTF-8">
+<span class=linenum>0083</span>            &lt;style type="text/css">
+<span class=linenum>0084</span>                body, table { font: 12pt Helvetica Neue; }
+<span class=linenum>0085</span>            &lt;/style>
+<span class=linenum>0086</span>            &lt;/head>&lt;body>
+<span class=linenum>0087</span>            """</span>
+<span class=linenum>0088</span>        ]
+<span class=linenum>0089</span>    }
+<span class=linenum>0090</span>    

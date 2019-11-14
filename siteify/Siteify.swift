@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#22 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#24 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -20,7 +20,7 @@ var filenameForFile = [String: String](), filesForFileName = [String: String]()
 
 let filenameLock = NSLock()
 
-func fileFilename(file: String) -> String {
+func htmlFilename(file: String) -> String {
     filenameLock.lock()
     defer { filenameLock.unlock() }
     if let filename = filenameForFile[file] {
@@ -30,6 +30,7 @@ func fileFilename(file: String) -> String {
     while filesForFileName[filename] != nil {
         filename += "_"
     }
+    filename += ".html"
     filesForFileName[filename] = file
     filenameForFile[file] = filename
     return filename
@@ -100,7 +101,7 @@ public class Siteify: NotificationResponder {
                                          environment: ["PATH": PATH])
 
         host.start { (server) in
-            guard let server = server as? JSONRPCLanguageServer else {
+            guard let server = server else {
                 fatalError("unable to launch server")
             }
             server.notificationResponder = self
@@ -151,8 +152,8 @@ public class Siteify: NotificationResponder {
 
     public func processFile(path: String) {
         let synchronizer = LanguageServerSynchronizer()
-        let htmlfile = fileFilename(file: path)+".html"
-        let relative = path.replacingOccurrences(of: projectRoot.path+"/", with: "")
+        let htmlfile = htmlFilename(file: path)
+        let relative = path.replacingOccurrences(of: projectRoot.path + "/", with: "")
         progress(str: "Saving html/\(htmlfile)")
 
         if let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
@@ -289,9 +290,8 @@ public class Siteify: NotificationResponder {
                     return groups[1] + String(format: "<span class=linenum>%04d</span>    ", lineno)
                 }
 
-                let htmlFILE = copyTemplate(template: "source.html", patches: ["__FILE__":
-                    path.replacingOccurrences(of: projectRoot.path + "/", with: "")],
-                                       dest: "html/"+htmlfile)
+                let htmlFILE = copyTemplate(template: "source.html", patches: [
+                    "__FILE__": relative], dest: "html/"+htmlfile)
                 _ = html.withCString { fputs($0, htmlFILE) }
                 fclose(htmlFILE)
 
@@ -356,9 +356,9 @@ extension Position {
 extension Location {
 
     var file: String { URL(string: uri)!.path }
-    var filename: String { fileFilename(file: URL(string: uri)!.path) }
+    var htmlname: String { htmlFilename(file: URL(string: uri)!.path) }
     var filebase: String { URL(string: uri)!.lastPathComponent }
     var line: Int { range.start.line }
     var anchor: String { range.start.anchor }
-    var href: String { "\(filename).html#\(anchor)" }
+    var href: String { "\(htmlname)#\(anchor)" }
 }

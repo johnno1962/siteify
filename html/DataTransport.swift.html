@@ -1,5 +1,6 @@
 <html><head>
     <meta charset="UTF-8">
+    <title>.build/checkouts/SwiftLSPClient/SwiftLSPClient/JSONRPC/DataTransport.swift</title>
     <link rel="stylesheet" type="text/css" href="siteify.css">
 <script>
 
@@ -32,9 +33,9 @@ function expand(a) {
 <span class=linenum>0011</span>    <span class='builtin'>public</span> <span class='keyword'>protocol</span> <span class='identifier'><a name='11_16' title='usrString3'>DataTransport</a></span> {
 <span class=linenum>0012</span>        <span class='keyword'>typealias</span> <span class='identifier'><a name='12_14' title='usrString3'>ReadHandler</a></span> = (<span class='typeidentifier'>Data</span>) -> <span class='typeidentifier'>Void</span>
 <span class=linenum>0013</span>        
-<span class=linenum>0014</span>        <span class='keyword'>func</span> <span class='identifier'><a name='14_9' title='usrString3'>write</a></span>(<span class='keyword'>_</span> <span class='identifier'><a name='14_17' title='usrString3'>data</a></span>: <span class='typeidentifier'>Data</span>)
-<span class=linenum>0015</span>        <span class='keyword'>func</span> <span class='identifier'><a name='15_9' title='usrString3'>setReaderHandler</a></span>(<span class='keyword'>_</span> <span class='identifier'><a name='15_28' title='usrString3'>handler</a></span>: <span class='builtin'>@escaping</span> <span class='typeidentifier'><a name='15_47' href='DataTransport.swift.html#12_14' title='usrString1'>ReadHandler</a></span>)
+<span class=linenum>0014</span>        <span class='keyword'>func</span> <span class='identifier'>write</span>(<span class='keyword'>_</span> <span class='identifier'>data</span>: <span class='typeidentifier'>Data</span>)
+<span class=linenum>0015</span>        <span class='keyword'>func</span> <span class='identifier'>setReaderHandler</span>(<span class='keyword'>_</span> <span class='identifier'>handler</span>: <span class='builtin'>@escaping</span> <span class='typeidentifier'>ReadHandler</span>)
 <span class=linenum>0016</span>    
-<span class=linenum>0017</span>        <span class='keyword'>func</span> <span class='identifier'><a name='17_9' title='usrString3'>close</a></span>()
+<span class=linenum>0017</span>        <span class='keyword'>func</span> <span class='identifier'>close</span>()
 <span class=linenum>0018</span>    }
 <span class=linenum>0019</span>    

@@ -54,6 +54,7 @@ extension Siteify {
         "source.html": """
         <html><head>
             <meta charset="UTF-8">
+            <title>__FILE__</title>
             <link rel="stylesheet" type="text/css" href="siteify.css">
         <script>
 
