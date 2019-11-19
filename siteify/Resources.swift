@@ -77,13 +77,12 @@ extension Siteify {
         </script></head><body><h3>__FILE__</h3><pre>
         """,
 
-        "xref.html": """
+        "symbols.html": """
         <html><head>
         <meta charset="UTF-8">
-        <style type="text/css">
-            body, table { font: 12pt Helvetica Neue; }
-        </style>
-        </head><body>
+        <title>Symbols</title>
+        <link rel="stylesheet" type="text/css" href="siteify.css">
+        </head><body><h3>Package Symbols</h3><pre>
         """
     ]
 }

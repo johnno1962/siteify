@@ -20,25 +20,25 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><h3>siteify/main.swift</h3><pre><span class=linenum>0001</span>    <span class='comment'>//
-<span class=linenum>0002</span>    </span><span class='comment'>//  main.swift
-<span class=linenum>0003</span>    </span><span class='comment'>//  siteify
-<span class=linenum>0004</span>    </span><span class='comment'>//
-<span class=linenum>0005</span>    </span><span class='comment'>//  Created by John Holdsworth on 16/02/2016.
-<span class=linenum>0006</span>    </span><span class='comment'>//  Copyright © 2016 John Holdsworth. All rights reserved.
-<span class=linenum>0007</span>    </span><span class='comment'>//
-<span class=linenum>0008</span>    </span><span class='comment'>//  $Id: //depot/siteify/siteify/main.swift#40 $
-<span class=linenum>0009</span>    </span><span class='comment'>//
-<span class=linenum>0010</span>    </span><span class='comment'>//  Repo: </span><span class='url'><a href='https://github.com/johnno1962/siteify'>https://github.com/johnno1962/siteify</a></span><span class='comment'>
-<span class=linenum>0011</span>    </span><span class='comment'>//
-<span class=linenum>0012</span>    </span>
-<span class=linenum>0013</span>    <span class='keyword'>import</span> <span class='identifier'>Cocoa</span>
-<span class=linenum>0014</span>    <span class='keyword'>#if</span> <span class='id'>SWIFT_PACKAGE</span>
-<span class=linenum>0015</span>    <span class='keyword'>import</span> <span class='identifier'>SourceKit</span>
-<span class=linenum>0016</span>    <span class='keyword'>#endif</span>
-<span class=linenum>0017</span>    
-<span class=linenum>0018</span>    <span class='keyword'>let</span> <span class='identifier'><a name='18_4' href='#' title='usrString2' onclick='return expand(this);'>projectRoot<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="main.swift.html#19_21"; return false;'>main.swift:19</td><td><pre>Siteify(projectRoot: projectRoot ?? ".").generateSite(into: "html")</pre></td></table></span></a></span> = <span class='identifier'>CommandLine</span>.<span class='identifier'>arguments</span>.<span class='identifier'>dropFirst</span>().<span class='identifier'>first</span>
-<span class=linenum>0019</span>    <span class='identifier'><a name='19_0' href='Siteify.swift.html#82_13' title='usrString1'>Siteify</a></span>(<span class='identifier'><a name='19_8' href='Siteify.swift.html#89_11' title='usrString1'>projectRoot</a></span>: <span class='identifier'><a name='19_21' href='main.swift.html#18_4' title='usrString1'>projectRoot</a></span> ?? <span class='string'>"."</span>).<span class='identifier'><a name='19_41' href='Siteify.swift.html#129_16' title='usrString1'>generateSite</a></span>(<span class='identifier'><a name='19_54' href='Siteify.swift.html#129_16' title='usrString1'>into</a></span>: <span class='string'>"html"</span>)
-<span class=linenum>0020</span>    
-<span class=linenum>0021</span>    <span class='identifier'>NSWorkspace</span>.<span class='identifier'>shared</span>.<span class='identifier'>open</span>(<span class='identifier'>URL</span>(<span class='identifier'>fileURLWithPath</span>: <span class='string'>"html/index.html"</span>))
-<span class=linenum>0022</span>    
+</script></head><body><h3>siteify/main.swift</h3><pre><a class=linenum name='L1'>0001</a>    <span class='comment' title='source.lang.swift.syntaxtype.comment'>//
+<a class=linenum name='L2'>0002</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  main.swift
+<a class=linenum name='L3'>0003</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  siteify
+<a class=linenum name='L4'>0004</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
+<a class=linenum name='L5'>0005</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Created by John Holdsworth on 16/02/2016.
+<a class=linenum name='L6'>0006</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Copyright © 2016 John Holdsworth. All rights reserved.
+<a class=linenum name='L7'>0007</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
+<a class=linenum name='L8'>0008</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  $Id: //depot/siteify/siteify/main.swift#40 $
+<a class=linenum name='L9'>0009</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
+<a class=linenum name='L10'>0010</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Repo: </span><span class='url'><a href='https://github.com/johnno1962/siteify'>https://github.com/johnno1962/siteify</a></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>
+<a class=linenum name='L11'>0011</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
+<a class=linenum name='L12'>0012</a>    </span>
+<a class=linenum name='L13'>0013</a>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>import</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>Cocoa</span>
+<a class=linenum name='L14'>0014</a>    <span class='keyword' title='source.lang.swift.syntaxtype.buildconfig.keyword'>#if</span> <span class='id' title='source.lang.swift.syntaxtype.buildconfig.id'>SWIFT_PACKAGE</span>
+<a class=linenum name='L15'>0015</a>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>import</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>SourceKit</span>
+<a class=linenum name='L16'>0016</a>    <span class='keyword' title='source.lang.swift.syntaxtype.buildconfig.keyword'>#endif</span>
+<a class=linenum name='L17'>0017</a>    
+<a class=linenum name='L18'>0018</a>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='usrString2'><a name='18_4' href='#' onclick='return expand(this);'>projectRoot<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="main.swift.html#19_21"; return false;'>main.swift:19</td><td><pre>Siteify(projectRoot: projectRoot ?? ".").generateSite(into: "html")</pre></td></table></span></a></span> = <span class='identifier' title='x86_64-apple-macos.swiftmodule'>CommandLine</span>.<span class='identifier' title='x86_64-apple-macos.swiftmodule'>arguments</span>.<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>dropFirst</span>().<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>first</span>
+<a class=linenum name='L19'>0019</a>    <span class='identifier' title='Siteify.swift'><a name='19_0' href='Siteify.swift.html#72_13'>Siteify</a></span>(<span class='identifier' title='Siteify.swift'><a name='19_8' href='Siteify.swift.html#86_11'>projectRoot</a></span>: <span class='identifier' title='main.swift'><a name='19_21' href='main.swift.html#18_4'>projectRoot</a></span> ?? <span class='string' title='source.lang.swift.syntaxtype.string'>"."</span>).<span class='identifier' title='Siteify.swift'><a name='19_41' href='Siteify.swift.html#136_16'>generateSite</a></span>(<span class='identifier' title='Siteify.swift'><a name='19_54' href='Siteify.swift.html#136_16'>into</a></span>: <span class='string' title='source.lang.swift.syntaxtype.string'>"html"</span>)
+<a class=linenum name='L20'>0020</a>    
+<a class=linenum name='L21'>0021</a>    <span class='identifier' title='NSWorkspace.h'>NSWorkspace</span>.<span class='identifier' title='NSWorkspace.h'>shared</span>.<span class='identifier' title='NSWorkspace.h'>open</span>(<span class='identifier' title='x86_64.swiftmodule'>URL</span>(<span class='identifier' title='x86_64.swiftmodule'>fileURLWithPath</span>: <span class='string' title='source.lang.swift.syntaxtype.string'>"html/index.html"</span>))
+<a class=linenum name='L22'>0022</a>    

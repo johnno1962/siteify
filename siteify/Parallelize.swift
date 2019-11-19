@@ -5,13 +5,20 @@
 //  Created by John Holdsworth on 30/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Parallelize.swift#4 $
+//  $Id: //depot/siteify/siteify/Parallelize.swift#5 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
 
 import Foundation
 
+extension NSLock {
+
+    public func synchronized<T>(_ closure: () -> T) -> T {
+        lock(); defer { unlock() }
+        return closure()
+    }
+}
 extension Sequence {
 
     @discardableResult

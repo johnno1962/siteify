@@ -7,7 +7,7 @@
 //
 //  Repo: https://github.com/johnno1962/SwiftRegex5
 //
-//  $Id: //depot/SwiftRegex5/SwiftRegex5.playground/Sources/TupleRegex.swift#32 $
+//  $Id: //depot/SwiftRegex5/SwiftRegex5.playground/Sources/TupleRegex.swift#34 $
 //
 
 import Foundation
@@ -23,7 +23,10 @@ public struct RegexOptioned: RegexLiteral, Hashable {
     let pattern: String
     let options: NSRegularExpression.Options
     public var regexOptioned: RegexOptioned { return self }
-    public var hashValue: Int { return pattern.hashValue }
+    public func hash(into: inout Hasher) {
+        pattern.hash(into: &into)
+        options.rawValue.hash(into: &into)
+    }
     func add(options extra: NSRegularExpression.Options) -> RegexLiteral {
         return RegexOptioned(pattern: pattern, options: options.union(extra))
     }
@@ -31,7 +34,7 @@ public struct RegexOptioned: RegexLiteral, Hashable {
 
 extension RegexOptioned: ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {
-        self.init(pattern: value, options: RegexOptioned.defaultOptions)
+        self.init(pattern: value, options: Self.defaultOptions)
     }
 }
 

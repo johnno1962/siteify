@@ -1,6 +1,6 @@
 <html><head>
     <meta charset="UTF-8">
-    <title>.build/checkouts/SwiftLSPClient/Package.swift</title>
+    <title>Package.swift</title>
     <link rel="stylesheet" type="text/css" href="siteify.css">
 <script>
 
@@ -20,21 +20,23 @@ function expand(a) {
     return false;
 }
 
-</script></head><body><h3>.build/checkouts/SwiftLSPClient/Package.swift</h3><pre><span class=linenum>0001</span>    <span class='comment'>// swift-tools-version:5.0
-<span class=linenum>0002</span>    </span><span class='comment'>// The swift-tools-version declares the minimum version of Swift required to build this package.
-<span class=linenum>0003</span>    </span>
-<span class=linenum>0004</span>    <span class='keyword'>import</span> <span class='identifier'>PackageDescription</span>
-<span class=linenum>0005</span>    
-<span class=linenum>0006</span>    <span class='keyword'>let</span> <span class='identifier'><a name='6_4' title='usrString3'>package</a></span> = <span class='identifier'>Package</span>(
-<span class=linenum>0007</span>        <span class='identifier'>name</span>: <span class='string'>"SwiftLSPClient"</span>,
-<span class=linenum>0008</span>        <span class='identifier'>platforms</span>: [.<span class='identifier'>macOS</span>(<span class='string'>"10.10"</span>)],
-<span class=linenum>0009</span>        <span class='identifier'>products</span>: [
-<span class=linenum>0010</span>            .<span class='identifier'>library</span>(<span class='identifier'>name</span>: <span class='string'>"SwiftLSPClient"</span>, <span class='identifier'>targets</span>: [<span class='string'>"SwiftLSPClient"</span>]),
-<span class=linenum>0011</span>        ],
-<span class=linenum>0012</span>        <span class='identifier'>dependencies</span>: [],
-<span class=linenum>0013</span>        <span class='identifier'>targets</span>: [
-<span class=linenum>0014</span>            .<span class='identifier'>target</span>(<span class='identifier'>name</span>: <span class='string'>"SwiftLSPClient"</span>, <span class='identifier'>dependencies</span>: [], <span class='identifier'>path</span>: <span class='string'>"SwiftLSPClient/"</span>),
-<span class=linenum>0015</span>            .<span class='identifier'>testTarget</span>(<span class='identifier'>name</span>: <span class='string'>"SwiftLSPClientTests"</span>, <span class='identifier'>dependencies</span>: [<span class='string'>"SwiftLSPClient"</span>], <span class='identifier'>path</span>: <span class='string'>"SwiftLSPClientTests/"</span>),
-<span class=linenum>0016</span>        ]
-<span class=linenum>0017</span>    )
-<span class=linenum>0018</span>    
+</script></head><body><h3>Package.swift</h3><pre><a class=linenum name='L1'>0001</a>    <span class='comment' title='source.lang.swift.syntaxtype.comment'>// swift-tools-version:5.0
+<a class=linenum name='L2'>0002</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>// The swift-tools-version declares the minimum version of Swift required to build this package.
+<a class=linenum name='L3'>0003</a>    </span>
+<a class=linenum name='L4'>0004</a>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>import</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>PackageDescription</span>
+<a class=linenum name='L5'>0005</a>    
+<a class=linenum name='L6'>0006</a>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='Package.swift'><a name='6_4'>package</a></span> = <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>Package</span>(
+<a class=linenum name='L7'>0007</a>        <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>name</span>: <span class='string' title='source.lang.swift.syntaxtype.string'>"siteify"</span>,
+<a class=linenum name='L8'>0008</a>        <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>platforms</span>: [.<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>macOS</span>(<span class='string' title='source.lang.swift.syntaxtype.string'>"10.11"</span>)],
+<a class=linenum name='L9'>0009</a>        <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>products</span>: [
+<a class=linenum name='L10'>0010</a>            .<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>executable</span>(<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>name</span>: <span class='string' title='source.lang.swift.syntaxtype.string'>"siteify"</span>, <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>targets</span>: [<span class='string' title='source.lang.swift.syntaxtype.string'>"siteify"</span>]),
+<a class=linenum name='L11'>0011</a>        ],
+<a class=linenum name='L12'>0012</a>        <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>dependencies</span>: [
+<a class=linenum name='L13'>0013</a>            .<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>package</span>(<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>url</span>: <span class='string' title='source.lang.swift.syntaxtype.string'>"https://github.com/johnno1962/SourceKit.git"</span>, .<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>branch</span>(<span class='string' title='source.lang.swift.syntaxtype.string'>"master"</span>)),
+<a class=linenum name='L14'>0014</a>            .<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>package</span>(<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>url</span>: <span class='string' title='source.lang.swift.syntaxtype.string'>"https://github.com/ChimeHQ/SwiftLSPClient.git"</span>, .<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>branch</span>(<span class='string' title='source.lang.swift.syntaxtype.string'>"master"</span>)),
+<a class=linenum name='L15'>0015</a>        ],
+<a class=linenum name='L16'>0016</a>        <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>targets</span>: [
+<a class=linenum name='L17'>0017</a>            .<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>target</span>(<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>name</span>: <span class='string' title='source.lang.swift.syntaxtype.string'>"siteify"</span>, <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>dependencies</span>: [<span class='string' title='source.lang.swift.syntaxtype.string'>"SwiftLSPClient"</span>], <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>path</span>: <span class='string' title='source.lang.swift.syntaxtype.string'>"siteify/"</span>),
+<a class=linenum name='L18'>0018</a>        ]
+<a class=linenum name='L19'>0019</a>    )
+<a class=linenum name='L20'>0020</a>    
