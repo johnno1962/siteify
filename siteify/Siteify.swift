@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#52 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#54 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -323,7 +323,7 @@ public class Siteify: NotificationResponder {
                                             self.lspServer.hover(params: docPos) { result in
                                                 switch result {
                                                 case .success(let value):
-                                                    switch value.contents {
+                                                    switch value?.contents {
                                                     case .markupContent(let content):
                                                         markup = content.value
                                                     default:
@@ -365,7 +365,7 @@ public class Siteify: NotificationResponder {
             _ = html.withCString { fputs($0, htmlFILE) }
             fclose(htmlFILE)
 
-            if fullpath.containsMatch(of: #"\.(swift|mm?|h)$"#) {
+            if fullpath.containsMatch(of: #"\.(swift|mm?)$"#) {
                 switch synchronizer.sync({
                     self.lspServer.documentSymbol(params: DocumentSymbolParams(textDocument: docId), block: $0)
                 }) {
