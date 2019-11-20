@@ -2,61 +2,45 @@
     <meta charset="UTF-8">
     <title>.build/checkouts/SwiftLSPClient/SwiftLSPClientTests/MockDataTransport.swift</title>
     <link rel="stylesheet" type="text/css" href="siteify.css">
-<script>
-
-var lastlink;
-
-function expand(a) {
-    if ( a.children[0].style.display != "block" ) {
-        if ( lastlink )
-            lastlink.style.display = "none";
-        a.children[0].style.display = "block";
-        lastlink = a.children[0];
-    }
-    else {
-        a.children[0].style.display = "none";
-        lastlink = null;
-    }
-    return false;
-}
-
-</script></head><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClientTests/MockDataTransport.swift</h3><pre><a class=linenum name='L1'>0001</a>    <span class='comment' title='source.lang.swift.syntaxtype.comment'>//
-<a class=linenum name='L2'>0002</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  MockDataTransport.swift
-<a class=linenum name='L3'>0003</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  SwiftLSPClientTests
-<a class=linenum name='L4'>0004</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
-<a class=linenum name='L5'>0005</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Created by Matt Massicotte on 2019-02-07.
-<a class=linenum name='L6'>0006</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
-<a class=linenum name='L7'>0007</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
-<a class=linenum name='L8'>0008</a>    </span>
-<a class=linenum name='L9'>0009</a>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>import</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>Foundation</span>
-<a class=linenum name='L10'>0010</a>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>import</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>SwiftLSPClient</span>
-<a class=linenum name='L11'>0011</a>    
-<a class=linenum name='L12'>0012</a>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>class</span> <span class='identifier' title='MockDataTransport.swift'><a name='12_6'>MockDataTransport</a></span>: <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>DataTransport</span> {
-<a class=linenum name='L13'>0013</a>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>var</span> <span class='identifier' title='MockDataTransport.swift'><a name='13_8'>writtenData</a></span>: [<span class='typeidentifier' title='x86_64.swiftmodule'>Data</span>]
-<a class=linenum name='L14'>0014</a>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>var</span> <span class='identifier' title='MockDataTransport.swift'><a name='14_8'>readHandler</a></span>: <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>ReadHandler</span>?
-<a class=linenum name='L15'>0015</a>    
-<a class=linenum name='L16'>0016</a>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>init</span>() {
-<a class=linenum name='L17'>0017</a>            <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>self</span>.<span class='identifier' title='MockDataTransport.swift'><a name='17_13' href='MockDataTransport.swift.html#13_8'>writtenData</a></span> = []
-<a class=linenum name='L18'>0018</a>            <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>self</span>.<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>readHandler</span> = <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>nil</span>
-<a class=linenum name='L19'>0019</a>        }
-<a class=linenum name='L20'>0020</a>    
-<a class=linenum name='L21'>0021</a>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='MockDataTransport.swift'><a name='21_9'>write</a></span>(<span class='keyword' title='source.lang.swift.syntaxtype.keyword'>_</span> <span class='identifier' title='MockDataTransport.swift'><a name='21_17'>data</a></span>: <span class='typeidentifier' title='x86_64.swiftmodule'>Data</span>) {
-<a class=linenum name='L22'>0022</a>            <span class='identifier' title='MockDataTransport.swift'><a name='22_8' href='MockDataTransport.swift.html#13_8'>writtenData</a></span>.<span class='identifier' title='x86_64.swiftmodule'>append</span>(<span class='identifier' title='MockDataTransport.swift'><a name='22_27' href='MockDataTransport.swift.html#21_17'>data</a></span>)
-<a class=linenum name='L23'>0023</a>        }
-<a class=linenum name='L24'>0024</a>    
-<a class=linenum name='L25'>0025</a>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='MockDataTransport.swift'><a name='25_9'>setReaderHandler</a></span>(<span class='keyword' title='source.lang.swift.syntaxtype.keyword'>_</span> <span class='identifier' title='MockDataTransport.swift'><a name='25_28'>handler</a></span>: <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>@escaping</span> <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>ReadHandler</span>) {
-<a class=linenum name='L26'>0026</a>            <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>readHandler</span> = <span class='identifier' title='MockDataTransport.swift'><a name='26_22' href='MockDataTransport.swift.html#25_28'>handler</a></span>
-<a class=linenum name='L27'>0027</a>        }
-<a class=linenum name='L28'>0028</a>    
-<a class=linenum name='L29'>0029</a>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='MockDataTransport.swift'><a name='29_9'>close</a></span>() {
-<a class=linenum name='L30'>0030</a>        }
-<a class=linenum name='L31'>0031</a>    
-<a class=linenum name='L32'>0032</a>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='MockDataTransport.swift'><a name='32_9'>mockRead</a></span>(<span class='keyword' title='source.lang.swift.syntaxtype.keyword'>_</span> <span class='identifier' title='MockDataTransport.swift'><a name='32_20'>data</a></span>: <span class='typeidentifier' title='x86_64.swiftmodule'>Data</span>) {
-<a class=linenum name='L33'>0033</a>            <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>self</span>.<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>readHandler</span>?(<span class='identifier' title='MockDataTransport.swift'><a name='33_26' href='MockDataTransport.swift.html#32_20'>data</a></span>)
-<a class=linenum name='L34'>0034</a>        }
-<a class=linenum name='L35'>0035</a>    
-<a class=linenum name='L36'>0036</a>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='MockDataTransport.swift'><a name='36_9'>mockRead</a></span>(<span class='keyword' title='source.lang.swift.syntaxtype.keyword'>_</span> <span class='identifier' title='MockDataTransport.swift'><a name='36_20'>string</a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>String</span>) {
-<a class=linenum name='L37'>0037</a>            <span class='identifier' title='MockDataTransport.swift'><a name='37_8' href='MockDataTransport.swift.html#32_9'>mockRead</a></span>(<span class='identifier' title='MockDataTransport.swift'><a name='37_17' href='MockDataTransport.swift.html#36_20'>string</a></span>.<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>data</span>(<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>using</span>: .<span class='identifier' title='x86_64.swiftmodule'>utf8</span>)!)
-<a class=linenum name='L38'>0038</a>        }
-<a class=linenum name='L39'>0039</a>    }
+    <script src="siteify.js"></script>
+</head><html><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClientTests/MockDataTransport.swift</h3><pre>
+<script> lineLink("Matt Massicotte", 1549653964, "0001") </script><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
+<script> lineLink("Matt Massicotte", 1549653964, "0002") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  MockDataTransport.swift
+<script> lineLink("Matt Massicotte", 1549653964, "0003") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  SwiftLSPClientTests
+<script> lineLink("Matt Massicotte", 1549653964, "0004") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
+<script> lineLink("Matt Massicotte", 1549653964, "0005") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Created by Matt Massicotte on 2019-02-07.
+<script> lineLink("Matt Massicotte", 1549653964, "0006") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
+<script> lineLink("Matt Massicotte", 1549653964, "0007") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
+<script> lineLink("Matt Massicotte", 1549653964, "0008") </script></span>
+<script> lineLink("Matt Massicotte", 1549653964, "0009") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>import</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>Foundation</span>
+<script> lineLink("Matt Massicotte", 1549653964, "0010") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>import</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>SwiftLSPClient</span>
+<script> lineLink("Matt Massicotte", 1549653964, "0011") </script>
+<script> lineLink("Matt Massicotte", 1549653964, "0012") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>class</span> <span class='identifier' title='MockDataTransport.swift'><a name='12_6'>MockDataTransport</a></span>: <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>DataTransport</span> {
+<script> lineLink("Matt Massicotte", 1549653964, "0013") </script>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>var</span> <span class='identifier' title='MockDataTransport.swift'><a name='13_8'>writtenData</a></span>: [<span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Data</span>]
+<script> lineLink("Matt Massicotte", 1549653964, "0014") </script>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>var</span> <span class='identifier' title='MockDataTransport.swift'><a name='14_8'>readHandler</a></span>: <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>ReadHandler</span>?
+<script> lineLink("Matt Massicotte", 1549653964, "0015") </script>
+<script> lineLink("Matt Massicotte", 1549653964, "0016") </script>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>init</span>() {
+<script> lineLink("Matt Massicotte", 1549653964, "0017") </script>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>self</span>.<span class='identifier' title='MockDataTransport.swift'><a name='17_13' href='MockDataTransport.swift.html#13_8'>writtenData</a></span> = []
+<script> lineLink("Matt Massicotte", 1549653964, "0018") </script>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>self</span>.<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>readHandler</span> = <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>nil</span>
+<script> lineLink("Matt Massicotte", 1549653964, "0019") </script>    }
+<script> lineLink("Matt Massicotte", 1549653964, "0020") </script>
+<script> lineLink("Matt Massicotte", 1549653964, "0021") </script>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='MockDataTransport.swift'><a name='21_9'>write</a></span>(<span class='keyword' title='source.lang.swift.syntaxtype.keyword'>_</span> <span class='identifier' title='MockDataTransport.swift'><a name='21_17'>data</a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Data</span>) {
+<script> lineLink("Matt Massicotte", 1549653964, "0022") </script>        <span class='identifier' title='MockDataTransport.swift'><a name='22_8' href='MockDataTransport.swift.html#13_8'>writtenData</a></span>.<span class='identifier' title='x86_64-apple-macos.swiftmodule'>append</span>(<span class='identifier' title='MockDataTransport.swift'><a name='22_27' href='MockDataTransport.swift.html#21_17'>data</a></span>)
+<script> lineLink("Matt Massicotte", 1549653964, "0023") </script>    }
+<script> lineLink("Matt Massicotte", 1549653964, "0024") </script>
+<script> lineLink("Matt Massicotte", 1549653964, "0025") </script>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='MockDataTransport.swift'><a name='25_9'>setReaderHandler</a></span>(<span class='keyword' title='source.lang.swift.syntaxtype.keyword'>_</span> <span class='identifier' title='MockDataTransport.swift'><a name='25_28'>handler</a></span>: <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>@escaping</span> <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>ReadHandler</span>) {
+<script> lineLink("Matt Massicotte", 1549653964, "0026") </script>        <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>readHandler</span> = <span class='identifier' title='MockDataTransport.swift'><a name='26_22' href='MockDataTransport.swift.html#25_28'>handler</a></span>
+<script> lineLink("Matt Massicotte", 1549653964, "0027") </script>    }
+<script> lineLink("Matt Massicotte", 1549653964, "0028") </script>
+<script> lineLink("Matt Massicotte", 1549653964, "0029") </script>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='MockDataTransport.swift'><a name='29_9'>close</a></span>() {
+<script> lineLink("Matt Massicotte", 1549653964, "0030") </script>    }
+<script> lineLink("Matt Massicotte", 1549653964, "0031") </script>
+<script> lineLink("Matt Massicotte", 1549653964, "0032") </script>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='MockDataTransport.swift'><a name='32_9'>mockRead</a></span>(<span class='keyword' title='source.lang.swift.syntaxtype.keyword'>_</span> <span class='identifier' title='MockDataTransport.swift'><a name='32_20'>data</a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Data</span>) {
+<script> lineLink("Matt Massicotte", 1549653964, "0033") </script>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>self</span>.<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>readHandler</span>?(<span class='identifier' title='MockDataTransport.swift'><a name='33_26' href='MockDataTransport.swift.html#32_20'>data</a></span>)
+<script> lineLink("Matt Massicotte", 1549653964, "0034") </script>    }
+<script> lineLink("Matt Massicotte", 1549653964, "0035") </script>
+<script> lineLink("Matt Massicotte", 1549653964, "0036") </script>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='MockDataTransport.swift'><a name='36_9'>mockRead</a></span>(<span class='keyword' title='source.lang.swift.syntaxtype.keyword'>_</span> <span class='identifier' title='MockDataTransport.swift'><a name='36_20'>string</a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>String</span>) {
+<script> lineLink("Matt Massicotte", 1549653964, "0037") </script>        <span class='identifier' title='MockDataTransport.swift'><a name='37_8' href='MockDataTransport.swift.html#32_9'>mockRead</a></span>(<span class='identifier' title='MockDataTransport.swift'><a name='37_17' href='MockDataTransport.swift.html#36_20'>string</a></span>.<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>data</span>(<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>using</span>: .<span class='identifier' title='x86_64-apple-macos.swiftmodule'>utf8</span>)!)
+<script> lineLink("Matt Massicotte", 1549653964, "0038") </script>    }
+<script> lineLink("Matt Massicotte", 1549653964, "0039") </script>}
 <a class=linenum name='L40'>0040</a>    

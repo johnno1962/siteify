@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#54 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#59 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -15,6 +15,11 @@ import SwiftLSPClient
 #if SWIFT_PACKAGE
 import SourceKit
 #endif
+
+@_silgen_name("popen")
+func popen(_ command: UnsafePointer<Int8>, _ perms: UnsafePointer<Int8>) -> UnsafeMutablePointer<FILE>!
+@_silgen_name("pclose")
+func pclose(_ fp: UnsafeMutablePointer<FILE>?)
 
 var filenameForFile = [String: String](), filesForFileName = [String: String]()
 
@@ -144,6 +149,7 @@ public class Siteify: NotificationResponder {
             }
         }
 
+        fclose(copyTemplate(template: "siteify.js"))
         fclose(copyTemplate(template: "siteify.css"))
         indexFILE = copyTemplate(template: "index.html", patches: [
             "__DATE__": NSDate().description,
@@ -153,7 +159,7 @@ public class Siteify: NotificationResponder {
         filemgr.enumerator(atPath: projectRoot.path)?
             .compactMap { $0 as? String }.sorted()
             .concurrentMap(maxConcurrency: fileThreads) { (relative, completion: (String?) -> Void) in
-                if !relative.starts(with: "Tests/") && ///
+                if // !relative.starts(with: "Tests/") && ///
                     (try? LanguageIdentifier(for: URL(fileURLWithPath: relative))) != nil {
                     self.processFile(relative: relative)
                 }
@@ -164,7 +170,7 @@ public class Siteify: NotificationResponder {
         for sym in self.symbolsLock.synchronized({packageSymbols})
             .map({ (file, syms) in syms.map {(file, $0)}})
             .reduce([], +).sorted(by: {$0.1.name < $1.1.name}) {
-            sym.1.print(file: sym.0, to: xrefFILE)
+                sym.1.print(file: sym.0, indent: " ", to: xrefFILE)
         }
         fclose(xrefFILE)
 
@@ -182,6 +188,8 @@ public class Siteify: NotificationResponder {
             htmlRoot = "html"
         }
         progress(str: "Saving \(htmlRoot!)/\(htmlfile)")
+        let directory = URL(fileURLWithPath: fullpath).deletingLastPathComponent().path
+        let blameFILE = popen("cd \"\(directory)\"; git blame -t \"\(fullpath)\"", "r")
 
         guard let data = try? Data(contentsOf: URL(fileURLWithPath: fullpath)) else {
             NSLog("Unable to load file at path: \(fullpath)")
@@ -355,10 +363,24 @@ public class Siteify: NotificationResponder {
             }.joined() + skipTo(offset: data.count)
 
             lineno = 0
-            html["(^|\n)"] = { (groups: [String], stop) -> String in
-                lineno += 1
-                return groups[1] + String(format: "<a class=linenum name='L%d'>%04d</a>    ", lineno, lineno)
+            var blame = [Int8](repeating: 0, count: 10000)
+            blame.withUnsafeMutableBufferPointer {
+                (buffer: inout UnsafeMutableBufferPointer<Int8>) in
+                let buffro = buffer
+                let base = buffro.baseAddress!
+                html["(^|\n)"] = { (groups: [String], stop) -> String in
+                    lineno += 1
+                    if blameFILE != nil,
+                        let blame = fgets(base, Int32(buffro.count), blameFILE),
+                        let (author, when): (String, String) =
+                            String(cString: blame)[#"\((.*?) +(\d+) [-+ ]\d+ +\d+\)"#] {
+                            return groups[1] + String(format: "<script> lineLink(\"\(author)\", \(when), \"%04d\") </script>", lineno)
+                    } else {
+                        return groups[1] + String(format: "<a class=linenum name='L%d'>%04d</a>    ", lineno, lineno)
+                    }
+                }
             }
+            pclose(blameFILE)
 
             let htmlFILE = copyTemplate(template: "source.html", patches: [
                 "__FILE__": relative], dest: htmlRoot+"/"+htmlfile)
@@ -392,7 +414,7 @@ public class Siteify: NotificationResponder {
     let resources = String(cString: getenv("HOME"))+"/Library/siteify/"
 
     func copyTemplate(template: String, patches: [String: String] = [:], dest: String? = nil) -> UnsafeMutablePointer<FILE> {
-        var input = Self.resources[template]!
+        var input = (try? String(contentsOfFile: resources+template)) ?? Self.resources[template]!
         for (tag, value) in patches {
             input = input.replacingOccurrences(of: tag, with: value)
         }
@@ -465,7 +487,7 @@ extension SymbolKind {
 
 extension DocumentSymbol {
 
-    func print(file: String, indent: String = "", to: UnsafeMutablePointer<FILE>) {
+    func print(file: String, indent: String, to: UnsafeMutablePointer<FILE>) {
         if kind != .variable {
             let href = "\(file)#L\(range.start.line+1)"
             let braces = kind == .class || kind == .struct || kind == .enum || kind == .namespace
