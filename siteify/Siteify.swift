@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#59 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#63 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -74,10 +74,13 @@ struct LanguageServerSynchronizer {
     }
 }
 
+public let SwiftLatestToolchain = "/Library/Developer/Toolchains/swift-latest.xctoolchain"
+
 public class Siteify: NotificationResponder {
 
     let sourceKit = SourceKit(logRequests: false)
-    let executablePath = "/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin/sourcekit-lsp"
+    var toolchainPath: String
+    var executablePath: String { return toolchainPath+"/usr/bin/sourcekit-lsp" }
     var lspServer: LanguageServer!
     let projectRoot: URL
     let fileThreads = 8
@@ -88,12 +91,15 @@ public class Siteify: NotificationResponder {
         fflush(stdout)
     }
 
-    public init(projectRoot: String) {
+    public init(toolchainPath: String = SwiftLatestToolchain, projectRoot: String
+    ) {
         let synchronizer = LanguageServerSynchronizer()
-        var rootBuffer = [Int8](repeating: 0, count: 1024)
+        var rootBuffer = [Int8](repeating: 0, count: Int(PATH_MAX))
         let cwd = String(cString: rootBuffer.withUnsafeMutableBufferPointer {
             getcwd($0.baseAddress, $0.count)
         })
+
+        self.toolchainPath = toolchainPath
         self.projectRoot = URL(fileURLWithPath: projectRoot,
                                relativeTo: URL(fileURLWithPath: cwd))
 
@@ -188,8 +194,13 @@ public class Siteify: NotificationResponder {
             htmlRoot = "html"
         }
         progress(str: "Saving \(htmlRoot!)/\(htmlfile)")
-        let directory = URL(fileURLWithPath: fullpath).deletingLastPathComponent().path
-        let blameFILE = popen("cd \"\(directory)\"; git blame -t \"\(fullpath)\"", "r")
+        let sourceDir = URL(fileURLWithPath: fullpath).deletingLastPathComponent().path
+        let blameStream = TaskGenerator(launchPath: "/usr/bin/git",
+                                        arguments: ["blame", "-t", fullpath],
+                                        directory: sourceDir)
+        let logStream = TaskGenerator(launchPath: "/usr/bin/git",
+                                        arguments: ["log", fullpath],
+                                        directory: sourceDir)
 
         guard let data = try? Data(contentsOf: URL(fileURLWithPath: fullpath)) else {
             NSLog("Unable to load file at path: \(fullpath)")
@@ -270,20 +281,22 @@ public class Siteify: NotificationResponder {
                 let kind = dict.getUUIDString(key: self.sourceKit.kindID)
                 let kindID = SKApi.variant_dictionary_get_uid(dict, self.sourceKit.kindID)
                 let kindSuffix = NSURL(fileURLWithPath: kind).pathExtension!
-                let completion2 = { (span: String, title: Any?) in
+
+                func complete(span: String, title: Any?) {
                     completion("\(pre)<span class='\(kindSuffix)'\(title != nil ? " title='\(title!)'" : "")>\(span)</span>")
                 }
 
                 if kindSuffix == "url" {
-                    return completion2("<a href='\(text)'>\(text)</a>", nil)
+                    return complete(span: "<a href='\(text)'>\(text)</a>", title: nil)
                 }
                 guard kindID == self.sourceKit.identifierID ||
-                    kindID == self.sourceKit.typeID else {
-                    return completion2(text, kind)
+                    kindID == self.sourceKit.typeIdenifierID else {
+                    return complete(span: text, title: kind)
                 }
 
                 let docPos = TextDocumentPositionParams(textDocument: docId, position: pos)
-                self.lspServer.definition(params: docPos) { result in
+
+                func hyperlinkDeinifition(result: LanguageServerResult<DefinitionResponse>) {
                     switch result {
                     case .success(let value):
                         switch value {
@@ -292,14 +305,14 @@ public class Siteify: NotificationResponder {
                                 self.referencesLock.synchronized({
                                     self.referencesFallback[Loc(path: fullpath, pos: pos)]
                                 }) else {
-                                return completion2(text, "\(result)")
+                                return complete(span: text, title: "\(result)")
                             }
                             if decl.file == fullpath && decl.range.start == pos {
                                 self.lspServer.references(params: ReferenceParams(textDocument: TextDocumentIdentifier(path: fullpath), position: pos, context: ReferenceContext(includeDeclaration: false))) { result in
                                     switch result {
                                     case .success(let refs):
                                         var markup: String?
-                                        
+
                                         func processRefs() {
                                             if let refs = refs, refs.count > 0 &&
                                                 decl.file.starts(with: self.projectRoot.path) {
@@ -312,15 +325,15 @@ public class Siteify: NotificationResponder {
                                                     popup += "<tr><td style='text-decoration: underline;' onclick='document.location.href=\"\(ref.href)\"; \(keepListOpen)return false;'>\(ref.filebase):\(ref.line+1)</td>"
                                                     popup += "<td><pre>\(reflines(file: ref.file, line: ref.line))</pre></td>"
                                                 }
-                                                completion2("<a name='\(decl.anchor)' \(popup != "" ? "href='#' " : "")onclick='return expand(this);'>" +
-                                                    "\(text)<span class='references'><table>\(markup != nil ? "<tr><td colspan=2>\(HTML(fromMarkup: markup!))" : "")\(popup)</table></span></a>", "usrString2")
+                                                complete(span: "<a name='\(decl.anchor)' \(popup != "" ? "href='#' " : "")onclick='return expand(this);'>" +
+                                                    "\(text)<span class='references'><table>\(markup != nil ? "<tr><td colspan=2>\(HTML(fromMarkup: markup!))" : "")\(popup)</table></span></a>", title: "usrString2")
                                                 self.referencesLock.synchronized {
                                                     for ref in refs {
                                                         self.referencesFallback[Loc(path: ref.file, pos: ref.range.start)] = decl
                                                     }
                                                 }
                                             } else {
-                                                completion2("<a name='\(decl.anchor)'>\(text)</a>", decl.filebase)
+                                                complete(span: "<a name='\(decl.anchor)'>\(text)</a>", title: decl.filebase)
                                             }
                                         }
 
@@ -344,46 +357,60 @@ public class Siteify: NotificationResponder {
                                             }
                                         }
                                     case .failure(let err):
-                                        return completion2("#ERROR \(text)", err)
+                                        return complete(span: "#ERR1 \(text)", title: err)
                                     }
                                 }
                             } else if decl.file.starts(with: self.projectRoot.path) {
-                                completion2("<a name='\(pos.anchor)' href='\(decl.href)'>\(text)</a>", decl.filebase)
+                                complete(span: "<a name='\(pos.anchor)' href='\(decl.href)'>\(text)</a>", title: decl.filebase)
                             } else {
-                                completion2(text, URL(fileURLWithPath: decl.file).lastPathComponent)
+                                complete(span: text, title: URL(fileURLWithPath: decl.file).lastPathComponent)
                             }
                         default:
-                            completion2(text, "default: \(result)")
+                            complete(span: text, title: "default: \(result)")
                         }
 
                     case .failure(let err):
-                        return completion2("#ERR \(text)", err)
+                        return complete(span: "#ERR2 \(text)", title: err)
                     }
+                }
+
+                if false && kindID == self.sourceKit.typeIdenifierID {
+                    self.lspServer.typeDefinition(params: docPos, block: hyperlinkDeinifition)
+                } else {
+                    self.lspServer.definition(params: docPos, block: hyperlinkDeinifition)
                 }
             }.joined() + skipTo(offset: data.count)
 
             lineno = 0
-            var blame = [Int8](repeating: 0, count: 10000)
-            blame.withUnsafeMutableBufferPointer {
-                (buffer: inout UnsafeMutableBufferPointer<Int8>) in
-                let buffro = buffer
-                let base = buffro.baseAddress!
-                html["(^|\n)"] = { (groups: [String], stop) -> String in
-                    lineno += 1
-                    if blameFILE != nil,
-                        let blame = fgets(base, Int32(buffro.count), blameFILE),
-                        let (author, when): (String, String) =
-                            String(cString: blame)[#"\((.*?) +(\d+) [-+ ]\d+ +\d+\)"#] {
-                            return groups[1] + String(format: "<script> lineLink(\"\(author)\", \(when), \"%04d\") </script>", lineno)
-                    } else {
-                        return groups[1] + String(format: "<a class=linenum name='L%d'>%04d</a>    ", lineno, lineno)
-                    }
+            html["(^|\n)"] = { (groups: [String], stop) -> String in
+                lineno += 1
+                if let blame = blameStream.next(),
+                    let (commit, author, when): (String, String, String) =
+                        blame[#"(\w{8}) \((.*?) +(\d+) [-+ ]\d+ +\d+\)"#] {
+                    return groups[1] + "<script> lineLink(\"\(commit)\", \"\(author)\", \(when), \"\(String(format: "%04d", lineno))\") </script>"
+                } else {
+                    return groups[1] + String(format: "<a class=linenum name='L%d'>%04d</a>    ", lineno, lineno)
                 }
             }
-            pclose(blameFILE)
 
             let htmlFILE = copyTemplate(template: "source.html", patches: [
                 "__FILE__": relative], dest: htmlRoot+"/"+htmlfile)
+
+            if let logInfo = String(data: logStream.handle.readDataToEndOfFile(), encoding: .utf8) {
+                let logDict = [String: String](uniqueKeysWithValues: logInfo[#"""
+                        commit (\w{8})(?:.*\n){3}((?:\n(?!commit).*)*)
+                        """#])
+                if let logJSON = try? JSONEncoder().encode(logDict),
+                    let logString = String(data: logJSON, encoding: .utf8) {
+                    _ = """
+                        <script>
+                        var commits = \(logString)
+                        </script>
+
+                        """.withCString { fputs($0, htmlFILE) }
+                }
+            }
+
             _ = html.withCString { fputs($0, htmlFILE) }
             fclose(htmlFILE)
 

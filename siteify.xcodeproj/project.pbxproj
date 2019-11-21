@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BB05D2ED2387CCB000F139B4 /* LineGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1F11C736CF4001108DF /* LineGenerators.swift */; };
 		BB8BD1EB1C7364E3001108DF /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1EA1C7364E3001108DF /* main.swift */; };
 		BB8BD1F41C736CF4001108DF /* SourceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1F21C736CF4001108DF /* SourceKit.swift */; };
 		BBD81FA51C73767A0060CF44 /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD81FA41C73767A0060CF44 /* SwiftRegex.swift */; };
@@ -238,6 +239,7 @@
 				BBEF4C8D2366C8BB00109F9A /* Siteify.swift in Sources */,
 				BB8BD1F41C736CF4001108DF /* SourceKit.swift in Sources */,
 				BBD81FA51C73767A0060CF44 /* SwiftRegex.swift in Sources */,
+				BB05D2ED2387CCB000F139B4 /* LineGenerators.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

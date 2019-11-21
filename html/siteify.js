@@ -1,4 +1,6 @@
 
+//  $Id: //depot/siteify/siteify/Resources.swift#16 $
+
 var lastlink;
 
 function expand(a) {
@@ -15,7 +17,7 @@ function expand(a) {
     return false;
 }
 
-function lineLink(author, when, lineno) {
+function lineLink(commit, author, when, lineno) {
     when *= 1000
     var age = Date.now() - when
     var day = 24*60*60*1000
@@ -26,7 +28,8 @@ function lineLink(author, when, lineno) {
         fade = .5
     else if (age < 31 * day)
         fade = .25
+    var log = (commits[commit]||"").replace(/[\n"&]/g, function(e){ return"&#"+e.charCodeAt(0)+";" })
     document.write("<a class=linenum name='L"+parseInt(lineno)+
         "' style='border-right: 4px solid rgba(0, 255, 0, "+fade+
-        ");' title=\""+author+" "+new Date(when).toString()+"\">"+lineno+" </a> ")
+        ");' title=\""+author+" "+new Date(when).toString()+"\n"+log+"\">"+lineno+" </a> ")
 }

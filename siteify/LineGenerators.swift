@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 19/12/2015.
 //  Copyright © 2015 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/LineGenerators.swift#5 $
+//  $Id: //depot/siteify/siteify/LineGenerators.swift#6 $
 //
 //  Repo: https://github.com/johnno1962/Refactorator
 //
@@ -60,7 +60,7 @@ class FileGenerator: IteratorProtocol {
     }
 
     init(handle: FileHandle, lineSeparator: String? = nil) {
-        self.eol = Int32((lineSeparator ?? "\n").utf16.first!)
+        self.eol = Int32((lineSeparator ?? "\n").utf8.first!)
         self.handle = handle
     }
 

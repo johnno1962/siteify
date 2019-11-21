@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 19/12/2015.
 //  Copyright © 2015 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/SourceKit.swift#16 $
+//  $Id: //depot/siteify/siteify/SourceKit.swift#17 $
 //
 //  Repo: https://github.com/johnno1962/Refactorator
 //
@@ -190,7 +190,7 @@ public class SourceKit {
     public lazy var entitiesID = SKApi.uid_get_from_cstr("key.entities")!
     public lazy var syntaxID = SKApi.uid_get_from_cstr("key.syntaxmap")!
     public lazy var identifierID = SKApi.uid_get_from_cstr("source.lang.swift.syntaxtype.identifier")!
-    public lazy var typeID = SKApi.uid_get_from_cstr("source.lang.swift.syntaxtype.typeidentifier")!
+    public lazy var typeIdenifierID = SKApi.uid_get_from_cstr("source.lang.swift.syntaxtype.typeidentifier")!
 
     /** entity attributes */
     public lazy var receiverID = SKApi.uid_get_from_cstr("key.receiver_usr")!
