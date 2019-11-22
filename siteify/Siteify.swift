@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#63 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#64 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -386,7 +386,7 @@ public class Siteify: NotificationResponder {
                 lineno += 1
                 if let blame = blameStream.next(),
                     let (commit, author, when): (String, String, String) =
-                        blame[#"(\w{8}) \((.*?) +(\d+) [-+ ]\d+ +\d+\)"#] {
+                        blame[#"([\^\w]\w{7}) \((.*?) +(\d+) [-+ ]\d+ +\d+\)"#] {
                     return groups[1] + "<script> lineLink(\"\(commit)\", \"\(author)\", \(when), \"\(String(format: "%04d", lineno))\") </script>"
                 } else {
                     return groups[1] + String(format: "<a class=linenum name='L%d'>%04d</a>    ", lineno, lineno)

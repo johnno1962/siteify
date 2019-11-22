@@ -52,7 +52,7 @@ extension Siteify {
 
         "siteify.js": #"""
 
-            //  $Id: //depot/siteify/siteify/Resources.swift#16 $
+            //  $Id: //depot/siteify/siteify/Resources.swift#19 $
 
             var lastlink;
 
@@ -81,7 +81,8 @@ extension Siteify {
                     fade = .5
                 else if (age < 31 * day)
                     fade = .25
-                var log = (commits[commit]||"").replace(/[\n"&]/g, function(e){ return"&#"+e.charCodeAt(0)+";" })
+                var log = (commits[commit]||"\n    [Outside blame range]\n")
+                    .replace(/[\n"&]/g, function(e){ return"&#"+e.charCodeAt(0)+";" })
                 document.write("<a class=linenum name='L"+parseInt(lineno)+
                     "' style='border-right: 4px solid rgba(0, 255, 0, "+fade+
                     ");' title=\""+author+" "+new Date(when).toString()+"\n"+log+"\">"+lineno+" </a> ")

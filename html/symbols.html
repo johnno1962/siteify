@@ -199,6 +199,10 @@
    func <a href='Formatting.swift.html#L36' title='Formatting.swift.html#L36'>init(textDocument:range:options:)</a>
  }
 
+ extension <a href='Siteify.swift.html#L515' title='Siteify.swift.html#L515'>DocumentSymbol</a> {
+   func <a href='Siteify.swift.html#L517' title='Siteify.swift.html#L517'>print(file:indent:to:)</a>
+ }
+
  struct <a href='DocumentSymbol.swift.html#L56' title='DocumentSymbol.swift.html#L56'>DocumentSymbol</a> {
    var <a href='DocumentSymbol.swift.html#L57' title='DocumentSymbol.swift.html#L57'>name</a>
    var <a href='DocumentSymbol.swift.html#L58' title='DocumentSymbol.swift.html#L58'>detail</a>
@@ -210,10 +214,6 @@
  }
 
  extension <a href='DocumentSymbol.swift.html#L66' title='DocumentSymbol.swift.html#L66'>DocumentSymbol</a> {
- }
-
- extension <a href='Siteify.swift.html#L515' title='Siteify.swift.html#L515'>DocumentSymbol</a> {
-   func <a href='Siteify.swift.html#L517' title='Siteify.swift.html#L517'>print(file:indent:to:)</a>
  }
 
  struct <a href='DocumentSymbol.swift.html#L11' title='DocumentSymbol.swift.html#L11'>DocumentSymbolParams</a> {
@@ -561,6 +561,15 @@
    var <a href='Siteify.swift.html#L486' title='Siteify.swift.html#L486'>pos</a>
  }
 
+ extension <a href='Siteify.swift.html#L494' title='Siteify.swift.html#L494'>Location</a> {
+   var <a href='Siteify.swift.html#L496' title='Siteify.swift.html#L496'>file</a>
+   var <a href='Siteify.swift.html#L497' title='Siteify.swift.html#L497'>htmlname</a>
+   var <a href='Siteify.swift.html#L498' title='Siteify.swift.html#L498'>filebase</a>
+   var <a href='Siteify.swift.html#L499' title='Siteify.swift.html#L499'>line</a>
+   var <a href='Siteify.swift.html#L500' title='Siteify.swift.html#L500'>anchor</a>
+   var <a href='Siteify.swift.html#L501' title='Siteify.swift.html#L501'>href</a>
+ }
+
  struct <a href='Location.swift.html#L11' title='Location.swift.html#L11'>Location</a> {
    var <a href='Location.swift.html#L12' title='Location.swift.html#L12'>uri</a>
    var <a href='Location.swift.html#L13' title='Location.swift.html#L13'>range</a>
@@ -570,15 +579,6 @@
  }
 
  extension <a href='Location.swift.html#L19' title='Location.swift.html#L19'>Location</a> {
- }
-
- extension <a href='Siteify.swift.html#L494' title='Siteify.swift.html#L494'>Location</a> {
-   var <a href='Siteify.swift.html#L496' title='Siteify.swift.html#L496'>file</a>
-   var <a href='Siteify.swift.html#L497' title='Siteify.swift.html#L497'>htmlname</a>
-   var <a href='Siteify.swift.html#L498' title='Siteify.swift.html#L498'>filebase</a>
-   var <a href='Siteify.swift.html#L499' title='Siteify.swift.html#L499'>line</a>
-   var <a href='Siteify.swift.html#L500' title='Siteify.swift.html#L500'>anchor</a>
-   var <a href='Siteify.swift.html#L501' title='Siteify.swift.html#L501'>href</a>
  }
 
  struct <a href='LocationLink.swift.html#L11' title='LocationLink.swift.html#L11'>LocationLink</a> {
@@ -998,10 +998,6 @@
    var <a href='SignatureHelp.swift.html#L82' title='SignatureHelp.swift.html#L82'>parameters</a>
  }
 
- extension <a href='Resources.swift.html#L9' title='Resources.swift.html#L9'>Siteify</a> {
-   var <a href='Resources.swift.html#L10' title='Resources.swift.html#L10'>resources</a>
- }
-
  class <a href='Siteify.swift.html#L79' title='Siteify.swift.html#L79'>Siteify</a> {
    var <a href='Siteify.swift.html#L81' title='Siteify.swift.html#L81'>sourceKit</a>
    var <a href='Siteify.swift.html#L82' title='Siteify.swift.html#L82'>toolchainPath</a>
@@ -1035,6 +1031,10 @@
    func <a href='Siteify.swift.html#L469' title='Siteify.swift.html#L469'>languageServer(_:showMessageRequest:)</a>
    func <a href='Siteify.swift.html#L473' title='Siteify.swift.html#L473'>languageServer(_:publishDiagnostics:)</a>
    func <a href='Siteify.swift.html#L479' title='Siteify.swift.html#L479'>languageServer(_:failedToDecodeNotification:with:)</a>
+ }
+
+ extension <a href='Resources.swift.html#L9' title='Resources.swift.html#L9'>Siteify</a> {
+   var <a href='Resources.swift.html#L10' title='Resources.swift.html#L10'>resources</a>
  }
 
  class <a href='SourceKit.swift.html#L169' title='SourceKit.swift.html#L169'>SourceKit</a> {
@@ -1177,6 +1177,10 @@
    func <a href='StdioDataTransport.swift.html#L95' title='StdioDataTransport.swift.html#L95'>forwardErrorDataToHandler(_:)</a>
  }
 
+ extension <a href='LineGenerators.swift.html#L107' title='LineGenerators.swift.html#L107'>String</a> {
+   func <a href='LineGenerators.swift.html#L109' title='LineGenerators.swift.html#L109'>fromData(data:encoding:)</a>
+ }
+
  extension <a href='SwiftRegex.swift.html#L73' title='SwiftRegex.swift.html#L73'>String</a> {
    var <a href='SwiftRegex.swift.html#L74' title='SwiftRegex.swift.html#L74'>regexOptioned</a>
    func <a href='SwiftRegex.swift.html#L78' title='SwiftRegex.swift.html#L78'>nsrange(pos:)</a>
@@ -1228,10 +1232,6 @@
    typeParameter <a href='SwiftRegex.swift.html#L431' title='SwiftRegex.swift.html#L431'>T</a>
  }
 
- extension <a href='LineGenerators.swift.html#L107' title='LineGenerators.swift.html#L107'>String</a> {
-   func <a href='LineGenerators.swift.html#L109' title='LineGenerators.swift.html#L109'>fromData(data:encoding:)</a>
- }
-
  struct <a href='DocumentSymbol.swift.html#L69' title='DocumentSymbol.swift.html#L69'>SymbolInformation</a> {
    var <a href='DocumentSymbol.swift.html#L70' title='DocumentSymbol.swift.html#L70'>name</a>
    var <a href='DocumentSymbol.swift.html#L71' title='DocumentSymbol.swift.html#L71'>kind</a>
@@ -1241,6 +1241,11 @@
  }
 
  extension <a href='DocumentSymbol.swift.html#L77' title='DocumentSymbol.swift.html#L77'>SymbolInformation</a> {
+ }
+
+ extension <a href='Siteify.swift.html#L504' title='Siteify.swift.html#L504'>SymbolKind</a> {
+   var <a href='Siteify.swift.html#L505' title='Siteify.swift.html#L505'>kindMap</a>
+   var <a href='Siteify.swift.html#L512' title='Siteify.swift.html#L512'>swiftify</a>
  }
 
  enum <a href='SymbolKind.swift.html#L11' title='SymbolKind.swift.html#L11'>SymbolKind</a> {
@@ -1278,11 +1283,6 @@
  extension <a href='SymbolKind.swift.html#L43' title='SymbolKind.swift.html#L43'>SymbolKind</a> {
  }
 
- extension <a href='Siteify.swift.html#L504' title='Siteify.swift.html#L504'>SymbolKind</a> {
-   var <a href='Siteify.swift.html#L505' title='Siteify.swift.html#L505'>kindMap</a>
-   var <a href='Siteify.swift.html#L512' title='Siteify.swift.html#L512'>swiftify</a>
- }
-
  typeParameter <a href='LanguageServer.swift.html#L47' title='LanguageServer.swift.html#L47'>T</a>
  class <a href='LineGenerators.swift.html#L15' title='LineGenerators.swift.html#L15'>TaskGenerator</a> {
    var <a href='LineGenerators.swift.html#L17' title='LineGenerators.swift.html#L17'>task</a>
@@ -1301,6 +1301,27 @@
  struct <a href='TextSynchronization.swift.html#L51' title='TextSynchronization.swift.html#L51'>TextDocumentChangeRegistrationOptions</a> {
    var <a href='TextSynchronization.swift.html#L52' title='TextSynchronization.swift.html#L52'>documentSelector</a>
    var <a href='TextSynchronization.swift.html#L53' title='TextSynchronization.swift.html#L53'>syncKind</a>
+ }
+
+ extension <a href='SignatureHelp.swift.html#L11' title='SignatureHelp.swift.html#L11'>TextDocumentClientCapabilities</a> {
+   struct <a href='SignatureHelp.swift.html#L12' title='SignatureHelp.swift.html#L12'>SignatureHelp</a> {
+     struct <a href='SignatureHelp.swift.html#L13' title='SignatureHelp.swift.html#L13'>SignatureInformation</a> {
+       struct <a href='SignatureHelp.swift.html#L14' title='SignatureHelp.swift.html#L14'>ParameterInformation</a> {
+         var <a href='SignatureHelp.swift.html#L15' title='SignatureHelp.swift.html#L15'>labelOffsetSupport</a>
+         func <a href='SignatureHelp.swift.html#L17' title='SignatureHelp.swift.html#L17'>init(labelOffsetSupport:)</a>
+       }
+
+       var <a href='SignatureHelp.swift.html#L22' title='SignatureHelp.swift.html#L22'>documentationFormat</a>
+       var <a href='SignatureHelp.swift.html#L23' title='SignatureHelp.swift.html#L23'>parameterInformation</a>
+       func <a href='SignatureHelp.swift.html#L25' title='SignatureHelp.swift.html#L25'>init(documentationFormat:parameterInformation:)</a>
+       func <a href='SignatureHelp.swift.html#L30' title='SignatureHelp.swift.html#L30'>init(documentationFormat:labelOffsetSupport:)</a>
+     }
+
+     var <a href='SignatureHelp.swift.html#L37' title='SignatureHelp.swift.html#L37'>dynamicRegistration</a>
+     var <a href='SignatureHelp.swift.html#L38' title='SignatureHelp.swift.html#L38'>signatureInformation</a>
+     func <a href='SignatureHelp.swift.html#L40' title='SignatureHelp.swift.html#L40'>init(dynamicRegistration:documentationFormat:labelOffsetSupport:)</a>
+   }
+
  }
 
  struct <a href='ClientCapabilities.swift.html#L173' title='ClientCapabilities.swift.html#L173'>TextDocumentClientCapabilities</a> {
@@ -1326,27 +1347,6 @@
    var <a href='ClientCapabilities.swift.html#L193' title='ClientCapabilities.swift.html#L193'>publishDiagnostics</a>
    var <a href='ClientCapabilities.swift.html#L194' title='ClientCapabilities.swift.html#L194'>foldingRange</a>
    func <a href='ClientCapabilities.swift.html#L196' title='ClientCapabilities.swift.html#L196'>init(synchronization:completion:hover:signatureHelp:references:formatting:rangeFormatting:onTypeFormatting:declaration:definition:typeDefinition:implemenation:publishDiagnostics:foldingRange:)</a>
- }
-
- extension <a href='SignatureHelp.swift.html#L11' title='SignatureHelp.swift.html#L11'>TextDocumentClientCapabilities</a> {
-   struct <a href='SignatureHelp.swift.html#L12' title='SignatureHelp.swift.html#L12'>SignatureHelp</a> {
-     struct <a href='SignatureHelp.swift.html#L13' title='SignatureHelp.swift.html#L13'>SignatureInformation</a> {
-       struct <a href='SignatureHelp.swift.html#L14' title='SignatureHelp.swift.html#L14'>ParameterInformation</a> {
-         var <a href='SignatureHelp.swift.html#L15' title='SignatureHelp.swift.html#L15'>labelOffsetSupport</a>
-         func <a href='SignatureHelp.swift.html#L17' title='SignatureHelp.swift.html#L17'>init(labelOffsetSupport:)</a>
-       }
-
-       var <a href='SignatureHelp.swift.html#L22' title='SignatureHelp.swift.html#L22'>documentationFormat</a>
-       var <a href='SignatureHelp.swift.html#L23' title='SignatureHelp.swift.html#L23'>parameterInformation</a>
-       func <a href='SignatureHelp.swift.html#L25' title='SignatureHelp.swift.html#L25'>init(documentationFormat:parameterInformation:)</a>
-       func <a href='SignatureHelp.swift.html#L30' title='SignatureHelp.swift.html#L30'>init(documentationFormat:labelOffsetSupport:)</a>
-     }
-
-     var <a href='SignatureHelp.swift.html#L37' title='SignatureHelp.swift.html#L37'>dynamicRegistration</a>
-     var <a href='SignatureHelp.swift.html#L38' title='SignatureHelp.swift.html#L38'>signatureInformation</a>
-     func <a href='SignatureHelp.swift.html#L40' title='SignatureHelp.swift.html#L40'>init(dynamicRegistration:documentationFormat:labelOffsetSupport:)</a>
-   }
-
  }
 
  struct <a href='TextDocumentClientCapabilitiesGenericGoTo.swift.html#L11' title='TextDocumentClientCapabilitiesGenericGoTo.swift.html#L11'>TextDocumentClientCapabilitiesGenericGoTo</a> {
