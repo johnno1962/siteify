@@ -3,34 +3,40 @@
     <title>.build/checkouts/SwiftLSPClient/SwiftLSPClient/JSONRPC/MessageTransport.swift</title>
     <link rel="stylesheet" type="text/css" href="siteify.css">
     <script src="siteify.js"></script>
-</head><html><body><h3>Source: .build/checkouts/SwiftLSPClient/SwiftLSPClient/JSONRPC/MessageTransport.swift (<a href='index.html'>Index</a>)</h3><pre>
+</head><html><body><h3>Source: .build/checkouts/SwiftLSPClient/SwiftLSPClient/JSONRPC/MessageTransport.swift (<a href='index.html'>Index</a>)<br/><br/>Repo: <a href='https://github.com/ChimeHQ/SwiftLSPClient.git'>https://github.com/ChimeHQ/SwiftLSPClient.git</a></h3><pre>
 <script>
 
+var repo = "https://github.com/ChimeHQ/SwiftLSPClient";
 var commits = {
   "250a274" : {
-    "date" : "Thu Oct 31 07:35:02 2019 -0400",
+    "message" : "\n    Test data without strings (#31)\n    \n    It wasn't possible to easily encode the LSP types to protocol messages for testing. So, I was just using strings. This was really annoying and error-prone. Finally took the time to make this possible, and it is way better.\n",
+    "hash" : "250a2748227eadb0a3a70c259dfcf9e5dff83015",
     "author" : "Matt Massicotte ",
-    "message" : "\n    Test data without strings (#31)\n    \n    It wasn't possible to easily encode the LSP types to protocol messages for testing. So, I was just using strings. This was really annoying and error-prone. Finally took the time to make this possible, and it is way better.\n"
+    "date" : "Thu Oct 31 07:35:02 2019 -0400"
   },
   "9378f98" : {
-    "date" : "Sun Jan 27 20:17:24 2019 -0500",
+    "message" : "\n    Message Delivery and Error Fixes\n    \n    - Handles a dumb bug were two messages delivered at the same time cause the delivery system to lock up\n    - Correctly remove stored message handlers once they have been invoked\n    - Extract out and return errors when they have been returned from requests\n    - Reduce the strictness of the error structure\n",
+    "hash" : "9378f98761121b2ba181ffb5964a87d0015b8b0b",
     "author" : "Matt Massicotte ",
-    "message" : "\n    Message Delivery and Error Fixes\n    \n    - Handles a dumb bug were two messages delivered at the same time cause the delivery system to lock up\n    - Correctly remove stored message handlers once they have been invoked\n    - Extract out and return errors when they have been returned from requests\n    - Reduce the strictness of the error structure\n"
-  },
-  "d8e3f45" : {
-    "date" : "Wed Oct 30 20:18:44 2019 -0400",
-    "author" : "Matt Massicotte ",
-    "message" : "\n    Safety for protocol classes (#30)\n    \n    It turns out that I was assuming that NSFileManager still did its synchronization via a runloop exclusively. This was incredibly incorrect.\n    \n    This adds actual synchronization and also includes some tests to make sure things work as expected.\n"
+    "date" : "Sun Jan 27 20:17:24 2019 -0500"
   },
   "6d70f53" : {
-    "date" : "Fri Feb 8 14:26:04 2019 -0500",
+    "message" : "\n    Tests for ProtocolTransport\n    \n    Before working on server->client requests, I though it would be useful to have some good tests in place for the ProtocolTransport class. Also, noticed that the DataTransport protocol fit nicely, to refactored to use that. I think this should make it possible to write some more straight-forward tests in the future.\n",
+    "hash" : "6d70f5331e49945a02a105069949e9540c006692",
     "author" : "Matt Massicotte ",
-    "message" : "\n    Tests for ProtocolTransport\n    \n    Before working on server->client requests, I though it would be useful to have some good tests in place for the ProtocolTransport class. Also, noticed that the DataTransport protocol fit nicely, to refactored to use that. I think this should make it possible to write some more straight-forward tests in the future.\n"
+    "date" : "Fri Feb 8 14:26:04 2019 -0500"
+  },
+  "d8e3f45" : {
+    "message" : "\n    Safety for protocol classes (#30)\n    \n    It turns out that I was assuming that NSFileManager still did its synchronization via a runloop exclusively. This was incredibly incorrect.\n    \n    This adds actual synchronization and also includes some tests to make sure things work as expected.\n",
+    "hash" : "d8e3f458ee09bc875273d0e80a4c2fc93e5885f9",
+    "author" : "Matt Massicotte ",
+    "date" : "Wed Oct 30 20:18:44 2019 -0400"
   },
   "d86bb6b" : {
-    "date" : "Wed Nov 21 20:31:36 2018 -0500",
+    "message" : "\n    Migrating in code\n",
+    "hash" : "d86bb6b65e09db8e460b2d36d969f147ab6b8d1b",
     "author" : "Matt Massicotte ",
-    "message" : "\n    Migrating in code\n"
+    "date" : "Wed Nov 21 20:31:36 2018 -0500"
   }
 };
 
@@ -204,4 +210,3 @@ var commits = {
 <script> lineLink("6d70f53", 1549653964, "0167") </script>        <span class='identifier' title='MessageTransport.swift'><a name='167_8' href='MessageTransport.swift.html#12_16'>dataTransport</a></span>.<span class='identifier' title='DataTransport.swift'><a name='167_22' href='DataTransport.swift.html#17_9'>close</a></span>()
 <script> lineLink("6d70f53", 1549653964, "0168") </script>    }
 <script> lineLink("6d70f53", 1549653964, "0169") </script>}
-<a class=linenum name='L170'>0170</a>    

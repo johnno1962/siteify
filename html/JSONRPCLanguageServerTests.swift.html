@@ -3,24 +3,28 @@
     <title>.build/checkouts/SwiftLSPClient/SwiftLSPClientTests/JSONRPCLanguageServerTests.swift</title>
     <link rel="stylesheet" type="text/css" href="siteify.css">
     <script src="siteify.js"></script>
-</head><html><body><h3>Source: .build/checkouts/SwiftLSPClient/SwiftLSPClientTests/JSONRPCLanguageServerTests.swift (<a href='index.html'>Index</a>)</h3><pre>
+</head><html><body><h3>Source: .build/checkouts/SwiftLSPClient/SwiftLSPClientTests/JSONRPCLanguageServerTests.swift (<a href='index.html'>Index</a>)<br/><br/>Repo: <a href='https://github.com/ChimeHQ/SwiftLSPClient.git'>https://github.com/ChimeHQ/SwiftLSPClient.git</a></h3><pre>
 <script>
 
+var repo = "https://github.com/ChimeHQ/SwiftLSPClient";
 var commits = {
-  "d8e3f45" : {
-    "message" : "\n    Safety for protocol classes (#30)\n    \n    It turns out that I was assuming that NSFileManager still did its synchronization via a runloop exclusively. This was incredibly incorrect.\n    \n    This adds actual synchronization and also includes some tests to make sure things work as expected.\n",
-    "author" : "Matt Massicotte ",
-    "date" : "Wed Oct 30 20:18:44 2019 -0400"
-  },
   "250a274" : {
-    "date" : "Thu Oct 31 07:35:02 2019 -0400",
+    "author" : "Matt Massicotte ",
+    "hash" : "250a2748227eadb0a3a70c259dfcf9e5dff83015",
     "message" : "\n    Test data without strings (#31)\n    \n    It wasn't possible to easily encode the LSP types to protocol messages for testing. So, I was just using strings. This was really annoying and error-prone. Finally took the time to make this possible, and it is way better.\n",
-    "author" : "Matt Massicotte "
+    "date" : "Thu Oct 31 07:35:02 2019 -0400"
   },
   "00a9ba3" : {
     "message" : "\n    Fix hover response (#35)\n    \n    this wasn't quite matching the spec, and also wasn't consistent with the rest of the library\n",
-    "date" : "Tue Nov 5 20:56:41 2019 -0500",
-    "author" : "Matt Massicotte "
+    "author" : "Matt Massicotte ",
+    "hash" : "00a9ba3b7d829394675b8ea7ea4f8bae2df2ffd6",
+    "date" : "Tue Nov 5 20:56:41 2019 -0500"
+  },
+  "d8e3f45" : {
+    "message" : "\n    Safety for protocol classes (#30)\n    \n    It turns out that I was assuming that NSFileManager still did its synchronization via a runloop exclusively. This was incredibly incorrect.\n    \n    This adds actual synchronization and also includes some tests to make sure things work as expected.\n",
+    "author" : "Matt Massicotte ",
+    "hash" : "d8e3f458ee09bc875273d0e80a4c2fc93e5885f9",
+    "date" : "Wed Oct 30 20:18:44 2019 -0400"
   }
 };
 
@@ -80,4 +84,3 @@ var commits = {
 <script> lineLink("d8e3f45", 1572481124, "0053") </script>        <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>XCTAssertEqual</span>(<span class='identifier' title='JSONRPCLanguageServerTests.swift'><a name='53_23' href='JSONRPCLanguageServerTests.swift.html#47_18'>hover</a></span>.<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>range</span>, <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>LSPRange</span>(<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>startPair</span>: (<span class='number' title='source.lang.swift.syntaxtype.number'>10</span>, <span class='number' title='source.lang.swift.syntaxtype.number'>10</span>), <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>endPair</span>: (<span class='number' title='source.lang.swift.syntaxtype.number'>20</span>, <span class='number' title='source.lang.swift.syntaxtype.number'>20</span>)))
 <script> lineLink("d8e3f45", 1572481124, "0054") </script>    }
 <script> lineLink("d8e3f45", 1572481124, "0055") </script>}
-<a class=linenum name='L56'>0056</a>    

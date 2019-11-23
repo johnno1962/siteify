@@ -3,39 +3,46 @@
     <title>siteify/SwiftRegex.swift</title>
     <link rel="stylesheet" type="text/css" href="siteify.css">
     <script src="siteify.js"></script>
-</head><html><body><h3>Source: siteify/SwiftRegex.swift (<a href='index.html'>Index</a>)</h3><pre>
+</head><html><body><h3>Source: siteify/SwiftRegex.swift (<a href='index.html'>Index</a>)<br/><br/>Repo: <a href='https://github.com/johnno1962/siteify.git'>https://github.com/johnno1962/siteify.git</a></h3><pre>
 <script>
 
+var repo = "https://github.com/johnno1962/siteify";
 var commits = {
-  "bc891dc" : {
-    "date" : "Tue Feb 23 14:42:13 2016 +0000",
-    "message" : "\n    Support build using Swift Package Manager\n",
-    "author" : "John Holdsworth "
+  "b77d7a0" : {
+    "message" : "\n    Port to use LSP\n",
+    "author" : "John Holdsworth ",
+    "hash" : "b77d7a07a99d09d53f135c1b264460f889d18d7a",
+    "date" : "Mon Oct 28 22:45:11 2019 +0100"
   },
   "7dc2527" : {
     "message" : "\n    de-synchronize\n",
     "author" : "John Holdsworth ",
+    "hash" : "7dc25279577f04a9e065940edbfd1116eb3d4606",
     "date" : "Wed Nov 13 15:12:43 2019 +0100"
   },
-  "9b169a3" : {
-    "message" : "\n    Complete merge with Refactorator sources\n",
-    "date" : "Sun Feb 21 14:50:22 2016 +0000",
-    "author" : "John Holdsworth "
+  "896cbf6" : {
+    "message" : "\n    Initial Commit\n",
+    "author" : "John Holdsworth ",
+    "hash" : "896cbf648ab5d337536e816552eb72c3dc383f71",
+    "date" : "Wed Feb 17 15:59:27 2016 +0000"
+  },
+  "bc891dc" : {
+    "message" : "\n    Support build using Swift Package Manager\n",
+    "author" : "John Holdsworth ",
+    "hash" : "bc891dc81a5b4bce3bad3ec316b41832dbea9c60",
+    "date" : "Tue Feb 23 14:42:13 2016 +0000"
   },
   "ac72b93" : {
     "message" : "\n    hover request for markup\n",
     "author" : "John Holdsworth ",
+    "hash" : "ac72b932f79f5684dc4811866c970790d3e9bfab",
     "date" : "Tue Nov 19 11:16:46 2019 +0100"
   },
-  "b77d7a0" : {
-    "message" : "\n    Port to use LSP\n",
-    "date" : "Mon Oct 28 22:45:11 2019 +0100",
-    "author" : "John Holdsworth "
-  },
-  "896cbf6" : {
-    "message" : "\n    Initial Commit\n",
-    "date" : "Wed Feb 17 15:59:27 2016 +0000",
-    "author" : "John Holdsworth "
+  "9b169a3" : {
+    "message" : "\n    Complete merge with Refactorator sources\n",
+    "author" : "John Holdsworth ",
+    "hash" : "9b169a3247d7f87da7dd760d85648f3a37e17c78",
+    "date" : "Sun Feb 21 14:50:22 2016 +0000"
   }
 };
 
@@ -90,10 +97,10 @@ var commits = {
 <script> lineLink("b77d7a0", 1572299111, "0048") </script>    <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>var</span> <span class='identifier' title='usrString2'><a name='48_15' onclick='return expand(this);'>ignoreMetacharacters<span class='references'><table></table></span></a></span>: <span class='typeidentifier' title='SwiftRegex.swift'><a name='48_37' href='SwiftRegex.swift.html#17_16'>RegexLiteral</a></span> {
 <script> lineLink("b77d7a0", 1572299111, "0049") </script>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>return</span> <span class='identifier' title='SwiftRegex.swift'><a name='49_15' href='SwiftRegex.swift.html#18_8'>regexOptioned</a></span>.<span class='identifier' title='SwiftRegex.swift'><a name='49_29' href='SwiftRegex.swift.html#30_9'>add</a></span>(<span class='identifier' title='SwiftRegex.swift'><a name='49_33' href='SwiftRegex.swift.html#30_9'>options</a></span>: .<span class='identifier' title='NSRegularExpression.h'>ignoreMetacharacters</span>)
 <script> lineLink("b77d7a0", 1572299111, "0050") </script>    }
-<script> lineLink("b77d7a0", 1572299111, "0051") </script>    <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>var</span> <span class='identifier' title='usrString2'><a name='51_15' href='#' onclick='return expand(this);'>dotMatchesLineSeparators<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.swift.html#588_28"; event.stopPropagation(); return false;'>Siteify.swift:588</td><td><pre>    text["```\n(.*?)```\n?".dotMatchesLineSeparators] = "$1"</pre></td></table></span></a></span>: <span class='typeidentifier' title='SwiftRegex.swift'><a name='51_41' href='SwiftRegex.swift.html#17_16'>RegexLiteral</a></span> {
+<script> lineLink("b77d7a0", 1572299111, "0051") </script>    <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>var</span> <span class='identifier' title='usrString2'><a name='51_15' href='#' onclick='return expand(this);'>dotMatchesLineSeparators<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.swift.html#603_28"; event.stopPropagation(); return false;'>Siteify.swift:603</td><td><pre>    text["```\n(.*?)```\n?".dotMatchesLineSeparators] = "$1"</pre></td></table></span></a></span>: <span class='typeidentifier' title='SwiftRegex.swift'><a name='51_41' href='SwiftRegex.swift.html#17_16'>RegexLiteral</a></span> {
 <script> lineLink("b77d7a0", 1572299111, "0052") </script>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>return</span> <span class='identifier' title='SwiftRegex.swift'><a name='52_15' href='SwiftRegex.swift.html#18_8'>regexOptioned</a></span>.<span class='identifier' title='SwiftRegex.swift'><a name='52_29' href='SwiftRegex.swift.html#30_9'>add</a></span>(<span class='identifier' title='SwiftRegex.swift'><a name='52_33' href='SwiftRegex.swift.html#30_9'>options</a></span>: .<span class='identifier' title='NSRegularExpression.h'>dotMatchesLineSeparators</span>)
 <script> lineLink("b77d7a0", 1572299111, "0053") </script>    }
-<script> lineLink("b77d7a0", 1572299111, "0054") </script>    <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>var</span> <span class='identifier' title='usrString2'><a name='54_15' href='#' onclick='return expand(this);'>anchorsMatchLines<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.swift.html#583_23"; event.stopPropagation(); return false;'>Siteify.swift:583</td><td><pre>    text["^(#+)(.*)\n".anchorsMatchLines] = {</pre></td></table></span></a></span>: <span class='typeidentifier' title='SwiftRegex.swift'><a name='54_34' href='SwiftRegex.swift.html#17_16'>RegexLiteral</a></span> {
+<script> lineLink("b77d7a0", 1572299111, "0054") </script>    <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>var</span> <span class='identifier' title='usrString2'><a name='54_15' href='#' onclick='return expand(this);'>anchorsMatchLines<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.swift.html#454_25"; event.stopPropagation(); return false;'>Siteify.swift:454</td><td><pre>            html[#"(^)"#.anchorsMatchLines] = { (groups: [String], stop) -> String in</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.swift.html#598_23"; event.stopPropagation(); return false;'>Siteify.swift:598</td><td><pre>    text["^(#+)(.*)\n".anchorsMatchLines] = {</pre></td></table></span></a></span>: <span class='typeidentifier' title='SwiftRegex.swift'><a name='54_34' href='SwiftRegex.swift.html#17_16'>RegexLiteral</a></span> {
 <script> lineLink("b77d7a0", 1572299111, "0055") </script>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>return</span> <span class='identifier' title='SwiftRegex.swift'><a name='55_15' href='SwiftRegex.swift.html#18_8'>regexOptioned</a></span>.<span class='identifier' title='SwiftRegex.swift'><a name='55_29' href='SwiftRegex.swift.html#30_9'>add</a></span>(<span class='identifier' title='SwiftRegex.swift'><a name='55_33' href='SwiftRegex.swift.html#30_9'>options</a></span>: .<span class='identifier' title='NSRegularExpression.h'>anchorsMatchLines</span>)
 <script> lineLink("b77d7a0", 1572299111, "0056") </script>    }
 <script> lineLink("b77d7a0", 1572299111, "0057") </script>    <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>var</span> <span class='identifier' title='usrString2'><a name='57_15' onclick='return expand(this);'>useUnixLineSeparators<span class='references'><table></table></span></a></span>: <span class='typeidentifier' title='SwiftRegex.swift'><a name='57_38' href='SwiftRegex.swift.html#17_16'>RegexLiteral</a></span> {
@@ -130,7 +137,7 @@ var commits = {
 <script> lineLink("7dc2527", 1573654363, "0088") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//    }
 <script> lineLink("896cbf6", 1455724767, "0089") </script></span>
 <script> lineLink("b77d7a0", 1572299111, "0090") </script>    <span class='doccomment' title='source.lang.swift.syntaxtype.doccomment'>/// longhand API and bridge to implementation class
-<script> lineLink("b77d7a0", 1572299111, "0091") </script></span>    <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='usrString2'><a name='91_16' href='#' onclick='return expand(this);'>containsMatch<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.swift.html#455_24"; event.stopPropagation(); return false;'>Siteify.swift:455</td><td><pre>            if fullpath.containsMatch(of: #"\.(swift|mm?)$"#) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="SwiftRegex.swift.html#122_15"; return false;'>SwiftRegex.swift:122</td><td><pre>        return containsMatch(of: pattern)</pre></td></table></span></a></span>(<span class='identifier' title='SwiftRegex.swift'><a name='91_30' href='SwiftRegex.swift.html#91_16'>of</a></span> <span class='identifier' title='usrString2'><a name='91_33' onclick='return expand(this);'>regex<span class='references'><table></table></span></a></span>: <span class='typeidentifier' title='SwiftRegex.swift'><a name='91_40' href='SwiftRegex.swift.html#17_16'>RegexLiteral</a></span>, <span class='identifier' title='usrString2'><a name='91_54' href='#' onclick='return expand(this);'>pos<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="SwiftRegex.swift.html#92_80"; return false;'>SwiftRegex.swift:92</td><td><pre>        return RegexImpl&lt;String>(pattern: regex).matchResult(target: self, pos: pos) != nil</pre></td></table></span></a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Int</span>? = <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>nil</span>) -> <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Bool</span> {
+<script> lineLink("b77d7a0", 1572299111, "0091") </script></span>    <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='usrString2'><a name='91_16' href='#' onclick='return expand(this);'>containsMatch<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.swift.html#470_24"; event.stopPropagation(); return false;'>Siteify.swift:470</td><td><pre>            if fullpath.containsMatch(of: #"\.(swift|mm?)$"#) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="SwiftRegex.swift.html#122_15"; return false;'>SwiftRegex.swift:122</td><td><pre>        return containsMatch(of: pattern)</pre></td></table></span></a></span>(<span class='identifier' title='SwiftRegex.swift'><a name='91_30' href='SwiftRegex.swift.html#91_16'>of</a></span> <span class='identifier' title='usrString2'><a name='91_33' onclick='return expand(this);'>regex<span class='references'><table></table></span></a></span>: <span class='typeidentifier' title='SwiftRegex.swift'><a name='91_40' href='SwiftRegex.swift.html#17_16'>RegexLiteral</a></span>, <span class='identifier' title='usrString2'><a name='91_54' href='#' onclick='return expand(this);'>pos<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="SwiftRegex.swift.html#92_80"; return false;'>SwiftRegex.swift:92</td><td><pre>        return RegexImpl&lt;String>(pattern: regex).matchResult(target: self, pos: pos) != nil</pre></td></table></span></a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Int</span>? = <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>nil</span>) -> <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Bool</span> {
 <script> lineLink("b77d7a0", 1572299111, "0092") </script>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>return</span> <span class='identifier' title='SwiftRegex.swift'><a name='92_15' href='SwiftRegex.swift.html#240_17'>RegexImpl</a></span>&lt;<span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>String</span>>(<span class='identifier' title='SwiftRegex.swift'><a name='92_33' href='SwiftRegex.swift.html#264_11'>pattern</a></span>: <span class='identifier' title='SwiftRegex.swift'><a name='92_42' href='SwiftRegex.swift.html#91_33'>regex</a></span>).<span class='identifier' title='SwiftRegex.swift'><a name='92_49' href='SwiftRegex.swift.html#272_9'>matchResult</a></span>(<span class='identifier' title='SwiftRegex.swift'><a name='92_61' href='SwiftRegex.swift.html#272_9'>target</a></span>: <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>self</span>, <span class='identifier' title='SwiftRegex.swift'><a name='92_75' href='SwiftRegex.swift.html#272_9'>pos</a></span>: <span class='identifier' title='SwiftRegex.swift'><a name='92_80' href='SwiftRegex.swift.html#91_54'>pos</a></span>) != <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>nil</span>
 <script> lineLink("b77d7a0", 1572299111, "0093") </script>    }
 <script> lineLink("b77d7a0", 1572299111, "0094") </script>    <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='usrString2'><a name='94_16' href='#' onclick='return expand(this);'>firstMatch<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="SwiftRegex.swift.html#127_21"; return false;'>SwiftRegex.swift:127</td><td><pre>        get { return firstMatch(of: pattern) }</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="SwiftRegex.swift.html#139_21"; return false;'>SwiftRegex.swift:139</td><td><pre>        get { return firstMatch(of: pattern, group: group) }</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="SwiftRegex.swift.html#206_21"; return false;'>SwiftRegex.swift:206</td><td><pre>        get { return firstMatch(of: pattern, group: group) }</pre></td></table></span></a></span>&lt;<span class='identifier' title='SwiftRegex.swift'><a name='94_27'>T</a></span>>(<span class='identifier' title='SwiftRegex.swift'><a name='94_30' href='SwiftRegex.swift.html#94_16'>of</a></span> <span class='identifier' title='usrString2'><a name='94_33' onclick='return expand(this);'>regex<span class='references'><table></table></span></a></span>: <span class='typeidentifier' title='SwiftRegex.swift'><a name='94_40' href='SwiftRegex.swift.html#17_16'>RegexLiteral</a></span>, <span class='identifier' title='usrString2'><a name='94_54' href='#' onclick='return expand(this);'>pos<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="SwiftRegex.swift.html#95_69"; return false;'>SwiftRegex.swift:95</td><td><pre>        return RegexImpl&lt;T>(pattern: regex).match(target: self, pos: pos, group: group)</pre></td></table></span></a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Int</span>? = <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>nil</span>, <span class='identifier' title='usrString2'><a name='94_71' href='#' onclick='return expand(this);'>group<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="SwiftRegex.swift.html#95_81"; return false;'>SwiftRegex.swift:95</td><td><pre>        return RegexImpl&lt;T>(pattern: regex).match(target: self, pos: pos, group: group)</pre></td></table></span></a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Int</span>? = <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>nil</span>) -> <span class='typeidentifier' title='SwiftRegex.swift'><a name='94_93' href='SwiftRegex.swift.html#94_27'>T</a></span>? {
@@ -503,4 +510,3 @@ var commits = {
 <script> lineLink("b77d7a0", 1572299111, "0461") </script>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>return</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>false</span>
 <script> lineLink("896cbf6", 1455724767, "0462") </script>    }
 <script> lineLink("896cbf6", 1455724767, "0463") </script>}
-<a class=linenum name='L464'>0464</a>    

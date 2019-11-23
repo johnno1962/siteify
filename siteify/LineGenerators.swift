@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 19/12/2015.
 //  Copyright © 2015 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/LineGenerators.swift#6 $
+//  $Id: //depot/siteify/siteify/LineGenerators.swift#7 $
 //
 //  Repo: https://github.com/johnno1962/Refactorator
 //
@@ -39,7 +39,7 @@ class TaskGenerator: FileGenerator {
         task.launch()
 
         pipe.fileHandleForWriting.closeFile()
-        super.init(handle: pipe.fileHandleForReading, lineSeparator: lineSeparator)
+        super.init(fileHandle: pipe.fileHandleForReading, lineSeparator: lineSeparator)
     }
 
     deinit {
@@ -50,23 +50,27 @@ class TaskGenerator: FileGenerator {
 
 class FileGenerator: IteratorProtocol {
 
-    let eol: Int32
-    let handle: FileHandle
+    let lineTerminator: Int32
+    let fileHandle: FileHandle
     let readBuffer = NSMutableData()
 
     convenience init?(path: String, lineSeparator: String? = nil) {
-        guard let handle = FileHandle(forReadingAtPath: path ) else { return nil }
-        self.init(handle: handle, lineSeparator: lineSeparator)
+        guard let fileHandle = FileHandle(forReadingAtPath: path ) else { return nil }
+        self.init(fileHandle: fileHandle, lineSeparator: lineSeparator)
     }
 
-    init(handle: FileHandle, lineSeparator: String? = nil) {
-        self.eol = Int32((lineSeparator ?? "\n").utf8.first!)
-        self.handle = handle
+    init(fileHandle: FileHandle, lineSeparator: String? = nil) {
+        self.lineTerminator = Int32((lineSeparator ?? "\n").utf8.first!)
+        self.fileHandle = fileHandle
+    }
+
+    func allOutput() -> String? {
+        return String(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)
     }
 
     func next() -> String? {
         while true {
-            if let endOfLine = memchr(readBuffer.bytes, eol, readBuffer.length) {
+            if let endOfLine = memchr(readBuffer.bytes, lineTerminator, readBuffer.length) {
                 let endOfLine = endOfLine.assumingMemoryBound(to: Int8.self)
                 endOfLine[0] = 0
 
@@ -79,7 +83,7 @@ class FileGenerator: IteratorProtocol {
                 return line
             }
 
-            let bytesRead = handle.availableData
+            let bytesRead = fileHandle.availableData
             if bytesRead.count <= 0 {
                 if readBuffer.length != 0 {
                     let last = String.fromData(data: readBuffer)
@@ -100,7 +104,7 @@ class FileGenerator: IteratorProtocol {
     }
 
     deinit {
-        handle.closeFile()
+        fileHandle.closeFile()
     }
 }
 

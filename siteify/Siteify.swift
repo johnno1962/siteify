@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#71 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#74 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -81,6 +81,7 @@ public class Siteify: NotificationResponder {
     var htmlRoot: String!
 
     let fileThreads = 4
+    let gitExecutable = "/usr/bin/git"
 
     func progress(str: String) {
         print("\u{001b}[2K"+str, separator: "", terminator: "\r")
@@ -204,10 +205,10 @@ public class Siteify: NotificationResponder {
         progress(str: "Saving \(htmlRoot!)/\(htmlfile)")
 
         let sourceDir = fullURL.deletingLastPathComponent().path
-        let blameStream = TaskGenerator(launchPath: "/usr/bin/git",
+        let blameStream = TaskGenerator(launchPath: gitExecutable,
                                         arguments: ["blame", "-t", fullpath],
                                         directory: sourceDir)
-        let logStream = TaskGenerator(launchPath: "/usr/bin/git",
+        let logStream = TaskGenerator(launchPath: gitExecutable,
                                         arguments: ["log", fullpath],
                                         directory: sourceDir)
 
@@ -403,20 +404,33 @@ public class Siteify: NotificationResponder {
                 }
             }.joined() + skipTo(offset: data.count)
 
+            var repoURL = sourceDir
+            for _ in 0 ..< 5 {
+                if let remote = TaskGenerator(launchPath: gitExecutable,
+                                              arguments: ["remote", "-v"], directory: repoURL).allOutput(),
+                    let (_, url): (String, String) = remote[#"(origin)\s+(\S+)"#] {
+                    repoURL = url
+                    if repoURL.starts(with: "http") {
+                        break
+                    }
+                }
+            }
+
             // Start with template for source file...
             let htmlFILE = copyTemplate(template: "source.html", patches: [
-                "__FILE__": relative], dest: htmlRoot+"/"+htmlfile)
+                "__FILE__": relative, "__REPO__": repoURL], dest: htmlRoot+"/"+htmlfile)
 
             // Add dictionary of commit info for line number blame
-            if let logInfo = String(data: logStream.handle.readDataToEndOfFile(), encoding: .utf8) {
+            if let logInfo = logStream.allOutput() {
                 let logDict = [String: [String: String]](uniqueKeysWithValues: logInfo[#"""
-                        commit \^?(\w{7}).*
+                        commit \^?((\w{7}).*)
                         Author:\s+([^<]+).*
                         Date:\s+(.*)
                         ((?:\n(?!commit).*)*)
                         """#]
-                    .map({ (info: (String, String, String, String)) in
-                        return (info.0, ["author": info.1, "date": info.2, "message": info.3])
+                    .map({ (info: (String, String, String, String, String)) in
+                        return (info.1, ["author": info.2, "hash": info.0,
+                                         "date": info.3, "message": info.4])
                     }))
 
                 let encoder = JSONEncoder()
@@ -426,6 +440,7 @@ public class Siteify: NotificationResponder {
                     _ = """
                         <script>
 
+                        var repo = "\(repoURL[".git$", ""])";
                         var commits = \(logString);
 
                         </script>
@@ -436,14 +451,14 @@ public class Siteify: NotificationResponder {
 
             // Patch line numbers into file (generated in JavaScript)
             lineno = 0
-            html["(^|\n)"] = { (groups: [String], stop) -> String in
+            html[#"(^)"#.anchorsMatchLines] = { (groups: [String], stop) -> String in
                 lineno += 1
                 if let blame = blameStream.next(),
                     let (commit, _, when): (String, String, String) =
-                        blame[#"\^?(\w{7})\w? \((.*?) +(\d+) [-+ ]\d+ +\d+\)"#] {
+                        blame[#"\^?(\w{7})\w? .*?\((.*?) +(\d+) [-+ ]\d+ +\d+\)"#] {
                     return groups[1] + "<script> lineLink(\"\(commit)\", \(when), \"\(String(format: "%04d", lineno))\") </script>"
                 } else {
-                    return groups[1] + String(format: "<a class=linenum name='L%d'>%04d</a>    ", lineno, lineno)
+                    return groups[1] + String(format: "<a class=linenum name='L%d'>%04d </a> ", lineno, lineno)
                 }
             }
 

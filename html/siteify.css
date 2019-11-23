@@ -10,7 +10,12 @@ body, table { font: 10pt Menlo Regular; }
 .number { color: #1D26E1; }
 .string { color: #CB444D; }
 .typeidentifier { color: #5C2599; }
-.linenum { color: black; }
+
+.linenum { color: black; text-decoration: none; }
+a.linenum:hover { text-decoration: underline; }
+.lastday { border-right: 4px solid rgba(0, 255, 0, 1); }
+.lastweek { border-right: 4px solid rgba(0, 255, 0, .5); }
+.lastmonth { border-right: 4px solid rgba(0, 255, 0, .25); }
 
 @media (prefers-color-scheme: dark) {
     body { background: #292A30; color: #DFDFE0; }

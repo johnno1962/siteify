@@ -3,39 +3,46 @@
     <title>.build/checkouts/SwiftLSPClient/SwiftLSPClient/JSONRPC/JSONRPC.swift</title>
     <link rel="stylesheet" type="text/css" href="siteify.css">
     <script src="siteify.js"></script>
-</head><html><body><h3>Source: .build/checkouts/SwiftLSPClient/SwiftLSPClient/JSONRPC/JSONRPC.swift (<a href='index.html'>Index</a>)</h3><pre>
+</head><html><body><h3>Source: .build/checkouts/SwiftLSPClient/SwiftLSPClient/JSONRPC/JSONRPC.swift (<a href='index.html'>Index</a>)<br/><br/>Repo: <a href='https://github.com/ChimeHQ/SwiftLSPClient.git'>https://github.com/ChimeHQ/SwiftLSPClient.git</a></h3><pre>
 <script>
 
+var repo = "https://github.com/ChimeHQ/SwiftLSPClient";
 var commits = {
   "250a274" : {
-    "date" : "Thu Oct 31 07:35:02 2019 -0400",
+    "author" : "Matt Massicotte ",
+    "hash" : "250a2748227eadb0a3a70c259dfcf9e5dff83015",
     "message" : "\n    Test data without strings (#31)\n    \n    It wasn't possible to easily encode the LSP types to protocol messages for testing. So, I was just using strings. This was really annoying and error-prone. Finally took the time to make this possible, and it is way better.\n",
-    "author" : "Matt Massicotte "
+    "date" : "Thu Oct 31 07:35:02 2019 -0400"
   },
   "9378f98" : {
-    "date" : "Sun Jan 27 20:17:24 2019 -0500",
+    "author" : "Matt Massicotte ",
+    "hash" : "9378f98761121b2ba181ffb5964a87d0015b8b0b",
     "message" : "\n    Message Delivery and Error Fixes\n    \n    - Handles a dumb bug were two messages delivered at the same time cause the delivery system to lock up\n    - Correctly remove stored message handlers once they have been invoked\n    - Extract out and return errors when they have been returned from requests\n    - Reduce the strictness of the error structure\n",
-    "author" : "Matt Massicotte "
+    "date" : "Sun Jan 27 20:17:24 2019 -0500"
   },
   "ccb8820" : {
-    "date" : "Fri Nov 8 22:07:01 2019 +0100",
+    "author" : "John Holdsworth ",
+    "hash" : "ccb882021629140c15b3f4a768cfb20e18cee044",
     "message" : "\n    \".hpp\" file extension. 'data' field in received errors optional. (#37)\n    \n    * Update Basic.swift\n    \n    * Error data not populated by sourcekit-lsp\n",
-    "author" : "John Holdsworth "
+    "date" : "Fri Nov 8 22:07:01 2019 +0100"
   },
   "6d70f53" : {
-    "date" : "Fri Feb 8 14:26:04 2019 -0500",
+    "author" : "Matt Massicotte ",
+    "hash" : "6d70f5331e49945a02a105069949e9540c006692",
     "message" : "\n    Tests for ProtocolTransport\n    \n    Before working on server->client requests, I though it would be useful to have some good tests in place for the ProtocolTransport class. Also, noticed that the DataTransport protocol fit nicely, to refactored to use that. I think this should make it possible to write some more straight-forward tests in the future.\n",
-    "author" : "Matt Massicotte "
+    "date" : "Fri Feb 8 14:26:04 2019 -0500"
   },
   "bfc73ec" : {
-    "date" : "Sun Jan 27 11:59:41 2019 -0500",
+    "author" : "Matt Massicotte ",
+    "hash" : "bfc73ecc2d491e2ec4cbacd57dfce64a4b848e98",
     "message" : "\n    Add missing null case from JSONValue\n",
-    "author" : "Matt Massicotte "
+    "date" : "Sun Jan 27 11:59:41 2019 -0500"
   },
   "d86bb6b" : {
-    "date" : "Wed Nov 21 20:31:36 2018 -0500",
+    "author" : "Matt Massicotte ",
+    "hash" : "d86bb6b65e09db8e460b2d36d969f147ab6b8d1b",
     "message" : "\n    Migrating in code\n",
-    "author" : "Matt Massicotte "
+    "date" : "Wed Nov 21 20:31:36 2018 -0500"
   }
 };
 
@@ -167,4 +174,3 @@ var commits = {
 <script> lineLink("d86bb6b", 1542850296, "0125") </script>    <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='usrString2'><a name='125_15' href='#' onclick='return expand(this);'>method<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="ProtocolTransport.swift.html#103_53"; event.stopPropagation(); return false;'>ProtocolTransport.swift:103</td><td><pre>        let notification = JSONRPCNotificationParams(method: method, params: params)</pre></td></table></span></a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>String</span>
 <script> lineLink("d86bb6b", 1542850296, "0126") </script>    <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='usrString2'><a name='126_15' href='#' onclick='return expand(this);'>params<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="ProtocolTransport.swift.html#103_69"; event.stopPropagation(); return false;'>ProtocolTransport.swift:103</td><td><pre>        let notification = JSONRPCNotificationParams(method: method, params: params)</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.swift.html#68_38"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:68</td><td><pre>            guard let params = result.params else {</pre></td></table></span></a></span>: <span class='typeidentifier' title='JSONRPC.swift'><a name='126_23' href='JSONRPC.swift.html#123_40'>T</a></span>?
 <script> lineLink("d86bb6b", 1542850296, "0127") </script>}
-<a class=linenum name='L128'>0128</a>    

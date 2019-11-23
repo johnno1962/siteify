@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Resources.swift#25 $
+//  $Id: //depot/siteify/siteify/Resources.swift#29 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -30,20 +30,20 @@ function lineLink(commit, when, lineno) {
     when *= 1000
     var age = Date.now() - when
     var day = 24*60*60*1000
-    var fade = 0
+    var fade = ""
     if (age < day)
-        fade = 1
+        fade = " lastday"
     else if (age < 7 * day)
-        fade = .5
+        fade = " lastweek"
     else if (age < 31 * day)
-        fade = .25
+        fade = " lastmonth"
     var info = commits[commit] || {
         "message": "\n    [Outside blame range]\n"}
-    document.write("<a class=linenum name='L"+parseInt(lineno)+
-        "' style='border-right: 4px solid rgba(0, 255, 0, "+fade+
-        ");' title=\"Author: "+((info["author"]||"Unknown")+"\n"+
-        (info["date"]||new Date(when))+"\n"+(info["message"]||""))
-            .replace(/[\n"&]/g, function(e){
-                return"&#"+e.charCodeAt(0)+";"
-            })+"\">"+lineno+" </a> ")
+    var title = "Author: "+(info["author"]||"Unknown")+"\n"+
+        (info["date"]||new Date(when))+"\n"+(info["message"]||"")
+
+    document.write("<a class='linenum"+fade+"' name=L"+parseInt(lineno)+
+        " title='"+title.replace(/['\n&]/g, function(e) {
+            return"&#"+e.charCodeAt(0)+";"
+        })+"' href='"+repo+"/commit/"+info["hash"]+"'>"+lineno+" </a> ")
 }

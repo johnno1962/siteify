@@ -16,6 +16,25 @@ extension Siteify {
             </head><html><body><h3>Generated from __ROOT__ on __DATE__</h3>
             """,
 
+        "source.html": """
+            <html><head>
+                <meta charset="UTF-8">
+                <title>__FILE__</title>
+                <link rel="stylesheet" type="text/css" href="siteify.css">
+                <script src="siteify.js"></script>
+            </head><html><body><h3>Source: __FILE__ (<a href='index.html'>Index</a>)<br/><br/>Repo: <a href='__REPO__'>__REPO__</a></h3><pre>
+
+            """,
+
+        "symbols.html": """
+            <html><head>
+            <meta charset="UTF-8">
+            <title>Symbols in __ROOT__</title>
+            <link rel="stylesheet" type="text/css" href="siteify.css">
+            </head><html><body><h2>Package Symbols</h2><pre>
+
+            """,
+
         "siteify.css": """
 
             body, table { font: 10pt Menlo Regular; }
@@ -29,7 +48,12 @@ extension Siteify {
             .number { color: #1D26E1; }
             .string { color: #CB444D; }
             .typeidentifier { color: #5C2599; }
-            .linenum { color: black; }
+
+            .linenum { color: black; text-decoration: none; }
+            a.linenum:hover { text-decoration: underline; }
+            .lastday { border-right: 4px solid rgba(0, 255, 0, 1); }
+            .lastweek { border-right: 4px solid rgba(0, 255, 0, .5); }
+            .lastmonth { border-right: 4px solid rgba(0, 255, 0, .25); }
 
             @media (prefers-color-scheme: dark) {
                 body { background: #292A30; color: #DFDFE0; }
@@ -59,7 +83,7 @@ extension Siteify {
             //  Created by John Holdsworth on 28/10/2019.
             //  Copyright © 2019 John Holdsworth. All rights reserved.
             //
-            //  $Id: //depot/siteify/siteify/Resources.swift#26 $
+            //  $Id: //depot/siteify/siteify/Resources.swift#29 $
             //
             //  Repo: https://github.com/johnno1962/siteify
             //
@@ -84,43 +108,24 @@ extension Siteify {
                 when *= 1000
                 var age = Date.now() - when
                 var day = 24*60*60*1000
-                var fade = 0
+                var fade = ""
                 if (age < day)
-                    fade = 1
+                    fade = " lastday"
                 else if (age < 7 * day)
-                    fade = .5
+                    fade = " lastweek"
                 else if (age < 31 * day)
-                    fade = .25
+                    fade = " lastmonth"
                 var info = commits[commit] || {
                     "message": "\n    [Outside blame range]\n"}
-                document.write("<a class=linenum name='L"+parseInt(lineno)+
-                    "' style='border-right: 4px solid rgba(0, 255, 0, "+fade+
-                    ");' title=\"Author: "+((info["author"]||"Unknown")+"\n"+
-                    (info["date"]||new Date(when))+"\n"+(info["message"]||""))
-                        .replace(/[\n"&]/g, function(e){
-                            return"&#"+e.charCodeAt(0)+";"
-                        })+"\">"+lineno+" </a> ")
+                var title = "Author: "+(info["author"]||"Unknown")+"\n"+
+                    (info["date"]||new Date(when))+"\n"+(info["message"]||"")
+
+                document.write("<a class='linenum"+fade+"' name=L"+parseInt(lineno)+
+                    " title='"+title.replace(/['\n&]/g, function(e) {
+                        return"&#"+e.charCodeAt(0)+";"
+                    })+"' href='"+repo+"/commit/"+info["hash"]+"'>"+lineno+" </a> ")
             }
 
             """#,
-
-        "source.html": """
-            <html><head>
-                <meta charset="UTF-8">
-                <title>__FILE__</title>
-                <link rel="stylesheet" type="text/css" href="siteify.css">
-                <script src="siteify.js"></script>
-            </head><html><body><h3>Source: __FILE__ (<a href='index.html'>Index</a>)</h3><pre>
-
-            """,
-
-        "symbols.html": """
-            <html><head>
-            <meta charset="UTF-8">
-            <title>Symbols in __ROOT__</title>
-            <link rel="stylesheet" type="text/css" href="siteify.css">
-            </head><html><body><h2>Package Symbols</h2><pre>
-
-            """
     ]
 }
