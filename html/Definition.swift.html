@@ -3,19 +3,32 @@
     <title>.build/checkouts/SwiftLSPClient/SwiftLSPClient/Types/Features/Definition.swift</title>
     <link rel="stylesheet" type="text/css" href="siteify.css">
     <script src="siteify.js"></script>
-</head><html><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClient/Types/Features/Definition.swift</h3><pre>
+</head><html><body><h3>Source: .build/checkouts/SwiftLSPClient/SwiftLSPClient/Types/Features/Definition.swift (<a href='index.html'>Index</a>)</h3><pre>
 <script>
-var commits = {"4f07f1f1":"\n    Support for def\/decl navigation, improved error type\n","5909dc05":"\n    Fix consistency of several response types\n"}
+
+var commits = {
+  "4f07f1f" : {
+    "message" : "\n    Support for def\/decl navigation, improved error type\n",
+    "author" : "Matt Massicotte ",
+    "date" : "Tue Sep 10 12:53:38 2019 -0400"
+  },
+  "5909dc0" : {
+    "message" : "\n    Fix consistency of several response types\n",
+    "author" : "Matt Massicotte ",
+    "date" : "Sat Nov 9 20:11:39 2019 -0500"
+  }
+};
+
 </script>
-<script> lineLink("4f07f1f1", "Matt Massicotte", 1568134418, "0001") </script><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
-<script> lineLink("4f07f1f1", "Matt Massicotte", 1568134418, "0002") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Definition.swift
-<script> lineLink("4f07f1f1", "Matt Massicotte", 1568134418, "0003") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  SwiftLSPClient
-<script> lineLink("4f07f1f1", "Matt Massicotte", 1568134418, "0004") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
-<script> lineLink("4f07f1f1", "Matt Massicotte", 1568134418, "0005") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Created by Matt Massicotte on 2019-09-09.
-<script> lineLink("4f07f1f1", "Matt Massicotte", 1568134418, "0006") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
-<script> lineLink("4f07f1f1", "Matt Massicotte", 1568134418, "0007") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
-<script> lineLink("4f07f1f1", "Matt Massicotte", 1568134418, "0008") </script></span>
-<script> lineLink("4f07f1f1", "Matt Massicotte", 1568134418, "0009") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>import</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>Foundation</span>
-<script> lineLink("4f07f1f1", "Matt Massicotte", 1568134418, "0010") </script>
-<script> lineLink("5909dc05", "Matt Massicotte", 1573348299, "0011") </script><span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>typealias</span> <span class='identifier' title='usrString2'><a name='11_17' href='#' onclick='return expand(this);'>DefinitionResponse<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.swift.html#212_102"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:212</td><td><pre>    public func definition(params: TextDocumentPositionParams, block: @escaping (LanguageServerResult&lt;DefinitionResponse>) -> Void) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.swift.html#215_90"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:215</td><td><pre>        protocolTransport.sendRequest(params, method: method) { (result: ProtocolResponse&lt;DefinitionResponse>) in</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="LanguageServer.swift.html#66_95"; event.stopPropagation(); return false;'>LanguageServer.swift:66</td><td><pre>    func definition(params: TextDocumentPositionParams, block: @escaping (LanguageServerResult&lt;DefinitionResponse>) -> Void)</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.swift.html#299_71"; event.stopPropagation(); return false;'>Siteify.swift:299</td><td><pre>                func hyperlinkDeinifition(result: LanguageServerResult&lt;DefinitionResponse>) {</pre></td></table></span></a></span> = <span class='typeidentifier' title='TypeDefinition.swift'><a name='11_38' href='TypeDefinition.swift.html#11_12'>TypeDefinitionResponse</a></span>?
+<script> lineLink("4f07f1f", 1568134418, "0001") </script><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
+<script> lineLink("4f07f1f", 1568134418, "0002") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Definition.swift
+<script> lineLink("4f07f1f", 1568134418, "0003") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  SwiftLSPClient
+<script> lineLink("4f07f1f", 1568134418, "0004") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
+<script> lineLink("4f07f1f", 1568134418, "0005") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Created by Matt Massicotte on 2019-09-09.
+<script> lineLink("4f07f1f", 1568134418, "0006") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
+<script> lineLink("4f07f1f", 1568134418, "0007") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
+<script> lineLink("4f07f1f", 1568134418, "0008") </script></span>
+<script> lineLink("4f07f1f", 1568134418, "0009") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>import</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>Foundation</span>
+<script> lineLink("4f07f1f", 1568134418, "0010") </script>
+<script> lineLink("5909dc0", 1573348299, "0011") </script><span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>typealias</span> <span class='identifier' title='usrString2'><a name='11_17' href='#' onclick='return expand(this);'>DefinitionResponse<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.swift.html#212_102"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:212</td><td><pre>    public func definition(params: TextDocumentPositionParams, block: @escaping (LanguageServerResult&lt;DefinitionResponse>) -> Void) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="JSONRPCLanguageServer.swift.html#215_90"; event.stopPropagation(); return false;'>JSONRPCLanguageServer.swift:215</td><td><pre>        protocolTransport.sendRequest(params, method: method) { (result: ProtocolResponse&lt;DefinitionResponse>) in</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.swift.html#316_70"; event.stopPropagation(); return false;'>Siteify.swift:316</td><td><pre>                func hyperlinkIdentifier(result: LanguageServerResult&lt;DefinitionResponse>) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="LanguageServer.swift.html#66_95"; event.stopPropagation(); return false;'>LanguageServer.swift:66</td><td><pre>    func definition(params: TextDocumentPositionParams, block: @escaping (LanguageServerResult&lt;DefinitionResponse>) -> Void)</pre></td></table></span></a></span> = <span class='typeidentifier' title='TypeDefinition.swift'><a name='11_38' href='TypeDefinition.swift.html#11_12'>TypeDefinitionResponse</a></span>?
 <a class=linenum name='L12'>0012</a>    

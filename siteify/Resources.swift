@@ -12,6 +12,7 @@ extension Siteify {
             <html><head>
             <meta charset="UTF-8">
             <link rel="stylesheet" type="text/css" href="siteify.css">
+            <title>Siteify of __ROOT__</title>
             </head><html><body><h3>Generated from __ROOT__ on __DATE__</h3>
             """,
 
@@ -51,8 +52,17 @@ extension Siteify {
             """,
 
         "siteify.js": #"""
-
-            //  $Id: //depot/siteify/siteify/Resources.swift#19 $
+            //
+            //  siteify.js
+            //  siteify
+            //
+            //  Created by John Holdsworth on 28/10/2019.
+            //  Copyright © 2019 John Holdsworth. All rights reserved.
+            //
+            //  $Id: //depot/siteify/siteify/Resources.swift#26 $
+            //
+            //  Repo: https://github.com/johnno1962/siteify
+            //
 
             var lastlink;
 
@@ -70,7 +80,7 @@ extension Siteify {
                 return false;
             }
 
-            function lineLink(commit, author, when, lineno) {
+            function lineLink(commit, when, lineno) {
                 when *= 1000
                 var age = Date.now() - when
                 var day = 24*60*60*1000
@@ -81,11 +91,15 @@ extension Siteify {
                     fade = .5
                 else if (age < 31 * day)
                     fade = .25
-                var log = (commits[commit]||"\n    [Outside blame range]\n")
-                    .replace(/[\n"&]/g, function(e){ return"&#"+e.charCodeAt(0)+";" })
+                var info = commits[commit] || {
+                    "message": "\n    [Outside blame range]\n"}
                 document.write("<a class=linenum name='L"+parseInt(lineno)+
                     "' style='border-right: 4px solid rgba(0, 255, 0, "+fade+
-                    ");' title=\""+author+" "+new Date(when).toString()+"\n"+log+"\">"+lineno+" </a> ")
+                    ");' title=\"Author: "+((info["author"]||"Unknown")+"\n"+
+                    (info["date"]||new Date(when))+"\n"+(info["message"]||""))
+                        .replace(/[\n"&]/g, function(e){
+                            return"&#"+e.charCodeAt(0)+";"
+                        })+"\">"+lineno+" </a> ")
             }
 
             """#,
@@ -96,16 +110,16 @@ extension Siteify {
                 <title>__FILE__</title>
                 <link rel="stylesheet" type="text/css" href="siteify.css">
                 <script src="siteify.js"></script>
-            </head><html><body><h3>__FILE__</h3><pre>
+            </head><html><body><h3>Source: __FILE__ (<a href='index.html'>Index</a>)</h3><pre>
 
             """,
 
         "symbols.html": """
             <html><head>
             <meta charset="UTF-8">
-            <title>Symbols</title>
+            <title>Symbols in __ROOT__</title>
             <link rel="stylesheet" type="text/css" href="siteify.css">
-            </head><html><body><h3>Package Symbols</h3><pre>
+            </head><html><body><h2>Package Symbols</h2><pre>
 
             """
     ]

@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#64 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#71 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -15,11 +15,6 @@ import SwiftLSPClient
 #if SWIFT_PACKAGE
 import SourceKit
 #endif
-
-@_silgen_name("popen")
-func popen(_ command: UnsafePointer<Int8>, _ perms: UnsafePointer<Int8>) -> UnsafeMutablePointer<FILE>!
-@_silgen_name("pclose")
-func pclose(_ fp: UnsafeMutablePointer<FILE>?)
 
 var filenameForFile = [String: String](), filesForFileName = [String: String]()
 
@@ -83,8 +78,9 @@ public class Siteify: NotificationResponder {
     var executablePath: String { return toolchainPath+"/usr/bin/sourcekit-lsp" }
     var lspServer: LanguageServer!
     let projectRoot: URL
-    let fileThreads = 8
     var htmlRoot: String!
+
+    let fileThreads = 4
 
     func progress(str: String) {
         print("\u{001b}[2K"+str, separator: "", terminator: "\r")
@@ -146,6 +142,7 @@ public class Siteify: NotificationResponder {
 
     public func generateSite(into: String) {
         htmlRoot = into
+        let started = Date.timeIntervalSinceReferenceDate
         let filemgr = FileManager.default
         if !filemgr.fileExists(atPath: htmlRoot) {
             do {
@@ -157,9 +154,13 @@ public class Siteify: NotificationResponder {
 
         fclose(copyTemplate(template: "siteify.js"))
         fclose(copyTemplate(template: "siteify.css"))
-        indexFILE = copyTemplate(template: "index.html", patches: [
+
+        let patches = [
             "__DATE__": NSDate().description,
-            "__ROOT__": projectRoot.path.replacingOccurrences(of: home, with: "~")])
+            "__ROOT__": projectRoot.path.replacingOccurrences(of: home, with: "~")
+        ]
+
+        indexFILE = copyTemplate(template: "index.html", patches: patches)
         setbuf(indexFILE, nil)
 
         filemgr.enumerator(atPath: projectRoot.path)?
@@ -172,29 +173,37 @@ public class Siteify: NotificationResponder {
                 return completion(relative)
             }
 
-        let xrefFILE = copyTemplate(template: "symbols.html")
-        for sym in self.symbolsLock.synchronized({packageSymbols})
-            .map({ (file, syms) in syms.map {(file, $0)}})
-            .reduce([], +).sorted(by: {$0.1.name < $1.1.name}) {
-                sym.1.print(file: sym.0, indent: " ", to: xrefFILE)
+        // Generate alphabetical list of symbols defined at the top level
+        if indexFILE != nil {
+            let symbolsFILE = copyTemplate(template: "symbols.html", patches: patches)
+            for sym in self.symbolsLock.synchronized({packageSymbols})
+                .map({ (file, syms) in syms.map {(file, $0)}})
+                .reduce([], +).sorted(by: {$0.1.name < $1.1.name}) {
+                    sym.1.print(file: sym.0, indent: " ", to: symbolsFILE)
+            }
+            fclose(symbolsFILE)
+
+            "<br><a href='symbols.html'>Package Symbols</a>".write(to: indexFILE!)
+            fclose(indexFILE)
         }
-        fclose(xrefFILE)
 
-        fputs("<br><a href='symbols.html'>Package Symbols</a>", indexFILE)
-        fclose(indexFILE)
-
-        progress(str: "Site complete.\n")
+        progress(str: String(format: "Site complete, %.0f seconds.\n",
+                             Date.timeIntervalSinceReferenceDate - started))
     }
 
     public func processFile(relative: String) {
-        let fullpath = projectRoot.appendingPathComponent(relative).path
+        let started = Date.timeIntervalSinceReferenceDate
+        let fullURL = projectRoot.appendingPathComponent(relative)
+        let fullpath = fullURL.path
         let htmlfile = htmlFile(fullpath)
         let synchronizer = LanguageServerSynchronizer()
+
         if htmlRoot == nil {
             htmlRoot = "html"
         }
         progress(str: "Saving \(htmlRoot!)/\(htmlfile)")
-        let sourceDir = URL(fileURLWithPath: fullpath).deletingLastPathComponent().path
+
+        let sourceDir = fullURL.deletingLastPathComponent().path
         let blameStream = TaskGenerator(launchPath: "/usr/bin/git",
                                         arguments: ["blame", "-t", fullpath],
                                         directory: sourceDir)
@@ -202,14 +211,14 @@ public class Siteify: NotificationResponder {
                                         arguments: ["log", fullpath],
                                         directory: sourceDir)
 
-        guard let data = try? Data(contentsOf: URL(fileURLWithPath: fullpath)) else {
-            NSLog("Unable to load file at path: \(fullpath)")
+        guard let data = try? Data(contentsOf: fullURL) else {
+            NSLog("Unable to load file at path: \(fullURL.path)")
             return
         }
 
         if indexFILE != nil {
             let relurl = URL(fileURLWithPath: relative)
-            fputs("\(relurl.deletingLastPathComponent().relativePath)/<a href='\(htmlfile)'>\(relurl.lastPathComponent)<a> \(comma.string(from: NSNumber(value: data.count))!) bytes<br>\n", indexFILE)
+            "\(relurl.deletingLastPathComponent().relativePath)/<a href='\(htmlfile)'>\(relurl.lastPathComponent)<a> \(comma.string(from: NSNumber(value: data.count))!) bytes<br>\n".write(to: indexFILE!)
         }
 
         let docId = TextDocumentIdentifier(path: fullpath)
@@ -227,6 +236,8 @@ public class Siteify: NotificationResponder {
                     .replacingOccurrences(of: "<", with: "&lt;")
             }
 
+            // Copy characters up to offset, update ptr
+            // count line numbers and character position.
             func skipTo(offset: Int) -> String {
                 while let line = memchr(start + linestart,
                                         Int32(UInt8(ascii: "\n")),
@@ -265,6 +276,7 @@ public class Siteify: NotificationResponder {
             let dict = SKApi.response_get_value(resp)
             let syntaxMap = SKApi.variant_dictionary_get_value(dict, self.sourceKit.syntaxID)
 
+            // Use SourceKitService to tokenise file
             var html = (0..<SKApi.variant_array_get_count(syntaxMap))
                 .map { (index: Int) -> (String, sourcekitd_variant_t, Position, String) in
                     let dict = SKApi.variant_array_get_value(syntaxMap, index)
@@ -276,12 +288,15 @@ public class Siteify: NotificationResponder {
                     return (pre, dict, pos, text)
             }.concurrentMap(maxConcurrency: 1
                             /* cannot multithread per file */) {
+                // Extract information from SourceKit dictionary
+                // required to hyperlink identifiers
                 (arg0, completion: @escaping (String) -> Void) in
                 let (pre, dict, pos, text) = arg0
                 let kind = dict.getUUIDString(key: self.sourceKit.kindID)
                 let kindID = SKApi.variant_dictionary_get_uid(dict, self.sourceKit.kindID)
                 let kindSuffix = NSURL(fileURLWithPath: kind).pathExtension!
 
+                // Wrap derived html in <span> to colorize
                 func complete(span: String, title: Any?) {
                     completion("\(pre)<span class='\(kindSuffix)'\(title != nil ? " title='\(title!)'" : "")>\(span)</span>")
                 }
@@ -289,6 +304,8 @@ public class Siteify: NotificationResponder {
                 if kindSuffix == "url" {
                     return complete(span: "<a href='\(text)'>\(text)</a>", title: nil)
                 }
+
+                // Only interested in identifers
                 guard kindID == self.sourceKit.identifierID ||
                     kindID == self.sourceKit.typeIdenifierID else {
                     return complete(span: text, title: kind)
@@ -296,7 +313,7 @@ public class Siteify: NotificationResponder {
 
                 let docPos = TextDocumentPositionParams(textDocument: docId, position: pos)
 
-                func hyperlinkDeinifition(result: LanguageServerResult<DefinitionResponse>) {
+                func hyperlinkIdentifier(result: LanguageServerResult<DefinitionResponse>) {
                     switch result {
                     case .success(let value):
                         switch value {
@@ -307,6 +324,9 @@ public class Siteify: NotificationResponder {
                                 }) else {
                                 return complete(span: text, title: "\(result)")
                             }
+
+                            // Is this the definition on the identifier?
+                            // If so, list the referenes as a popup table.
                             if decl.file == fullpath && decl.range.start == pos {
                                 self.lspServer.references(params: ReferenceParams(textDocument: TextDocumentIdentifier(path: fullpath), position: pos, context: ReferenceContext(includeDeclaration: false))) { result in
                                     switch result {
@@ -341,6 +361,7 @@ public class Siteify: NotificationResponder {
                                         if self.fileThreads > 1 {
                                             processRefs()
                                         } else {
+                                            // Hover can be used to extract markup
                                             self.lspServer.hover(params: docPos) { result in
                                                 switch result {
                                                 case .success(let value):
@@ -366,7 +387,7 @@ public class Siteify: NotificationResponder {
                                 complete(span: text, title: URL(fileURLWithPath: decl.file).lastPathComponent)
                             }
                         default:
-                            complete(span: text, title: "default: \(result)")
+                            complete(span: text, title: "#DFLT: \(result)")
                         }
 
                     case .failure(let err):
@@ -374,46 +395,63 @@ public class Siteify: NotificationResponder {
                     }
                 }
 
+                // typeDefinition doesn't seem to work
                 if false && kindID == self.sourceKit.typeIdenifierID {
-                    self.lspServer.typeDefinition(params: docPos, block: hyperlinkDeinifition)
+                    self.lspServer.typeDefinition(params: docPos, block: hyperlinkIdentifier)
                 } else {
-                    self.lspServer.definition(params: docPos, block: hyperlinkDeinifition)
+                    self.lspServer.definition(params: docPos, block: hyperlinkIdentifier)
                 }
             }.joined() + skipTo(offset: data.count)
 
+            // Start with template for source file...
+            let htmlFILE = copyTemplate(template: "source.html", patches: [
+                "__FILE__": relative], dest: htmlRoot+"/"+htmlfile)
+
+            // Add dictionary of commit info for line number blame
+            if let logInfo = String(data: logStream.handle.readDataToEndOfFile(), encoding: .utf8) {
+                let logDict = [String: [String: String]](uniqueKeysWithValues: logInfo[#"""
+                        commit \^?(\w{7}).*
+                        Author:\s+([^<]+).*
+                        Date:\s+(.*)
+                        ((?:\n(?!commit).*)*)
+                        """#]
+                    .map({ (info: (String, String, String, String)) in
+                        return (info.0, ["author": info.1, "date": info.2, "message": info.3])
+                    }))
+
+                let encoder = JSONEncoder()
+                encoder.outputFormatting = .prettyPrinted
+                if let logJSON = try? encoder.encode(logDict),
+                    let logString = String(data: logJSON, encoding: .utf8) {
+                    _ = """
+                        <script>
+
+                        var commits = \(logString);
+
+                        </script>
+
+                        """.write(to: htmlFILE)
+                }
+            }
+
+            // Patch line numbers into file (generated in JavaScript)
             lineno = 0
             html["(^|\n)"] = { (groups: [String], stop) -> String in
                 lineno += 1
                 if let blame = blameStream.next(),
-                    let (commit, author, when): (String, String, String) =
-                        blame[#"([\^\w]\w{7}) \((.*?) +(\d+) [-+ ]\d+ +\d+\)"#] {
-                    return groups[1] + "<script> lineLink(\"\(commit)\", \"\(author)\", \(when), \"\(String(format: "%04d", lineno))\") </script>"
+                    let (commit, _, when): (String, String, String) =
+                        blame[#"\^?(\w{7})\w? \((.*?) +(\d+) [-+ ]\d+ +\d+\)"#] {
+                    return groups[1] + "<script> lineLink(\"\(commit)\", \(when), \"\(String(format: "%04d", lineno))\") </script>"
                 } else {
                     return groups[1] + String(format: "<a class=linenum name='L%d'>%04d</a>    ", lineno, lineno)
                 }
             }
 
-            let htmlFILE = copyTemplate(template: "source.html", patches: [
-                "__FILE__": relative], dest: htmlRoot+"/"+htmlfile)
-
-            if let logInfo = String(data: logStream.handle.readDataToEndOfFile(), encoding: .utf8) {
-                let logDict = [String: String](uniqueKeysWithValues: logInfo[#"""
-                        commit (\w{8})(?:.*\n){3}((?:\n(?!commit).*)*)
-                        """#])
-                if let logJSON = try? JSONEncoder().encode(logDict),
-                    let logString = String(data: logJSON, encoding: .utf8) {
-                    _ = """
-                        <script>
-                        var commits = \(logString)
-                        </script>
-
-                        """.withCString { fputs($0, htmlFILE) }
-                }
-            }
-
-            _ = html.withCString { fputs($0, htmlFILE) }
+            // Write hyperlinked page
+            html.write(to: htmlFILE)
             fclose(htmlFILE)
 
+            // Remember document symbols contained in file
             if fullpath.containsMatch(of: #"\.(swift|mm?)$"#) {
                 switch synchronizer.sync({
                     self.lspServer.documentSymbol(params: DocumentSymbolParams(textDocument: docId), block: $0)
@@ -428,12 +466,14 @@ public class Siteify: NotificationResponder {
                 }
             }
 
+            // Tidy up
             synchronizer.sync {
                 self.lspServer.didCloseTextDocument(params: DidCloseTextDocumentParams(textDocument: docId), block: $0)
             }
             SKApi.response_dispose(resp)
 
-            progress(str: "Saved \(htmlRoot!)/\(htmlfile)")
+            progress(str: String(format: "Saved \(htmlRoot!)/\(htmlfile) %.3f seconds",
+                                 Date.timeIntervalSinceReferenceDate - started))
         }
     }
 
@@ -449,9 +489,11 @@ public class Siteify: NotificationResponder {
         guard let outFILE = fopen(filename, "w") else {
             fatalError("Could not open output file: \(filename)")
         }
-        _ = input.withCString { fputs($0, outFILE) }
+        input.write(to: outFILE)
         return outFILE
     }
+
+    // NotificationReponder delegate methods
 
     public func languageServerInitialized(_ server: LanguageServer) {
     }
@@ -481,9 +523,11 @@ public class Siteify: NotificationResponder {
     }
 }
 
-struct Loc: Hashable {
-    let path: String
-    let pos: Position
+extension String {
+
+    func write(to: UnsafeMutablePointer<FILE>) {
+        _ = withCString { fputs($0, to) }
+    }
 }
 
 extension Position {
@@ -501,6 +545,11 @@ extension Location {
     var href: String { "\(htmlname)#\(anchor)" }
 }
 
+struct Loc: Hashable {
+    let path: String
+    let pos: Position
+}
+
 extension SymbolKind {
     static let kindMap = [
         Self.enumMember: "case",
@@ -509,7 +558,7 @@ extension SymbolKind {
         .namespace: "extension",
         .interface: "protocol"
     ]
-    var swiftify: String { Self.kindMap[self] ?? "\(self)" }
+    var swiftify: String { "<span class=keyword>\(Self.kindMap[self] ?? "\(self)")</span>" }
 }
 
 extension DocumentSymbol {
@@ -518,12 +567,12 @@ extension DocumentSymbol {
         if kind != .variable {
             let href = "\(file)#L\(range.start.line+1)"
             let braces = kind == .class || kind == .struct || kind == .enum || kind == .namespace
-            fputs("\(indent)\(kind.swiftify) <a href='\(href)' title='\(href)'>\(name)</a>\(braces  ? " {" : "")\n", to)
+            "\(indent)\(kind.swiftify) <a href='\(href)' title='\(href)'>\(name)</a>\(braces  ? " {" : "")\n".write(to: to)
             for sym in children ?? [] {
                 sym.print(file: file, indent: indent + "  ", to: to)
             }
             if braces {
-                fputs("\(indent)}\n\n", to)
+                "\(indent)}\n\n".write(to: to)
             }
         }
     }

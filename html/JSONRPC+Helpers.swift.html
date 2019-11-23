@@ -3,38 +3,46 @@
     <title>.build/checkouts/SwiftLSPClient/SwiftLSPClientTests/JSONRPC+Helpers.swift</title>
     <link rel="stylesheet" type="text/css" href="siteify.css">
     <script src="siteify.js"></script>
-</head><html><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClientTests/JSONRPC+Helpers.swift</h3><pre>
+</head><html><body><h3>Source: .build/checkouts/SwiftLSPClient/SwiftLSPClientTests/JSONRPC+Helpers.swift (<a href='index.html'>Index</a>)</h3><pre>
 <script>
-var commits = {"250a2748":"\n    Test data without strings (#31)\n    \n    It wasn't possible to easily encode the LSP types to protocol messages for testing. So, I was just using strings. This was really annoying and error-prone. Finally took the time to make this possible, and it is way better.\n"}
+
+var commits = {
+  "250a274" : {
+    "message" : "\n    Test data without strings (#31)\n    \n    It wasn't possible to easily encode the LSP types to protocol messages for testing. So, I was just using strings. This was really annoying and error-prone. Finally took the time to make this possible, and it is way better.\n",
+    "author" : "Matt Massicotte ",
+    "date" : "Thu Oct 31 07:35:02 2019 -0400"
+  }
+};
+
 </script>
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0001") </script><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0002") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  JSONRPC+Helpers.swift
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0003") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  SwiftLSPClientTests
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0004") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0005") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Created by Matt Massicotte on 2019-10-30.
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0006") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0007") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0008") </script></span>
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0009") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>import</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>Foundation</span>
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0010") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>import</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>SwiftLSPClient</span>
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0011") </script>
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0012") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>protocol</span> <span class='identifier' title='JSONRPC+Helpers.swift'><a name='12_9'>ProtocolEncodable</a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Encodable</span> {
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0013") </script>}
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0014") </script>
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0015") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>extension</span> <span class='typeidentifier' title='JSONRPC+Helpers.swift'><a name='15_10' href='JSONRPC+Helpers.swift.html#12_9'>ProtocolEncodable</a></span> {
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0016") </script>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='JSONRPC+Helpers.swift'><a name='16_9'>encodeToProtocolData</a></span>() <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>throws</span> -> <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Data</span> {
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0017") </script>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='JSONRPC+Helpers.swift'><a name='17_12'>payloadData</a></span> = <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>try</span> <span class='identifier' title='x86_64-apple-macos.swiftmodule'>JSONEncoder</span>().<span class='identifier' title='x86_64-apple-macos.swiftmodule'>encode</span>(<span class='keyword' title='source.lang.swift.syntaxtype.keyword'>self</span>)
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0018") </script>
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0019") </script>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>return</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>MessageTransport</span>.<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>prependHeaders</span>(<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>to</span>: <span class='identifier' title='JSONRPC+Helpers.swift'><a name='19_51' href='JSONRPC+Helpers.swift.html#17_12'>payloadData</a></span>)
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0020") </script>    }
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0021") </script>}
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0022") </script>
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0023") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>extension</span> <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>JSONRPCResultResponse</span>: <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>ProtocolEncodable</span> {
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0024") </script>}
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0025") </script>
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0026") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>extension</span> <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>JSONRPCNotificationParams</span>: <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>ProtocolEncodable</span> {
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0027") </script>}
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0028") </script>
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0029") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>extension</span> <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>JSONRPCRequest</span>: <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>ProtocolEncodable</span> {
-<script> lineLink("250a2748", "Matt Massicotte", 1572521702, "0030") </script>}
+<script> lineLink("250a274", 1572521702, "0001") </script><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
+<script> lineLink("250a274", 1572521702, "0002") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  JSONRPC+Helpers.swift
+<script> lineLink("250a274", 1572521702, "0003") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  SwiftLSPClientTests
+<script> lineLink("250a274", 1572521702, "0004") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
+<script> lineLink("250a274", 1572521702, "0005") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Created by Matt Massicotte on 2019-10-30.
+<script> lineLink("250a274", 1572521702, "0006") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Copyright © 2019 Chime Systems. All rights reserved.
+<script> lineLink("250a274", 1572521702, "0007") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
+<script> lineLink("250a274", 1572521702, "0008") </script></span>
+<script> lineLink("250a274", 1572521702, "0009") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>import</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>Foundation</span>
+<script> lineLink("250a274", 1572521702, "0010") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>import</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>SwiftLSPClient</span>
+<script> lineLink("250a274", 1572521702, "0011") </script>
+<script> lineLink("250a274", 1572521702, "0012") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>protocol</span> <span class='identifier' title='JSONRPC+Helpers.swift'><a name='12_9'>ProtocolEncodable</a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Encodable</span> {
+<script> lineLink("250a274", 1572521702, "0013") </script>}
+<script> lineLink("250a274", 1572521702, "0014") </script>
+<script> lineLink("250a274", 1572521702, "0015") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>extension</span> <span class='typeidentifier' title='JSONRPC+Helpers.swift'><a name='15_10' href='JSONRPC+Helpers.swift.html#12_9'>ProtocolEncodable</a></span> {
+<script> lineLink("250a274", 1572521702, "0016") </script>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='JSONRPC+Helpers.swift'><a name='16_9'>encodeToProtocolData</a></span>() <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>throws</span> -> <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Data</span> {
+<script> lineLink("250a274", 1572521702, "0017") </script>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='JSONRPC+Helpers.swift'><a name='17_12'>payloadData</a></span> = <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>try</span> <span class='identifier' title='x86_64-apple-macos.swiftmodule'>JSONEncoder</span>().<span class='identifier' title='x86_64-apple-macos.swiftmodule'>encode</span>(<span class='keyword' title='source.lang.swift.syntaxtype.keyword'>self</span>)
+<script> lineLink("250a274", 1572521702, "0018") </script>
+<script> lineLink("250a274", 1572521702, "0019") </script>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>return</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>MessageTransport</span>.<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>prependHeaders</span>(<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>to</span>: <span class='identifier' title='JSONRPC+Helpers.swift'><a name='19_51' href='JSONRPC+Helpers.swift.html#17_12'>payloadData</a></span>)
+<script> lineLink("250a274", 1572521702, "0020") </script>    }
+<script> lineLink("250a274", 1572521702, "0021") </script>}
+<script> lineLink("250a274", 1572521702, "0022") </script>
+<script> lineLink("250a274", 1572521702, "0023") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>extension</span> <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>JSONRPCResultResponse</span>: <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>ProtocolEncodable</span> {
+<script> lineLink("250a274", 1572521702, "0024") </script>}
+<script> lineLink("250a274", 1572521702, "0025") </script>
+<script> lineLink("250a274", 1572521702, "0026") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>extension</span> <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>JSONRPCNotificationParams</span>: <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>ProtocolEncodable</span> {
+<script> lineLink("250a274", 1572521702, "0027") </script>}
+<script> lineLink("250a274", 1572521702, "0028") </script>
+<script> lineLink("250a274", 1572521702, "0029") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>extension</span> <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>JSONRPCRequest</span>: <span class='typeidentifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>ProtocolEncodable</span> {
+<script> lineLink("250a274", 1572521702, "0030") </script>}
 <a class=linenum name='L31'>0031</a>    

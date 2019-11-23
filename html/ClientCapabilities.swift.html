@@ -3,9 +3,57 @@
     <title>.build/checkouts/SwiftLSPClient/SwiftLSPClient/Types/ClientCapabilities.swift</title>
     <link rel="stylesheet" type="text/css" href="siteify.css">
     <script src="siteify.js"></script>
-</head><html><body><h3>.build/checkouts/SwiftLSPClient/SwiftLSPClient/Types/ClientCapabilities.swift</h3><pre>
+</head><html><body><h3>Source: .build/checkouts/SwiftLSPClient/SwiftLSPClient/Types/ClientCapabilities.swift (<a href='index.html'>Index</a>)</h3><pre>
 <script>
-var commits = {"3606d713":"\n    Support for foldingRange (#34)\n","dca854e8":"\n    Fix a bug in WorkspaceClientCapabilities\n","6f287951":"\n    Signature help spec and refactor\n","4f07f1f1":"\n    Support for def\/decl navigation, improved error type\n","92f65615":"\n    Formatting support\n","6c7f50a9":"\n    textDocument\/typeDefinition support\n","4fd0cbaa":"\n    Ensure textDocument\/references matches LSP spec (#27)\n    \n    There were a few minor issues with matching the spec. Forgiving servers don't seem to mind this, but its worth addressing before a release. Notable changes:\n    \n    - `ReferencesParams` -> `ReferenceParams`\n    - addition of `ReferenceContext`, with non-optional `includeDeclaration` field\n    - `ReferencesResponse` -> `ReferenceResponse`, to be consistent\n    - `ReferenceResponse` can be optional\n    - Fill in `ClientCapabilities` for initialization\n","0eac2c30":"\n    Workspace Types\n    \n    Beginning work to support workspaces. First step, initialization support.\n","4e6751b9":"\n    Capabilities Reorganization\n    \n    Move the client and server capabilities out into dedicated files, as things were getting a little out of hand. Also fills in a few more holes in those structures.\n"}
+
+var commits = {
+  "6f28795" : {
+    "date" : "Fri Nov 8 21:42:15 2019 -0500",
+    "author" : "Matt Massicotte ",
+    "message" : "\n    Signature help spec and refactor\n"
+  },
+  "dca854e" : {
+    "date" : "Mon Feb 11 15:34:52 2019 -0500",
+    "author" : "Matt Massicotte ",
+    "message" : "\n    Fix a bug in WorkspaceClientCapabilities\n"
+  },
+  "3606d71" : {
+    "date" : "Sat Nov 2 21:37:48 2019 -0400",
+    "author" : "Matt Massicotte ",
+    "message" : "\n    Support for foldingRange (#34)\n"
+  },
+  "6c7f50a" : {
+    "date" : "Wed Feb 13 20:40:02 2019 -0500",
+    "author" : "Matt Massicotte ",
+    "message" : "\n    textDocument\/typeDefinition support\n"
+  },
+  "4f07f1f" : {
+    "date" : "Tue Sep 10 12:53:38 2019 -0400",
+    "author" : "Matt Massicotte ",
+    "message" : "\n    Support for def\/decl navigation, improved error type\n"
+  },
+  "4e6751b" : {
+    "date" : "Sun Jan 27 12:14:15 2019 -0500",
+    "author" : "Matt Massicotte ",
+    "message" : "\n    Capabilities Reorganization\n    \n    Move the client and server capabilities out into dedicated files, as things were getting a little out of hand. Also fills in a few more holes in those structures.\n"
+  },
+  "92f6561" : {
+    "date" : "Tue Feb 26 20:25:43 2019 -0500",
+    "author" : "Matt Massicotte ",
+    "message" : "\n    Formatting support\n"
+  },
+  "4fd0cba" : {
+    "date" : "Sun Oct 27 12:46:31 2019 -0400",
+    "author" : "Matt Massicotte ",
+    "message" : "\n    Ensure textDocument\/references matches LSP spec (#27)\n    \n    There were a few minor issues with matching the spec. Forgiving servers don't seem to mind this, but its worth addressing before a release. Notable changes:\n    \n    - `ReferencesParams` -> `ReferenceParams`\n    - addition of `ReferenceContext`, with non-optional `includeDeclaration` field\n    - `ReferencesResponse` -> `ReferenceResponse`, to be consistent\n    - `ReferenceResponse` can be optional\n    - Fill in `ClientCapabilities` for initialization\n"
+  },
+  "0eac2c3" : {
+    "date" : "Thu Feb 7 11:31:05 2019 -0500",
+    "author" : "Matt Massicotte ",
+    "message" : "\n    Workspace Types\n    \n    Beginning work to support workspaces. First step, initialization support.\n"
+  }
+};
+
 </script>
 <a class=linenum name='L1'>0001</a>    <span class='comment' title='source.lang.swift.syntaxtype.comment'>//
 <a class=linenum name='L2'>0002</a>    </span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  ClientCapabilities.swift
@@ -228,7 +276,7 @@ var commits = {"3606d713":"\n    Support for foldingRange (#34)\n","dca854e8":"\
 <a class=linenum name='L219'>0219</a>        }
 <a class=linenum name='L220'>0220</a>    }
 <a class=linenum name='L221'>0221</a>    
-<a class=linenum name='L222'>0222</a>    <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>struct</span> <span class='identifier' title='usrString2'><a name='222_14' href='#' onclick='return expand(this);'>ClientCapabilities<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Initialization.swift.html#22_29"; event.stopPropagation(); return false;'>Initialization.swift:22</td><td><pre>    public let capabilities: ClientCapabilities</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="Initialization.swift.html#26_123"; event.stopPropagation(); return false;'>Initialization.swift:26</td><td><pre>    public init(processId: Int, rootPath: String?, rootURI: DocumentUri?, initializationOptions: JSONValue?, capabilities: ClientCapabilities, trace: Tracing?, workspaceFolders: [WorkspaceFolder]?) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.swift.html#119_27"; event.stopPropagation(); return false;'>Siteify.swift:119</td><td><pre>        let capabilities = ClientCapabilities(workspace: nil, textDocument: nil, experimental: nil)</pre></td></table></span></a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Codable</span> {
+<a class=linenum name='L222'>0222</a>    <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>struct</span> <span class='identifier' title='usrString2'><a name='222_14' href='#' onclick='return expand(this);'>ClientCapabilities<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Initialization.swift.html#22_29"; event.stopPropagation(); return false;'>Initialization.swift:22</td><td><pre>    public let capabilities: ClientCapabilities</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="Initialization.swift.html#26_123"; event.stopPropagation(); return false;'>Initialization.swift:26</td><td><pre>    public init(processId: Int, rootPath: String?, rootURI: DocumentUri?, initializationOptions: JSONValue?, capabilities: ClientCapabilities, trace: Tracing?, workspaceFolders: [WorkspaceFolder]?) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.swift.html#115_27"; event.stopPropagation(); return false;'>Siteify.swift:115</td><td><pre>        let capabilities = ClientCapabilities(workspace: nil, textDocument: nil, experimental: nil)</pre></td></table></span></a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Codable</span> {
 <a class=linenum name='L223'>0223</a>        <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='usrString2'><a name='223_15' href='#' onclick='return expand(this);'>workspace<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="ClientCapabilities.swift.html#228_13"; return false;'>ClientCapabilities.swift:228</td><td><pre>        self.workspace = workspace</pre></td></table></span></a></span>: <span class='typeidentifier' title='ClientCapabilities.swift'><a name='223_26' href='ClientCapabilities.swift.html#67_14'>WorkspaceClientCapabilities</a></span>?
 <a class=linenum name='L224'>0224</a>        <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='usrString2'><a name='224_15' href='#' onclick='return expand(this);'>textDocument<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="ClientCapabilities.swift.html#229_13"; return false;'>ClientCapabilities.swift:229</td><td><pre>        self.textDocument = textDocument</pre></td></table></span></a></span>: <span class='typeidentifier' title='ClientCapabilities.swift'><a name='224_29' href='ClientCapabilities.swift.html#173_14'>TextDocumentClientCapabilities</a></span>?
 <a class=linenum name='L225'>0225</a>        <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='usrString2'><a name='225_15' href='#' onclick='return expand(this);'>experimental<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="ClientCapabilities.swift.html#230_13"; return false;'>ClientCapabilities.swift:230</td><td><pre>        self.experimental = experimental</pre></td></table></span></a></span>: <span class='typeidentifier' title='JSONValue.swift'><a name='225_29' href='JSONValue.swift.html#11_12'>JSONValue</a></span>?

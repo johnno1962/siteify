@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 19/12/2015.
 //  Copyright © 2015 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/SourceKit.swift#17 $
+//  $Id: //depot/siteify/siteify/SourceKit.swift#18 $
 //
 //  Repo: https://github.com/johnno1962/Refactorator
 //
@@ -225,6 +225,10 @@ public class SourceKit {
     init(logRequests: Bool = isatty(STDERR_FILENO) != 0) {
         SKApi.initialize()
         self.logRequests = logRequests
+    }
+
+    deinit {
+        SKApi.shutdown()
     }
 
     public func array(argv: [String]) -> sourcekitd_object_t {
