@@ -199,6 +199,10 @@
    <span class=keyword>func</span> <a href='Formatting.swift.html#L36' title='Formatting.swift.html#L36'>init(textDocument:range:options:)</a>
  }
 
+ <span class=keyword>extension</span> <a href='Siteify.swift.html#L561' title='Siteify.swift.html#L561'>DocumentSymbol</a> {
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L563' title='Siteify.swift.html#L563'>print(file:indent:to:)</a>
+ }
+
  <span class=keyword>struct</span> <a href='DocumentSymbol.swift.html#L56' title='DocumentSymbol.swift.html#L56'>DocumentSymbol</a> {
    <span class=keyword>var</span> <a href='DocumentSymbol.swift.html#L57' title='DocumentSymbol.swift.html#L57'>name</a>
    <span class=keyword>var</span> <a href='DocumentSymbol.swift.html#L58' title='DocumentSymbol.swift.html#L58'>detail</a>
@@ -210,10 +214,6 @@
  }
 
  <span class=keyword>extension</span> <a href='DocumentSymbol.swift.html#L66' title='DocumentSymbol.swift.html#L66'>DocumentSymbol</a> {
- }
-
- <span class=keyword>extension</span> <a href='Siteify.swift.html#L579' title='Siteify.swift.html#L579'>DocumentSymbol</a> {
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L581' title='Siteify.swift.html#L581'>print(file:indent:to:)</a>
  }
 
  <span class=keyword>struct</span> <a href='DocumentSymbol.swift.html#L11' title='DocumentSymbol.swift.html#L11'>DocumentSymbolParams</a> {
@@ -300,7 +300,18 @@
    <span class=keyword>func</span> <a href='ClientCapabilities.swift.html#L14' title='ClientCapabilities.swift.html#L14'>init(dynamicRegistration:)</a>
  }
 
- <span class=keyword>function</span> <a href='Siteify.swift.html#L596' title='Siteify.swift.html#L596'>HTML(fromMarkup:)</a>
+ <span class=keyword>class</span> <a href='GitInfo.swift.html#L15' title='GitInfo.swift.html#L15'>GitInfo</a> {
+   <span class=keyword>var</span> <a href='GitInfo.swift.html#L17' title='GitInfo.swift.html#L17'>gitExecutable</a>
+   <span class=keyword>var</span> <a href='GitInfo.swift.html#L18' title='GitInfo.swift.html#L18'>blameStream</a>
+   <span class=keyword>var</span> <a href='GitInfo.swift.html#L19' title='GitInfo.swift.html#L19'>logStream</a>
+   <span class=keyword>var</span> <a href='GitInfo.swift.html#L20' title='GitInfo.swift.html#L20'>sourceDir</a>
+   <span class=keyword>func</span> <a href='GitInfo.swift.html#L22' title='GitInfo.swift.html#L22'>init(fullpath:)</a>
+   <span class=keyword>func</span> <a href='GitInfo.swift.html#L33' title='GitInfo.swift.html#L33'>repoURL()</a>
+   <span class=keyword>func</span> <a href='GitInfo.swift.html#L48' title='GitInfo.swift.html#L48'>commitJSON()</a>
+   <span class=keyword>func</span> <a href='GitInfo.swift.html#L71' title='GitInfo.swift.html#L71'>nextBlame(lineno:)</a>
+ }
+
+ <span class=keyword>function</span> <a href='Siteify.swift.html#L578' title='Siteify.swift.html#L578'>HTML(fromMarkup:)</a>
  <span class=keyword>struct</span> <a href='Hover.swift.html#L46' title='Hover.swift.html#L46'>Hover</a> {
    <span class=keyword>var</span> <a href='Hover.swift.html#L47' title='Hover.swift.html#L47'>contents</a>
    <span class=keyword>var</span> <a href='Hover.swift.html#L48' title='Hover.swift.html#L48'>range</a>
@@ -401,6 +412,9 @@
    <span class=keyword>var</span> <a href='JSONRPC.swift.html#L120' title='JSONRPC.swift.html#L120'>method</a>
  }
 
+ <span class=keyword>extension</span> <a href='JSONRPC+Helpers.swift.html#L26' title='JSONRPC+Helpers.swift.html#L26'>JSONRPCNotificationParams</a> {
+ }
+
  <span class=keyword>struct</span> <a href='JSONRPC.swift.html#L123' title='JSONRPC.swift.html#L123'>JSONRPCNotificationParams</a> {
    <span class=keyword>typeParameter</span> <a href='JSONRPC.swift.html#L123' title='JSONRPC.swift.html#L123'>T</a>
    <span class=keyword>var</span> <a href='JSONRPC.swift.html#L124' title='JSONRPC.swift.html#L124'>jsonrpc</a>
@@ -408,7 +422,7 @@
    <span class=keyword>var</span> <a href='JSONRPC.swift.html#L126' title='JSONRPC.swift.html#L126'>params</a>
  }
 
- <span class=keyword>extension</span> <a href='JSONRPC+Helpers.swift.html#L26' title='JSONRPC+Helpers.swift.html#L26'>JSONRPCNotificationParams</a> {
+ <span class=keyword>extension</span> <a href='JSONRPC+Helpers.swift.html#L29' title='JSONRPC+Helpers.swift.html#L29'>JSONRPCRequest</a> {
  }
 
  <span class=keyword>struct</span> <a href='JSONRPC.swift.html#L55' title='JSONRPC.swift.html#L55'>JSONRPCRequest</a> {
@@ -421,13 +435,13 @@
    <span class=keyword>func</span> <a href='JSONRPC.swift.html#L67' title='JSONRPC.swift.html#L67'>init(id:method:params:)</a>
  }
 
- <span class=keyword>extension</span> <a href='JSONRPC+Helpers.swift.html#L29' title='JSONRPC+Helpers.swift.html#L29'>JSONRPCRequest</a> {
- }
-
  <span class=keyword>struct</span> <a href='JSONRPC.swift.html#L84' title='JSONRPC.swift.html#L84'>JSONRPCResponse</a> {
    <span class=keyword>var</span> <a href='JSONRPC.swift.html#L85' title='JSONRPC.swift.html#L85'>jsonrpc</a>
    <span class=keyword>var</span> <a href='JSONRPC.swift.html#L86' title='JSONRPC.swift.html#L86'>id</a>
    <span class=keyword>var</span> <a href='JSONRPC.swift.html#L87' title='JSONRPC.swift.html#L87'>error</a>
+ }
+
+ <span class=keyword>extension</span> <a href='JSONRPC+Helpers.swift.html#L23' title='JSONRPC+Helpers.swift.html#L23'>JSONRPCResultResponse</a> {
  }
 
  <span class=keyword>struct</span> <a href='JSONRPC.swift.html#L90' title='JSONRPC.swift.html#L90'>JSONRPCResultResponse</a> {
@@ -439,9 +453,6 @@
    <span class=keyword>func</span> <a href='JSONRPC.swift.html#L96' title='JSONRPC.swift.html#L96'>init(id:result:)</a>
    <span class=keyword>func</span> <a href='JSONRPC.swift.html#L103' title='JSONRPC.swift.html#L103'>init(id:result:)</a>
    <span class=keyword>func</span> <a href='JSONRPC.swift.html#L110' title='JSONRPC.swift.html#L110'>init(id:error:)</a>
- }
-
- <span class=keyword>extension</span> <a href='JSONRPC+Helpers.swift.html#L23' title='JSONRPC+Helpers.swift.html#L23'>JSONRPCResultResponse</a> {
  }
 
  <span class=keyword>enum</span> <a href='JSONValue.swift.html#L11' title='JSONValue.swift.html#L11'>JSONValue</a> {
@@ -557,18 +568,18 @@
    <span class=keyword>func</span> <a href='SourceKit.swift.html#L76' title='SourceKit.swift.html#L76'>load(path:)</a>
  }
 
- <span class=keyword>struct</span> <a href='Siteify.swift.html#L563' title='Siteify.swift.html#L563'>Loc</a> {
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L564' title='Siteify.swift.html#L564'>path</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L565' title='Siteify.swift.html#L565'>pos</a>
+ <span class=keyword>struct</span> <a href='Siteify.swift.html#L545' title='Siteify.swift.html#L545'>Loc</a> {
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L546' title='Siteify.swift.html#L546'>path</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L547' title='Siteify.swift.html#L547'>pos</a>
  }
 
- <span class=keyword>extension</span> <a href='Siteify.swift.html#L553' title='Siteify.swift.html#L553'>Location</a> {
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L555' title='Siteify.swift.html#L555'>file</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L556' title='Siteify.swift.html#L556'>htmlname</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L557' title='Siteify.swift.html#L557'>filebase</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L558' title='Siteify.swift.html#L558'>line</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L559' title='Siteify.swift.html#L559'>anchor</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L560' title='Siteify.swift.html#L560'>href</a>
+ <span class=keyword>extension</span> <a href='Siteify.swift.html#L535' title='Siteify.swift.html#L535'>Location</a> {
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L537' title='Siteify.swift.html#L537'>file</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L538' title='Siteify.swift.html#L538'>htmlname</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L539' title='Siteify.swift.html#L539'>filebase</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L540' title='Siteify.swift.html#L540'>line</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L541' title='Siteify.swift.html#L541'>anchor</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L542' title='Siteify.swift.html#L542'>href</a>
  }
 
  <span class=keyword>struct</span> <a href='Location.swift.html#L11' title='Location.swift.html#L11'>Location</a> {
@@ -710,6 +721,10 @@
    <span class=keyword>var</span> <a href='SignatureHelp.swift.html#L76' title='SignatureHelp.swift.html#L76'>documentation</a>
  }
 
+ <span class=keyword>extension</span> <a href='Siteify.swift.html#L530' title='Siteify.swift.html#L530'>Position</a> {
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L532' title='Siteify.swift.html#L532'>anchor</a>
+ }
+
  <span class=keyword>struct</span> <a href='Position.swift.html#L11' title='Position.swift.html#L11'>Position</a> {
    <span class=keyword>var</span> <a href='Position.swift.html#L12' title='Position.swift.html#L12'>line</a>
    <span class=keyword>var</span> <a href='Position.swift.html#L13' title='Position.swift.html#L13'>character</a>
@@ -725,10 +740,6 @@
  }
 
  <span class=keyword>extension</span> <a href='Position.swift.html#L35' title='Position.swift.html#L35'>Position</a> {
- }
-
- <span class=keyword>extension</span> <a href='Siteify.swift.html#L548' title='Siteify.swift.html#L548'>Position</a> {
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L550' title='Siteify.swift.html#L550'>anchor</a>
  }
 
  <span class=keyword>protocol</span> <a href='JSONRPC+Helpers.swift.html#L12' title='JSONRPC+Helpers.swift.html#L12'>ProtocolEncodable</a>
@@ -1007,32 +1018,34 @@
    <span class=keyword>var</span> <a href='Siteify.swift.html#L80' title='Siteify.swift.html#L80'>projectRoot</a>
    <span class=keyword>var</span> <a href='Siteify.swift.html#L81' title='Siteify.swift.html#L81'>htmlRoot</a>
    <span class=keyword>var</span> <a href='Siteify.swift.html#L83' title='Siteify.swift.html#L83'>fileThreads</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L84' title='Siteify.swift.html#L84'>gitExecutable</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L86' title='Siteify.swift.html#L86'>progress(str:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L91' title='Siteify.swift.html#L91'>init(toolchainPath:projectRoot:)</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L132' title='Siteify.swift.html#L132'>indexFILE</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L133' title='Siteify.swift.html#L133'>comma</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L139' title='Siteify.swift.html#L139'>symbolsLock</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L140' title='Siteify.swift.html#L140'>packageSymbols</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L141' title='Siteify.swift.html#L141'>referencesLock</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L142' title='Siteify.swift.html#L142'>referencesFallback</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L144' title='Siteify.swift.html#L144'>generateSite(into:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L195' title='Siteify.swift.html#L195'>processFile(relative:)</a>
-     <span class=keyword>function</span> <a href='Siteify.swift.html#L234' title='Siteify.swift.html#L234'>escape(html:)</a>
-     <span class=keyword>function</span> <a href='Siteify.swift.html#L242' title='Siteify.swift.html#L242'>skipTo(offset:)</a>
-     <span class=keyword>function</span> <a href='Siteify.swift.html#L264' title='Siteify.swift.html#L264'>reflines(file:line:)</a>
-     <span class=keyword>function</span> <a href='Siteify.swift.html#L301' title='Siteify.swift.html#L301'>complete(span:title:)</a>
-     <span class=keyword>function</span> <a href='Siteify.swift.html#L317' title='Siteify.swift.html#L317'>hyperlinkIdentifier(result:)</a>
-       <span class=keyword>function</span> <a href='Siteify.swift.html#L337' title='Siteify.swift.html#L337'>processRefs()</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L495' title='Siteify.swift.html#L495'>home</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L496' title='Siteify.swift.html#L496'>resources</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L498' title='Siteify.swift.html#L498'>copyTemplate(template:patches:dest:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L513' title='Siteify.swift.html#L513'>languageServerInitialized(_:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L516' title='Siteify.swift.html#L516'>languageServer(_:logMessage:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L522' title='Siteify.swift.html#L522'>languageServer(_:showMessage:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L526' title='Siteify.swift.html#L526'>languageServer(_:showMessageRequest:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L530' title='Siteify.swift.html#L530'>languageServer(_:publishDiagnostics:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L536' title='Siteify.swift.html#L536'>languageServer(_:failedToDecodeNotification:with:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L85' title='Siteify.swift.html#L85'>progress(str:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L90' title='Siteify.swift.html#L90'>init(toolchainPath:projectRoot:)</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L131' title='Siteify.swift.html#L131'>indexFILE</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L132' title='Siteify.swift.html#L132'>comma</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L138' title='Siteify.swift.html#L138'>iconLock</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L139' title='Siteify.swift.html#L139'>iconForType</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L140' title='Siteify.swift.html#L140'>symbolsLock</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L141' title='Siteify.swift.html#L141'>packageSymbols</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L142' title='Siteify.swift.html#L142'>referencesLock</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L143' title='Siteify.swift.html#L143'>referencesFallback</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L145' title='Siteify.swift.html#L145'>iconForFile(fullpath:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L164' title='Siteify.swift.html#L164'>generateSite(into:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L215' title='Siteify.swift.html#L215'>processFile(relative:)</a>
+     <span class=keyword>function</span> <a href='Siteify.swift.html#L247' title='Siteify.swift.html#L247'>escape(html:)</a>
+     <span class=keyword>function</span> <a href='Siteify.swift.html#L255' title='Siteify.swift.html#L255'>skipTo(offset:)</a>
+     <span class=keyword>function</span> <a href='Siteify.swift.html#L277' title='Siteify.swift.html#L277'>reflines(file:line:)</a>
+     <span class=keyword>function</span> <a href='Siteify.swift.html#L314' title='Siteify.swift.html#L314'>complete(span:title:)</a>
+     <span class=keyword>function</span> <a href='Siteify.swift.html#L330' title='Siteify.swift.html#L330'>hyperlinkIdentifier(result:)</a>
+       <span class=keyword>function</span> <a href='Siteify.swift.html#L350' title='Siteify.swift.html#L350'>processRefs()</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L477' title='Siteify.swift.html#L477'>home</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L478' title='Siteify.swift.html#L478'>resources</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L480' title='Siteify.swift.html#L480'>copyTemplate(template:patches:dest:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L495' title='Siteify.swift.html#L495'>languageServerInitialized(_:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L498' title='Siteify.swift.html#L498'>languageServer(_:logMessage:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L504' title='Siteify.swift.html#L504'>languageServer(_:showMessage:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L508' title='Siteify.swift.html#L508'>languageServer(_:showMessageRequest:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L512' title='Siteify.swift.html#L512'>languageServer(_:publishDiagnostics:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L518' title='Siteify.swift.html#L518'>languageServer(_:failedToDecodeNotification:with:)</a>
  }
 
  <span class=keyword>extension</span> <a href='Resources.swift.html#L9' title='Resources.swift.html#L9'>Siteify</a> {
@@ -1180,6 +1193,14 @@
    <span class=keyword>func</span> <a href='StdioDataTransport.swift.html#L95' title='StdioDataTransport.swift.html#L95'>forwardErrorDataToHandler(_:)</a>
  }
 
+ <span class=keyword>extension</span> <a href='Siteify.swift.html#L523' title='Siteify.swift.html#L523'>String</a> {
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L525' title='Siteify.swift.html#L525'>write(to:)</a>
+ }
+
+ <span class=keyword>extension</span> <a href='LineGenerators.swift.html#L111' title='LineGenerators.swift.html#L111'>String</a> {
+   <span class=keyword>func</span> <a href='LineGenerators.swift.html#L113' title='LineGenerators.swift.html#L113'>fromData(data:encoding:)</a>
+ }
+
  <span class=keyword>extension</span> <a href='SwiftRegex.swift.html#L73' title='SwiftRegex.swift.html#L73'>String</a> {
    <span class=keyword>var</span> <a href='SwiftRegex.swift.html#L74' title='SwiftRegex.swift.html#L74'>regexOptioned</a>
    <span class=keyword>func</span> <a href='SwiftRegex.swift.html#L78' title='SwiftRegex.swift.html#L78'>nsrange(pos:)</a>
@@ -1231,14 +1252,6 @@
    <span class=keyword>typeParameter</span> <a href='SwiftRegex.swift.html#L431' title='SwiftRegex.swift.html#L431'>T</a>
  }
 
- <span class=keyword>extension</span> <a href='LineGenerators.swift.html#L111' title='LineGenerators.swift.html#L111'>String</a> {
-   <span class=keyword>func</span> <a href='LineGenerators.swift.html#L113' title='LineGenerators.swift.html#L113'>fromData(data:encoding:)</a>
- }
-
- <span class=keyword>extension</span> <a href='Siteify.swift.html#L541' title='Siteify.swift.html#L541'>String</a> {
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L543' title='Siteify.swift.html#L543'>write(to:)</a>
- }
-
  <span class=keyword>struct</span> <a href='DocumentSymbol.swift.html#L69' title='DocumentSymbol.swift.html#L69'>SymbolInformation</a> {
    <span class=keyword>var</span> <a href='DocumentSymbol.swift.html#L70' title='DocumentSymbol.swift.html#L70'>name</a>
    <span class=keyword>var</span> <a href='DocumentSymbol.swift.html#L71' title='DocumentSymbol.swift.html#L71'>kind</a>
@@ -1248,6 +1261,11 @@
  }
 
  <span class=keyword>extension</span> <a href='DocumentSymbol.swift.html#L77' title='DocumentSymbol.swift.html#L77'>SymbolInformation</a> {
+ }
+
+ <span class=keyword>extension</span> <a href='Siteify.swift.html#L550' title='Siteify.swift.html#L550'>SymbolKind</a> {
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L551' title='Siteify.swift.html#L551'>kindMap</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L558' title='Siteify.swift.html#L558'>swiftify</a>
  }
 
  <span class=keyword>enum</span> <a href='SymbolKind.swift.html#L11' title='SymbolKind.swift.html#L11'>SymbolKind</a> {
@@ -1283,11 +1301,6 @@
  }
 
  <span class=keyword>extension</span> <a href='SymbolKind.swift.html#L43' title='SymbolKind.swift.html#L43'>SymbolKind</a> {
- }
-
- <span class=keyword>extension</span> <a href='Siteify.swift.html#L568' title='Siteify.swift.html#L568'>SymbolKind</a> {
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L569' title='Siteify.swift.html#L569'>kindMap</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L576' title='Siteify.swift.html#L576'>swiftify</a>
  }
 
  <span class=keyword>typeParameter</span> <a href='LanguageServer.swift.html#L47' title='LanguageServer.swift.html#L47'>T</a>

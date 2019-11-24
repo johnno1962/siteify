@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Resources.swift#29 $
+//  $Id: //depot/siteify/siteify/Resources.swift#30 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -37,6 +37,8 @@ function lineLink(commit, when, lineno) {
         fade = " lastweek"
     else if (age < 31 * day)
         fade = " lastmonth"
+    else if (age < 365 * day)
+        fade = " lastyear"
     var info = commits[commit] || {
         "message": "\n    [Outside blame range]\n"}
     var title = "Author: "+(info["author"]||"Unknown")+"\n"+

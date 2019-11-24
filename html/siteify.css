@@ -1,5 +1,7 @@
 
 body, table { font: 10pt Menlo Regular; }
+body.index img { ddisplay: none; width: 16px; height: 16px; position: relative; top: 3px; }
+body.source img { position: relative; top: 3px; left: -1px; }
 
 .builtin  { color: #A90D91; }
 .comment  { color: #10743E; }
@@ -16,6 +18,7 @@ a.linenum:hover { text-decoration: underline; }
 .lastday { border-right: 4px solid rgba(0, 255, 0, 1); }
 .lastweek { border-right: 4px solid rgba(0, 255, 0, .5); }
 .lastmonth { border-right: 4px solid rgba(0, 255, 0, .25); }
+.lastyear { border-right: 4px solid rgba(0, 255, 0, .125); }
 
 @media (prefers-color-scheme: dark) {
     body { background: #292A30; color: #DFDFE0; }

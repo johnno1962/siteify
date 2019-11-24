@@ -8,12 +8,13 @@
 
 extension Siteify {
     static let resources = [
+
         "index.html": """
             <html><head>
             <meta charset="UTF-8">
             <link rel="stylesheet" type="text/css" href="siteify.css">
             <title>Siteify of __ROOT__</title>
-            </head><html><body><h3>Generated from __ROOT__ on __DATE__</h3>
+            </head><html><body class=index><h3>Generated from __ROOT__ on __DATE__</h3>
             """,
 
         "source.html": """
@@ -22,7 +23,7 @@ extension Siteify {
                 <title>__FILE__</title>
                 <link rel="stylesheet" type="text/css" href="siteify.css">
                 <script src="siteify.js"></script>
-            </head><html><body><h3>Source: __FILE__ (<a href='index.html'>Index</a>)<br/><br/>Repo: <a href='__REPO__'>__REPO__</a></h3><pre>
+            </head><html><body class=source><h3><img src='__IMG__'> Source: __FILE__ (<a href='index.html'>Index</a>)<br/><br/>Repo: <a href='__REPO__'>__REPO__</a></h3><pre>
 
             """,
 
@@ -38,6 +39,8 @@ extension Siteify {
         "siteify.css": """
 
             body, table { font: 10pt Menlo Regular; }
+            body.index img { ddisplay: none; width: 16px; height: 16px; position: relative; top: 3px; }
+            body.source img { position: relative; top: 3px; left: -1px; }
 
             .builtin  { color: #A90D91; }
             .comment  { color: #10743E; }
@@ -54,6 +57,7 @@ extension Siteify {
             .lastday { border-right: 4px solid rgba(0, 255, 0, 1); }
             .lastweek { border-right: 4px solid rgba(0, 255, 0, .5); }
             .lastmonth { border-right: 4px solid rgba(0, 255, 0, .25); }
+            .lastyear { border-right: 4px solid rgba(0, 255, 0, .125); }
 
             @media (prefers-color-scheme: dark) {
                 body { background: #292A30; color: #DFDFE0; }
@@ -83,7 +87,7 @@ extension Siteify {
             //  Created by John Holdsworth on 28/10/2019.
             //  Copyright © 2019 John Holdsworth. All rights reserved.
             //
-            //  $Id: //depot/siteify/siteify/Resources.swift#29 $
+            //  $Id: //depot/siteify/siteify/Resources.swift#31 $
             //
             //  Repo: https://github.com/johnno1962/siteify
             //
@@ -115,6 +119,8 @@ extension Siteify {
                     fade = " lastweek"
                 else if (age < 31 * day)
                     fade = " lastmonth"
+                else if (age < 365 * day)
+                    fade = " lastyear"
                 var info = commits[commit] || {
                     "message": "\n    [Outside blame range]\n"}
                 var title = "Author: "+(info["author"]||"Unknown")+"\n"+

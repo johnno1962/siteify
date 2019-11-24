@@ -5,12 +5,12 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#74 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#77 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
 
-import Foundation
+import Cocoa
 import SwiftLSPClient
 #if SWIFT_PACKAGE
 import SourceKit
@@ -81,7 +81,6 @@ public class Siteify: NotificationResponder {
     var htmlRoot: String!
 
     let fileThreads = 4
-    let gitExecutable = "/usr/bin/git"
 
     func progress(str: String) {
         print("\u{001b}[2K"+str, separator: "", terminator: "\r")
@@ -136,10 +135,31 @@ public class Siteify: NotificationResponder {
         return comma
     }()
 
+    let iconLock = NSLock()
+    var iconForType = [String: String]()
     let symbolsLock = NSLock()
     var packageSymbols = [String: [DocumentSymbol]]()
     let referencesLock = NSLock()
     var referencesFallback = [Loc: Location]()
+
+    public func iconForFile(fullpath: String) -> String {
+        return iconLock.synchronized {
+            let ext = URL(fileURLWithPath: fullpath).pathExtension
+            var iconString = iconForType[ext]
+            if iconString == nil {
+                let image = NSWorkspace.shared.icon(forFileType: ext)
+                let cgRef = image.cgImage(forProposedRect: nil, context:nil, hints:nil)!
+                let newRep = NSBitmapImageRep(cgImage: cgRef)
+                newRep.size = image.size
+                iconString = String(format:"data:image/png;base64,%@",
+                                    newRep.representation(using:.png,  properties:[:])!
+                        .base64EncodedString(options: []))
+                iconForType[ext] = iconString
+            }
+
+            return iconString!
+        }
+    }
 
     public func generateSite(into: String) {
         htmlRoot = into
@@ -198,19 +218,12 @@ public class Siteify: NotificationResponder {
         let fullpath = fullURL.path
         let htmlfile = htmlFile(fullpath)
         let synchronizer = LanguageServerSynchronizer()
+        let gitInfo = GitInfo(fullpath: fullpath)
 
         if htmlRoot == nil {
             htmlRoot = "html"
         }
         progress(str: "Saving \(htmlRoot!)/\(htmlfile)")
-
-        let sourceDir = fullURL.deletingLastPathComponent().path
-        let blameStream = TaskGenerator(launchPath: gitExecutable,
-                                        arguments: ["blame", "-t", fullpath],
-                                        directory: sourceDir)
-        let logStream = TaskGenerator(launchPath: gitExecutable,
-                                        arguments: ["log", fullpath],
-                                        directory: sourceDir)
 
         guard let data = try? Data(contentsOf: fullURL) else {
             NSLog("Unable to load file at path: \(fullURL.path)")
@@ -219,7 +232,7 @@ public class Siteify: NotificationResponder {
 
         if indexFILE != nil {
             let relurl = URL(fileURLWithPath: relative)
-            "\(relurl.deletingLastPathComponent().relativePath)/<a href='\(htmlfile)'>\(relurl.lastPathComponent)<a> \(comma.string(from: NSNumber(value: data.count))!) bytes<br>\n".write(to: indexFILE!)
+            "\(relurl.deletingLastPathComponent().relativePath)/<a href='\(htmlfile)'><img class=indeximg src='\(iconForFile(fullpath: relative))'>\(relurl.lastPathComponent)<a> \(comma.string(from: NSNumber(value: data.count))!) bytes<br>\n".write(to: indexFILE!)
         }
 
         let docId = TextDocumentIdentifier(path: fullpath)
@@ -404,61 +417,30 @@ public class Siteify: NotificationResponder {
                 }
             }.joined() + skipTo(offset: data.count)
 
-            var repoURL = sourceDir
-            for _ in 0 ..< 5 {
-                if let remote = TaskGenerator(launchPath: gitExecutable,
-                                              arguments: ["remote", "-v"], directory: repoURL).allOutput(),
-                    let (_, url): (String, String) = remote[#"(origin)\s+(\S+)"#] {
-                    repoURL = url
-                    if repoURL.starts(with: "http") {
-                        break
-                    }
-                }
-            }
-
             // Start with template for source file...
+            let repoURL = gitInfo.repoURL()
             let htmlFILE = copyTemplate(template: "source.html", patches: [
-                "__FILE__": relative, "__REPO__": repoURL], dest: htmlRoot+"/"+htmlfile)
+                "__FILE__": relative, "__REPO__": repoURL, "__IMG__": iconForFile(fullpath: relative)], dest: htmlRoot+"/"+htmlfile)
 
             // Add dictionary of commit info for line number blame
-            if let logInfo = logStream.allOutput() {
-                let logDict = [String: [String: String]](uniqueKeysWithValues: logInfo[#"""
-                        commit \^?((\w{7}).*)
-                        Author:\s+([^<]+).*
-                        Date:\s+(.*)
-                        ((?:\n(?!commit).*)*)
-                        """#]
-                    .map({ (info: (String, String, String, String, String)) in
-                        return (info.1, ["author": info.2, "hash": info.0,
-                                         "date": info.3, "message": info.4])
-                    }))
+            """
+                <script>
 
-                let encoder = JSONEncoder()
-                encoder.outputFormatting = .prettyPrinted
-                if let logJSON = try? encoder.encode(logDict),
-                    let logString = String(data: logJSON, encoding: .utf8) {
-                    _ = """
-                        <script>
+                var repo = "\(repoURL)";
+                var commits = \(gitInfo.commitJSON() ?? "{}");
 
-                        var repo = "\(repoURL[".git$", ""])";
-                        var commits = \(logString);
+                </script>
 
-                        </script>
-
-                        """.write(to: htmlFILE)
-                }
-            }
+                """.write(to: htmlFILE)
 
             // Patch line numbers into file (generated in JavaScript)
             lineno = 0
-            html[#"(^)"#.anchorsMatchLines] = { (groups: [String], stop) -> String in
+            html[#"^"#.anchorsMatchLines] = { (groups: [String], stop) -> String in
                 lineno += 1
-                if let blame = blameStream.next(),
-                    let (commit, _, when): (String, String, String) =
-                        blame[#"\^?(\w{7})\w? .*?\((.*?) +(\d+) [-+ ]\d+ +\d+\)"#] {
-                    return groups[1] + "<script> lineLink(\"\(commit)\", \(when), \"\(String(format: "%04d", lineno))\") </script>"
+                if let linenoScript = gitInfo.nextBlame(lineno: lineno) {
+                    return linenoScript
                 } else {
-                    return groups[1] + String(format: "<a class=linenum name='L%d'>%04d </a> ", lineno, lineno)
+                    return String(format: "<a class=linenum name='L%d'>%04d </a> ", lineno, lineno)
                 }
             }
 
