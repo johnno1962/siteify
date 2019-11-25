@@ -9,32 +9,32 @@
 var repo = "https://github.com/ChimeHQ/SwiftLSPClient";
 var commits = {
   "9378f98" : {
-    "author" : "Matt Massicotte ",
     "message" : "\n    Message Delivery and Error Fixes\n    \n    - Handles a dumb bug were two messages delivered at the same time cause the delivery system to lock up\n    - Correctly remove stored message handlers once they have been invoked\n    - Extract out and return errors when they have been returned from requests\n    - Reduce the strictness of the error structure\n",
+    "author" : "Matt Massicotte ",
     "hash" : "9378f98761121b2ba181ffb5964a87d0015b8b0b",
     "date" : "Sun Jan 27 20:17:24 2019 -0500"
   },
   "74fc015" : {
-    "author" : "Matt Massicotte ",
     "message" : "\n    Provide simple handling for the server going away and pipes becoming unreadable\n",
+    "author" : "Matt Massicotte ",
     "hash" : "74fc015cdd6f5b53e1bc3a6c52100083f63fdb7f",
     "date" : "Thu Dec 13 11:35:30 2018 -0500"
   },
   "d8e3f45" : {
-    "author" : "Matt Massicotte ",
     "message" : "\n    Safety for protocol classes (#30)\n    \n    It turns out that I was assuming that NSFileManager still did its synchronization via a runloop exclusively. This was incredibly incorrect.\n    \n    This adds actual synchronization and also includes some tests to make sure things work as expected.\n",
+    "author" : "Matt Massicotte ",
     "hash" : "d8e3f458ee09bc875273d0e80a4c2fc93e5885f9",
     "date" : "Wed Oct 30 20:18:44 2019 -0400"
   },
   "6d70f53" : {
-    "author" : "Matt Massicotte ",
     "message" : "\n    Tests for ProtocolTransport\n    \n    Before working on server->client requests, I though it would be useful to have some good tests in place for the ProtocolTransport class. Also, noticed that the DataTransport protocol fit nicely, to refactored to use that. I think this should make it possible to write some more straight-forward tests in the future.\n",
     "hash" : "6d70f5331e49945a02a105069949e9540c006692",
+    "author" : "Matt Massicotte ",
     "date" : "Fri Feb 8 14:26:04 2019 -0500"
   },
   "d86bb6b" : {
-    "author" : "Matt Massicotte ",
     "message" : "\n    Migrating in code\n",
+    "author" : "Matt Massicotte ",
     "hash" : "d86bb6b65e09db8e460b2d36d969f147ab6b8d1b",
     "date" : "Wed Nov 21 20:31:36 2018 -0500"
   }

@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Resources.swift#30 $
+//  $Id: //depot/siteify/siteify/Resources.swift#32 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -44,8 +44,9 @@ function lineLink(commit, when, lineno) {
     var title = "Author: "+(info["author"]||"Unknown")+"\n"+
         (info["date"]||new Date(when))+"\n"+(info["message"]||"")
 
-    document.write("<a class='linenum"+fade+"' name=L"+parseInt(lineno)+
+    document.write("<a class='linenum' name=L"+parseInt(lineno)+
         " title='"+title.replace(/['\n&]/g, function(e) {
             return"&#"+e.charCodeAt(0)+";"
-        })+"' href='"+repo+"/commit/"+info["hash"]+"'>"+lineno+" </a> ")
+        })+"' href='"+repo+"/commit/"+info["hash"]+"'>"+
+        lineno+"</a><span class='highlight"+fade+"'> </span> ")
 }

@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "siteify",
-    platforms: [.macOS("10.11")],
+    platforms: [.macOS("10.12")],
     products: [
         .executable(name: "siteify", targets: ["siteify"]),
     ],
