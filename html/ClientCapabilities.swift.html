@@ -9,22 +9,22 @@
 var repo = "https://github.com/ChimeHQ/SwiftLSPClient";
 var commits = {
   "6f28795" : {
-    "author" : "Matt Massicotte ",
-    "hash" : "6f287951fd704a440f3956af61e6793d11c8c0c7",
     "message" : "\n    Signature help spec and refactor\n",
+    "hash" : "6f287951fd704a440f3956af61e6793d11c8c0c7",
+    "author" : "Matt Massicotte ",
     "date" : "Fri Nov 8 21:42:15 2019 -0500"
   },
-  "dca854e" : {
-    "author" : "Matt Massicotte ",
-    "hash" : "dca854e8edd0aafc8670cb2712df196de7d95cb8",
-    "message" : "\n    Fix a bug in WorkspaceClientCapabilities\n",
-    "date" : "Mon Feb 11 15:34:52 2019 -0500"
-  },
   "3606d71" : {
-    "author" : "Matt Massicotte ",
-    "hash" : "3606d7133e02a0819ee2d4d554481240cd2d2b10",
     "message" : "\n    Support for foldingRange (#34)\n",
+    "hash" : "3606d7133e02a0819ee2d4d554481240cd2d2b10",
+    "author" : "Matt Massicotte ",
     "date" : "Sat Nov 2 21:37:48 2019 -0400"
+  },
+  "dca854e" : {
+    "message" : "\n    Fix a bug in WorkspaceClientCapabilities\n",
+    "hash" : "dca854e8edd0aafc8670cb2712df196de7d95cb8",
+    "author" : "Matt Massicotte ",
+    "date" : "Mon Feb 11 15:34:52 2019 -0500"
   },
   "6c7f50a" : {
     "author" : "Matt Massicotte ",
@@ -33,9 +33,9 @@ var commits = {
     "date" : "Wed Feb 13 20:40:02 2019 -0500"
   },
   "4f07f1f" : {
-    "author" : "Matt Massicotte ",
-    "hash" : "4f07f1f1021a951ef8fdd32c542629cf7c5c4809",
     "message" : "\n    Support for def\/decl navigation, improved error type\n",
+    "hash" : "4f07f1f1021a951ef8fdd32c542629cf7c5c4809",
+    "author" : "Matt Massicotte ",
     "date" : "Tue Sep 10 12:53:38 2019 -0400"
   },
   "4e6751b" : {
@@ -44,22 +44,22 @@ var commits = {
     "message" : "\n    Capabilities Reorganization\n    \n    Move the client and server capabilities out into dedicated files, as things were getting a little out of hand. Also fills in a few more holes in those structures.\n",
     "date" : "Sun Jan 27 12:14:15 2019 -0500"
   },
-  "92f6561" : {
-    "author" : "Matt Massicotte ",
-    "hash" : "92f65615a3e652a0b61408c9df940649a5afc3f7",
-    "message" : "\n    Formatting support\n",
-    "date" : "Tue Feb 26 20:25:43 2019 -0500"
-  },
   "4fd0cba" : {
     "author" : "Matt Massicotte ",
     "hash" : "4fd0cbaadf5c556733ac230f64cfac68a1cc73b4",
     "message" : "\n    Ensure textDocument\/references matches LSP spec (#27)\n    \n    There were a few minor issues with matching the spec. Forgiving servers don't seem to mind this, but its worth addressing before a release. Notable changes:\n    \n    - `ReferencesParams` -> `ReferenceParams`\n    - addition of `ReferenceContext`, with non-optional `includeDeclaration` field\n    - `ReferencesResponse` -> `ReferenceResponse`, to be consistent\n    - `ReferenceResponse` can be optional\n    - Fill in `ClientCapabilities` for initialization\n",
     "date" : "Sun Oct 27 12:46:31 2019 -0400"
   },
-  "0eac2c3" : {
+  "92f6561" : {
+    "message" : "\n    Formatting support\n",
+    "hash" : "92f65615a3e652a0b61408c9df940649a5afc3f7",
     "author" : "Matt Massicotte ",
-    "hash" : "0eac2c305e126c37c902ad76bd260cb16e5e1343",
+    "date" : "Tue Feb 26 20:25:43 2019 -0500"
+  },
+  "0eac2c3" : {
     "message" : "\n    Workspace Types\n    \n    Beginning work to support workspaces. First step, initialization support.\n",
+    "hash" : "0eac2c305e126c37c902ad76bd260cb16e5e1343",
+    "author" : "Matt Massicotte ",
     "date" : "Thu Feb 7 11:31:05 2019 -0500"
   }
 };
@@ -286,7 +286,7 @@ var commits = {
 <script> lineLink("d86bb6b", 1542850296, "0219") </script>    }
 <script> lineLink("d86bb6b", 1542850296, "0220") </script>}
 <script> lineLink("d86bb6b", 1542850296, "0221") </script>
-<script> lineLink("d86bb6b", 1542850296, "0222") </script><span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>struct</span> <span class='identifier' title='usrString2'><a name='222_14' href='#' onclick='return expand(this);'>ClientCapabilities<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Initialization.swift.html#22_29"; event.stopPropagation(); return false;'>Initialization.swift:22</td><td><pre>    public let capabilities: ClientCapabilities</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="Initialization.swift.html#26_123"; event.stopPropagation(); return false;'>Initialization.swift:26</td><td><pre>    public init(processId: Int, rootPath: String?, rootURI: DocumentUri?, initializationOptions: JSONValue?, capabilities: ClientCapabilities, trace: Tracing?, workspaceFolders: [WorkspaceFolder]?) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.swift.html#115_27"; event.stopPropagation(); return false;'>Siteify.swift:115</td><td><pre>        let capabilities = ClientCapabilities(workspace: nil, textDocument: nil, experimental: nil)</pre></td></table></span></a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Codable</span> {
+<script> lineLink("d86bb6b", 1542850296, "0222") </script><span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>struct</span> <span class='identifier' title='usrString2'><a name='222_14' href='#' onclick='return expand(this);'>ClientCapabilities<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Initialization.swift.html#22_29"; event.stopPropagation(); return false;'>Initialization.swift:22</td><td><pre>    public let capabilities: ClientCapabilities</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="Initialization.swift.html#26_123"; event.stopPropagation(); return false;'>Initialization.swift:26</td><td><pre>    public init(processId: Int, rootPath: String?, rootURI: DocumentUri?, initializationOptions: JSONValue?, capabilities: ClientCapabilities, trace: Tracing?, workspaceFolders: [WorkspaceFolder]?) {</pre></td><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.swift.html#113_27"; event.stopPropagation(); return false;'>Siteify.swift:113</td><td><pre>        let capabilities = ClientCapabilities(workspace: nil, textDocument: nil, experimental: nil)</pre></td></table></span></a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Codable</span> {
 <script> lineLink("d86bb6b", 1542850296, "0223") </script>    <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='usrString2'><a name='223_15' href='#' onclick='return expand(this);'>workspace<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="ClientCapabilities.swift.html#228_13"; return false;'>ClientCapabilities.swift:228</td><td><pre>        self.workspace = workspace</pre></td></table></span></a></span>: <span class='typeidentifier' title='ClientCapabilities.swift'><a name='223_26' href='ClientCapabilities.swift.html#67_14'>WorkspaceClientCapabilities</a></span>?
 <script> lineLink("d86bb6b", 1542850296, "0224") </script>    <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='usrString2'><a name='224_15' href='#' onclick='return expand(this);'>textDocument<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="ClientCapabilities.swift.html#229_13"; return false;'>ClientCapabilities.swift:229</td><td><pre>        self.textDocument = textDocument</pre></td></table></span></a></span>: <span class='typeidentifier' title='ClientCapabilities.swift'><a name='224_29' href='ClientCapabilities.swift.html#173_14'>TextDocumentClientCapabilities</a></span>?
 <script> lineLink("d86bb6b", 1542850296, "0225") </script>    <span class='builtin' title='source.lang.swift.syntaxtype.attribute.builtin'>public</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='usrString2'><a name='225_15' href='#' onclick='return expand(this);'>experimental<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="ClientCapabilities.swift.html#230_13"; return false;'>ClientCapabilities.swift:230</td><td><pre>        self.experimental = experimental</pre></td></table></span></a></span>: <span class='typeidentifier' title='JSONValue.swift'><a name='225_29' href='JSONValue.swift.html#11_12'>JSONValue</a></span>?

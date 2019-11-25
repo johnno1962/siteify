@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#77 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#82 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -18,22 +18,20 @@ import SourceKit
 
 var filenameForFile = [String: String](), filesForFileName = [String: String]()
 
-let filenameLock = NSLock()
-
 func htmlFile(_ file: String) -> String {
-    filenameLock.lock()
-    defer { filenameLock.unlock() }
-    if let filename = filenameForFile[file] {
+    return filenameForFile.synchronized { locked in
+        if let filename = locked[file] {
+            return filename
+        }
+        var filename = NSURL(fileURLWithPath: file).lastPathComponent!
+        while filesForFileName[filename] != nil {
+            filename += "_"
+        }
+        filename += ".html"
+        filesForFileName[filename] = file
+        locked[file] = filename
         return filename
     }
-    var filename = NSURL(fileURLWithPath: file).lastPathComponent!
-    while filesForFileName[filename] != nil {
-        filename += "_"
-    }
-    filename += ".html"
-    filesForFileName[filename] = file
-    filenameForFile[file] = filename
-    return filename
 }
 
 struct LanguageServerSynchronizer {
@@ -135,17 +133,14 @@ public class Siteify: NotificationResponder {
         return comma
     }()
 
-    let iconLock = NSLock()
     var iconForType = [String: String]()
-    let symbolsLock = NSLock()
     var packageSymbols = [String: [DocumentSymbol]]()
-    let referencesLock = NSLock()
     var referencesFallback = [Loc: Location]()
 
     public func iconForFile(fullpath: String) -> String {
-        return iconLock.synchronized {
+        return iconForType.synchronized { locked in
             let ext = URL(fileURLWithPath: fullpath).pathExtension
-            var iconString = iconForType[ext]
+            var iconString = locked[ext]
             if iconString == nil {
                 let image = NSWorkspace.shared.icon(forFileType: ext)
                 let cgRef = image.cgImage(forProposedRect: nil, context:nil, hints:nil)!
@@ -153,8 +148,8 @@ public class Siteify: NotificationResponder {
                 newRep.size = image.size
                 iconString = String(format:"data:image/png;base64,%@",
                                     newRep.representation(using:.png,  properties:[:])!
-                        .base64EncodedString(options: []))
-                iconForType[ext] = iconString
+                                        .base64EncodedString(options: []))
+                locked[ext] = iconString
             }
 
             return iconString!
@@ -197,7 +192,7 @@ public class Siteify: NotificationResponder {
         // Generate alphabetical list of symbols defined at the top level
         if indexFILE != nil {
             let symbolsFILE = copyTemplate(template: "symbols.html", patches: patches)
-            for sym in self.symbolsLock.synchronized({packageSymbols})
+            for sym in packageSymbols.synchronized({$0})
                 .map({ (file, syms) in syms.map {(file, $0)}})
                 .reduce([], +).sorted(by: {$0.1.name < $1.1.name}) {
                     sym.1.print(file: sym.0, indent: " ", to: symbolsFILE)
@@ -333,8 +328,8 @@ public class Siteify: NotificationResponder {
                         switch value {
                         case .locationArray(let array):
                             guard let decl = array.first ??
-                                self.referencesLock.synchronized({
-                                    self.referencesFallback[Loc(path: fullpath, pos: pos)]
+                                self.referencesFallback.synchronized({ locked in
+                                    locked[Loc(path: fullpath, pos: pos)]
                                 }) else {
                                 return complete(span: text, title: "\(result)")
                             }
@@ -361,9 +356,10 @@ public class Siteify: NotificationResponder {
                                                 }
                                                 complete(span: "<a name='\(decl.anchor)' \(popup != "" ? "href='#' " : "")onclick='return expand(this);'>" +
                                                     "\(text)<span class='references'><table>\(markup != nil ? "<tr><td colspan=2>\(HTML(fromMarkup: markup!))" : "")\(popup)</table></span></a>", title: "usrString2")
-                                                self.referencesLock.synchronized {
+                                                self.referencesFallback.synchronized {
+                                                    locked in
                                                     for ref in refs {
-                                                        self.referencesFallback[Loc(path: ref.file, pos: ref.range.start)] = decl
+                                                        locked[Loc(path: ref.file, pos: ref.range.start)] = decl
                                                     }
                                                 }
                                             } else {
@@ -420,7 +416,9 @@ public class Siteify: NotificationResponder {
             // Start with template for source file...
             let repoURL = gitInfo.repoURL()
             let htmlFILE = copyTemplate(template: "source.html", patches: [
-                "__FILE__": relative, "__REPO__": repoURL, "__IMG__": iconForFile(fullpath: relative)], dest: htmlRoot+"/"+htmlfile)
+                "__FILE__": relative, "__REPO__": repoURL,
+                "__IMG__": iconForFile(fullpath: relative)],
+                                        dest: htmlRoot+"/"+htmlfile)
 
             // Add dictionary of commit info for line number blame
             """
@@ -440,7 +438,7 @@ public class Siteify: NotificationResponder {
                 if let linenoScript = gitInfo.nextBlame(lineno: lineno) {
                     return linenoScript
                 } else {
-                    return String(format: "<a class=linenum name='L%d'>%04d </a> ", lineno, lineno)
+                    return String(format: "<a class=linenum name='L%d'>%04d</a>  ", lineno, lineno)
                 }
             }
 
@@ -455,8 +453,8 @@ public class Siteify: NotificationResponder {
                 }) {
                 case .documentSymbols(let filesyms):
                     let htmlfile = htmlFile(fullpath)
-                    self.symbolsLock.synchronized {
-                        self.packageSymbols[htmlfile] = filesyms
+                    packageSymbols.synchronized { locked in
+                        locked[htmlfile] = filesyms
                     }
                 default:
                     break
@@ -480,7 +478,7 @@ public class Siteify: NotificationResponder {
     func copyTemplate(template: String, patches: [String: String] = [:], dest: String? = nil) -> UnsafeMutablePointer<FILE> {
         var input = (try? String(contentsOfFile: resources+template)) ?? Self.resources[template]!
         for (tag, value) in patches {
-            input = input.replacingOccurrences(of: tag, with: value)
+            input[tag] = value
         }
         let filename = dest ?? htmlRoot+"/"+template
         guard let outFILE = fopen(filename, "w") else {

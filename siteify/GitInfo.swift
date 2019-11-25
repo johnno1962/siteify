@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 24/11/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/GitInfo.swift#3 $
+//  $Id: //depot/siteify/siteify/GitInfo.swift#4 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -17,7 +17,7 @@ public class GitInfo {
     let gitExecutable = "/usr/bin/git"
     let blameStream: TaskGenerator
     let logStream: TaskGenerator
-    var sourceDir: String
+    let sourceDir: String
 
     init(fullpath: String) {
         let fullURL = URL(fileURLWithPath: fullpath)

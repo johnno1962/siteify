@@ -16,8 +16,8 @@ var commits = {
   },
   "5e644f7" : {
     "author" : "Matt Massicotte ",
-    "message" : "\n    Support for signatureHelp\n",
     "hash" : "5e644f792d0e1e18373d1f232e0e2ca708fb8fe1",
+    "message" : "\n    Support for signatureHelp\n",
     "date" : "Fri Dec 7 20:43:45 2018 -0500"
   },
   "e184468" : {
@@ -26,11 +26,11 @@ var commits = {
     "message" : "\n    Support for SwiftPM, migration to Swift 5.0, removal of Result as a dependency\n",
     "date" : "Thu Aug 22 07:28:51 2019 -0400"
   },
-  "9378f98" : {
-    "message" : "\n    Message Delivery and Error Fixes\n    \n    - Handles a dumb bug were two messages delivered at the same time cause the delivery system to lock up\n    - Correctly remove stored message handlers once they have been invoked\n    - Extract out and return errors when they have been returned from requests\n    - Reduce the strictness of the error structure\n",
+  "92f6561" : {
     "author" : "Matt Massicotte ",
-    "hash" : "9378f98761121b2ba181ffb5964a87d0015b8b0b",
-    "date" : "Sun Jan 27 20:17:24 2019 -0500"
+    "hash" : "92f65615a3e652a0b61408c9df940649a5afc3f7",
+    "message" : "\n    Formatting support\n",
+    "date" : "Tue Feb 26 20:25:43 2019 -0500"
   },
   "3606d71" : {
     "author" : "Matt Massicotte ",
@@ -44,17 +44,11 @@ var commits = {
     "message" : "\n    Capabilities Reorganization\n    \n    Move the client and server capabilities out into dedicated files, as things were getting a little out of hand. Also fills in a few more holes in those structures.\n",
     "date" : "Sun Jan 27 12:14:15 2019 -0500"
   },
-  "8240d65" : {
-    "author" : "John Holdsworth ",
-    "hash" : "8240d65350dd1a98dc6ac3bffd2976177bb6e2d1",
-    "message" : "\n    Add \"textDocument\/references\" request and threading workaround\n",
-    "date" : "Sat Oct 26 12:09:29 2019 +0200"
-  },
-  "92f6561" : {
+  "9378f98" : {
     "author" : "Matt Massicotte ",
-    "message" : "\n    Formatting support\n",
-    "hash" : "92f65615a3e652a0b61408c9df940649a5afc3f7",
-    "date" : "Tue Feb 26 20:25:43 2019 -0500"
+    "hash" : "9378f98761121b2ba181ffb5964a87d0015b8b0b",
+    "message" : "\n    Message Delivery and Error Fixes\n    \n    - Handles a dumb bug were two messages delivered at the same time cause the delivery system to lock up\n    - Correctly remove stored message handlers once they have been invoked\n    - Extract out and return errors when they have been returned from requests\n    - Reduce the strictness of the error structure\n",
+    "date" : "Sun Jan 27 20:17:24 2019 -0500"
   },
   "5909dc0" : {
     "author" : "Matt Massicotte ",
@@ -62,10 +56,16 @@ var commits = {
     "message" : "\n    Fix consistency of several response types\n",
     "date" : "Sat Nov 9 20:11:39 2019 -0500"
   },
+  "8240d65" : {
+    "author" : "John Holdsworth ",
+    "hash" : "8240d65350dd1a98dc6ac3bffd2976177bb6e2d1",
+    "message" : "\n    Add \"textDocument\/references\" request and threading workaround\n",
+    "date" : "Sat Oct 26 12:09:29 2019 +0200"
+  },
   "4f07f1f" : {
     "author" : "Matt Massicotte ",
-    "message" : "\n    Support for def\/decl navigation, improved error type\n",
     "hash" : "4f07f1f1021a951ef8fdd32c542629cf7c5c4809",
+    "message" : "\n    Support for def\/decl navigation, improved error type\n",
     "date" : "Tue Sep 10 12:53:38 2019 -0400"
   },
   "4fd0cba" : {
@@ -86,10 +86,16 @@ var commits = {
     "message" : "\n    Signature help spec and refactor\n",
     "date" : "Fri Nov 8 21:42:15 2019 -0500"
   },
+  "578e896" : {
+    "author" : "Matt Massicotte ",
+    "hash" : "578e896028ce6588e94de1c81f34d67cd4b159dd",
+    "message" : "\n    WillSave and WillSaveWaitUntil support\n",
+    "date" : "Sun Feb 10 20:38:15 2019 -0500"
+  },
   "111f6a8" : {
     "author" : "Matt Massicotte ",
-    "message" : "\n    Correct Initialized notification\n    \n    I misunderstood the LSP spec, and 'Initialized' is actually from client->server. Apparently this is a fairly common mistake, but since many servers don't care, it often doesn't matter.\n",
     "hash" : "111f6a80812eaa4c5fef12ee4dd9e7a32d868f02",
+    "message" : "\n    Correct Initialized notification\n    \n    I misunderstood the LSP spec, and 'Initialized' is actually from client->server. Apparently this is a fairly common mistake, but since many servers don't care, it often doesn't matter.\n",
     "date" : "Sun Nov 17 08:36:19 2019 -0500"
   },
   "6c7f50a" : {
@@ -98,16 +104,10 @@ var commits = {
     "message" : "\n    textDocument\/typeDefinition support\n",
     "date" : "Wed Feb 13 20:40:02 2019 -0500"
   },
-  "578e896" : {
-    "author" : "Matt Massicotte ",
-    "hash" : "578e896028ce6588e94de1c81f34d67cd4b159dd",
-    "message" : "\n    WillSave and WillSaveWaitUntil support\n",
-    "date" : "Sun Feb 10 20:38:15 2019 -0500"
-  },
   "5847c30" : {
-    "message" : "\n    Support for showMessageRequest\n",
     "author" : "Matt Massicotte ",
     "hash" : "5847c30770341b26054500276d58e10bf06ad072",
+    "message" : "\n    Support for showMessageRequest\n",
     "date" : "Mon Sep 2 21:03:14 2019 -0400"
   },
   "00a9ba3" : {
@@ -117,15 +117,15 @@ var commits = {
     "date" : "Tue Nov 5 20:56:41 2019 -0500"
   },
   "a24f2f1" : {
-    "message" : "\n    Adding a host concept for easier initialization\n",
     "author" : "Matt Massicotte ",
     "hash" : "a24f2f11133b38510de4c8289e81b3e1ce668a42",
+    "message" : "\n    Adding a host concept for easier initialization\n",
     "date" : "Sun Dec 2 14:05:43 2018 -0500"
   },
   "d86bb6b" : {
-    "message" : "\n    Migrating in code\n",
     "author" : "Matt Massicotte ",
     "hash" : "d86bb6b65e09db8e460b2d36d969f147ab6b8d1b",
+    "message" : "\n    Migrating in code\n",
     "date" : "Wed Nov 21 20:31:36 2018 -0500"
   },
   "6d70f53" : {

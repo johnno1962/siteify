@@ -54,6 +54,7 @@ extension Siteify {
 
             .linenum { color: black; text-decoration: none; }
             a.linenum:hover { text-decoration: underline; }
+            .highlight { border-right: 4px solid rgba(0, 255, 0, 0); }
             .lastday { border-right: 4px solid rgba(0, 255, 0, 1); }
             .lastweek { border-right: 4px solid rgba(0, 255, 0, .5); }
             .lastmonth { border-right: 4px solid rgba(0, 255, 0, .25); }
@@ -87,7 +88,7 @@ extension Siteify {
             //  Created by John Holdsworth on 28/10/2019.
             //  Copyright © 2019 John Holdsworth. All rights reserved.
             //
-            //  $Id: //depot/siteify/siteify/Resources.swift#31 $
+            //  $Id: //depot/siteify/siteify/Resources.swift#32 $
             //
             //  Repo: https://github.com/johnno1962/siteify
             //
@@ -126,10 +127,11 @@ extension Siteify {
                 var title = "Author: "+(info["author"]||"Unknown")+"\n"+
                     (info["date"]||new Date(when))+"\n"+(info["message"]||"")
 
-                document.write("<a class='linenum"+fade+"' name=L"+parseInt(lineno)+
+                document.write("<a class='linenum' name=L"+parseInt(lineno)+
                     " title='"+title.replace(/['\n&]/g, function(e) {
                         return"&#"+e.charCodeAt(0)+";"
-                    })+"' href='"+repo+"/commit/"+info["hash"]+"'>"+lineno+" </a> ")
+                    })+"' href='"+repo+"/commit/"+info["hash"]+"'>"+
+                    lineno+"</a><span class='highlight"+fade+"'> </span> ")
             }
 
             """#,

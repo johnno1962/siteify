@@ -10,15 +10,21 @@ var repo = "https://github.com/johnno1962/siteify";
 var commits = {
   "972873e" : {
     "message" : "\n    Git log\n",
-    "author" : "John Holdsworth ",
     "hash" : "972873e2864486c1e1f450d8c38323e4889e912c",
+    "author" : "John Holdsworth ",
     "date" : "Thu Nov 21 20:27:27 2019 +0100"
   },
   "7dc2527" : {
-    "message" : "\n    de-synchronize\n",
-    "hash" : "7dc25279577f04a9e065940edbfd1116eb3d4606",
     "author" : "John Holdsworth ",
+    "hash" : "7dc25279577f04a9e065940edbfd1116eb3d4606",
+    "message" : "\n    de-synchronize\n",
     "date" : "Wed Nov 13 15:12:43 2019 +0100"
+  },
+  "1752ae6" : {
+    "message" : "\n    Fleck + locking\n",
+    "hash" : "1752ae6c894be81a7cbed786652883cfe10175fa",
+    "author" : "John Holdsworth ",
+    "date" : "Mon Nov 25 16:03:36 2019 +0100"
   },
   "8b5584a" : {
     "message" : "\n    Obj-C supprt\n",
@@ -28,14 +34,20 @@ var commits = {
   },
   "40bb86f" : {
     "message" : "\n    Git author\n",
-    "author" : "John Holdsworth ",
     "hash" : "40bb86f053fc48cfcafb673218b90245ba5c0f0d",
+    "author" : "John Holdsworth ",
     "date" : "Wed Nov 20 23:26:20 2019 +0100"
   },
-  "88b9c7d" : {
-    "message" : "\n    Hover over line number for commit\n",
-    "hash" : "88b9c7dd20b6a42e7385ea63bb0d39b802acb8e6",
+  "769b1ec" : {
+    "message" : "\n    Separate out Git functions\n",
     "author" : "John Holdsworth ",
+    "hash" : "769b1eceda519fa596b4e7f633038462ae910468",
+    "date" : "Sun Nov 24 19:11:09 2019 +0100"
+  },
+  "88b9c7d" : {
+    "author" : "John Holdsworth ",
+    "hash" : "88b9c7dd20b6a42e7385ea63bb0d39b802acb8e6",
+    "message" : "\n    Hover over line number for commit\n",
     "date" : "Sat Nov 23 12:33:55 2019 +0100"
   },
   "11ae07a" : {
@@ -45,8 +57,8 @@ var commits = {
     "date" : "Fri Nov 22 11:39:20 2019 +0100"
   },
   "ac72b93" : {
-    "author" : "John Holdsworth ",
     "message" : "\n    hover request for markup\n",
+    "author" : "John Holdsworth ",
     "hash" : "ac72b932f79f5684dc4811866c970790d3e9bfab",
     "date" : "Tue Nov 19 11:16:46 2019 +0100"
   },
@@ -56,28 +68,22 @@ var commits = {
     "hash" : "819a137031c094810457cbae760456ab9f4a872e",
     "date" : "Sat Nov 23 17:56:00 2019 +0100"
   },
-  "987c839" : {
-    "message" : "\n    Separate out Git functions\n",
-    "hash" : "987c8396366849b523897b06157b25ded25b2b0d",
-    "author" : "John Holdsworth ",
-    "date" : "Sun Nov 24 19:11:09 2019 +0100"
-  },
-  "3a9fb3a" : {
-    "message" : "\n    Dark mode\n",
-    "hash" : "3a9fb3ab3da27d1e6ec01fe54beedba6eb67b486",
-    "author" : "John Holdsworth ",
-    "date" : "Thu Nov 14 12:08:20 2019 +0100"
-  },
   "3ecffd9" : {
-    "message" : "\n    Ported to LSP!\n",
     "author" : "John Holdsworth ",
     "hash" : "3ecffd9fbd44eed05625c9a11ef5301a4188825b",
+    "message" : "\n    Ported to LSP!\n",
     "date" : "Thu Oct 31 06:08:06 2019 +0100"
+  },
+  "3a9fb3a" : {
+    "author" : "John Holdsworth ",
+    "hash" : "3a9fb3ab3da27d1e6ec01fe54beedba6eb67b486",
+    "message" : "\n    Dark mode\n",
+    "date" : "Thu Nov 14 12:08:20 2019 +0100"
   },
   "e6746c9" : {
     "message" : "\n    Page titles\n",
-    "hash" : "e6746c9f039ceb60f9c3400afd0ab3b53146a691",
     "author" : "John Holdsworth ",
+    "hash" : "e6746c9f039ceb60f9c3400afd0ab3b53146a691",
     "date" : "Thu Nov 14 19:48:22 2019 +0100"
   }
 };
@@ -91,15 +97,15 @@ var commits = {
 <script> lineLink("3ecffd9", 1572498486, "0006") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//  Copyright © 2019 John Holdsworth. All rights reserved.
 <script> lineLink("3ecffd9", 1572498486, "0007") </script></span><span class='comment' title='source.lang.swift.syntaxtype.comment'>//
 <script> lineLink("3ecffd9", 1572498486, "0008") </script></span>
-<script> lineLink("3ecffd9", 1572498486, "0009") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>extension</span> <span class='typeidentifier' title='Siteify.swift'><a name='9_10' href='Siteify.swift.html#74_13'>Siteify</a></span> {
-<script> lineLink("3ecffd9", 1572498486, "0010") </script>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>static</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='usrString2'><a name='10_15' href='#' onclick='return expand(this);'>resources<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.swift.html#481_78"; event.stopPropagation(); return false;'>Siteify.swift:481</td><td><pre>        var input = (try? String(contentsOfFile: resources+template)) ?? Self.resources[template]!</pre></td></table></span></a></span> = [
-<script> lineLink("987c839", 1574619069, "0011") </script>
+<script> lineLink("3ecffd9", 1572498486, "0009") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>extension</span> <span class='typeidentifier' title='Siteify.swift'><a name='9_10' href='Siteify.swift.html#72_13'>Siteify</a></span> {
+<script> lineLink("3ecffd9", 1572498486, "0010") </script>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>static</span> <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='usrString2'><a name='10_15' href='#' onclick='return expand(this);'>resources<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="Siteify.swift.html#479_78"; event.stopPropagation(); return false;'>Siteify.swift:479</td><td><pre>        var input = (try? String(contentsOfFile: resources+template)) ?? Self.resources[template]!</pre></td></table></span></a></span> = [
+<script> lineLink("769b1ec", 1574619069, "0011") </script>
 <script> lineLink("3ecffd9", 1572498486, "0012") </script>        <span class='string' title='source.lang.swift.syntaxtype.string'>"index.html"</span>: <span class='string' title='source.lang.swift.syntaxtype.string'>"""
 <script> lineLink("40bb86f", 1574288780, "0013") </script>            &lt;html>&lt;head>
 <script> lineLink("40bb86f", 1574288780, "0014") </script>            &lt;meta charset="UTF-8">
 <script> lineLink("40bb86f", 1574288780, "0015") </script>            &lt;link rel="stylesheet" type="text/css" href="siteify.css">
 <script> lineLink("88b9c7d", 1574508835, "0016") </script>            &lt;title>Siteify of __ROOT__&lt;/title>
-<script> lineLink("987c839", 1574619069, "0017") </script>            &lt;/head>&lt;html>&lt;body class=index>&lt;h3>Generated from __ROOT__ on __DATE__&lt;/h3>
+<script> lineLink("769b1ec", 1574619069, "0017") </script>            &lt;/head>&lt;html>&lt;body class=index>&lt;h3>Generated from __ROOT__ on __DATE__&lt;/h3>
 <script> lineLink("40bb86f", 1574288780, "0018") </script>            """</span>,
 <script> lineLink("3ecffd9", 1572498486, "0019") </script>
 <script> lineLink("819a137", 1574528160, "0020") </script>        <span class='string' title='source.lang.swift.syntaxtype.string'>"source.html"</span>: <span class='string' title='source.lang.swift.syntaxtype.string'>"""
@@ -108,7 +114,7 @@ var commits = {
 <script> lineLink("819a137", 1574528160, "0023") </script>                &lt;title>__FILE__&lt;/title>
 <script> lineLink("819a137", 1574528160, "0024") </script>                &lt;link rel="stylesheet" type="text/css" href="siteify.css">
 <script> lineLink("819a137", 1574528160, "0025") </script>                &lt;script src="siteify.js">&lt;/script>
-<script> lineLink("987c839", 1574619069, "0026") </script>            &lt;/head>&lt;html>&lt;body class=source>&lt;h3>&lt;img src='__IMG__'> Source: __FILE__ (&lt;a href='index.html'>Index&lt;/a>)&lt;br/>&lt;br/>Repo: &lt;a href='__REPO__'>__REPO__&lt;/a>&lt;/h3>&lt;pre>
+<script> lineLink("769b1ec", 1574619069, "0026") </script>            &lt;/head>&lt;html>&lt;body class=source>&lt;h3>&lt;img src='__IMG__'> Source: __FILE__ (&lt;a href='index.html'>Index&lt;/a>)&lt;br/>&lt;br/>Repo: &lt;a href='__REPO__'>__REPO__&lt;/a>&lt;/h3>&lt;pre>
 <script> lineLink("819a137", 1574528160, "0027") </script>
 <script> lineLink("819a137", 1574528160, "0028") </script>            """</span>,
 <script> lineLink("819a137", 1574528160, "0029") </script>
@@ -124,8 +130,8 @@ var commits = {
 <script> lineLink("3ecffd9", 1572498486, "0039") </script>        <span class='string' title='source.lang.swift.syntaxtype.string'>"siteify.css"</span>: <span class='string' title='source.lang.swift.syntaxtype.string'>"""
 <script> lineLink("3ecffd9", 1572498486, "0040") </script>
 <script> lineLink("40bb86f", 1574288780, "0041") </script>            body, table { font: 10pt Menlo Regular; }
-<script> lineLink("987c839", 1574619069, "0042") </script>            body.index img { ddisplay: none; width: 16px; height: 16px; position: relative; top: 3px; }
-<script> lineLink("987c839", 1574619069, "0043") </script>            body.source img { position: relative; top: 3px; left: -1px; }
+<script> lineLink("769b1ec", 1574619069, "0042") </script>            body.index img { ddisplay: none; width: 16px; height: 16px; position: relative; top: 3px; }
+<script> lineLink("769b1ec", 1574619069, "0043") </script>            body.source img { position: relative; top: 3px; left: -1px; }
 <script> lineLink("3ecffd9", 1572498486, "0044") </script>
 <script> lineLink("3a9fb3a", 1573729700, "0045") </script>            .builtin  { color: #A90D91; }
 <script> lineLink("40bb86f", 1574288780, "0046") </script>            .comment  { color: #10743E; }
@@ -139,84 +145,86 @@ var commits = {
 <script> lineLink("819a137", 1574528160, "0054") </script>
 <script> lineLink("819a137", 1574528160, "0055") </script>            .linenum { color: black; text-decoration: none; }
 <script> lineLink("819a137", 1574528160, "0056") </script>            a.linenum:hover { text-decoration: underline; }
-<script> lineLink("819a137", 1574528160, "0057") </script>            .lastday { border-right: 4px solid rgba(0, 255, 0, 1); }
-<script> lineLink("819a137", 1574528160, "0058") </script>            .lastweek { border-right: 4px solid rgba(0, 255, 0, .5); }
-<script> lineLink("819a137", 1574528160, "0059") </script>            .lastmonth { border-right: 4px solid rgba(0, 255, 0, .25); }
-<script> lineLink("987c839", 1574619069, "0060") </script>            .lastyear { border-right: 4px solid rgba(0, 255, 0, .125); }
-<script> lineLink("3a9fb3a", 1573729700, "0061") </script>
-<script> lineLink("40bb86f", 1574288780, "0062") </script>            @media (prefers-color-scheme: dark) {
-<script> lineLink("40bb86f", 1574288780, "0063") </script>                body { background: #292A30; color: #DFDFE0; }
-<script> lineLink("40bb86f", 1574288780, "0064") </script>                .builtin  { color: #A90D91; }
-<script> lineLink("40bb86f", 1574288780, "0065") </script>                .comment  { color: #7F8C98; }
-<script> lineLink("40bb86f", 1574288780, "0066") </script>                .url, a:link  { color: #6699FC; }
-<script> lineLink("40bb86f", 1574288780, "0067") </script>                .doccomment { color: #7F8C98; }
-<script> lineLink("40bb86f", 1574288780, "0068") </script>                .identifier { color: #D9C97C; }
-<script> lineLink("40bb86f", 1574288780, "0069") </script>                .keyword { color: #EE77B1; }
-<script> lineLink("40bb86f", 1574288780, "0070") </script>                .number { color: #D9C97C; }
-<script> lineLink("40bb86f", 1574288780, "0071") </script>                .string { color: #EF7E6E; }
-<script> lineLink("40bb86f", 1574288780, "0072") </script>                .typeidentifier { color: #DABAFE; }
-<script> lineLink("40bb86f", 1574288780, "0073") </script>                .linenum { color: #717276; }
-<script> lineLink("40bb86f", 1574288780, "0074") </script>                a:visited { color: #7679DC }
-<script> lineLink("40bb86f", 1574288780, "0075") </script>            }
-<script> lineLink("40bb86f", 1574288780, "0076") </script>
-<script> lineLink("40bb86f", 1574288780, "0077") </script>            span.references { display: none; position: absolute; border: 2px outset; z-index: 100; }
-<script> lineLink("40bb86f", 1574288780, "0078") </script>            span.references table { background-color: white; color: #292A30; }
-<script> lineLink("40bb86f", 1574288780, "0079") </script>            span.references table tr td { border: 1px inset; }
-<script> lineLink("40bb86f", 1574288780, "0080") </script>            """</span>,
-<script> lineLink("3ecffd9", 1572498486, "0081") </script>
-<script> lineLink("972873e", 1574364447, "0082") </script>        <span class='string' title='source.lang.swift.syntaxtype.string'>"siteify.js"</span>: <span class='string' title='source.lang.swift.syntaxtype.string'>#"""
-<script> lineLink("88b9c7d", 1574508835, "0083") </script>            //
-<script> lineLink("88b9c7d", 1574508835, "0084") </script>            //  siteify.js
-<script> lineLink("88b9c7d", 1574508835, "0085") </script>            //  siteify
-<script> lineLink("88b9c7d", 1574508835, "0086") </script>            //
-<script> lineLink("88b9c7d", 1574508835, "0087") </script>            //  Created by John Holdsworth on 28/10/2019.
-<script> lineLink("88b9c7d", 1574508835, "0088") </script>            //  Copyright © 2019 John Holdsworth. All rights reserved.
-<script> lineLink("88b9c7d", 1574508835, "0089") </script>            //
-<script> lineLink("987c839", 1574619069, "0090") </script>            //  $Id: //depot/siteify/siteify/Resources.swift#31 $
-<script> lineLink("88b9c7d", 1574508835, "0091") </script>            //
-<script> lineLink("88b9c7d", 1574508835, "0092") </script>            //  Repo: https://github.com/johnno1962/siteify
-<script> lineLink("88b9c7d", 1574508835, "0093") </script>            //
-<script> lineLink("3ecffd9", 1572498486, "0094") </script>
-<script> lineLink("40bb86f", 1574288780, "0095") </script>            var lastlink;
-<script> lineLink("40bb86f", 1574288780, "0096") </script>
-<script> lineLink("40bb86f", 1574288780, "0097") </script>            function expand(a) {
-<script> lineLink("40bb86f", 1574288780, "0098") </script>                if ( a.children[0].style.display != "block" ) {
-<script> lineLink("40bb86f", 1574288780, "0099") </script>                    if ( lastlink )
-<script> lineLink("40bb86f", 1574288780, "0100") </script>                        lastlink.style.display = "none";
-<script> lineLink("40bb86f", 1574288780, "0101") </script>                    a.children[0].style.display = "block";
-<script> lineLink("40bb86f", 1574288780, "0102") </script>                    lastlink = a.children[0];
-<script> lineLink("40bb86f", 1574288780, "0103") </script>                }
-<script> lineLink("40bb86f", 1574288780, "0104") </script>                else {
-<script> lineLink("40bb86f", 1574288780, "0105") </script>                    a.children[0].style.display = "none";
-<script> lineLink("40bb86f", 1574288780, "0106") </script>                    lastlink = null;
-<script> lineLink("40bb86f", 1574288780, "0107") </script>                }
-<script> lineLink("40bb86f", 1574288780, "0108") </script>                return false;
-<script> lineLink("3ecffd9", 1572498486, "0109") </script>            }
-<script> lineLink("40bb86f", 1574288780, "0110") </script>
-<script> lineLink("88b9c7d", 1574508835, "0111") </script>            function lineLink(commit, when, lineno) {
-<script> lineLink("40bb86f", 1574288780, "0112") </script>                when *= 1000
-<script> lineLink("40bb86f", 1574288780, "0113") </script>                var age = Date.now() - when
-<script> lineLink("40bb86f", 1574288780, "0114") </script>                var day = 24*60*60*1000
-<script> lineLink("819a137", 1574528160, "0115") </script>                var fade = ""
-<script> lineLink("40bb86f", 1574288780, "0116") </script>                if (age &lt; day)
-<script> lineLink("819a137", 1574528160, "0117") </script>                    fade = " lastday"
-<script> lineLink("40bb86f", 1574288780, "0118") </script>                else if (age &lt; 7 * day)
-<script> lineLink("819a137", 1574528160, "0119") </script>                    fade = " lastweek"
-<script> lineLink("40bb86f", 1574288780, "0120") </script>                else if (age &lt; 31 * day)
-<script> lineLink("819a137", 1574528160, "0121") </script>                    fade = " lastmonth"
-<script> lineLink("987c839", 1574619069, "0122") </script>                else if (age &lt; 365 * day)
-<script> lineLink("987c839", 1574619069, "0123") </script>                    fade = " lastyear"
-<script> lineLink("88b9c7d", 1574508835, "0124") </script>                var info = commits[commit] || {
-<script> lineLink("88b9c7d", 1574508835, "0125") </script>                    "message": "\n    [Outside blame range]\n"}
-<script> lineLink("819a137", 1574528160, "0126") </script>                var title = "Author: "+(info["author"]||"Unknown")+"\n"+
-<script> lineLink("819a137", 1574528160, "0127") </script>                    (info["date"]||new Date(when))+"\n"+(info["message"]||"")
-<script> lineLink("819a137", 1574528160, "0128") </script>
-<script> lineLink("819a137", 1574528160, "0129") </script>                document.write("&lt;a class='linenum"+fade+"' name=L"+parseInt(lineno)+
-<script> lineLink("819a137", 1574528160, "0130") </script>                    " title='"+title.replace(/['\n&amp;]/g, function(e) {
-<script> lineLink("819a137", 1574528160, "0131") </script>                        return"&amp;#"+e.charCodeAt(0)+";"
-<script> lineLink("819a137", 1574528160, "0132") </script>                    })+"' href='"+repo+"/commit/"+info["hash"]+"'>"+lineno+" &lt;/a> ")
-<script> lineLink("3ecffd9", 1572498486, "0133") </script>            }
-<script> lineLink("3ecffd9", 1572498486, "0134") </script>
-<script> lineLink("972873e", 1574364447, "0135") </script>            """#</span>,
-<script> lineLink("3ecffd9", 1572498486, "0136") </script>    ]
-<script> lineLink("3ecffd9", 1572498486, "0137") </script>}
+<script> lineLink("1752ae6", 1574694216, "0057") </script>            .highlight { border-right: 4px solid rgba(0, 255, 0, 0); }
+<script> lineLink("819a137", 1574528160, "0058") </script>            .lastday { border-right: 4px solid rgba(0, 255, 0, 1); }
+<script> lineLink("819a137", 1574528160, "0059") </script>            .lastweek { border-right: 4px solid rgba(0, 255, 0, .5); }
+<script> lineLink("819a137", 1574528160, "0060") </script>            .lastmonth { border-right: 4px solid rgba(0, 255, 0, .25); }
+<script> lineLink("769b1ec", 1574619069, "0061") </script>            .lastyear { border-right: 4px solid rgba(0, 255, 0, .125); }
+<script> lineLink("3a9fb3a", 1573729700, "0062") </script>
+<script> lineLink("40bb86f", 1574288780, "0063") </script>            @media (prefers-color-scheme: dark) {
+<script> lineLink("40bb86f", 1574288780, "0064") </script>                body { background: #292A30; color: #DFDFE0; }
+<script> lineLink("40bb86f", 1574288780, "0065") </script>                .builtin  { color: #A90D91; }
+<script> lineLink("40bb86f", 1574288780, "0066") </script>                .comment  { color: #7F8C98; }
+<script> lineLink("40bb86f", 1574288780, "0067") </script>                .url, a:link  { color: #6699FC; }
+<script> lineLink("40bb86f", 1574288780, "0068") </script>                .doccomment { color: #7F8C98; }
+<script> lineLink("40bb86f", 1574288780, "0069") </script>                .identifier { color: #D9C97C; }
+<script> lineLink("40bb86f", 1574288780, "0070") </script>                .keyword { color: #EE77B1; }
+<script> lineLink("40bb86f", 1574288780, "0071") </script>                .number { color: #D9C97C; }
+<script> lineLink("40bb86f", 1574288780, "0072") </script>                .string { color: #EF7E6E; }
+<script> lineLink("40bb86f", 1574288780, "0073") </script>                .typeidentifier { color: #DABAFE; }
+<script> lineLink("40bb86f", 1574288780, "0074") </script>                .linenum { color: #717276; }
+<script> lineLink("40bb86f", 1574288780, "0075") </script>                a:visited { color: #7679DC }
+<script> lineLink("40bb86f", 1574288780, "0076") </script>            }
+<script> lineLink("40bb86f", 1574288780, "0077") </script>
+<script> lineLink("40bb86f", 1574288780, "0078") </script>            span.references { display: none; position: absolute; border: 2px outset; z-index: 100; }
+<script> lineLink("40bb86f", 1574288780, "0079") </script>            span.references table { background-color: white; color: #292A30; }
+<script> lineLink("40bb86f", 1574288780, "0080") </script>            span.references table tr td { border: 1px inset; }
+<script> lineLink("40bb86f", 1574288780, "0081") </script>            """</span>,
+<script> lineLink("3ecffd9", 1572498486, "0082") </script>
+<script> lineLink("972873e", 1574364447, "0083") </script>        <span class='string' title='source.lang.swift.syntaxtype.string'>"siteify.js"</span>: <span class='string' title='source.lang.swift.syntaxtype.string'>#"""
+<script> lineLink("88b9c7d", 1574508835, "0084") </script>            //
+<script> lineLink("88b9c7d", 1574508835, "0085") </script>            //  siteify.js
+<script> lineLink("88b9c7d", 1574508835, "0086") </script>            //  siteify
+<script> lineLink("88b9c7d", 1574508835, "0087") </script>            //
+<script> lineLink("88b9c7d", 1574508835, "0088") </script>            //  Created by John Holdsworth on 28/10/2019.
+<script> lineLink("88b9c7d", 1574508835, "0089") </script>            //  Copyright © 2019 John Holdsworth. All rights reserved.
+<script> lineLink("88b9c7d", 1574508835, "0090") </script>            //
+<script> lineLink("1752ae6", 1574694216, "0091") </script>            //  $Id: //depot/siteify/siteify/Resources.swift#32 $
+<script> lineLink("88b9c7d", 1574508835, "0092") </script>            //
+<script> lineLink("88b9c7d", 1574508835, "0093") </script>            //  Repo: https://github.com/johnno1962/siteify
+<script> lineLink("88b9c7d", 1574508835, "0094") </script>            //
+<script> lineLink("3ecffd9", 1572498486, "0095") </script>
+<script> lineLink("40bb86f", 1574288780, "0096") </script>            var lastlink;
+<script> lineLink("40bb86f", 1574288780, "0097") </script>
+<script> lineLink("40bb86f", 1574288780, "0098") </script>            function expand(a) {
+<script> lineLink("40bb86f", 1574288780, "0099") </script>                if ( a.children[0].style.display != "block" ) {
+<script> lineLink("40bb86f", 1574288780, "0100") </script>                    if ( lastlink )
+<script> lineLink("40bb86f", 1574288780, "0101") </script>                        lastlink.style.display = "none";
+<script> lineLink("40bb86f", 1574288780, "0102") </script>                    a.children[0].style.display = "block";
+<script> lineLink("40bb86f", 1574288780, "0103") </script>                    lastlink = a.children[0];
+<script> lineLink("40bb86f", 1574288780, "0104") </script>                }
+<script> lineLink("40bb86f", 1574288780, "0105") </script>                else {
+<script> lineLink("40bb86f", 1574288780, "0106") </script>                    a.children[0].style.display = "none";
+<script> lineLink("40bb86f", 1574288780, "0107") </script>                    lastlink = null;
+<script> lineLink("40bb86f", 1574288780, "0108") </script>                }
+<script> lineLink("40bb86f", 1574288780, "0109") </script>                return false;
+<script> lineLink("3ecffd9", 1572498486, "0110") </script>            }
+<script> lineLink("40bb86f", 1574288780, "0111") </script>
+<script> lineLink("88b9c7d", 1574508835, "0112") </script>            function lineLink(commit, when, lineno) {
+<script> lineLink("40bb86f", 1574288780, "0113") </script>                when *= 1000
+<script> lineLink("40bb86f", 1574288780, "0114") </script>                var age = Date.now() - when
+<script> lineLink("40bb86f", 1574288780, "0115") </script>                var day = 24*60*60*1000
+<script> lineLink("819a137", 1574528160, "0116") </script>                var fade = ""
+<script> lineLink("40bb86f", 1574288780, "0117") </script>                if (age &lt; day)
+<script> lineLink("819a137", 1574528160, "0118") </script>                    fade = " lastday"
+<script> lineLink("40bb86f", 1574288780, "0119") </script>                else if (age &lt; 7 * day)
+<script> lineLink("819a137", 1574528160, "0120") </script>                    fade = " lastweek"
+<script> lineLink("40bb86f", 1574288780, "0121") </script>                else if (age &lt; 31 * day)
+<script> lineLink("819a137", 1574528160, "0122") </script>                    fade = " lastmonth"
+<script> lineLink("769b1ec", 1574619069, "0123") </script>                else if (age &lt; 365 * day)
+<script> lineLink("769b1ec", 1574619069, "0124") </script>                    fade = " lastyear"
+<script> lineLink("88b9c7d", 1574508835, "0125") </script>                var info = commits[commit] || {
+<script> lineLink("88b9c7d", 1574508835, "0126") </script>                    "message": "\n    [Outside blame range]\n"}
+<script> lineLink("819a137", 1574528160, "0127") </script>                var title = "Author: "+(info["author"]||"Unknown")+"\n"+
+<script> lineLink("819a137", 1574528160, "0128") </script>                    (info["date"]||new Date(when))+"\n"+(info["message"]||"")
+<script> lineLink("819a137", 1574528160, "0129") </script>
+<script> lineLink("1752ae6", 1574694216, "0130") </script>                document.write("&lt;a class='linenum' name=L"+parseInt(lineno)+
+<script> lineLink("819a137", 1574528160, "0131") </script>                    " title='"+title.replace(/['\n&amp;]/g, function(e) {
+<script> lineLink("819a137", 1574528160, "0132") </script>                        return"&amp;#"+e.charCodeAt(0)+";"
+<script> lineLink("1752ae6", 1574694216, "0133") </script>                    })+"' href='"+repo+"/commit/"+info["hash"]+"'>"+
+<script> lineLink("1752ae6", 1574694216, "0134") </script>                    lineno+"&lt;/a>&lt;span class='highlight"+fade+"'> &lt;/span> ")
+<script> lineLink("3ecffd9", 1572498486, "0135") </script>            }
+<script> lineLink("3ecffd9", 1572498486, "0136") </script>
+<script> lineLink("972873e", 1574364447, "0137") </script>            """#</span>,
+<script> lineLink("3ecffd9", 1572498486, "0138") </script>    ]
+<script> lineLink("3ecffd9", 1572498486, "0139") </script>}
