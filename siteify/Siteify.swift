@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#84 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#85 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -16,11 +16,11 @@ import SwiftLSPClient
 import SourceKit
 #endif
 
-var filenameForFile = [String: String](), filesForFileName = [String: String]()
+var filenameForFile = Synchronized([String: String]()), filesForFileName = [String: String]()
 
 func htmlFile(_ file: String) -> String {
-    return filenameForFile.synchronized { locked in
-        if let filename = locked[file] {
+    return filenameForFile.synchronized { filenameForFile in
+        if let filename = filenameForFile[file] {
             return filename
         }
         var filename = NSURL(fileURLWithPath: file).lastPathComponent!
@@ -29,7 +29,7 @@ func htmlFile(_ file: String) -> String {
         }
         filename += ".html"
         filesForFileName[filename] = file
-        locked[file] = filename
+        filenameForFile[file] = filename
         return filename
     }
 }
@@ -133,9 +133,9 @@ public class Siteify: NotificationResponder {
         return comma
     }()
 
-    var iconForType = [String: String]()
-    var packageSymbols = [String: [DocumentSymbol]]()
-    var referencesFallback = [Loc: Location]()
+    var iconForType = Synchronized([String: String]())
+    var packageSymbols = Synchronized([String: [DocumentSymbol]]())
+    var referencesFallback = Synchronized([Loc: Location]())
 
     public func iconForFile(fullpath: String) -> String {
         return iconForType.synchronized { iconForType in
