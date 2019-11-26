@@ -8,17 +8,17 @@
 
 var repo = "https://github.com/ChimeHQ/SwiftLSPClient";
 var commits = {
-  "4fd0cba" : {
-    "author" : "Matt Massicotte ",
-    "hash" : "4fd0cbaadf5c556733ac230f64cfac68a1cc73b4",
-    "message" : "\n    Ensure textDocument\/references matches LSP spec (#27)\n    \n    There were a few minor issues with matching the spec. Forgiving servers don't seem to mind this, but its worth addressing before a release. Notable changes:\n    \n    - `ReferencesParams` -> `ReferenceParams`\n    - addition of `ReferenceContext`, with non-optional `includeDeclaration` field\n    - `ReferencesResponse` -> `ReferenceResponse`, to be consistent\n    - `ReferenceResponse` can be optional\n    - Fill in `ClientCapabilities` for initialization\n",
-    "date" : "Sun Oct 27 12:46:31 2019 -0400"
-  },
   "e4d656e" : {
     "author" : "John Holdsworth ",
     "hash" : "e4d656e6291b1fb36bdc8251c09d3870a5d59ccc",
     "message" : "\n    Some shortcuts (#28)\n    \n    - Rename LanguageIdentifier.extension to fileExtensions\n    - Introduce LanguageServerParameterError\n    - Add some convenience initializers\n",
     "date" : "Tue Oct 29 15:51:42 2019 +0100"
+  },
+  "4fd0cba" : {
+    "message" : "\n    Ensure textDocument\/references matches LSP spec (#27)\n    \n    There were a few minor issues with matching the spec. Forgiving servers don't seem to mind this, but its worth addressing before a release. Notable changes:\n    \n    - `ReferencesParams` -> `ReferenceParams`\n    - addition of `ReferenceContext`, with non-optional `includeDeclaration` field\n    - `ReferencesResponse` -> `ReferenceResponse`, to be consistent\n    - `ReferenceResponse` can be optional\n    - Fill in `ClientCapabilities` for initialization\n",
+    "hash" : "4fd0cbaadf5c556733ac230f64cfac68a1cc73b4",
+    "author" : "Matt Massicotte ",
+    "date" : "Sun Oct 27 12:46:31 2019 -0400"
   }
 };
 

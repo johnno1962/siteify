@@ -9,9 +9,9 @@
 var repo = "https://github.com/johnno1962/siteify";
 var commits = {
   "972873e" : {
+    "message" : "\n    Git log\n",
     "author" : "John Holdsworth ",
     "hash" : "972873e2864486c1e1f450d8c38323e4889e912c",
-    "message" : "\n    Git log\n",
     "date" : "Thu Nov 21 20:27:27 2019 +0100"
   },
   "7dc2527" : {
@@ -21,9 +21,9 @@ var commits = {
     "date" : "Wed Nov 13 15:12:43 2019 +0100"
   },
   "8b5584a" : {
-    "message" : "\n    Obj-C supprt\n",
-    "hash" : "8b5584ad0988291283e890acb389af1ddaea6b69",
     "author" : "John Holdsworth ",
+    "hash" : "8b5584ad0988291283e890acb389af1ddaea6b69",
+    "message" : "\n    Obj-C supprt\n",
     "date" : "Sat Nov 2 10:40:05 2019 +0100"
   },
   "40bb86f" : {
@@ -45,9 +45,9 @@ var commits = {
     "date" : "Sat Nov 23 12:33:55 2019 +0100"
   },
   "11ae07a" : {
+    "message" : "\n        [Outside blame range]\n",
     "author" : "John Holdsworth ",
     "hash" : "11ae07aac4c12bcfa0a60d2c284eb577a159a5c4",
-    "message" : "\n        [Outside blame range]\n",
     "date" : "Fri Nov 22 11:39:20 2019 +0100"
   },
   "ac72b93" : {
@@ -58,14 +58,14 @@ var commits = {
   },
   "819a137" : {
     "message" : "\n    Repo URL\n",
-    "hash" : "819a137031c094810457cbae760456ab9f4a872e",
     "author" : "John Holdsworth ",
+    "hash" : "819a137031c094810457cbae760456ab9f4a872e",
     "date" : "Sat Nov 23 17:56:00 2019 +0100"
   },
   "3ecffd9" : {
-    "message" : "\n    Ported to LSP!\n",
     "author" : "John Holdsworth ",
     "hash" : "3ecffd9fbd44eed05625c9a11ef5301a4188825b",
+    "message" : "\n    Ported to LSP!\n",
     "date" : "Thu Oct 31 06:08:06 2019 +0100"
   },
   "3a9fb3a" : {
@@ -74,16 +74,16 @@ var commits = {
     "message" : "\n    Dark mode\n",
     "date" : "Thu Nov 14 12:08:20 2019 +0100"
   },
-  "fec2500" : {
-    "message" : "\n    Fleck + locking\n",
-    "hash" : "fec25006569a2b0c0cba79c22191a6dd757d4907",
+  "f0386ae" : {
     "author" : "John Holdsworth ",
+    "hash" : "f0386aeaa9c78626c574e11d3696f26aa28b39b6",
+    "message" : "\n    Fleck + locking\n",
     "date" : "Mon Nov 25 16:03:36 2019 +0100"
   },
   "e6746c9" : {
-    "message" : "\n    Page titles\n",
-    "hash" : "e6746c9f039ceb60f9c3400afd0ab3b53146a691",
     "author" : "John Holdsworth ",
+    "hash" : "e6746c9f039ceb60f9c3400afd0ab3b53146a691",
+    "message" : "\n    Page titles\n",
     "date" : "Thu Nov 14 19:48:22 2019 +0100"
   }
 };
@@ -145,7 +145,7 @@ var commits = {
 <script> lineLink("819a137", 1574528160, "0054") </script>
 <script> lineLink("819a137", 1574528160, "0055") </script>            .linenum { color: black; text-decoration: none; }
 <script> lineLink("819a137", 1574528160, "0056") </script>            a.linenum:hover { text-decoration: underline; }
-<script> lineLink("fec2500", 1574694216, "0057") </script>            .highlight { border-right: 4px solid rgba(0, 255, 0, 0); }
+<script> lineLink("f0386ae", 1574694216, "0057") </script>            .highlight { border-right: 4px solid rgba(0, 255, 0, 0); }
 <script> lineLink("819a137", 1574528160, "0058") </script>            .lastday { border-right: 4px solid rgba(0, 255, 0, 1); }
 <script> lineLink("819a137", 1574528160, "0059") </script>            .lastweek { border-right: 4px solid rgba(0, 255, 0, .5); }
 <script> lineLink("819a137", 1574528160, "0060") </script>            .lastmonth { border-right: 4px solid rgba(0, 255, 0, .25); }
@@ -179,7 +179,7 @@ var commits = {
 <script> lineLink("88b9c7d", 1574508835, "0088") </script>            //  Created by John Holdsworth on 28/10/2019.
 <script> lineLink("88b9c7d", 1574508835, "0089") </script>            //  Copyright © 2019 John Holdsworth. All rights reserved.
 <script> lineLink("88b9c7d", 1574508835, "0090") </script>            //
-<script> lineLink("fec2500", 1574694216, "0091") </script>            //  $Id: //depot/siteify/siteify/Resources.swift#32 $
+<script> lineLink("f0386ae", 1574694216, "0091") </script>            //  $Id: //depot/siteify/siteify/Resources.swift#32 $
 <script> lineLink("88b9c7d", 1574508835, "0092") </script>            //
 <script> lineLink("88b9c7d", 1574508835, "0093") </script>            //  Repo: https://github.com/johnno1962/siteify
 <script> lineLink("88b9c7d", 1574508835, "0094") </script>            //
@@ -218,11 +218,11 @@ var commits = {
 <script> lineLink("819a137", 1574528160, "0127") </script>                var title = "Author: "+(info["author"]||"Unknown")+"\n"+
 <script> lineLink("819a137", 1574528160, "0128") </script>                    (info["date"]||new Date(when))+"\n"+(info["message"]||"")
 <script> lineLink("819a137", 1574528160, "0129") </script>
-<script> lineLink("fec2500", 1574694216, "0130") </script>                document.write("&lt;a class='linenum' name=L"+parseInt(lineno)+
+<script> lineLink("f0386ae", 1574694216, "0130") </script>                document.write("&lt;a class='linenum' name=L"+parseInt(lineno)+
 <script> lineLink("819a137", 1574528160, "0131") </script>                    " title='"+title.replace(/['\n&amp;]/g, function(e) {
 <script> lineLink("819a137", 1574528160, "0132") </script>                        return"&amp;#"+e.charCodeAt(0)+";"
-<script> lineLink("fec2500", 1574694216, "0133") </script>                    })+"' href='"+repo+"/commit/"+info["hash"]+"'>"+
-<script> lineLink("fec2500", 1574694216, "0134") </script>                    lineno+"&lt;/a>&lt;span class='highlight"+fade+"'> &lt;/span> ")
+<script> lineLink("f0386ae", 1574694216, "0133") </script>                    })+"' href='"+repo+"/commit/"+info["hash"]+"'>"+
+<script> lineLink("f0386ae", 1574694216, "0134") </script>                    lineno+"&lt;/a>&lt;span class='highlight"+fade+"'> &lt;/span> ")
 <script> lineLink("3ecffd9", 1572498486, "0135") </script>            }
 <script> lineLink("3ecffd9", 1572498486, "0136") </script>
 <script> lineLink("972873e", 1574364447, "0137") </script>            """#</span>,
