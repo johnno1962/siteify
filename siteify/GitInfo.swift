@@ -5,12 +5,15 @@
 //  Created by John Holdsworth on 24/11/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/GitInfo.swift#4 $
+//  $Id: //depot/siteify/siteify/GitInfo.swift#7 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
 
 import Foundation
+#if SWIFT_PACKAGE
+import SwiftRegex
+#endif
 
 public class GitInfo {
 
