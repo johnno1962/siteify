@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#85 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#89 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -13,7 +13,9 @@
 import Cocoa
 import SwiftLSPClient
 #if SWIFT_PACKAGE
+import SwiftRegex
 import SourceKit
+import Parallel
 #endif
 
 var filenameForFile = Synchronized([String: String]()), filesForFileName = [String: String]()

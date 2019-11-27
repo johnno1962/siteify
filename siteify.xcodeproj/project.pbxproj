@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		BB05D2ED2387CCB000F139B4 /* LineGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1F11C736CF4001108DF /* LineGenerators.swift */; };
 		BB05D2F0238A9C2400F139B4 /* GitInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05D2EF238A9C2400F139B4 /* GitInfo.swift */; };
+		BB05D2F7238EB30E00F139B4 /* Parallel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05D2F6238EB30E00F139B4 /* Parallel.swift */; };
+		BB05D2F9238EC24700F139B4 /* TupleRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05D2F8238EC24700F139B4 /* TupleRegex.swift */; };
 		BB8BD1EB1C7364E3001108DF /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1EA1C7364E3001108DF /* main.swift */; };
 		BB8BD1F41C736CF4001108DF /* SourceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1F21C736CF4001108DF /* SourceKit.swift */; };
-		BBD81FA51C73767A0060CF44 /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD81FA41C73767A0060CF44 /* SwiftRegex.swift */; };
 		BBD81FB01C73DE0B0060CF44 /* siteify in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB8BD1E71C7364E3001108DF /* siteify */; };
 		BBEF4C8D2366C8BB00109F9A /* Siteify.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4C8C2366C8BB00109F9A /* Siteify.swift */; };
-		BBEF4C942369B52000109F9A /* Parallelize.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4C932369B52000109F9A /* Parallelize.swift */; };
 		BBEF4C97236A9B6200109F9A /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4C96236A9B6200109F9A /* Resources.swift */; };
 		BBEF4C9E236D92FE00109F9A /* SwiftLSPClient.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB227D902360C046000D4D3E /* SwiftLSPClient.framework */; };
 /* End PBXBuildFile section */
@@ -59,6 +59,8 @@
 
 /* Begin PBXFileReference section */
 		BB05D2EF238A9C2400F139B4 /* GitInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitInfo.swift; sourceTree = "<group>"; };
+		BB05D2F6238EB30E00F139B4 /* Parallel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parallel.swift; path = .build/checkouts/Parallel/Sources/Parallel.swift; sourceTree = SOURCE_ROOT; };
+		BB05D2F8238EC24700F139B4 /* TupleRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TupleRegex.swift; path = .build/checkouts/SwiftRegex5/SwiftRegex5.playground/Sources/TupleRegex.swift; sourceTree = SOURCE_ROOT; };
 		BB227D8A2360C042000D4D3E /* SwiftLSPClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftLSPClient.xcodeproj; path = .build/checkouts/SwiftLSPClient/SwiftLSPClient.xcodeproj; sourceTree = "<group>"; };
 		BB8BD1E71C7364E3001108DF /* siteify */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = siteify; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB8BD1EA1C7364E3001108DF /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -66,12 +68,10 @@
 		BB8BD1F21C736CF4001108DF /* SourceKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceKit.swift; sourceTree = "<group>"; };
 		BBD81F9E1C736FF70060CF44 /* siteify-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "siteify-Bridging-Header.h"; sourceTree = "<group>"; };
 		BBD81FA11C73703D0060CF44 /* sourcekitd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sourcekitd.h; sourceTree = "<group>"; };
-		BBD81FA41C73767A0060CF44 /* SwiftRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftRegex.swift; sourceTree = "<group>"; };
 		BBD81FB11C73DE6E0060CF44 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BBD81FB31C74A6EE0060CF44 /* ByteRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteRegex.swift; sourceTree = "<group>"; };
 		BBEF4C832364502800109F9A /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		BBEF4C8C2366C8BB00109F9A /* Siteify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Siteify.swift; sourceTree = "<group>"; };
-		BBEF4C932369B52000109F9A /* Parallelize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parallelize.swift; sourceTree = "<group>"; };
 		BBEF4C96236A9B6200109F9A /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,11 +120,11 @@
 				BB8BD1EA1C7364E3001108DF /* main.swift */,
 				BBEF4C8C2366C8BB00109F9A /* Siteify.swift */,
 				BB05D2EF238A9C2400F139B4 /* GitInfo.swift */,
+				BB05D2F6238EB30E00F139B4 /* Parallel.swift */,
 				BB8BD1F21C736CF4001108DF /* SourceKit.swift */,
-				BBEF4C932369B52000109F9A /* Parallelize.swift */,
 				BBEF4C96236A9B6200109F9A /* Resources.swift */,
 				BBD81FB31C74A6EE0060CF44 /* ByteRegex.swift */,
-				BBD81FA41C73767A0060CF44 /* SwiftRegex.swift */,
+				BB05D2F8238EC24700F139B4 /* TupleRegex.swift */,
 				BB8BD1F11C736CF4001108DF /* LineGenerators.swift */,
 				BBD81F9E1C736FF70060CF44 /* siteify-Bridging-Header.h */,
 				BBD81FA11C73703D0060CF44 /* sourcekitd.h */,
@@ -236,13 +236,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB05D2F9238EC24700F139B4 /* TupleRegex.swift in Sources */,
 				BB05D2F0238A9C2400F139B4 /* GitInfo.swift in Sources */,
-				BBEF4C942369B52000109F9A /* Parallelize.swift in Sources */,
 				BB8BD1EB1C7364E3001108DF /* main.swift in Sources */,
 				BBEF4C97236A9B6200109F9A /* Resources.swift in Sources */,
 				BBEF4C8D2366C8BB00109F9A /* Siteify.swift in Sources */,
 				BB8BD1F41C736CF4001108DF /* SourceKit.swift in Sources */,
-				BBD81FA51C73767A0060CF44 /* SwiftRegex.swift in Sources */,
+				BB05D2F7238EB30E00F139B4 /* Parallel.swift in Sources */,
 				BB05D2ED2387CCB000F139B4 /* LineGenerators.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

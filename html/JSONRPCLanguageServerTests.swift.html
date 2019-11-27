@@ -14,17 +14,17 @@ var commits = {
     "author" : "Matt Massicotte ",
     "date" : "Tue Nov 5 20:56:41 2019 -0500"
   },
+  "d8e3f45" : {
+    "message" : "\n    Safety for protocol classes (#30)\n    \n    It turns out that I was assuming that NSFileManager still did its synchronization via a runloop exclusively. This was incredibly incorrect.\n    \n    This adds actual synchronization and also includes some tests to make sure things work as expected.\n",
+    "author" : "Matt Massicotte ",
+    "hash" : "d8e3f458ee09bc875273d0e80a4c2fc93e5885f9",
+    "date" : "Wed Oct 30 20:18:44 2019 -0400"
+  },
   "250a274" : {
     "message" : "\n    Test data without strings (#31)\n    \n    It wasn't possible to easily encode the LSP types to protocol messages for testing. So, I was just using strings. This was really annoying and error-prone. Finally took the time to make this possible, and it is way better.\n",
     "hash" : "250a2748227eadb0a3a70c259dfcf9e5dff83015",
     "author" : "Matt Massicotte ",
     "date" : "Thu Oct 31 07:35:02 2019 -0400"
-  },
-  "d8e3f45" : {
-    "author" : "Matt Massicotte ",
-    "hash" : "d8e3f458ee09bc875273d0e80a4c2fc93e5885f9",
-    "message" : "\n    Safety for protocol classes (#30)\n    \n    It turns out that I was assuming that NSFileManager still did its synchronization via a runloop exclusively. This was incredibly incorrect.\n    \n    This adds actual synchronization and also includes some tests to make sure things work as expected.\n",
-    "date" : "Wed Oct 30 20:18:44 2019 -0400"
   }
 };
 
