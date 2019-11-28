@@ -3,52 +3,34 @@
     <title>siteify/main.swift</title>
     <link rel="stylesheet" type="text/css" href="siteify.css">
     <script src="siteify.js"></script>
-</head><html><body class=source><h3><img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABRJJREFUWAnFV1tIZWUU/vY+6klxoLwMNurYVOboSDZTlIym85KR0IOMw0BCGvTggwRCzxH00ku+NMTQFM0QxUhCUzopKaX0IFnkoIwXvCGiOU5q3o5Hz97771tb3Z299XiOYLTgO//+L2ut71//bR0NbtFYTSIeJ+IIqUcSxY4QsUksE1uERRxJxEm4iMPHFhcXx8Ibvd9KKRAqGAw+pAz29PTcbmxsvMNxQsT0jj+sHj5D+RZCZ9bX10cPU9olANM0sby8jLW1tdDs7Oz1ysrKD6n3gJBISISiipdAPDWe2draGjxMc4+AlIZhgFHA6uqqqev6naKioneoGzMJ3eNICGk+nw/REBcXB0F8fDzS09OhaZovJyfn8sjIyBe0cYoQ2+ETZHW/eAnICI0zwWEQctIv5R6JpKQkIYG8vLyK8fHxr2gnlo3sYiRs/cSzDG1UsSxLCbgPVCgUUhMTE2p7e9vRm56e/p22ThMJRMRIHBQBjo8uMlsRKSUaIrIfSAaBQAAZGRnPz83NtbM5k4hIIpyZfMvAs5zGPZYxiTKCgM8POsPm5qZNgMfTLsVAYmJib0lJyVs8KVOsyr0R8XQIAVmCIieO3g+G3CtmYFGFBr5UlmnYyyHLwAgoOlQ8mmpwcFDxnviedmVP+AiXxLYEoYCtpJYmeMINt4HEFN6BQRi9H9vLIRszISEBfr8fqampyM7ORkpKyutNTU0VVJQJhkfdZStyBIJryhztUsoMqVDfLaW2A65AWA/H1dYnFcq4f9fZmNwP9ubknaJ4samBgQHZDxIF16RdFRed8Io/GdqjOTB+/Ai+py7B+O59qJU/nRFa2pOMgg6z+wbLDTsSe5tzLyKZmZnnqJBIiE8nCrEREI2TT0N/4iKM5vd2yluNsKb+YI8I7QWJxRWo+z/ttPB0CAmBkEhOTk5jxyM7g+0h9k/MBGS0fvZl6Odeg/ntNbo8AePTd2H+cB1q9S9ofwegbViwhvscx6KzR4I3psx+3wvrfQ1F51DxlV2FtrkFs/WGbdxq/xrWL3ehNkw7rmpu3tEX5x7Z13AQAfegwDozhGSXHf3VNxkOP8zb13iq+fBtLEHj6Vb80TVJJyKK2HbZj7oEauQezG8+g1qUB+5f0V+5Cv3SFTvsYOgRsKAR2CSOIAdFwKWuXSiFNv8AxttV0E+fAdJ5knzkPTUGa352Zzp8lrkeO3fcb31Q/b9CO/+Sy06kSlQCoqhXXoZ2KgdW0wewhn6mU1cUd2skkXaSy7EOq6sdvuMkICS0516A7/MW6F0ddNABNTYKbXWFTtOgXXgR+pU3oOXmAetrsJrlNT66yLTkqjzvuuaOsSK2d304IYy6Canwn8r/TiDqJmSmg87OTuTm5trpV3l5OVpaWlBdXY3u7m4UFhZiYWEB/f394FOM4uJiTE1NYWhoyM4Va2trD41gVAJtbW2oqqrC0tKSnf0y30NHRwcKCgowPDxsP7dMv+z0vKGhwXaWn5+PyclJRHMug6MuQX19PXp7e9HV1QVmNmhubkZNTQ3a29uRlZXlzG5mZgY3b94EkxCnLZaPgwg4O1QMtLa22rmepN+S+Up4S0tLIbMuKytzfEjiUVdXBz67TtsBHy7b3v6Ix1Cy3uMQOox6DHmdwZ1zsUFy/2MSsS0+HPFals5lPqMXWZ4gvP2O4hE/xPEaIX9eXQS8ayJ7QlJzSR6klH7vGDYdScShYJuQv/JSOk/mP8kXIQTYC1wuAAAAAElFTkSuQmCC'> Source: siteify/main.swift (<a href='index.html'>Index</a>)<br/><br/>Repo: <a href='https://github.com/johnno1962/siteify'>https://github.com/johnno1962/siteify</a></h3><pre>
+</head><html><body class=source><h3><img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABRJJREFUWAnFV1tIZWUU/vY+6klxoLwMNurYVOboSDZTlIym85KR0IOMw0BCGvTggwRCzxH00ku+NMTQFM0QxUhCUzopKaX0IFnkoIwXvCGiOU5q3o5Hz97771tb3Z299XiOYLTgO//+L2ut71//bR0NbtFYTSIeJ+IIqUcSxY4QsUksE1uERRxJxEm4iMPHFhcXx8Ibvd9KKRAqGAw+pAz29PTcbmxsvMNxQsT0jj+sHj5D+RZCZ9bX10cPU9olANM0sby8jLW1tdDs7Oz1ysrKD6n3gJBISISiipdAPDWe2draGjxMc4+AlIZhgFHA6uqqqev6naKioneoGzMJ3eNICGk+nw/REBcXB0F8fDzS09OhaZovJyfn8sjIyBe0cYoQ2+ETZHW/eAnICI0zwWEQctIv5R6JpKQkIYG8vLyK8fHxr2gnlo3sYiRs/cSzDG1UsSxLCbgPVCgUUhMTE2p7e9vRm56e/p22ThMJRMRIHBQBjo8uMlsRKSUaIrIfSAaBQAAZGRnPz83NtbM5k4hIIpyZfMvAs5zGPZYxiTKCgM8POsPm5qZNgMfTLsVAYmJib0lJyVs8KVOsyr0R8XQIAVmCIieO3g+G3CtmYFGFBr5UlmnYyyHLwAgoOlQ8mmpwcFDxnviedmVP+AiXxLYEoYCtpJYmeMINt4HEFN6BQRi9H9vLIRszISEBfr8fqampyM7ORkpKyutNTU0VVJQJhkfdZStyBIJryhztUsoMqVDfLaW2A65AWA/H1dYnFcq4f9fZmNwP9ubknaJ4samBgQHZDxIF16RdFRed8Io/GdqjOTB+/Ai+py7B+O59qJU/nRFa2pOMgg6z+wbLDTsSe5tzLyKZmZnnqJBIiE8nCrEREI2TT0N/4iKM5vd2yluNsKb+YI8I7QWJxRWo+z/ttPB0CAmBkEhOTk5jxyM7g+0h9k/MBGS0fvZl6Odeg/ntNbo8AePTd2H+cB1q9S9ofwegbViwhvscx6KzR4I3psx+3wvrfQ1F51DxlV2FtrkFs/WGbdxq/xrWL3ehNkw7rmpu3tEX5x7Z13AQAfegwDozhGSXHf3VNxkOP8zb13iq+fBtLEHj6Vb80TVJJyKK2HbZj7oEauQezG8+g1qUB+5f0V+5Cv3SFTvsYOgRsKAR2CSOIAdFwKWuXSiFNv8AxttV0E+fAdJ5knzkPTUGa352Zzp8lrkeO3fcb31Q/b9CO/+Sy06kSlQCoqhXXoZ2KgdW0wewhn6mU1cUd2skkXaSy7EOq6sdvuMkICS0516A7/MW6F0ddNABNTYKbXWFTtOgXXgR+pU3oOXmAetrsJrlNT66yLTkqjzvuuaOsSK2d304IYy6Canwn8r/TiDqJmSmg87OTuTm5trpV3l5OVpaWlBdXY3u7m4UFhZiYWEB/f394FOM4uJiTE1NYWhoyM4Va2trD41gVAJtbW2oqqrC0tKSnf0y30NHRwcKCgowPDxsP7dMv+z0vKGhwXaWn5+PyclJRHMug6MuQX19PXp7e9HV1QVmNmhubkZNTQ3a29uRlZXlzG5mZgY3b94EkxCnLZaPgwg4O1QMtLa22rmepN+S+Up4S0tLIbMuKytzfEjiUVdXBz67TtsBHy7b3v6Ix1Cy3uMQOox6DHmdwZ1zsUFy/2MSsS0+HPFals5lPqMXWZ4gvP2O4hE/xPEaIX9eXQS8ayJ7QlJzSR6klH7vGDYdScShYJuQv/JSOk/mP8kXIQTYC1wuAAAAAElFTkSuQmCC'> Source: siteify/main.swift (<a href='index.html'>Index</a>)<br/><br/>Repo: <a href='https://github.com/johnno1962/siteify.git'>https://github.com/johnno1962/siteify.git</a></h3><pre>
 <script>
 
-var repo = "https://github.com/johnno1962/siteify";
+var repo = "https://github.com/johnno1962/siteify.git";
 var commits = {
-  "70008e1" : {
-    "message" : "\n    Share Refactorator version of Entity class.\n",
+  "dd0d7db" : {
+    "message" : "\n    Adjust fonts\n",
+    "hash" : "dd0d7db9ccbc82b368314fec6340e2b52f6fb2ff",
     "author" : "John Holdsworth ",
-    "hash" : "70008e1a1ea358c3a378149a0ac38c8f44157fed",
-    "date" : "Fri Feb 19 11:56:52 2016 +0000"
+    "date" : "Wed Feb 24 00:35:40 2016 +0000"
   },
   "7eeab0f" : {
     "message" : "\n    Handle -filelist option used by Swift Package Manager for large projects\n",
-    "author" : "John Holdsworth ",
     "hash" : "7eeab0f526374e4ca300d252a291e760cbade924",
+    "author" : "John Holdsworth ",
     "date" : "Thu Feb 25 14:22:28 2016 +0000"
   },
   "3c0ea16" : {
+    "message" : "\n    Link to Refactorator\n",
     "author" : "John Holdsworth ",
     "hash" : "3c0ea16d2dabf6d6ee3b03dfb56f918db28a29f9",
-    "message" : "\n    Link to Refactorator\n",
     "date" : "Mon Dec 12 12:42:30 2016 +0000"
   },
   "67f942d" : {
-    "message" : "\n    Workaround for producing http:\/\/swiftweb.johnholdsworth.com\n",
+    "author" : "John Holdsworth ",
     "hash" : "67f942d0d53ea4f562a7a83bdc56ef441160a108",
-    "author" : "John Holdsworth ",
+    "message" : "\n    Workaround for producing http:\/\/swiftweb.johnholdsworth.com\n",
     "date" : "Wed Feb 24 18:43:13 2016 +0000"
-  },
-  "dd0d7db" : {
-    "author" : "John Holdsworth ",
-    "hash" : "dd0d7db9ccbc82b368314fec6340e2b52f6fb2ff",
-    "message" : "\n    Adjust fonts\n",
-    "date" : "Wed Feb 24 00:35:40 2016 +0000"
-  },
-  "896cbf6" : {
-    "author" : "John Holdsworth ",
-    "hash" : "896cbf648ab5d337536e816552eb72c3dc383f71",
-    "message" : "\n    Initial Commit\n",
-    "date" : "Wed Feb 17 15:59:27 2016 +0000"
-  },
-  "ff2cc95" : {
-    "author" : "John Holdsworth ",
-    "hash" : "ff2cc957e5c21db14a5cc5ed9bb907791b6544fa",
-    "message" : "\n    Share Refactorator version of Entity class.\n",
-    "date" : "Fri Feb 19 12:31:35 2016 +0000"
   },
   "7dc2527" : {
     "message" : "\n    de-synchronize\n",
@@ -57,34 +39,52 @@ var commits = {
     "date" : "Wed Nov 13 15:12:43 2019 +0100"
   },
   "7dd4597" : {
-    "author" : "John Holdsworth ",
-    "hash" : "7dd4597080d25b2451c79bf71924c06e4336100e",
     "message" : "\n    Handle duplicate filenames\n",
+    "hash" : "7dd4597080d25b2451c79bf71924c06e4336100e",
+    "author" : "John Holdsworth ",
     "date" : "Wed Feb 17 20:15:28 2016 +0000"
   },
+  "896cbf6" : {
+    "message" : "\n    Initial Commit\n",
+    "hash" : "896cbf648ab5d337536e816552eb72c3dc383f71",
+    "author" : "John Holdsworth ",
+    "date" : "Wed Feb 17 15:59:27 2016 +0000"
+  },
+  "ff2cc95" : {
+    "message" : "\n    Share Refactorator version of Entity class.\n",
+    "hash" : "ff2cc957e5c21db14a5cc5ed9bb907791b6544fa",
+    "author" : "John Holdsworth ",
+    "date" : "Fri Feb 19 12:31:35 2016 +0000"
+  },
+  "70008e1" : {
+    "author" : "John Holdsworth ",
+    "hash" : "70008e1a1ea358c3a378149a0ac38c8f44157fed",
+    "message" : "\n    Share Refactorator version of Entity class.\n",
+    "date" : "Fri Feb 19 11:56:52 2016 +0000"
+  },
   "b6942c8" : {
-    "message" : "\n    Symbol listing in xref.html\n",
     "author" : "John Holdsworth ",
     "hash" : "b6942c8ad040537dfb4425ece4ee72138d5ef129",
+    "message" : "\n    Symbol listing in xref.html\n",
     "date" : "Wed Feb 17 17:07:04 2016 +0000"
   },
   "9b169a3" : {
     "message" : "\n    Complete merge with Refactorator sources\n",
-    "author" : "John Holdsworth ",
     "hash" : "9b169a3247d7f87da7dd760d85648f3a37e17c78",
-    "date" : "Sun Feb 21 14:50:22 2016 +0000"
-  },
-  "3ecffd9" : {
-    "message" : "\n    Ported to LSP!\n",
-    "hash" : "3ecffd9fbd44eed05625c9a11ef5301a4188825b",
     "author" : "John Holdsworth ",
-    "date" : "Thu Oct 31 06:08:06 2019 +0100"
+    "date" : "Sun Feb 21 14:50:22 2016 +0000"
   },
   "9bef3ab" : {
     "message" : "\n    Further refinements\n",
     "hash" : "9bef3ab1d378e41655e4f343bdd8601bbde54367",
     "author" : "John Holdsworth ",
     "date" : "Thu Feb 18 15:26:50 2016 +0000"
+  },
+  "3ecffd9" : {
+    "author" : "John Holdsworth ",
+    "hash" : "3ecffd9fbd44eed05625c9a11ef5301a4188825b",
+    "message" : "\n    Ported to LSP!\n",
+    "date" : "Thu Oct 31 06:08:06 2019 +0100"
   },
   "99decb5" : {
     "author" : "John Holdsworth ",
@@ -93,21 +93,21 @@ var commits = {
     "date" : "Tue Oct 29 08:40:59 2019 +0100"
   },
   "2f4051d" : {
-    "author" : "John Holdsworth ",
     "message" : "\n    USR as title of link in xref.html\n",
     "hash" : "2f4051dcf475387fb312e362ae78e7b2458dfd06",
+    "author" : "John Holdsworth ",
     "date" : "Sun Feb 21 20:59:11 2016 +0000"
   },
   "b77d7a0" : {
     "author" : "John Holdsworth ",
-    "message" : "\n    Port to use LSP\n",
     "hash" : "b77d7a07a99d09d53f135c1b264460f889d18d7a",
+    "message" : "\n    Port to use LSP\n",
     "date" : "Mon Oct 28 22:45:11 2019 +0100"
   },
   "bc891dc" : {
-    "author" : "John Holdsworth ",
-    "hash" : "bc891dc81a5b4bce3bad3ec316b41832dbea9c60",
     "message" : "\n    Support build using Swift Package Manager\n",
+    "hash" : "bc891dc81a5b4bce3bad3ec316b41832dbea9c60",
+    "author" : "John Holdsworth ",
     "date" : "Tue Feb 23 14:42:13 2016 +0000"
   }
 };
@@ -131,6 +131,6 @@ var commits = {
 <script> lineLink("b77d7a0", 1572299111, "0016") </script><span class='keyword' title='source.lang.swift.syntaxtype.buildconfig.keyword'>#endif</span>
 <script> lineLink("896cbf6", 1455724767, "0017") </script>
 <script> lineLink("7dc2527", 1573654363, "0018") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='usrString2'><a name='18_4' href='#' onclick='return expand(this);'>projectRoot<span class='references'><table><tr><td style='text-decoration: underline;' onclick='document.location.href="main.swift.html#19_21"; return false;'>main.swift:19</td><td><pre>Siteify(projectRoot: projectRoot ?? ".").generateSite(into: "html")</pre></td></table></span></a></span> = <span class='identifier' title='x86_64-apple-macos.swiftmodule'>CommandLine</span>.<span class='identifier' title='x86_64-apple-macos.swiftmodule'>arguments</span>.<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>dropFirst</span>().<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>first</span>
-<script> lineLink("7dc2527", 1573654363, "0019") </script><span class='identifier' title='Siteify.swift'><a name='19_0' href='Siteify.swift.html#74_13'>Siteify</a></span>(<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>projectRoot</span>: <span class='identifier' title='main.swift'><a name='19_21' href='main.swift.html#18_4'>projectRoot</a></span> ?? <span class='string' title='source.lang.swift.syntaxtype.string'>"."</span>).<span class='identifier' title='Siteify.swift'><a name='19_41' href='Siteify.swift.html#161_16'>generateSite</a></span>(<span class='identifier' title='Siteify.swift'><a name='19_54' href='Siteify.swift.html#161_16'>into</a></span>: <span class='string' title='source.lang.swift.syntaxtype.string'>"html"</span>)
+<script> lineLink("7dc2527", 1573654363, "0019") </script><span class='identifier' title='Siteify.swift'><a name='19_0' href='Siteify.swift.html#23_13'>Siteify</a></span>(<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>projectRoot</span>: <span class='identifier' title='main.swift'><a name='19_21' href='main.swift.html#18_4'>projectRoot</a></span> ?? <span class='string' title='source.lang.swift.syntaxtype.string'>"."</span>).<span class='identifier' title='Siteify.swift'><a name='19_41' href='Siteify.swift.html#135_16'>generateSite</a></span>(<span class='identifier' title='Siteify.swift'><a name='19_54' href='Siteify.swift.html#135_16'>into</a></span>: <span class='string' title='source.lang.swift.syntaxtype.string'>"html"</span>)
 <script> lineLink("99decb5", 1572334859, "0020") </script>
 <script> lineLink("99decb5", 1572334859, "0021") </script><span class='identifier' title='NSWorkspace.h'>NSWorkspace</span>.<span class='identifier' title='NSWorkspace.h'>shared</span>.<span class='identifier' title='NSWorkspace.h'>open</span>(<span class='identifier' title='x86_64-apple-macos.swiftmodule'>URL</span>(<span class='identifier' title='x86_64-apple-macos.swiftmodule'>fileURLWithPath</span>: <span class='string' title='source.lang.swift.syntaxtype.string'>"html/index.html"</span>))

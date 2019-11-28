@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 24/11/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/GitInfo.swift#7 $
+//  $Id: //depot/siteify/siteify/GitInfo.swift#9 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -13,27 +13,18 @@
 import Foundation
 #if SWIFT_PACKAGE
 import SwiftRegex
+import Parallel
 #endif
 
 public class GitInfo {
 
-    let gitExecutable = "/usr/bin/git"
+    static var gitExecutable = "/usr/bin/git"
+
     let blameStream: TaskGenerator
     let logStream: TaskGenerator
     let sourceDir: String
 
-    init(fullpath: String) {
-        let fullURL = URL(fileURLWithPath: fullpath)
-        sourceDir = fullURL.deletingLastPathComponent().path
-        blameStream = TaskGenerator(launchPath: gitExecutable,
-                                        arguments: ["blame", "-t", fullpath],
-                                        directory: sourceDir)
-        logStream = TaskGenerator(launchPath: gitExecutable,
-                                        arguments: ["log", fullpath],
-                                        directory: sourceDir)
-    }
-
-    func repoURL() -> String {
+    public static var repoURLS = Cached(getter: { (sourceDir: String) -> String in
         var repoURL = sourceDir
         for _ in 0 ..< 5 {
             if let remote = TaskGenerator(launchPath: gitExecutable,
@@ -45,7 +36,22 @@ public class GitInfo {
                 }
             }
         }
-        return repoURL[".git$", ""]
+        return repoURL
+    })
+
+    init(fullpath: String) {
+        let fullURL = URL(fileURLWithPath: fullpath)
+        sourceDir = fullURL.deletingLastPathComponent().path
+        blameStream = TaskGenerator(launchPath: Self.gitExecutable,
+                                        arguments: ["blame", "-t", fullpath],
+                                        directory: sourceDir)
+        logStream = TaskGenerator(launchPath: Self.gitExecutable,
+                                        arguments: ["log", fullpath],
+                                        directory: sourceDir)
+    }
+
+    func repoURL() -> String {
+        return Self.repoURLS.get(key: sourceDir)
     }
 
     func commitJSON() -> String? {
