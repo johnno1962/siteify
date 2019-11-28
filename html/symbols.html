@@ -14,12 +14,12 @@
  <span class=keyword>struct</span> <a href='Contents.swift.html#L361' title='Contents.swift.html#L361'>C</a> {
  }
 
- <span class=keyword>class</span> <a href='Parallel.swift.html#L71' title='Parallel.swift.html#L71'>Cached</a> {
-   <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L71' title='Parallel.swift.html#L71'>Key</a>
-   <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L71' title='Parallel.swift.html#L71'>Value</a>
-   <span class=keyword>var</span> <a href='Parallel.swift.html#L73' title='Parallel.swift.html#L73'>getter</a>
-   <span class=keyword>func</span> <a href='Parallel.swift.html#L75' title='Parallel.swift.html#L75'>init(getter:)</a>
-   <span class=keyword>func</span> <a href='Parallel.swift.html#L80' title='Parallel.swift.html#L80'>get(key:)</a>
+ <span class=keyword>class</span> <a href='Parallel.swift.html#L72' title='Parallel.swift.html#L72'>Cached</a> {
+   <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L72' title='Parallel.swift.html#L72'>Key</a>
+   <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L72' title='Parallel.swift.html#L72'>Value</a>
+   <span class=keyword>var</span> <a href='Parallel.swift.html#L74' title='Parallel.swift.html#L74'>getter</a>
+   <span class=keyword>func</span> <a href='Parallel.swift.html#L79' title='Parallel.swift.html#L79'>init(getter:)</a>
+   <span class=keyword>func</span> <a href='Parallel.swift.html#L87' title='Parallel.swift.html#L87'>get(key:)</a>
  }
 
  <span class=keyword>struct</span> <a href='ClientCapabilities.swift.html#L222' title='ClientCapabilities.swift.html#L222'>ClientCapabilities</a> {
@@ -424,6 +424,9 @@
    <span class=keyword>var</span> <a href='JSONRPC.swift.html#L120' title='JSONRPC.swift.html#L120'>method</a>
  }
 
+ <span class=keyword>extension</span> <a href='JSONRPC+Helpers.swift.html#L26' title='JSONRPC+Helpers.swift.html#L26'>JSONRPCNotificationParams</a> {
+ }
+
  <span class=keyword>struct</span> <a href='JSONRPC.swift.html#L123' title='JSONRPC.swift.html#L123'>JSONRPCNotificationParams</a> {
    <span class=keyword>typeParameter</span> <a href='JSONRPC.swift.html#L123' title='JSONRPC.swift.html#L123'>T</a>
    <span class=keyword>var</span> <a href='JSONRPC.swift.html#L124' title='JSONRPC.swift.html#L124'>jsonrpc</a>
@@ -431,7 +434,7 @@
    <span class=keyword>var</span> <a href='JSONRPC.swift.html#L126' title='JSONRPC.swift.html#L126'>params</a>
  }
 
- <span class=keyword>extension</span> <a href='JSONRPC+Helpers.swift.html#L26' title='JSONRPC+Helpers.swift.html#L26'>JSONRPCNotificationParams</a> {
+ <span class=keyword>extension</span> <a href='JSONRPC+Helpers.swift.html#L29' title='JSONRPC+Helpers.swift.html#L29'>JSONRPCRequest</a> {
  }
 
  <span class=keyword>struct</span> <a href='JSONRPC.swift.html#L55' title='JSONRPC.swift.html#L55'>JSONRPCRequest</a> {
@@ -444,13 +447,13 @@
    <span class=keyword>func</span> <a href='JSONRPC.swift.html#L67' title='JSONRPC.swift.html#L67'>init(id:method:params:)</a>
  }
 
- <span class=keyword>extension</span> <a href='JSONRPC+Helpers.swift.html#L29' title='JSONRPC+Helpers.swift.html#L29'>JSONRPCRequest</a> {
- }
-
  <span class=keyword>struct</span> <a href='JSONRPC.swift.html#L84' title='JSONRPC.swift.html#L84'>JSONRPCResponse</a> {
    <span class=keyword>var</span> <a href='JSONRPC.swift.html#L85' title='JSONRPC.swift.html#L85'>jsonrpc</a>
    <span class=keyword>var</span> <a href='JSONRPC.swift.html#L86' title='JSONRPC.swift.html#L86'>id</a>
    <span class=keyword>var</span> <a href='JSONRPC.swift.html#L87' title='JSONRPC.swift.html#L87'>error</a>
+ }
+
+ <span class=keyword>extension</span> <a href='JSONRPC+Helpers.swift.html#L23' title='JSONRPC+Helpers.swift.html#L23'>JSONRPCResultResponse</a> {
  }
 
  <span class=keyword>struct</span> <a href='JSONRPC.swift.html#L90' title='JSONRPC.swift.html#L90'>JSONRPCResultResponse</a> {
@@ -462,9 +465,6 @@
    <span class=keyword>func</span> <a href='JSONRPC.swift.html#L96' title='JSONRPC.swift.html#L96'>init(id:result:)</a>
    <span class=keyword>func</span> <a href='JSONRPC.swift.html#L103' title='JSONRPC.swift.html#L103'>init(id:result:)</a>
    <span class=keyword>func</span> <a href='JSONRPC.swift.html#L110' title='JSONRPC.swift.html#L110'>init(id:error:)</a>
- }
-
- <span class=keyword>extension</span> <a href='JSONRPC+Helpers.swift.html#L23' title='JSONRPC+Helpers.swift.html#L23'>JSONRPCResultResponse</a> {
  }
 
  <span class=keyword>enum</span> <a href='JSONValue.swift.html#L11' title='JSONValue.swift.html#L11'>JSONValue</a> {
@@ -728,6 +728,10 @@
    <span class=keyword>var</span> <a href='SignatureHelp.swift.html#L76' title='SignatureHelp.swift.html#L76'>documentation</a>
  }
 
+ <span class=keyword>extension</span> <a href='Siteify.swift.html#L488' title='Siteify.swift.html#L488'>Position</a> {
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L490' title='Siteify.swift.html#L490'>anchor</a>
+ }
+
  <span class=keyword>struct</span> <a href='Position.swift.html#L11' title='Position.swift.html#L11'>Position</a> {
    <span class=keyword>var</span> <a href='Position.swift.html#L12' title='Position.swift.html#L12'>line</a>
    <span class=keyword>var</span> <a href='Position.swift.html#L13' title='Position.swift.html#L13'>character</a>
@@ -743,10 +747,6 @@
  }
 
  <span class=keyword>extension</span> <a href='Position.swift.html#L35' title='Position.swift.html#L35'>Position</a> {
- }
-
- <span class=keyword>extension</span> <a href='Siteify.swift.html#L488' title='Siteify.swift.html#L488'>Position</a> {
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L490' title='Siteify.swift.html#L490'>anchor</a>
  }
 
  <span class=keyword>protocol</span> <a href='JSONRPC+Helpers.swift.html#L12' title='JSONRPC+Helpers.swift.html#L12'>ProtocolEncodable</a>
@@ -868,29 +868,12 @@
    <span class=keyword>func</span> <a href='Reference.swift.html#L31' title='Reference.swift.html#L31'>init(textDocument:position:includeDeclaration:)</a>
  }
 
- <span class=keyword>struct</span> <a href='TupleRegex.swift_.html#L68' title='TupleRegex.swift_.html#L68'>RegexLazy</a> {
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L69' title='TupleRegex.swift_.html#L69'>literal</a>
- }
-
  <span class=keyword>struct</span> <a href='TupleRegex.swift.html#L68' title='TupleRegex.swift.html#L68'>RegexLazy</a> {
    <span class=keyword>var</span> <a href='TupleRegex.swift.html#L69' title='TupleRegex.swift.html#L69'>literal</a>
  }
 
- <span class=keyword>protocol</span> <a href='TupleRegex.swift_.html#L17' title='TupleRegex.swift_.html#L17'>RegexLiteral</a>
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L18' title='TupleRegex.swift_.html#L18'>regexOptioned</a>
- <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L41' title='TupleRegex.swift_.html#L41'>RegexLiteral</a> {
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L42' title='TupleRegex.swift_.html#L42'>caseInsensitive</a>
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L45' title='TupleRegex.swift_.html#L45'>allowCommentsAndWhitespace</a>
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L48' title='TupleRegex.swift_.html#L48'>ignoreMetacharacters</a>
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L51' title='TupleRegex.swift_.html#L51'>dotMatchesLineSeparators</a>
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L54' title='TupleRegex.swift_.html#L54'>anchorsMatchLines</a>
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L57' title='TupleRegex.swift_.html#L57'>useUnixLineSeparators</a>
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L60' title='TupleRegex.swift_.html#L60'>useUnicodeWordBoundaries</a>
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L63' title='TupleRegex.swift_.html#L63'>regexLazy</a>
- }
-
- <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L447' title='TupleRegex.swift_.html#L447'>RegexLiteral</a> {
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L448' title='TupleRegex.swift_.html#L448'>regex(capture:)</a>
+ <span class=keyword>struct</span> <a href='TupleRegex.swift_.html#L68' title='TupleRegex.swift_.html#L68'>RegexLazy</a> {
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L69' title='TupleRegex.swift_.html#L69'>literal</a>
  }
 
  <span class=keyword>protocol</span> <a href='TupleRegex.swift.html#L17' title='TupleRegex.swift.html#L17'>RegexLiteral</a>
@@ -910,9 +893,21 @@
    <span class=keyword>func</span> <a href='TupleRegex.swift.html#L448' title='TupleRegex.swift.html#L448'>regex(capture:)</a>
  }
 
- <span class=keyword>class</span> <a href='TupleRegex.swift_.html#L439' title='TupleRegex.swift_.html#L439'>RegexMatch</a> {
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L440' title='TupleRegex.swift_.html#L440'>match</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L441' title='TupleRegex.swift_.html#L441'>init()</a>
+ <span class=keyword>protocol</span> <a href='TupleRegex.swift_.html#L17' title='TupleRegex.swift_.html#L17'>RegexLiteral</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L18' title='TupleRegex.swift_.html#L18'>regexOptioned</a>
+ <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L41' title='TupleRegex.swift_.html#L41'>RegexLiteral</a> {
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L42' title='TupleRegex.swift_.html#L42'>caseInsensitive</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L45' title='TupleRegex.swift_.html#L45'>allowCommentsAndWhitespace</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L48' title='TupleRegex.swift_.html#L48'>ignoreMetacharacters</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L51' title='TupleRegex.swift_.html#L51'>dotMatchesLineSeparators</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L54' title='TupleRegex.swift_.html#L54'>anchorsMatchLines</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L57' title='TupleRegex.swift_.html#L57'>useUnixLineSeparators</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L60' title='TupleRegex.swift_.html#L60'>useUnicodeWordBoundaries</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L63' title='TupleRegex.swift_.html#L63'>regexLazy</a>
+ }
+
+ <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L447' title='TupleRegex.swift_.html#L447'>RegexLiteral</a> {
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L448' title='TupleRegex.swift_.html#L448'>regex(capture:)</a>
  }
 
  <span class=keyword>class</span> <a href='TupleRegex.swift.html#L439' title='TupleRegex.swift.html#L439'>RegexMatch</a> {
@@ -920,17 +915,9 @@
    <span class=keyword>func</span> <a href='TupleRegex.swift.html#L441' title='TupleRegex.swift.html#L441'>init()</a>
  }
 
- <span class=keyword>struct</span> <a href='TupleRegex.swift_.html#L21' title='TupleRegex.swift_.html#L21'>RegexOptioned</a> {
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L22' title='TupleRegex.swift_.html#L22'>defaultOptions</a>
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L23' title='TupleRegex.swift_.html#L23'>pattern</a>
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L24' title='TupleRegex.swift_.html#L24'>options</a>
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L25' title='TupleRegex.swift_.html#L25'>regexOptioned</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L26' title='TupleRegex.swift_.html#L26'>hash(into:)</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L30' title='TupleRegex.swift_.html#L30'>add(options:)</a>
- }
-
- <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L35' title='TupleRegex.swift_.html#L35'>RegexOptioned</a> {
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L36' title='TupleRegex.swift_.html#L36'>init(stringLiteral:)</a>
+ <span class=keyword>class</span> <a href='TupleRegex.swift_.html#L439' title='TupleRegex.swift_.html#L439'>RegexMatch</a> {
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L440' title='TupleRegex.swift_.html#L440'>match</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L441' title='TupleRegex.swift_.html#L441'>init()</a>
  }
 
  <span class=keyword>struct</span> <a href='TupleRegex.swift.html#L21' title='TupleRegex.swift.html#L21'>RegexOptioned</a> {
@@ -946,16 +933,29 @@
    <span class=keyword>func</span> <a href='TupleRegex.swift.html#L36' title='TupleRegex.swift.html#L36'>init(stringLiteral:)</a>
  }
 
- <span class=keyword>struct</span> <a href='TupleRegex.swift_.html#L453' title='TupleRegex.swift_.html#L453'>RegexPattern</a> {
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L454' title='TupleRegex.swift_.html#L454'>literal</a>
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L455' title='TupleRegex.swift_.html#L455'>capture</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L456' title='TupleRegex.swift_.html#L456'>~=(_:_:)</a>
+ <span class=keyword>struct</span> <a href='TupleRegex.swift_.html#L21' title='TupleRegex.swift_.html#L21'>RegexOptioned</a> {
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L22' title='TupleRegex.swift_.html#L22'>defaultOptions</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L23' title='TupleRegex.swift_.html#L23'>pattern</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L24' title='TupleRegex.swift_.html#L24'>options</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L25' title='TupleRegex.swift_.html#L25'>regexOptioned</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L26' title='TupleRegex.swift_.html#L26'>hash(into:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L30' title='TupleRegex.swift_.html#L30'>add(options:)</a>
+ }
+
+ <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L35' title='TupleRegex.swift_.html#L35'>RegexOptioned</a> {
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L36' title='TupleRegex.swift_.html#L36'>init(stringLiteral:)</a>
  }
 
  <span class=keyword>struct</span> <a href='TupleRegex.swift.html#L453' title='TupleRegex.swift.html#L453'>RegexPattern</a> {
    <span class=keyword>var</span> <a href='TupleRegex.swift.html#L454' title='TupleRegex.swift.html#L454'>literal</a>
    <span class=keyword>var</span> <a href='TupleRegex.swift.html#L455' title='TupleRegex.swift.html#L455'>capture</a>
    <span class=keyword>func</span> <a href='TupleRegex.swift.html#L456' title='TupleRegex.swift.html#L456'>~=(_:_:)</a>
+ }
+
+ <span class=keyword>struct</span> <a href='TupleRegex.swift_.html#L453' title='TupleRegex.swift_.html#L453'>RegexPattern</a> {
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L454' title='TupleRegex.swift_.html#L454'>literal</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L455' title='TupleRegex.swift_.html#L455'>capture</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L456' title='TupleRegex.swift_.html#L456'>~=(_:_:)</a>
  }
 
  <span class=keyword>enum</span> <a href='ClientCapabilities.swift.html#L19' title='ClientCapabilities.swift.html#L19'>ResourceOperationKind</a> {
@@ -975,9 +975,9 @@
    <span class=keyword>var</span> <a href='ServerCapabilities.swift.html#L12' title='ServerCapabilities.swift.html#L12'>includeText</a>
  }
 
- <span class=keyword>extension</span> <a href='Parallel.swift.html#L92' title='Parallel.swift.html#L92'>Sequence</a> {
-   <span class=keyword>func</span> <a href='Parallel.swift.html#L108' title='Parallel.swift.html#L108'>concurrentMap(maxConcurrency:initializer:queueName:priority:worker:)</a>
-     <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L108' title='Parallel.swift.html#L108'>Output</a>
+ <span class=keyword>extension</span> <a href='Parallel.swift.html#L100' title='Parallel.swift.html#L100'>Sequence</a> {
+   <span class=keyword>func</span> <a href='Parallel.swift.html#L116' title='Parallel.swift.html#L116'>concurrentMap(maxConcurrency:initializer:queueName:priority:worker:)</a>
+     <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L116' title='Parallel.swift.html#L116'>Output</a>
  }
 
  <span class=keyword>struct</span> <a href='ServerCapabilities.swift.html#L110' title='ServerCapabilities.swift.html#L110'>ServerCapabilities</a> {
@@ -1250,57 +1250,6 @@
    <span class=keyword>func</span> <a href='Siteify.swift.html#L483' title='Siteify.swift.html#L483'>write(to:)</a>
  }
 
- <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L73' title='TupleRegex.swift_.html#L73'>String</a> {
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L74' title='TupleRegex.swift_.html#L74'>regexOptioned</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L78' title='TupleRegex.swift_.html#L78'>nsrange(pos:)</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L91' title='TupleRegex.swift_.html#L91'>containsMatch(of:pos:)</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L94' title='TupleRegex.swift_.html#L94'>firstMatch(of:pos:group:)</a>
-     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L94' title='TupleRegex.swift_.html#L94'>T</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L97' title='TupleRegex.swift_.html#L97'>allMatches(of:pos:group:)</a>
-     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L97' title='TupleRegex.swift_.html#L97'>T</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L100' title='TupleRegex.swift_.html#L100'>lazyMatches(of:pos:group:)</a>
-     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L100' title='TupleRegex.swift_.html#L100'>T</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L103' title='TupleRegex.swift_.html#L103'>replacing(regex:pos:group:with:)</a>
-     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L103' title='TupleRegex.swift_.html#L103'>T</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L107' title='TupleRegex.swift_.html#L107'>replacing(regex:pos:group:with:)</a>
-     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L107' title='TupleRegex.swift_.html#L107'>T</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L111' title='TupleRegex.swift_.html#L111'>replacing(regex:pos:group:exec:)</a>
-     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L111' title='TupleRegex.swift_.html#L111'>T</a>
- }
-
- <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L118' title='TupleRegex.swift_.html#L118'>String</a> {
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L126' title='TupleRegex.swift_.html#L126'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L132' title='TupleRegex.swift_.html#L132'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L142' title='TupleRegex.swift_.html#L142'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L148' title='TupleRegex.swift_.html#L148'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L153' title='TupleRegex.swift_.html#L153'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L162' title='TupleRegex.swift_.html#L162'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L165' title='TupleRegex.swift_.html#L165'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L169' title='TupleRegex.swift_.html#L169'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L172' title='TupleRegex.swift_.html#L172'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L175' title='TupleRegex.swift_.html#L175'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L181' title='TupleRegex.swift_.html#L181'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L184' title='TupleRegex.swift_.html#L184'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L189' title='TupleRegex.swift_.html#L189'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L193' title='TupleRegex.swift_.html#L193'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L197' title='TupleRegex.swift_.html#L197'>T</a>
- }
-
- <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L203' title='TupleRegex.swift_.html#L203'>String</a> {
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L209' title='TupleRegex.swift_.html#L209'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L213' title='TupleRegex.swift_.html#L213'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L217' title='TupleRegex.swift_.html#L217'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L220' title='TupleRegex.swift_.html#L220'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L223' title='TupleRegex.swift_.html#L223'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L227' title='TupleRegex.swift_.html#L227'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L230' title='TupleRegex.swift_.html#L230'>T</a>
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L233' title='TupleRegex.swift_.html#L233'>T</a>
- }
-
- <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L430' title='TupleRegex.swift_.html#L430'>String</a> {
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L431' title='TupleRegex.swift_.html#L431'>T</a>
- }
-
  <span class=keyword>extension</span> <a href='LineGenerators.swift.html#L111' title='LineGenerators.swift.html#L111'>String</a> {
    <span class=keyword>func</span> <a href='LineGenerators.swift.html#L113' title='LineGenerators.swift.html#L113'>fromData(data:encoding:)</a>
  }
@@ -1354,6 +1303,57 @@
 
  <span class=keyword>extension</span> <a href='TupleRegex.swift.html#L430' title='TupleRegex.swift.html#L430'>String</a> {
    <span class=keyword>typeParameter</span> <a href='TupleRegex.swift.html#L431' title='TupleRegex.swift.html#L431'>T</a>
+ }
+
+ <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L73' title='TupleRegex.swift_.html#L73'>String</a> {
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L74' title='TupleRegex.swift_.html#L74'>regexOptioned</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L78' title='TupleRegex.swift_.html#L78'>nsrange(pos:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L91' title='TupleRegex.swift_.html#L91'>containsMatch(of:pos:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L94' title='TupleRegex.swift_.html#L94'>firstMatch(of:pos:group:)</a>
+     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L94' title='TupleRegex.swift_.html#L94'>T</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L97' title='TupleRegex.swift_.html#L97'>allMatches(of:pos:group:)</a>
+     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L97' title='TupleRegex.swift_.html#L97'>T</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L100' title='TupleRegex.swift_.html#L100'>lazyMatches(of:pos:group:)</a>
+     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L100' title='TupleRegex.swift_.html#L100'>T</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L103' title='TupleRegex.swift_.html#L103'>replacing(regex:pos:group:with:)</a>
+     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L103' title='TupleRegex.swift_.html#L103'>T</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L107' title='TupleRegex.swift_.html#L107'>replacing(regex:pos:group:with:)</a>
+     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L107' title='TupleRegex.swift_.html#L107'>T</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L111' title='TupleRegex.swift_.html#L111'>replacing(regex:pos:group:exec:)</a>
+     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L111' title='TupleRegex.swift_.html#L111'>T</a>
+ }
+
+ <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L118' title='TupleRegex.swift_.html#L118'>String</a> {
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L126' title='TupleRegex.swift_.html#L126'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L132' title='TupleRegex.swift_.html#L132'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L142' title='TupleRegex.swift_.html#L142'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L148' title='TupleRegex.swift_.html#L148'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L153' title='TupleRegex.swift_.html#L153'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L162' title='TupleRegex.swift_.html#L162'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L165' title='TupleRegex.swift_.html#L165'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L169' title='TupleRegex.swift_.html#L169'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L172' title='TupleRegex.swift_.html#L172'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L175' title='TupleRegex.swift_.html#L175'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L181' title='TupleRegex.swift_.html#L181'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L184' title='TupleRegex.swift_.html#L184'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L189' title='TupleRegex.swift_.html#L189'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L193' title='TupleRegex.swift_.html#L193'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L197' title='TupleRegex.swift_.html#L197'>T</a>
+ }
+
+ <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L203' title='TupleRegex.swift_.html#L203'>String</a> {
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L209' title='TupleRegex.swift_.html#L209'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L213' title='TupleRegex.swift_.html#L213'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L217' title='TupleRegex.swift_.html#L217'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L220' title='TupleRegex.swift_.html#L220'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L223' title='TupleRegex.swift_.html#L223'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L227' title='TupleRegex.swift_.html#L227'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L230' title='TupleRegex.swift_.html#L230'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L233' title='TupleRegex.swift_.html#L233'>T</a>
+ }
+
+ <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L430' title='TupleRegex.swift_.html#L430'>String</a> {
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L431' title='TupleRegex.swift_.html#L431'>T</a>
  }
 
  <span class=keyword>class</span> <a href='SwiftRegex5Tests.swift.html#L12' title='SwiftRegex5Tests.swift.html#L12'>SwiftRegex5Tests</a> {
@@ -1418,8 +1418,8 @@
    <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L57' title='Parallel.swift.html#L57'>Wrapped</a>
    <span class=keyword>var</span> <a href='Parallel.swift.html#L58' title='Parallel.swift.html#L58'>data</a>
    <span class=keyword>func</span> <a href='Parallel.swift.html#L60' title='Parallel.swift.html#L60'>init(_:)</a>
-   <span class=keyword>func</span> <a href='Parallel.swift.html#L64' title='Parallel.swift.html#L64'>synchronized(_:)</a>
-     <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L64' title='Parallel.swift.html#L64'>T</a>
+   <span class=keyword>func</span> <a href='Parallel.swift.html#L65' title='Parallel.swift.html#L65'>synchronized(_:)</a>
+     <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L65' title='Parallel.swift.html#L65'>T</a>
  }
 
  <span class=keyword>typeParameter</span> <a href='LanguageServer.swift.html#L47' title='LanguageServer.swift.html#L47'>T</a>
@@ -1629,36 +1629,6 @@
    <span class=keyword>case</span> <a href='Initialization.swift.html#L14' title='Initialization.swift.html#L14'>verbose</a>
  }
 
- <span class=keyword>class</span> <a href='TupleRegex.swift_.html#L245' title='TupleRegex.swift_.html#L245'>TupleRegex</a> {
-   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L245' title='TupleRegex.swift_.html#L245'>T</a>
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L247' title='TupleRegex.swift_.html#L247'>regexOptioned</a>
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L249' title='TupleRegex.swift_.html#L249'>regex</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L264' title='TupleRegex.swift_.html#L264'>init(pattern:)</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L267' title='TupleRegex.swift_.html#L267'>init(stringLiteral:)</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L272' title='TupleRegex.swift_.html#L272'>matchResult(target:pos:)</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L275' title='TupleRegex.swift_.html#L275'>match(target:pos:group:)</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L281' title='TupleRegex.swift_.html#L281'>matches(target:pos:group:)</a>
-   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L291' title='TupleRegex.swift_.html#L291'>tupleTypeDescription</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L292' title='TupleRegex.swift_.html#L292'>entuple(match:from:group:)</a>
-     <span class=keyword>function</span> <a href='TupleRegex.swift_.html#L298' title='TupleRegex.swift_.html#L298'>tuple(from:)</a>
-       <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L298' title='TupleRegex.swift_.html#L298'>E</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L337' title='TupleRegex.swift_.html#L337'>detuple(newValue:)</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L341' title='TupleRegex.swift_.html#L341'>groupRange(match:replacements:)</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L346' title='TupleRegex.swift_.html#L346'>replacing(target:pos:group:template:)</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L349' title='TupleRegex.swift_.html#L349'>replacing(target:pos:group:templates:global:)</a>
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L384' title='TupleRegex.swift_.html#L384'>replacing(target:pos:group:exec:)</a>
-   <span class=keyword>struct</span> <a href='TupleRegex.swift_.html#L404' title='TupleRegex.swift_.html#L404'>TupleIterator</a> {
-     <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L405' title='TupleRegex.swift_.html#L405'>regex</a>
-     <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L406' title='TupleRegex.swift_.html#L406'>target</a>
-     <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L407' title='TupleRegex.swift_.html#L407'>nstarget</a>
-     <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L408' title='TupleRegex.swift_.html#L408'>group</a>
-     <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L409' title='TupleRegex.swift_.html#L409'>pos</a>
-     <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L411' title='TupleRegex.swift_.html#L411'>next()</a>
-   }
-
-   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L419' title='TupleRegex.swift_.html#L419'>iterator(target:pos:group:)</a>
- }
-
  <span class=keyword>class</span> <a href='TupleRegex.swift.html#L245' title='TupleRegex.swift.html#L245'>TupleRegex</a> {
    <span class=keyword>typeParameter</span> <a href='TupleRegex.swift.html#L245' title='TupleRegex.swift.html#L245'>T</a>
    <span class=keyword>var</span> <a href='TupleRegex.swift.html#L247' title='TupleRegex.swift.html#L247'>regexOptioned</a>
@@ -1687,6 +1657,36 @@
    }
 
    <span class=keyword>func</span> <a href='TupleRegex.swift.html#L419' title='TupleRegex.swift.html#L419'>iterator(target:pos:group:)</a>
+ }
+
+ <span class=keyword>class</span> <a href='TupleRegex.swift_.html#L245' title='TupleRegex.swift_.html#L245'>TupleRegex</a> {
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L245' title='TupleRegex.swift_.html#L245'>T</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L247' title='TupleRegex.swift_.html#L247'>regexOptioned</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L249' title='TupleRegex.swift_.html#L249'>regex</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L264' title='TupleRegex.swift_.html#L264'>init(pattern:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L267' title='TupleRegex.swift_.html#L267'>init(stringLiteral:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L272' title='TupleRegex.swift_.html#L272'>matchResult(target:pos:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L275' title='TupleRegex.swift_.html#L275'>match(target:pos:group:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L281' title='TupleRegex.swift_.html#L281'>matches(target:pos:group:)</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L291' title='TupleRegex.swift_.html#L291'>tupleTypeDescription</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L292' title='TupleRegex.swift_.html#L292'>entuple(match:from:group:)</a>
+     <span class=keyword>function</span> <a href='TupleRegex.swift_.html#L298' title='TupleRegex.swift_.html#L298'>tuple(from:)</a>
+       <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L298' title='TupleRegex.swift_.html#L298'>E</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L337' title='TupleRegex.swift_.html#L337'>detuple(newValue:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L341' title='TupleRegex.swift_.html#L341'>groupRange(match:replacements:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L346' title='TupleRegex.swift_.html#L346'>replacing(target:pos:group:template:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L349' title='TupleRegex.swift_.html#L349'>replacing(target:pos:group:templates:global:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L384' title='TupleRegex.swift_.html#L384'>replacing(target:pos:group:exec:)</a>
+   <span class=keyword>struct</span> <a href='TupleRegex.swift_.html#L404' title='TupleRegex.swift_.html#L404'>TupleIterator</a> {
+     <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L405' title='TupleRegex.swift_.html#L405'>regex</a>
+     <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L406' title='TupleRegex.swift_.html#L406'>target</a>
+     <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L407' title='TupleRegex.swift_.html#L407'>nstarget</a>
+     <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L408' title='TupleRegex.swift_.html#L408'>group</a>
+     <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L409' title='TupleRegex.swift_.html#L409'>pos</a>
+     <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L411' title='TupleRegex.swift_.html#L411'>next()</a>
+   }
+
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L419' title='TupleRegex.swift_.html#L419'>iterator(target:pos:group:)</a>
  }
 
  <span class=keyword>enum</span> <a href='TypeDefinition.swift.html#L11' title='TypeDefinition.swift.html#L11'>TypeDefinitionResponse</a> {

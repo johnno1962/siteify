@@ -384,7 +384,7 @@ public class Siteify: NotificationResponder {
             """
                 <script>
 
-                var repo = "\(repoURL)";
+                var repo = "\(repoURL[".git$", ""])";
                 var commits = \(gitInfo.commitJSON() ?? "{}");
 
                 </script>
