@@ -14,7 +14,9 @@ extension Siteify {
             <meta charset="UTF-8">
             <link rel="stylesheet" type="text/css" href="siteify.css">
             <title>Siteify of __ROOT__</title>
-            </head><html><body class=index><h3>Generated from __ROOT__ on __DATE__</h3>
+            </head><html><body class=index>
+            <h2>Generated from __ROOT__ on __DATE__</h2>
+            <h3>Repo: __REPO__</h3>
             """,
 
         "source.html": """
@@ -88,7 +90,7 @@ extension Siteify {
             //  Created by John Holdsworth on 28/10/2019.
             //  Copyright © 2019 John Holdsworth. All rights reserved.
             //
-            //  $Id: //depot/siteify/siteify/Resources.swift#32 $
+            //  $Id: //depot/siteify/siteify/Resources.swift#33 $
             //
             //  Repo: https://github.com/johnno1962/siteify
             //

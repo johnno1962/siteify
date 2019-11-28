@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#89 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#92 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -18,77 +18,25 @@ import SourceKit
 import Parallel
 #endif
 
-var filenameForFile = Synchronized([String: String]()), filesForFileName = [String: String]()
-
-func htmlFile(_ file: String) -> String {
-    return filenameForFile.synchronized { filenameForFile in
-        if let filename = filenameForFile[file] {
-            return filename
-        }
-        var filename = NSURL(fileURLWithPath: file).lastPathComponent!
-        while filesForFileName[filename] != nil {
-            filename += "_"
-        }
-        filename += ".html"
-        filesForFileName[filename] = file
-        filenameForFile[file] = filename
-        return filename
-    }
-}
-
-struct LanguageServerSynchronizer {
-    let semaphore = DispatchSemaphore(value: 0)
-    var errorHandler = {
-        (message: String) in
-        fatalError(message)
-    }
-
-    func sync(_ block: @escaping (@escaping (LanguageServerError?) -> Void) -> Void) {
-        block({ (error: LanguageServerError?) in
-            if error != nil {
-                self.errorHandler("LanguageServerError: \(error!)")
-            }
-            self.semaphore.signal()
-        })
-        semaphore.wait()
-    }
-
-    func sync<RESP>(_ block: @escaping (@escaping (LanguageServerResult<RESP>) -> Void) -> Void) -> RESP {
-        var theResponse: RESP?
-        block({ (response: LanguageServerResult) in
-            switch response {
-            case .success(let value):
-                theResponse = value
-            case .failure(let error):
-                self.errorHandler("Error response \(error)")
-            }
-            self.semaphore.signal()
-        })
-        semaphore.wait()
-        return theResponse!
-    }
-}
-
 public let SwiftLatestToolchain = "/Library/Developer/Toolchains/swift-latest.xctoolchain"
 
 public class Siteify: NotificationResponder {
 
     let sourceKit = SourceKit(logRequests: false)
-    var toolchainPath: String
+    let toolchainPath: String
     var executablePath: String { return toolchainPath+"/usr/bin/sourcekit-lsp" }
     var lspServer: LanguageServer!
     let projectRoot: URL
+    let fileThreads: Int
     var htmlRoot: String!
-
-    let fileThreads = 4
 
     func progress(str: String) {
         print("\u{001b}[2K"+str, separator: "", terminator: "\r")
         fflush(stdout)
     }
 
-    public init(toolchainPath: String = SwiftLatestToolchain, projectRoot: String
-    ) {
+    public init(toolchainPath: String = SwiftLatestToolchain,
+                projectRoot: String, fileThreads: Int = 8) {
         let synchronizer = LanguageServerSynchronizer()
         var rootBuffer = [Int8](repeating: 0, count: Int(PATH_MAX))
         let cwd = String(cString: rootBuffer.withUnsafeMutableBufferPointer {
@@ -98,6 +46,7 @@ public class Siteify: NotificationResponder {
         self.toolchainPath = toolchainPath
         self.projectRoot = URL(fileURLWithPath: projectRoot,
                                relativeTo: URL(fileURLWithPath: cwd))
+        self.fileThreads = fileThreads
 
         let PATH = ProcessInfo.processInfo.environment["PATH"] ?? "/usr/bin"
         let host = LanguageServerProcessHost(path: executablePath, arguments: [],
@@ -135,27 +84,52 @@ public class Siteify: NotificationResponder {
         return comma
     }()
 
-    var iconForType = Synchronized([String: String]())
     var packageSymbols = Synchronized([String: [DocumentSymbol]]())
     var referencesFallback = Synchronized([Loc: Location]())
 
-    public func iconForFile(fullpath: String) -> String {
-        return iconForType.synchronized { iconForType in
-            let ext = URL(fileURLWithPath: fullpath).pathExtension
-            var iconString = iconForType[ext]
-            if iconString == nil {
-                let image = NSWorkspace.shared.icon(forFileType: ext)
-                let cgRef = image.cgImage(forProposedRect: nil, context:nil, hints:nil)!
-                let newRep = NSBitmapImageRep(cgImage: cgRef)
-                newRep.size = image.size
-                iconString = String(format:"data:image/png;base64,%@",
-                                    newRep.representation(using:.png,  properties:[:])!
-                                        .base64EncodedString(options: []))
-                iconForType[ext] = iconString
-            }
+    var iconForType = Cached(getter: { (ext: String) -> String in
+        let image = NSWorkspace.shared.icon(forFileType: ext)
+        let cgRef = image.cgImage(forProposedRect: nil, context:nil, hints:nil)!
+        let newRep = NSBitmapImageRep(cgImage: cgRef)
+        newRep.size = image.size
+        return String(format:"data:image/png;base64,%@",
+                            newRep.representation(using:.png,  properties:[:])!
+                                .base64EncodedString(options: []))
+    })
 
-            return iconString!
+    public func iconForFile(fullpath: String) -> String {
+        iconForType.get(key: URL(fileURLWithPath: fullpath).pathExtension)
+    }
+
+    var fileLineCache = Cached(getter: { (file: String) -> [String]? in
+        return (try? String(contentsOfFile: file))?
+                        .components(separatedBy: "\n")
+    })
+    func reflines(file: String, line: Int) -> String {
+        if let lines = fileLineCache.get(key: file), line < lines.count {
+            return escape(html: lines[line])
         }
+        return ""
+    }
+
+    func escape(html: String) -> String {
+        return html
+            .replacingOccurrences(of: "&", with: "&amp;")
+            .replacingOccurrences(of: "<", with: "&lt;")
+    }
+
+    static var filesForFileName = [String: Bool](),
+            filenameForFile = Cached(getter: { (file: String) -> String in
+        var filename = NSURL(fileURLWithPath: file).lastPathComponent!
+        while filesForFileName[filename] != nil {
+            filename += "_"
+        }
+        filesForFileName[filename] = true
+        return filename + ".html"
+    })
+
+    static func uniqueHTMLFile(_ file: String) -> String {
+        return filenameForFile.get(key: file)
     }
 
     public func generateSite(into: String) {
@@ -173,9 +147,12 @@ public class Siteify: NotificationResponder {
         fclose(copyTemplate(template: "siteify.js"))
         fclose(copyTemplate(template: "siteify.css"))
 
+        let repoURL = GitInfo.repoURLS.get(key: projectRoot.path)
+
         let patches = [
+            "__ROOT__": projectRoot.path.replacingOccurrences(of: home, with: "~"),
             "__DATE__": NSDate().description,
-            "__ROOT__": projectRoot.path.replacingOccurrences(of: home, with: "~")
+            "__REPO__": repoURL
         ]
 
         indexFILE = copyTemplate(template: "index.html", patches: patches)
@@ -213,7 +190,7 @@ public class Siteify: NotificationResponder {
         let started = Date.timeIntervalSinceReferenceDate
         let fullURL = projectRoot.appendingPathComponent(relative)
         let fullpath = fullURL.path
-        let htmlfile = htmlFile(fullpath)
+        let htmlfile = Self.uniqueHTMLFile(fullpath)
         let synchronizer = LanguageServerSynchronizer()
         let gitInfo = GitInfo(fullpath: fullpath)
 
@@ -241,12 +218,6 @@ public class Siteify: NotificationResponder {
             let start = buffer.baseAddress!.assumingMemoryBound(to: Int8.self)
             var ptr = 0, linestart = 0, lineno = 0, col = 0
 
-            func escape(html: String) -> String {
-                return html
-                    .replacingOccurrences(of: "&", with: "&amp;")
-                    .replacingOccurrences(of: "<", with: "&lt;")
-            }
-
             // Copy characters up to offset, update ptr
             // count line numbers and character position.
             func skipTo(offset: Int) -> String {
@@ -268,19 +239,6 @@ public class Siteify: NotificationResponder {
                                    encoding: String.Encoding.utf8.rawValue) ?? ""
                 ptr = offset
                 return escape(html: out as String)
-            }
-
-            var fileLineCache = [String: [String]]()
-            func reflines(file: String, line: Int) -> String {
-                if fileLineCache[file] == nil {
-                    fileLineCache[file] =
-                        (try? String(contentsOfFile: file))?
-                        .components(separatedBy: "\n")
-                }
-                if let lines = fileLineCache[file], line < lines.count {
-                    return escape(html: lines[line])
-                }
-                return ""
             }
 
             let resp = self.sourceKit.syntaxMap(filePath: fullpath)
@@ -354,7 +312,7 @@ public class Siteify: NotificationResponder {
                                                         continue
                                                     }
                                                     popup += "<tr><td style='text-decoration: underline;' onclick='document.location.href=\"\(ref.href)\"; \(keepListOpen)return false;'>\(ref.filebase):\(ref.line+1)</td>"
-                                                    popup += "<td><pre>\(reflines(file: ref.file, line: ref.line))</pre></td>"
+                                                    popup += "<td><pre>\(self.reflines(file: ref.file, line: ref.line))</pre></td>"
                                                 }
                                                 complete(span: "<a name='\(decl.anchor)' \(popup != "" ? "href='#' " : "")onclick='return expand(this);'>" +
                                                     "\(text)<span class='references'><table>\(markup != nil ? "<tr><td colspan=2>\(HTML(fromMarkup: markup!))" : "")\(popup)</table></span></a>", title: "usrString2")
@@ -454,7 +412,7 @@ public class Siteify: NotificationResponder {
                     self.lspServer.documentSymbol(params: DocumentSymbolParams(textDocument: docId), block: $0)
                 }) {
                 case .documentSymbols(let filesyms):
-                    let htmlfile = htmlFile(fullpath)
+                    let htmlfile = Self.uniqueHTMLFile(fullpath)
                     packageSymbols.synchronized { packageSymbols in
                         packageSymbols[htmlfile] = filesyms
                     }
@@ -474,8 +432,8 @@ public class Siteify: NotificationResponder {
         }
     }
 
-    let home = String(cString: getenv("HOME"))
-    let resources = String(cString: getenv("HOME"))+"/Library/siteify/"
+    let home = NSHomeDirectory()
+    let resources = NSHomeDirectory()+"/Library/siteify/"
 
     func copyTemplate(template: String, patches: [String: String] = [:], dest: String? = nil) -> UnsafeMutablePointer<FILE> {
         var input = (try? String(contentsOfFile: resources+template)) ?? Self.resources[template]!
@@ -535,7 +493,7 @@ extension Position {
 extension Location {
 
     var file: String { URL(string: uri)!.path }
-    var htmlname: String { htmlFile(URL(string: uri)!.path) }
+    var htmlname: String { Siteify.uniqueHTMLFile(URL(string: uri)!.path) }
     var filebase: String { URL(string: uri)!.lastPathComponent }
     var line: Int { range.start.line }
     var anchor: String { range.start.anchor }

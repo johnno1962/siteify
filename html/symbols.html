@@ -14,6 +14,14 @@
  <span class=keyword>struct</span> <a href='Contents.swift.html#L361' title='Contents.swift.html#L361'>C</a> {
  }
 
+ <span class=keyword>class</span> <a href='Parallel.swift.html#L71' title='Parallel.swift.html#L71'>Cached</a> {
+   <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L71' title='Parallel.swift.html#L71'>Key</a>
+   <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L71' title='Parallel.swift.html#L71'>Value</a>
+   <span class=keyword>var</span> <a href='Parallel.swift.html#L73' title='Parallel.swift.html#L73'>getter</a>
+   <span class=keyword>func</span> <a href='Parallel.swift.html#L75' title='Parallel.swift.html#L75'>init(getter:)</a>
+   <span class=keyword>func</span> <a href='Parallel.swift.html#L80' title='Parallel.swift.html#L80'>get(key:)</a>
+ }
+
  <span class=keyword>struct</span> <a href='ClientCapabilities.swift.html#L222' title='ClientCapabilities.swift.html#L222'>ClientCapabilities</a> {
    <span class=keyword>var</span> <a href='ClientCapabilities.swift.html#L223' title='ClientCapabilities.swift.html#L223'>workspace</a>
    <span class=keyword>var</span> <a href='ClientCapabilities.swift.html#L224' title='ClientCapabilities.swift.html#L224'>textDocument</a>
@@ -202,8 +210,8 @@
    <span class=keyword>func</span> <a href='Formatting.swift.html#L36' title='Formatting.swift.html#L36'>init(textDocument:range:options:)</a>
  }
 
- <span class=keyword>extension</span> <a href='Siteify.swift.html#L561' title='Siteify.swift.html#L561'>DocumentSymbol</a> {
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L563' title='Siteify.swift.html#L563'>print(file:indent:to:)</a>
+ <span class=keyword>extension</span> <a href='Siteify.swift.html#L519' title='Siteify.swift.html#L519'>DocumentSymbol</a> {
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L521' title='Siteify.swift.html#L521'>print(file:indent:to:)</a>
  }
 
  <span class=keyword>struct</span> <a href='DocumentSymbol.swift.html#L56' title='DocumentSymbol.swift.html#L56'>DocumentSymbol</a> {
@@ -303,18 +311,19 @@
    <span class=keyword>func</span> <a href='ClientCapabilities.swift.html#L14' title='ClientCapabilities.swift.html#L14'>init(dynamicRegistration:)</a>
  }
 
- <span class=keyword>class</span> <a href='GitInfo.swift.html#L18' title='GitInfo.swift.html#L18'>GitInfo</a> {
-   <span class=keyword>var</span> <a href='GitInfo.swift.html#L20' title='GitInfo.swift.html#L20'>gitExecutable</a>
-   <span class=keyword>var</span> <a href='GitInfo.swift.html#L21' title='GitInfo.swift.html#L21'>blameStream</a>
-   <span class=keyword>var</span> <a href='GitInfo.swift.html#L22' title='GitInfo.swift.html#L22'>logStream</a>
-   <span class=keyword>var</span> <a href='GitInfo.swift.html#L23' title='GitInfo.swift.html#L23'>sourceDir</a>
-   <span class=keyword>func</span> <a href='GitInfo.swift.html#L25' title='GitInfo.swift.html#L25'>init(fullpath:)</a>
-   <span class=keyword>func</span> <a href='GitInfo.swift.html#L36' title='GitInfo.swift.html#L36'>repoURL()</a>
-   <span class=keyword>func</span> <a href='GitInfo.swift.html#L51' title='GitInfo.swift.html#L51'>commitJSON()</a>
-   <span class=keyword>func</span> <a href='GitInfo.swift.html#L74' title='GitInfo.swift.html#L74'>nextBlame(lineno:)</a>
+ <span class=keyword>class</span> <a href='GitInfo.swift.html#L19' title='GitInfo.swift.html#L19'>GitInfo</a> {
+   <span class=keyword>var</span> <a href='GitInfo.swift.html#L21' title='GitInfo.swift.html#L21'>gitExecutable</a>
+   <span class=keyword>var</span> <a href='GitInfo.swift.html#L23' title='GitInfo.swift.html#L23'>blameStream</a>
+   <span class=keyword>var</span> <a href='GitInfo.swift.html#L24' title='GitInfo.swift.html#L24'>logStream</a>
+   <span class=keyword>var</span> <a href='GitInfo.swift.html#L25' title='GitInfo.swift.html#L25'>sourceDir</a>
+   <span class=keyword>var</span> <a href='GitInfo.swift.html#L27' title='GitInfo.swift.html#L27'>repoURLS</a>
+   <span class=keyword>func</span> <a href='GitInfo.swift.html#L42' title='GitInfo.swift.html#L42'>init(fullpath:)</a>
+   <span class=keyword>func</span> <a href='GitInfo.swift.html#L53' title='GitInfo.swift.html#L53'>repoURL()</a>
+   <span class=keyword>func</span> <a href='GitInfo.swift.html#L57' title='GitInfo.swift.html#L57'>commitJSON()</a>
+   <span class=keyword>func</span> <a href='GitInfo.swift.html#L80' title='GitInfo.swift.html#L80'>nextBlame(lineno:)</a>
  }
 
- <span class=keyword>function</span> <a href='Siteify.swift.html#L578' title='Siteify.swift.html#L578'>HTML(fromMarkup:)</a>
+ <span class=keyword>function</span> <a href='Siteify.swift.html#L536' title='Siteify.swift.html#L536'>HTML(fromMarkup:)</a>
  <span class=keyword>struct</span> <a href='Hover.swift.html#L46' title='Hover.swift.html#L46'>Hover</a> {
    <span class=keyword>var</span> <a href='Hover.swift.html#L47' title='Hover.swift.html#L47'>contents</a>
    <span class=keyword>var</span> <a href='Hover.swift.html#L48' title='Hover.swift.html#L48'>range</a>
@@ -550,12 +559,12 @@
    <span class=keyword>func</span> <a href='LanguageServerProcessHost.swift.html#L87' title='LanguageServerProcessHost.swift.html#L87'>getServer(_:)</a>
  }
 
- <span class=keyword>struct</span> <a href='Siteify.swift.html#L39' title='Siteify.swift.html#L39'>LanguageServerSynchronizer</a> {
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L40' title='Siteify.swift.html#L40'>semaphore</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L41' title='Siteify.swift.html#L41'>errorHandler</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L46' title='Siteify.swift.html#L46'>sync(_:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L56' title='Siteify.swift.html#L56'>sync(_:)</a>
-     <span class=keyword>typeParameter</span> <a href='Siteify.swift.html#L56' title='Siteify.swift.html#L56'>RESP</a>
+ <span class=keyword>struct</span> <a href='Synchronizer.swift.html#L16' title='Synchronizer.swift.html#L16'>LanguageServerSynchronizer</a> {
+   <span class=keyword>var</span> <a href='Synchronizer.swift.html#L17' title='Synchronizer.swift.html#L17'>semaphore</a>
+   <span class=keyword>var</span> <a href='Synchronizer.swift.html#L18' title='Synchronizer.swift.html#L18'>errorHandler</a>
+   <span class=keyword>func</span> <a href='Synchronizer.swift.html#L23' title='Synchronizer.swift.html#L23'>sync(_:)</a>
+   <span class=keyword>func</span> <a href='Synchronizer.swift.html#L33' title='Synchronizer.swift.html#L33'>sync(_:)</a>
+     <span class=keyword>typeParameter</span> <a href='Synchronizer.swift.html#L33' title='Synchronizer.swift.html#L33'>RESP</a>
  }
 
  <span class=keyword>struct</span> <a href='LanguageFeatures.swift.html#L133' title='LanguageFeatures.swift.html#L133'>LanguageStringPair</a> {
@@ -571,18 +580,18 @@
    <span class=keyword>func</span> <a href='SourceKit.swift.html#L76' title='SourceKit.swift.html#L76'>load(path:)</a>
  }
 
- <span class=keyword>struct</span> <a href='Siteify.swift.html#L545' title='Siteify.swift.html#L545'>Loc</a> {
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L546' title='Siteify.swift.html#L546'>path</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L547' title='Siteify.swift.html#L547'>pos</a>
+ <span class=keyword>struct</span> <a href='Siteify.swift.html#L503' title='Siteify.swift.html#L503'>Loc</a> {
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L504' title='Siteify.swift.html#L504'>path</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L505' title='Siteify.swift.html#L505'>pos</a>
  }
 
- <span class=keyword>extension</span> <a href='Siteify.swift.html#L535' title='Siteify.swift.html#L535'>Location</a> {
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L537' title='Siteify.swift.html#L537'>file</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L538' title='Siteify.swift.html#L538'>htmlname</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L539' title='Siteify.swift.html#L539'>filebase</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L540' title='Siteify.swift.html#L540'>line</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L541' title='Siteify.swift.html#L541'>anchor</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L542' title='Siteify.swift.html#L542'>href</a>
+ <span class=keyword>extension</span> <a href='Siteify.swift.html#L493' title='Siteify.swift.html#L493'>Location</a> {
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L495' title='Siteify.swift.html#L495'>file</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L496' title='Siteify.swift.html#L496'>htmlname</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L497' title='Siteify.swift.html#L497'>filebase</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L498' title='Siteify.swift.html#L498'>line</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L499' title='Siteify.swift.html#L499'>anchor</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L500' title='Siteify.swift.html#L500'>href</a>
  }
 
  <span class=keyword>struct</span> <a href='Location.swift.html#L11' title='Location.swift.html#L11'>Location</a> {
@@ -719,10 +728,6 @@
    <span class=keyword>var</span> <a href='SignatureHelp.swift.html#L76' title='SignatureHelp.swift.html#L76'>documentation</a>
  }
 
- <span class=keyword>extension</span> <a href='Siteify.swift.html#L530' title='Siteify.swift.html#L530'>Position</a> {
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L532' title='Siteify.swift.html#L532'>anchor</a>
- }
-
  <span class=keyword>struct</span> <a href='Position.swift.html#L11' title='Position.swift.html#L11'>Position</a> {
    <span class=keyword>var</span> <a href='Position.swift.html#L12' title='Position.swift.html#L12'>line</a>
    <span class=keyword>var</span> <a href='Position.swift.html#L13' title='Position.swift.html#L13'>character</a>
@@ -738,6 +743,10 @@
  }
 
  <span class=keyword>extension</span> <a href='Position.swift.html#L35' title='Position.swift.html#L35'>Position</a> {
+ }
+
+ <span class=keyword>extension</span> <a href='Siteify.swift.html#L488' title='Siteify.swift.html#L488'>Position</a> {
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L490' title='Siteify.swift.html#L490'>anchor</a>
  }
 
  <span class=keyword>protocol</span> <a href='JSONRPC+Helpers.swift.html#L12' title='JSONRPC+Helpers.swift.html#L12'>ProtocolEncodable</a>
@@ -859,8 +868,29 @@
    <span class=keyword>func</span> <a href='Reference.swift.html#L31' title='Reference.swift.html#L31'>init(textDocument:position:includeDeclaration:)</a>
  }
 
+ <span class=keyword>struct</span> <a href='TupleRegex.swift_.html#L68' title='TupleRegex.swift_.html#L68'>RegexLazy</a> {
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L69' title='TupleRegex.swift_.html#L69'>literal</a>
+ }
+
  <span class=keyword>struct</span> <a href='TupleRegex.swift.html#L68' title='TupleRegex.swift.html#L68'>RegexLazy</a> {
    <span class=keyword>var</span> <a href='TupleRegex.swift.html#L69' title='TupleRegex.swift.html#L69'>literal</a>
+ }
+
+ <span class=keyword>protocol</span> <a href='TupleRegex.swift_.html#L17' title='TupleRegex.swift_.html#L17'>RegexLiteral</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L18' title='TupleRegex.swift_.html#L18'>regexOptioned</a>
+ <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L41' title='TupleRegex.swift_.html#L41'>RegexLiteral</a> {
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L42' title='TupleRegex.swift_.html#L42'>caseInsensitive</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L45' title='TupleRegex.swift_.html#L45'>allowCommentsAndWhitespace</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L48' title='TupleRegex.swift_.html#L48'>ignoreMetacharacters</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L51' title='TupleRegex.swift_.html#L51'>dotMatchesLineSeparators</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L54' title='TupleRegex.swift_.html#L54'>anchorsMatchLines</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L57' title='TupleRegex.swift_.html#L57'>useUnixLineSeparators</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L60' title='TupleRegex.swift_.html#L60'>useUnicodeWordBoundaries</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L63' title='TupleRegex.swift_.html#L63'>regexLazy</a>
+ }
+
+ <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L447' title='TupleRegex.swift_.html#L447'>RegexLiteral</a> {
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L448' title='TupleRegex.swift_.html#L448'>regex(capture:)</a>
  }
 
  <span class=keyword>protocol</span> <a href='TupleRegex.swift.html#L17' title='TupleRegex.swift.html#L17'>RegexLiteral</a>
@@ -880,9 +910,27 @@
    <span class=keyword>func</span> <a href='TupleRegex.swift.html#L448' title='TupleRegex.swift.html#L448'>regex(capture:)</a>
  }
 
+ <span class=keyword>class</span> <a href='TupleRegex.swift_.html#L439' title='TupleRegex.swift_.html#L439'>RegexMatch</a> {
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L440' title='TupleRegex.swift_.html#L440'>match</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L441' title='TupleRegex.swift_.html#L441'>init()</a>
+ }
+
  <span class=keyword>class</span> <a href='TupleRegex.swift.html#L439' title='TupleRegex.swift.html#L439'>RegexMatch</a> {
    <span class=keyword>var</span> <a href='TupleRegex.swift.html#L440' title='TupleRegex.swift.html#L440'>match</a>
    <span class=keyword>func</span> <a href='TupleRegex.swift.html#L441' title='TupleRegex.swift.html#L441'>init()</a>
+ }
+
+ <span class=keyword>struct</span> <a href='TupleRegex.swift_.html#L21' title='TupleRegex.swift_.html#L21'>RegexOptioned</a> {
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L22' title='TupleRegex.swift_.html#L22'>defaultOptions</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L23' title='TupleRegex.swift_.html#L23'>pattern</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L24' title='TupleRegex.swift_.html#L24'>options</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L25' title='TupleRegex.swift_.html#L25'>regexOptioned</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L26' title='TupleRegex.swift_.html#L26'>hash(into:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L30' title='TupleRegex.swift_.html#L30'>add(options:)</a>
+ }
+
+ <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L35' title='TupleRegex.swift_.html#L35'>RegexOptioned</a> {
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L36' title='TupleRegex.swift_.html#L36'>init(stringLiteral:)</a>
  }
 
  <span class=keyword>struct</span> <a href='TupleRegex.swift.html#L21' title='TupleRegex.swift.html#L21'>RegexOptioned</a> {
@@ -896,6 +944,12 @@
 
  <span class=keyword>extension</span> <a href='TupleRegex.swift.html#L35' title='TupleRegex.swift.html#L35'>RegexOptioned</a> {
    <span class=keyword>func</span> <a href='TupleRegex.swift.html#L36' title='TupleRegex.swift.html#L36'>init(stringLiteral:)</a>
+ }
+
+ <span class=keyword>struct</span> <a href='TupleRegex.swift_.html#L453' title='TupleRegex.swift_.html#L453'>RegexPattern</a> {
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L454' title='TupleRegex.swift_.html#L454'>literal</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L455' title='TupleRegex.swift_.html#L455'>capture</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L456' title='TupleRegex.swift_.html#L456'>~=(_:_:)</a>
  }
 
  <span class=keyword>struct</span> <a href='TupleRegex.swift.html#L453' title='TupleRegex.swift.html#L453'>RegexPattern</a> {
@@ -921,9 +975,9 @@
    <span class=keyword>var</span> <a href='ServerCapabilities.swift.html#L12' title='ServerCapabilities.swift.html#L12'>includeText</a>
  }
 
- <span class=keyword>extension</span> <a href='Parallel.swift.html#L68' title='Parallel.swift.html#L68'>Sequence</a> {
-   <span class=keyword>func</span> <a href='Parallel.swift.html#L84' title='Parallel.swift.html#L84'>concurrentMap(maxConcurrency:initializer:queueName:priority:worker:)</a>
-     <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L84' title='Parallel.swift.html#L84'>Output</a>
+ <span class=keyword>extension</span> <a href='Parallel.swift.html#L92' title='Parallel.swift.html#L92'>Sequence</a> {
+   <span class=keyword>func</span> <a href='Parallel.swift.html#L108' title='Parallel.swift.html#L108'>concurrentMap(maxConcurrency:initializer:queueName:priority:worker:)</a>
+     <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L108' title='Parallel.swift.html#L108'>Output</a>
  }
 
  <span class=keyword>struct</span> <a href='ServerCapabilities.swift.html#L110' title='ServerCapabilities.swift.html#L110'>ServerCapabilities</a> {
@@ -1008,43 +1062,47 @@
    <span class=keyword>var</span> <a href='SignatureHelp.swift.html#L82' title='SignatureHelp.swift.html#L82'>parameters</a>
  }
 
- <span class=keyword>extension</span> <a href='Resources.swift.html#L9' title='Resources.swift.html#L9'>Siteify</a> {
-   <span class=keyword>var</span> <a href='Resources.swift.html#L10' title='Resources.swift.html#L10'>resources</a>
+ <span class=keyword>class</span> <a href='Siteify.swift.html#L23' title='Siteify.swift.html#L23'>Siteify</a> {
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L25' title='Siteify.swift.html#L25'>sourceKit</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L26' title='Siteify.swift.html#L26'>toolchainPath</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L27' title='Siteify.swift.html#L27'>executablePath</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L28' title='Siteify.swift.html#L28'>lspServer</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L29' title='Siteify.swift.html#L29'>projectRoot</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L30' title='Siteify.swift.html#L30'>fileThreads</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L31' title='Siteify.swift.html#L31'>htmlRoot</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L33' title='Siteify.swift.html#L33'>progress(str:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L38' title='Siteify.swift.html#L38'>init(toolchainPath:projectRoot:fileThreads:)</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L80' title='Siteify.swift.html#L80'>indexFILE</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L81' title='Siteify.swift.html#L81'>comma</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L87' title='Siteify.swift.html#L87'>packageSymbols</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L88' title='Siteify.swift.html#L88'>referencesFallback</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L90' title='Siteify.swift.html#L90'>iconForType</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L100' title='Siteify.swift.html#L100'>iconForFile(fullpath:)</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L104' title='Siteify.swift.html#L104'>fileLineCache</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L108' title='Siteify.swift.html#L108'>reflines(file:line:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L115' title='Siteify.swift.html#L115'>escape(html:)</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L121' title='Siteify.swift.html#L121'>filesForFileName</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L121' title='Siteify.swift.html#L121'>filenameForFile</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L131' title='Siteify.swift.html#L131'>uniqueHTMLFile(_:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L135' title='Siteify.swift.html#L135'>generateSite(into:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L189' title='Siteify.swift.html#L189'>processFile(relative:)</a>
+     <span class=keyword>function</span> <a href='Siteify.swift.html#L223' title='Siteify.swift.html#L223'>skipTo(offset:)</a>
+     <span class=keyword>function</span> <a href='Siteify.swift.html#L269' title='Siteify.swift.html#L269'>complete(span:title:)</a>
+     <span class=keyword>function</span> <a href='Siteify.swift.html#L285' title='Siteify.swift.html#L285'>hyperlinkIdentifier(result:)</a>
+       <span class=keyword>function</span> <a href='Siteify.swift.html#L305' title='Siteify.swift.html#L305'>processRefs()</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L435' title='Siteify.swift.html#L435'>home</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L436' title='Siteify.swift.html#L436'>resources</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L438' title='Siteify.swift.html#L438'>copyTemplate(template:patches:dest:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L453' title='Siteify.swift.html#L453'>languageServerInitialized(_:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L456' title='Siteify.swift.html#L456'>languageServer(_:logMessage:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L462' title='Siteify.swift.html#L462'>languageServer(_:showMessage:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L466' title='Siteify.swift.html#L466'>languageServer(_:showMessageRequest:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L470' title='Siteify.swift.html#L470'>languageServer(_:publishDiagnostics:)</a>
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L476' title='Siteify.swift.html#L476'>languageServer(_:failedToDecodeNotification:with:)</a>
  }
 
- <span class=keyword>class</span> <a href='Siteify.swift.html#L74' title='Siteify.swift.html#L74'>Siteify</a> {
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L76' title='Siteify.swift.html#L76'>sourceKit</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L77' title='Siteify.swift.html#L77'>toolchainPath</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L78' title='Siteify.swift.html#L78'>executablePath</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L79' title='Siteify.swift.html#L79'>lspServer</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L80' title='Siteify.swift.html#L80'>projectRoot</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L81' title='Siteify.swift.html#L81'>htmlRoot</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L83' title='Siteify.swift.html#L83'>fileThreads</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L85' title='Siteify.swift.html#L85'>progress(str:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L90' title='Siteify.swift.html#L90'>init(toolchainPath:projectRoot:)</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L131' title='Siteify.swift.html#L131'>indexFILE</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L132' title='Siteify.swift.html#L132'>comma</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L138' title='Siteify.swift.html#L138'>iconForType</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L139' title='Siteify.swift.html#L139'>packageSymbols</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L140' title='Siteify.swift.html#L140'>referencesFallback</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L142' title='Siteify.swift.html#L142'>iconForFile(fullpath:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L161' title='Siteify.swift.html#L161'>generateSite(into:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L212' title='Siteify.swift.html#L212'>processFile(relative:)</a>
-     <span class=keyword>function</span> <a href='Siteify.swift.html#L244' title='Siteify.swift.html#L244'>escape(html:)</a>
-     <span class=keyword>function</span> <a href='Siteify.swift.html#L252' title='Siteify.swift.html#L252'>skipTo(offset:)</a>
-     <span class=keyword>function</span> <a href='Siteify.swift.html#L274' title='Siteify.swift.html#L274'>reflines(file:line:)</a>
-     <span class=keyword>function</span> <a href='Siteify.swift.html#L311' title='Siteify.swift.html#L311'>complete(span:title:)</a>
-     <span class=keyword>function</span> <a href='Siteify.swift.html#L327' title='Siteify.swift.html#L327'>hyperlinkIdentifier(result:)</a>
-       <span class=keyword>function</span> <a href='Siteify.swift.html#L347' title='Siteify.swift.html#L347'>processRefs()</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L477' title='Siteify.swift.html#L477'>home</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L478' title='Siteify.swift.html#L478'>resources</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L480' title='Siteify.swift.html#L480'>copyTemplate(template:patches:dest:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L495' title='Siteify.swift.html#L495'>languageServerInitialized(_:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L498' title='Siteify.swift.html#L498'>languageServer(_:logMessage:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L504' title='Siteify.swift.html#L504'>languageServer(_:showMessage:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L508' title='Siteify.swift.html#L508'>languageServer(_:showMessageRequest:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L512' title='Siteify.swift.html#L512'>languageServer(_:publishDiagnostics:)</a>
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L518' title='Siteify.swift.html#L518'>languageServer(_:failedToDecodeNotification:with:)</a>
+ <span class=keyword>extension</span> <a href='Resources.swift.html#L9' title='Resources.swift.html#L9'>Siteify</a> {
+   <span class=keyword>var</span> <a href='Resources.swift.html#L10' title='Resources.swift.html#L10'>resources</a>
  }
 
  <span class=keyword>class</span> <a href='SourceKit.swift.html#L169' title='SourceKit.swift.html#L169'>SourceKit</a> {
@@ -1188,8 +1246,63 @@
    <span class=keyword>func</span> <a href='StdioDataTransport.swift.html#L95' title='StdioDataTransport.swift.html#L95'>forwardErrorDataToHandler(_:)</a>
  }
 
- <span class=keyword>extension</span> <a href='Siteify.swift.html#L523' title='Siteify.swift.html#L523'>String</a> {
-   <span class=keyword>func</span> <a href='Siteify.swift.html#L525' title='Siteify.swift.html#L525'>write(to:)</a>
+ <span class=keyword>extension</span> <a href='Siteify.swift.html#L481' title='Siteify.swift.html#L481'>String</a> {
+   <span class=keyword>func</span> <a href='Siteify.swift.html#L483' title='Siteify.swift.html#L483'>write(to:)</a>
+ }
+
+ <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L73' title='TupleRegex.swift_.html#L73'>String</a> {
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L74' title='TupleRegex.swift_.html#L74'>regexOptioned</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L78' title='TupleRegex.swift_.html#L78'>nsrange(pos:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L91' title='TupleRegex.swift_.html#L91'>containsMatch(of:pos:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L94' title='TupleRegex.swift_.html#L94'>firstMatch(of:pos:group:)</a>
+     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L94' title='TupleRegex.swift_.html#L94'>T</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L97' title='TupleRegex.swift_.html#L97'>allMatches(of:pos:group:)</a>
+     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L97' title='TupleRegex.swift_.html#L97'>T</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L100' title='TupleRegex.swift_.html#L100'>lazyMatches(of:pos:group:)</a>
+     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L100' title='TupleRegex.swift_.html#L100'>T</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L103' title='TupleRegex.swift_.html#L103'>replacing(regex:pos:group:with:)</a>
+     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L103' title='TupleRegex.swift_.html#L103'>T</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L107' title='TupleRegex.swift_.html#L107'>replacing(regex:pos:group:with:)</a>
+     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L107' title='TupleRegex.swift_.html#L107'>T</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L111' title='TupleRegex.swift_.html#L111'>replacing(regex:pos:group:exec:)</a>
+     <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L111' title='TupleRegex.swift_.html#L111'>T</a>
+ }
+
+ <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L118' title='TupleRegex.swift_.html#L118'>String</a> {
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L126' title='TupleRegex.swift_.html#L126'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L132' title='TupleRegex.swift_.html#L132'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L142' title='TupleRegex.swift_.html#L142'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L148' title='TupleRegex.swift_.html#L148'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L153' title='TupleRegex.swift_.html#L153'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L162' title='TupleRegex.swift_.html#L162'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L165' title='TupleRegex.swift_.html#L165'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L169' title='TupleRegex.swift_.html#L169'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L172' title='TupleRegex.swift_.html#L172'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L175' title='TupleRegex.swift_.html#L175'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L181' title='TupleRegex.swift_.html#L181'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L184' title='TupleRegex.swift_.html#L184'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L189' title='TupleRegex.swift_.html#L189'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L193' title='TupleRegex.swift_.html#L193'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L197' title='TupleRegex.swift_.html#L197'>T</a>
+ }
+
+ <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L203' title='TupleRegex.swift_.html#L203'>String</a> {
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L209' title='TupleRegex.swift_.html#L209'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L213' title='TupleRegex.swift_.html#L213'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L217' title='TupleRegex.swift_.html#L217'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L220' title='TupleRegex.swift_.html#L220'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L223' title='TupleRegex.swift_.html#L223'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L227' title='TupleRegex.swift_.html#L227'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L230' title='TupleRegex.swift_.html#L230'>T</a>
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L233' title='TupleRegex.swift_.html#L233'>T</a>
+ }
+
+ <span class=keyword>extension</span> <a href='TupleRegex.swift_.html#L430' title='TupleRegex.swift_.html#L430'>String</a> {
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L431' title='TupleRegex.swift_.html#L431'>T</a>
+ }
+
+ <span class=keyword>extension</span> <a href='LineGenerators.swift.html#L111' title='LineGenerators.swift.html#L111'>String</a> {
+   <span class=keyword>func</span> <a href='LineGenerators.swift.html#L113' title='LineGenerators.swift.html#L113'>fromData(data:encoding:)</a>
  }
 
  <span class=keyword>extension</span> <a href='TupleRegex.swift.html#L73' title='TupleRegex.swift.html#L73'>String</a> {
@@ -1243,10 +1356,6 @@
    <span class=keyword>typeParameter</span> <a href='TupleRegex.swift.html#L431' title='TupleRegex.swift.html#L431'>T</a>
  }
 
- <span class=keyword>extension</span> <a href='LineGenerators.swift.html#L111' title='LineGenerators.swift.html#L111'>String</a> {
-   <span class=keyword>func</span> <a href='LineGenerators.swift.html#L113' title='LineGenerators.swift.html#L113'>fromData(data:encoding:)</a>
- }
-
  <span class=keyword>class</span> <a href='SwiftRegex5Tests.swift.html#L12' title='SwiftRegex5Tests.swift.html#L12'>SwiftRegex5Tests</a> {
    <span class=keyword>func</span> <a href='SwiftRegex5Tests.swift.html#L14' title='SwiftRegex5Tests.swift.html#L14'>setUp()</a>
    <span class=keyword>func</span> <a href='SwiftRegex5Tests.swift.html#L19' title='SwiftRegex5Tests.swift.html#L19'>tearDown()</a>
@@ -1265,9 +1374,9 @@
  <span class=keyword>extension</span> <a href='DocumentSymbol.swift.html#L77' title='DocumentSymbol.swift.html#L77'>SymbolInformation</a> {
  }
 
- <span class=keyword>extension</span> <a href='Siteify.swift.html#L550' title='Siteify.swift.html#L550'>SymbolKind</a> {
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L551' title='Siteify.swift.html#L551'>kindMap</a>
-   <span class=keyword>var</span> <a href='Siteify.swift.html#L558' title='Siteify.swift.html#L558'>swiftify</a>
+ <span class=keyword>extension</span> <a href='Siteify.swift.html#L508' title='Siteify.swift.html#L508'>SymbolKind</a> {
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L509' title='Siteify.swift.html#L509'>kindMap</a>
+   <span class=keyword>var</span> <a href='Siteify.swift.html#L516' title='Siteify.swift.html#L516'>swiftify</a>
  }
 
  <span class=keyword>enum</span> <a href='SymbolKind.swift.html#L11' title='SymbolKind.swift.html#L11'>SymbolKind</a> {
@@ -1305,12 +1414,12 @@
  <span class=keyword>extension</span> <a href='SymbolKind.swift.html#L43' title='SymbolKind.swift.html#L43'>SymbolKind</a> {
  }
 
- <span class=keyword>class</span> <a href='Parallel.swift.html#L56' title='Parallel.swift.html#L56'>Synchronized</a> {
-   <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L56' title='Parallel.swift.html#L56'>Wrapped</a>
-   <span class=keyword>var</span> <a href='Parallel.swift.html#L57' title='Parallel.swift.html#L57'>data</a>
-   <span class=keyword>func</span> <a href='Parallel.swift.html#L59' title='Parallel.swift.html#L59'>init(_:)</a>
-   <span class=keyword>func</span> <a href='Parallel.swift.html#L63' title='Parallel.swift.html#L63'>synchronized(_:)</a>
-     <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L63' title='Parallel.swift.html#L63'>T</a>
+ <span class=keyword>class</span> <a href='Parallel.swift.html#L57' title='Parallel.swift.html#L57'>Synchronized</a> {
+   <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L57' title='Parallel.swift.html#L57'>Wrapped</a>
+   <span class=keyword>var</span> <a href='Parallel.swift.html#L58' title='Parallel.swift.html#L58'>data</a>
+   <span class=keyword>func</span> <a href='Parallel.swift.html#L60' title='Parallel.swift.html#L60'>init(_:)</a>
+   <span class=keyword>func</span> <a href='Parallel.swift.html#L64' title='Parallel.swift.html#L64'>synchronized(_:)</a>
+     <span class=keyword>typeParameter</span> <a href='Parallel.swift.html#L64' title='Parallel.swift.html#L64'>T</a>
  }
 
  <span class=keyword>typeParameter</span> <a href='LanguageServer.swift.html#L47' title='LanguageServer.swift.html#L47'>T</a>
@@ -1331,6 +1440,27 @@
  <span class=keyword>struct</span> <a href='TextSynchronization.swift.html#L51' title='TextSynchronization.swift.html#L51'>TextDocumentChangeRegistrationOptions</a> {
    <span class=keyword>var</span> <a href='TextSynchronization.swift.html#L52' title='TextSynchronization.swift.html#L52'>documentSelector</a>
    <span class=keyword>var</span> <a href='TextSynchronization.swift.html#L53' title='TextSynchronization.swift.html#L53'>syncKind</a>
+ }
+
+ <span class=keyword>extension</span> <a href='SignatureHelp.swift.html#L11' title='SignatureHelp.swift.html#L11'>TextDocumentClientCapabilities</a> {
+   <span class=keyword>struct</span> <a href='SignatureHelp.swift.html#L12' title='SignatureHelp.swift.html#L12'>SignatureHelp</a> {
+     <span class=keyword>struct</span> <a href='SignatureHelp.swift.html#L13' title='SignatureHelp.swift.html#L13'>SignatureInformation</a> {
+       <span class=keyword>struct</span> <a href='SignatureHelp.swift.html#L14' title='SignatureHelp.swift.html#L14'>ParameterInformation</a> {
+         <span class=keyword>var</span> <a href='SignatureHelp.swift.html#L15' title='SignatureHelp.swift.html#L15'>labelOffsetSupport</a>
+         <span class=keyword>func</span> <a href='SignatureHelp.swift.html#L17' title='SignatureHelp.swift.html#L17'>init(labelOffsetSupport:)</a>
+       }
+
+       <span class=keyword>var</span> <a href='SignatureHelp.swift.html#L22' title='SignatureHelp.swift.html#L22'>documentationFormat</a>
+       <span class=keyword>var</span> <a href='SignatureHelp.swift.html#L23' title='SignatureHelp.swift.html#L23'>parameterInformation</a>
+       <span class=keyword>func</span> <a href='SignatureHelp.swift.html#L25' title='SignatureHelp.swift.html#L25'>init(documentationFormat:parameterInformation:)</a>
+       <span class=keyword>func</span> <a href='SignatureHelp.swift.html#L30' title='SignatureHelp.swift.html#L30'>init(documentationFormat:labelOffsetSupport:)</a>
+     }
+
+     <span class=keyword>var</span> <a href='SignatureHelp.swift.html#L37' title='SignatureHelp.swift.html#L37'>dynamicRegistration</a>
+     <span class=keyword>var</span> <a href='SignatureHelp.swift.html#L38' title='SignatureHelp.swift.html#L38'>signatureInformation</a>
+     <span class=keyword>func</span> <a href='SignatureHelp.swift.html#L40' title='SignatureHelp.swift.html#L40'>init(dynamicRegistration:documentationFormat:labelOffsetSupport:)</a>
+   }
+
  }
 
  <span class=keyword>struct</span> <a href='ClientCapabilities.swift.html#L173' title='ClientCapabilities.swift.html#L173'>TextDocumentClientCapabilities</a> {
@@ -1356,27 +1486,6 @@
    <span class=keyword>var</span> <a href='ClientCapabilities.swift.html#L193' title='ClientCapabilities.swift.html#L193'>publishDiagnostics</a>
    <span class=keyword>var</span> <a href='ClientCapabilities.swift.html#L194' title='ClientCapabilities.swift.html#L194'>foldingRange</a>
    <span class=keyword>func</span> <a href='ClientCapabilities.swift.html#L196' title='ClientCapabilities.swift.html#L196'>init(synchronization:completion:hover:signatureHelp:references:formatting:rangeFormatting:onTypeFormatting:declaration:definition:typeDefinition:implemenation:publishDiagnostics:foldingRange:)</a>
- }
-
- <span class=keyword>extension</span> <a href='SignatureHelp.swift.html#L11' title='SignatureHelp.swift.html#L11'>TextDocumentClientCapabilities</a> {
-   <span class=keyword>struct</span> <a href='SignatureHelp.swift.html#L12' title='SignatureHelp.swift.html#L12'>SignatureHelp</a> {
-     <span class=keyword>struct</span> <a href='SignatureHelp.swift.html#L13' title='SignatureHelp.swift.html#L13'>SignatureInformation</a> {
-       <span class=keyword>struct</span> <a href='SignatureHelp.swift.html#L14' title='SignatureHelp.swift.html#L14'>ParameterInformation</a> {
-         <span class=keyword>var</span> <a href='SignatureHelp.swift.html#L15' title='SignatureHelp.swift.html#L15'>labelOffsetSupport</a>
-         <span class=keyword>func</span> <a href='SignatureHelp.swift.html#L17' title='SignatureHelp.swift.html#L17'>init(labelOffsetSupport:)</a>
-       }
-
-       <span class=keyword>var</span> <a href='SignatureHelp.swift.html#L22' title='SignatureHelp.swift.html#L22'>documentationFormat</a>
-       <span class=keyword>var</span> <a href='SignatureHelp.swift.html#L23' title='SignatureHelp.swift.html#L23'>parameterInformation</a>
-       <span class=keyword>func</span> <a href='SignatureHelp.swift.html#L25' title='SignatureHelp.swift.html#L25'>init(documentationFormat:parameterInformation:)</a>
-       <span class=keyword>func</span> <a href='SignatureHelp.swift.html#L30' title='SignatureHelp.swift.html#L30'>init(documentationFormat:labelOffsetSupport:)</a>
-     }
-
-     <span class=keyword>var</span> <a href='SignatureHelp.swift.html#L37' title='SignatureHelp.swift.html#L37'>dynamicRegistration</a>
-     <span class=keyword>var</span> <a href='SignatureHelp.swift.html#L38' title='SignatureHelp.swift.html#L38'>signatureInformation</a>
-     <span class=keyword>func</span> <a href='SignatureHelp.swift.html#L40' title='SignatureHelp.swift.html#L40'>init(dynamicRegistration:documentationFormat:labelOffsetSupport:)</a>
-   }
-
  }
 
  <span class=keyword>struct</span> <a href='TextDocumentClientCapabilitiesGenericGoTo.swift.html#L11' title='TextDocumentClientCapabilitiesGenericGoTo.swift.html#L11'>TextDocumentClientCapabilitiesGenericGoTo</a> {
@@ -1520,6 +1629,36 @@
    <span class=keyword>case</span> <a href='Initialization.swift.html#L14' title='Initialization.swift.html#L14'>verbose</a>
  }
 
+ <span class=keyword>class</span> <a href='TupleRegex.swift_.html#L245' title='TupleRegex.swift_.html#L245'>TupleRegex</a> {
+   <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L245' title='TupleRegex.swift_.html#L245'>T</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L247' title='TupleRegex.swift_.html#L247'>regexOptioned</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L249' title='TupleRegex.swift_.html#L249'>regex</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L264' title='TupleRegex.swift_.html#L264'>init(pattern:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L267' title='TupleRegex.swift_.html#L267'>init(stringLiteral:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L272' title='TupleRegex.swift_.html#L272'>matchResult(target:pos:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L275' title='TupleRegex.swift_.html#L275'>match(target:pos:group:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L281' title='TupleRegex.swift_.html#L281'>matches(target:pos:group:)</a>
+   <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L291' title='TupleRegex.swift_.html#L291'>tupleTypeDescription</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L292' title='TupleRegex.swift_.html#L292'>entuple(match:from:group:)</a>
+     <span class=keyword>function</span> <a href='TupleRegex.swift_.html#L298' title='TupleRegex.swift_.html#L298'>tuple(from:)</a>
+       <span class=keyword>typeParameter</span> <a href='TupleRegex.swift_.html#L298' title='TupleRegex.swift_.html#L298'>E</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L337' title='TupleRegex.swift_.html#L337'>detuple(newValue:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L341' title='TupleRegex.swift_.html#L341'>groupRange(match:replacements:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L346' title='TupleRegex.swift_.html#L346'>replacing(target:pos:group:template:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L349' title='TupleRegex.swift_.html#L349'>replacing(target:pos:group:templates:global:)</a>
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L384' title='TupleRegex.swift_.html#L384'>replacing(target:pos:group:exec:)</a>
+   <span class=keyword>struct</span> <a href='TupleRegex.swift_.html#L404' title='TupleRegex.swift_.html#L404'>TupleIterator</a> {
+     <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L405' title='TupleRegex.swift_.html#L405'>regex</a>
+     <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L406' title='TupleRegex.swift_.html#L406'>target</a>
+     <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L407' title='TupleRegex.swift_.html#L407'>nstarget</a>
+     <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L408' title='TupleRegex.swift_.html#L408'>group</a>
+     <span class=keyword>var</span> <a href='TupleRegex.swift_.html#L409' title='TupleRegex.swift_.html#L409'>pos</a>
+     <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L411' title='TupleRegex.swift_.html#L411'>next()</a>
+   }
+
+   <span class=keyword>func</span> <a href='TupleRegex.swift_.html#L419' title='TupleRegex.swift_.html#L419'>iterator(target:pos:group:)</a>
+ }
+
  <span class=keyword>class</span> <a href='TupleRegex.swift.html#L245' title='TupleRegex.swift.html#L245'>TupleRegex</a> {
    <span class=keyword>typeParameter</span> <a href='TupleRegex.swift.html#L245' title='TupleRegex.swift.html#L245'>T</a>
    <span class=keyword>var</span> <a href='TupleRegex.swift.html#L247' title='TupleRegex.swift.html#L247'>regexOptioned</a>
@@ -1636,7 +1775,6 @@
  }
 
  <span class=keyword>function</span> <a href='SourceKit.swift.html#L59' title='SourceKit.swift.html#L59'>appsIn(dir:matcher:)</a>
- <span class=keyword>function</span> <a href='Siteify.swift.html#L23' title='Siteify.swift.html#L23'>htmlFile(_:)</a>
  <span class=keyword>extension</span> <a href='ByteRegex.swift.html#L15' title='ByteRegex.swift.html#L15'>regmatch_t</a> {
    <span class=keyword>var</span> <a href='ByteRegex.swift.html#L17' title='ByteRegex.swift.html#L17'>range</a>
  }
