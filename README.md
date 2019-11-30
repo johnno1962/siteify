@@ -40,4 +40,4 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-This source includes a header file "sourcekit.h" from Apple's Swift Open Source distribution under Apache License v2.0
+This source includes a header file "sourcekit.h" from Apple's Swift Open Source distribution under Apache License v2.0 and a very old version of [canviz](http://www.ryandesign.com/canviz/) which allows you to render [graphviz](https://www.graphviz.org/) "dot" files of class inter-relationships in a web browser if you have `/usr/local/bin/dot` installed.
