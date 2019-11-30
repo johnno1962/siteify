@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#92 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#100 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -18,13 +18,18 @@ import SourceKit
 import Parallel
 #endif
 
-public let SwiftLatestToolchain = "/Library/Developer/Toolchains/swift-latest.xctoolchain"
+public typealias FilePathString = String
+public typealias HTMLFileString = String
 
 public class Siteify: NotificationResponder {
 
+    public static var toolchainPath = "/Library/Developer/Toolchains/swift-latest.xctoolchain"
+    public static var dotPath = "/usr/local/bin/dot"
+
+    static weak var lastSiteify: Siteify?
+
     let sourceKit = SourceKit(logRequests: false)
-    let toolchainPath: String
-    var executablePath: String { return toolchainPath+"/usr/bin/sourcekit-lsp" }
+    var executablePath: String { return Self.toolchainPath+"/usr/bin/sourcekit-lsp" }
     var lspServer: LanguageServer!
     let projectRoot: URL
     let fileThreads: Int
@@ -35,18 +40,17 @@ public class Siteify: NotificationResponder {
         fflush(stdout)
     }
 
-    public init(toolchainPath: String = SwiftLatestToolchain,
-                projectRoot: String, fileThreads: Int = 8) {
+    public init(projectRoot: String, fileThreads: Int = 8) {
         let synchronizer = LanguageServerSynchronizer()
         var rootBuffer = [Int8](repeating: 0, count: Int(PATH_MAX))
         let cwd = String(cString: rootBuffer.withUnsafeMutableBufferPointer {
             getcwd($0.baseAddress, $0.count)
         })
 
-        self.toolchainPath = toolchainPath
         self.projectRoot = URL(fileURLWithPath: projectRoot,
                                relativeTo: URL(fileURLWithPath: cwd))
         self.fileThreads = fileThreads
+        Self.lastSiteify = self
 
         let PATH = ProcessInfo.processInfo.environment["PATH"] ?? "/usr/bin"
         let host = LanguageServerProcessHost(path: executablePath, arguments: [],
@@ -84,8 +88,9 @@ public class Siteify: NotificationResponder {
         return comma
     }()
 
-    var packageSymbols = Synchronized([String: [DocumentSymbol]]())
+    var packageSymbols = Synchronized([HTMLFileString: [DocumentSymbol]]())
     var referencesFallback = Synchronized([Loc: Location]())
+    var symStarts = Synchronized([HTMLFileString: [Int: Position]]())
 
     var iconForType = Cached(getter: { (ext: String) -> String in
         let image = NSWorkspace.shared.icon(forFileType: ext)
@@ -97,15 +102,15 @@ public class Siteify: NotificationResponder {
                                 .base64EncodedString(options: []))
     })
 
-    public func iconForFile(fullpath: String) -> String {
+    public func iconForFile(fullpath: FilePathString) -> String {
         iconForType.get(key: URL(fileURLWithPath: fullpath).pathExtension)
     }
 
-    var fileLineCache = Cached(getter: { (file: String) -> [String]? in
+    var fileLineCache = Cached(getter: { (file: FilePathString) -> [String]? in
         return (try? String(contentsOfFile: file))?
                         .components(separatedBy: "\n")
     })
-    func reflines(file: String, line: Int) -> String {
+    func reflines(file: FilePathString, line: Int) -> String {
         if let lines = fileLineCache.get(key: file), line < lines.count {
             return escape(html: lines[line])
         }
@@ -118,17 +123,19 @@ public class Siteify: NotificationResponder {
             .replacingOccurrences(of: "<", with: "&lt;")
     }
 
-    static var filesForFileName = [String: Bool](),
-            filenameForFile = Cached(getter: { (file: String) -> String in
+    static var filenameInUse = [HTMLFileString: FilePathString](),
+            filenameForFile = Cached(getter: {
+        (file: FilePathString) -> HTMLFileString in
         var filename = NSURL(fileURLWithPath: file).lastPathComponent!
-        while filesForFileName[filename] != nil {
+        while filenameInUse[filename + ".html"] != nil {
             filename += "_"
         }
-        filesForFileName[filename] = true
-        return filename + ".html"
+        filename += ".html"
+        filenameInUse[filename] = file
+        return filename
     })
 
-    static func uniqueHTMLFile(_ file: String) -> String {
+    static func uniqueHTMLFile(_ file: FilePathString) -> HTMLFileString {
         return filenameForFile.get(key: file)
     }
 
@@ -170,15 +177,16 @@ public class Siteify: NotificationResponder {
 
         // Generate alphabetical list of symbols defined at the top level
         if indexFILE != nil {
-            let symbolsFILE = copyTemplate(template: "symbols.html", patches: patches)
-            for sym in packageSymbols.synchronized({$0})
-                .map({ (file, syms) in syms.map {(file, $0)}})
-                .reduce([], +).sorted(by: {$0.1.name < $1.1.name}) {
-                    sym.1.print(file: sym.0, indent: " ", to: symbolsFILE)
-            }
-            fclose(symbolsFILE)
-
+            progress(str: "Writing Package Symbols")
+            writePackageSymbols(patches: patches)
             "<br><a href='symbols.html'>Package Symbols</a>".write(to: indexFILE!)
+
+            if FileManager.default.fileExists(atPath: Self.dotPath) {
+                progress(str: "Writing Class Graph")
+                writeClassGraph(graphSubpackages: true)
+                ", <a href='canviz.html'>Class Graph</a>".write(to: indexFILE!)
+            }
+
             fclose(indexFILE)
         }
 
@@ -186,11 +194,114 @@ public class Siteify: NotificationResponder {
                              Date.timeIntervalSinceReferenceDate - started))
     }
 
+    func writePackageSymbols(patches: [String: String]) {
+        let symbolsFILE = copyTemplate(template: "symbols.html", patches: patches)
+        for sym in packageSymbols.synchronized({$0})
+                .map({ (file, syms) in syms.map {(file, $0)}})
+                .reduce([], +).sorted(by: {$0.1.name < $1.1.name}) {
+            sym.1.print(file: sym.0, indent: " ", to: symbolsFILE)
+            "\n".write(to: symbolsFILE)
+        }
+        fclose(symbolsFILE)
+    }
+
+    func writeClassGraph(graphSubpackages: Bool) {
+        let canvizRoot = htmlRoot!+"/canviz-0.1/"
+        let tmpfile = "/tmp/canviz_\(getpid()).gv"
+        try! FileManager.default.createDirectory(atPath: canvizRoot,
+                        withIntermediateDirectories: true, attributes: nil)
+        fclose(copyTemplate(template: "path.js", dest: canvizRoot+"path.js"))
+        fclose(copyTemplate(template: "prototype.js", dest: canvizRoot+"prototype.js"))
+        fclose(copyTemplate(template: "canviz.js", dest: canvizRoot+"canviz.js"))
+        fclose(copyTemplate(template: "canviz.css", dest: canvizRoot+"canviz.css"))
+        fclose(copyTemplate(template: "LICENSE.txt", dest: canvizRoot+"LICENSE.txt"))
+        fclose(copyTemplate(template: "README.txt", dest: canvizRoot+"README.txt"))
+        fclose(copyTemplate(template: "canviz.html"))
+
+        guard let dot = fopen(tmpfile, "w") else {
+            NSLog("Could not open dot file")
+            return
+        }
+
+        "digraph sweep {\n    node [];\n".write(to: dot)
+
+        var nodeNum = 0
+        var nodes = [String: Int]()
+        var edges = [String: [String: Int]]()
+
+        func edge(_ from: DocumentSymbol, _ fromFile: FilePathString,
+                  _ to: DocumentSymbol, _ toFile: FilePathString) {
+            func register(node: DocumentSymbol, filepath: FilePathString) {
+                if nodes[node.name] == nil {
+                    "    \(nodeNum) [label=\"\(node.name)\" tooltip=\"\(filepath.replacingOccurrences(of: projectRoot.path+"/", with: ""))\" href=\"\(node.href(htmlfile: Self.uniqueHTMLFile(filepath)))\"];\n".write(to: dot)
+                    nodes[node.name] = nodeNum
+                    nodeNum += 1
+                }
+            }
+
+            if edges[from.name]?[to.name] == nil {
+                if edges[from.name] == nil {
+                    register(node: from, filepath: fromFile)
+                    edges[from.name] = [:]
+                }
+                register(node: to, filepath: toFile)
+                edges[from.name]![to.name] = 0
+            }
+            edges[from.name]?[to.name]? += 1
+        }
+
+        for (loc, decl) in referencesFallback.synchronized({$0}) {
+            if graphSubpackages ||
+                !loc.filepath.contains(".build/checkouts/") ||
+                !decl.filepath.contains(".build/checkouts/"),
+                let from = containingType(loc: loc),
+                let to = containingType(loc: Loc(location: decl)),
+                from.name != to.name {
+                edge(from, loc.filepath, to, decl.filepath)
+            }
+        }
+
+        for (fromName, toDict) in edges {
+            for (toName, count) in toDict {
+                "    \(nodes[fromName]!) -> \(nodes[toName]!) [width=\(count)];\n".write(to: dot)
+            }
+        }
+
+        "}\n".write(to: dot)
+        fclose(dot)
+
+        let runDot = Process()
+        runDot.launchPath = Self.dotPath
+        runDot.arguments = [tmpfile, "-Txdot", "-o\(htmlRoot!)/canviz.gv"]
+        runDot.launch()
+        runDot.waitUntilExit()
+
+        try? FileManager.default.removeItem(atPath: tmpfile)
+    }
+
+    func containingType(loc: Loc) -> DocumentSymbol? {
+        let htmlfile = Self.uniqueHTMLFile(loc.filepath)
+        guard let symbols = packageSymbols.synchronized({ $0[htmlfile] }) else {
+            return nil
+        }
+
+        for sym in symbols {
+            if sym.kind != .typeParameter &&
+                sym.range.start.line <= loc.pos.line &&
+                loc.pos.line <= sym.range.end.line &&
+                symStarts.synchronized({ $0[htmlfile]?[sym.range.start.line] }) != nil {
+                return sym
+            }
+        }
+
+        return nil
+    }
+
     public func processFile(relative: String) {
         let started = Date.timeIntervalSinceReferenceDate
         let fullURL = projectRoot.appendingPathComponent(relative)
-        let fullpath = fullURL.path
-        let htmlfile = Self.uniqueHTMLFile(fullpath)
+        let fullpath: FilePathString = fullURL.path
+        let htmlfile: HTMLFileString = Self.uniqueHTMLFile(fullpath)
         let synchronizer = LanguageServerSynchronizer()
         let gitInfo = GitInfo(fullpath: fullpath)
 
@@ -199,24 +310,25 @@ public class Siteify: NotificationResponder {
         }
         progress(str: "Saving \(htmlRoot!)/\(htmlfile)")
 
-        guard let data = try? Data(contentsOf: fullURL) else {
+        let docId = TextDocumentIdentifier(path: fullpath)
+        guard let docItem = try? TextDocumentItem(contentsOfFile: fullpath) else {
             NSLog("Unable to load file at path: \(fullURL.path)")
             return
         }
 
-        if indexFILE != nil {
-            let relurl = URL(fileURLWithPath: relative)
-            "\(relurl.deletingLastPathComponent().relativePath)/<a href='\(htmlfile)'><img class=indeximg src='\(iconForFile(fullpath: relative))'>\(relurl.lastPathComponent)<a> \(comma.string(from: NSNumber(value: data.count))!) bytes<br>\n".write(to: indexFILE!)
-        }
-
-        let docId = TextDocumentIdentifier(path: fullpath)
         synchronizer.sync {
-            self.lspServer.didOpenTextDocument(params: DidOpenTextDocumentParams(textDocument: try! TextDocumentItem(contentsOfFile: fullpath)), block: $0)
+            self.lspServer.didOpenTextDocument(params: DidOpenTextDocumentParams(textDocument: docItem), block: $0)
         }
 
-        data.withUnsafeBytes { (buffer: UnsafeRawBufferPointer) in
-            let start = buffer.baseAddress!.assumingMemoryBound(to: Int8.self)
+        docItem.text.withCString { (start) in
             var ptr = 0, linestart = 0, lineno = 0, col = 0
+            var firstSyms = [Int: Position]()
+            let byteCount = strlen(start)
+
+            if indexFILE != nil {
+                let relurl = URL(fileURLWithPath: relative)
+                "\(relurl.deletingLastPathComponent().relativePath)/<a href='\(htmlfile)'><img class=indeximg src='\(iconForFile(fullpath: relative))'>\(relurl.lastPathComponent)<a> \(comma.string(from: NSNumber(value: byteCount))!) bytes<br>\n".write(to: indexFILE!)
+            }
 
             // Copy characters up to offset, update ptr
             // count line numbers and character position.
@@ -253,31 +365,31 @@ public class Siteify: NotificationResponder {
                     let length = dict.getInt(key: self.sourceKit.lengthID)
                     let pre = skipTo(offset: offset)
                     let pos = Position(line: lineno, character: col)
-                    let text = skipTo(offset: offset+length)
-                    return (pre, dict, pos, text)
+                    let body = skipTo(offset: offset+length)
+                    return (pre, dict, pos, body)
             }.concurrentMap(maxConcurrency: 1
                             /* cannot multithread per file */) {
                 // Extract information from SourceKit dictionary
                 // required to hyperlink identifiers
                 (arg0, completion: @escaping (String) -> Void) in
-                let (pre, dict, pos, text) = arg0
+                let (pre, dict, pos, body) = arg0
                 let kind = dict.getUUIDString(key: self.sourceKit.kindID)
                 let kindID = SKApi.variant_dictionary_get_uid(dict, self.sourceKit.kindID)
                 let kindSuffix = NSURL(fileURLWithPath: kind).pathExtension!
 
                 // Wrap derived html in <span> to colorize
-                func complete(span: String, title: Any?) {
-                    completion("\(pre)<span class='\(kindSuffix)'\(title != nil ? " title='\(title!)'" : "")>\(span)</span>")
+                func complete(body: String, title: Any?) {
+                    completion("\(pre)<span class='\(kindSuffix)'\(title != nil ? " title='\(title!)'" : "")>\(body)</span>")
                 }
 
                 if kindSuffix == "url" {
-                    return complete(span: "<a href='\(text)'>\(text)</a>", title: nil)
+                    return complete(body: "<a href='\(body)'>\(body)</a>", title: nil)
                 }
 
                 // Only interested in identifers
                 guard kindID == self.sourceKit.identifierID ||
                     kindID == self.sourceKit.typeIdenifierID else {
-                    return complete(span: text, title: kind)
+                    return complete(body: body, title: kind)
                 }
 
                 let docPos = TextDocumentPositionParams(textDocument: docId, position: pos)
@@ -289,14 +401,15 @@ public class Siteify: NotificationResponder {
                         case .locationArray(let array):
                             guard let decl = array.first ??
                                 self.referencesFallback.synchronized({ referencesFallback in
-                                    referencesFallback[Loc(path: fullpath, pos: pos)]
+                                    referencesFallback[Loc(filepath: fullpath, pos: pos)]
                                 }) else {
-                                return complete(span: text, title: "\(result)")
+                                return complete(body: body, title: "\(result)")
                             }
 
                             // Is this the definition on the identifier?
                             // If so, list the referenes as a popup table.
-                            if decl.file == fullpath && decl.range.start == pos {
+                            if decl.filepath == fullpath && decl.range.start == pos {
+
                                 self.lspServer.references(params: ReferenceParams(textDocument: TextDocumentIdentifier(path: fullpath), position: pos, context: ReferenceContext(includeDeclaration: false))) { result in
                                     switch result {
                                     case .success(let refs):
@@ -304,26 +417,32 @@ public class Siteify: NotificationResponder {
 
                                         func processRefs() {
                                             if let refs = refs, refs.count > 0 &&
-                                                decl.file.starts(with: self.projectRoot.path) {
+                                                decl.filepath.starts(with: self.projectRoot.path) {
                                                 var popup = ""
+
                                                 for ref in refs {
-                                                    let keepListOpen = ref.file != decl.file ? "event.stopPropagation(); " : ""
+                                                    let keepListOpen = ref.filepath != decl.filepath ? "event.stopPropagation(); " : ""
                                                     if ref.href == decl.href {
                                                         continue
                                                     }
                                                     popup += "<tr><td style='text-decoration: underline;' onclick='document.location.href=\"\(ref.href)\"; \(keepListOpen)return false;'>\(ref.filebase):\(ref.line+1)</td>"
-                                                    popup += "<td><pre>\(self.reflines(file: ref.file, line: ref.line))</pre></td>"
+                                                    popup += "<td><pre>\(self.reflines(file: ref.filepath, line: ref.line))</pre></td>"
                                                 }
-                                                complete(span: "<a name='\(decl.anchor)' \(popup != "" ? "href='#' " : "")onclick='return expand(this);'>" +
-                                                    "\(text)<span class='references'><table>\(markup != nil ? "<tr><td colspan=2>\(HTML(fromMarkup: markup!))" : "")\(popup)</table></span></a>", title: "usrString2")
+
+                                                if firstSyms[pos.line] == nil && popup != "" {
+                                                    firstSyms[pos.line] = pos
+                                                }
+
+                                                complete(body: "<a name='\(decl.anchor)' \(popup != "" ? "href='#' " : "")onclick='return expand(this);'>" +
+                                                    "\(body)<span class='references'><table>\(markup != nil ? "<tr><td colspan=2>\(HTML(fromMarkup: markup!))" : "")\(popup)</table></span></a>", title: "usrString2")
                                                 self.referencesFallback.synchronized {
                                                     referencesFallback in
                                                     for ref in refs {
-                                                        referencesFallback[Loc(path: ref.file, pos: ref.range.start)] = decl
+                                                        referencesFallback[Loc(filepath: ref.filepath, pos: ref.range.start)] = decl
                                                     }
                                                 }
                                             } else {
-                                                complete(span: "<a name='\(decl.anchor)'>\(text)</a>", title: decl.filebase)
+                                                complete(body: "<a name='\(decl.anchor)'>\(body)</a>", title: decl.filebase)
                                             }
                                         }
 
@@ -348,20 +467,20 @@ public class Siteify: NotificationResponder {
                                             }
                                         }
                                     case .failure(let err):
-                                        return complete(span: "#ERR1 \(text)", title: err)
+                                        return complete(body: "#ERR1 \(body)", title: err)
                                     }
                                 }
-                            } else if decl.file.starts(with: self.projectRoot.path) {
-                                complete(span: "<a name='\(pos.anchor)' href='\(decl.href)'>\(text)</a>", title: decl.filebase)
+                            } else if decl.filepath.starts(with: self.projectRoot.path) {
+                                complete(body: "<a name='\(pos.anchor)' href='\(decl.href)'>\(body)</a>", title: decl.filebase)
                             } else {
-                                complete(span: text, title: URL(fileURLWithPath: decl.file).lastPathComponent)
-                            }
+                                complete(body: "<a name='\(pos.anchor)'>\(body)</a>", title: decl.filebase)
+                           }
                         default:
-                            complete(span: text, title: "#DFLT: \(result)")
+                            complete(body: body, title: "#DFLT: \(result)")
                         }
 
                     case .failure(let err):
-                        return complete(span: "#ERR2 \(text)", title: err)
+                        return complete(body: "#ERR2 \(body)", title: err)
                     }
                 }
 
@@ -371,7 +490,7 @@ public class Siteify: NotificationResponder {
                 } else {
                     self.lspServer.definition(params: docPos, block: hyperlinkIdentifier)
                 }
-            }.joined() + skipTo(offset: data.count)
+            }.joined() + skipTo(offset: byteCount)
 
             // Start with template for source file...
             let repoURL = gitInfo.repoURL()
@@ -405,6 +524,10 @@ public class Siteify: NotificationResponder {
             // Write hyperlinked page
             html.write(to: htmlFILE)
             fclose(htmlFILE)
+
+            symStarts.synchronized { symStarts in
+                symStarts[htmlfile] = firstSyms
+            }
 
             // Remember document symbols contained in file
             if fullpath.containsMatch(of: #"\.(swift|mm?)$"#) {
@@ -492,8 +615,8 @@ extension Position {
 
 extension Location {
 
-    var file: String { URL(string: uri)!.path }
-    var htmlname: String { Siteify.uniqueHTMLFile(URL(string: uri)!.path) }
+    var filepath: FilePathString { URL(string: uri)!.path }
+    var htmlname: String { Siteify.uniqueHTMLFile(filepath) }
     var filebase: String { URL(string: uri)!.lastPathComponent }
     var line: Int { range.start.line }
     var anchor: String { range.start.anchor }
@@ -501,8 +624,14 @@ extension Location {
 }
 
 struct Loc: Hashable {
-    let path: String
+    let filepath: FilePathString
     let pos: Position
+}
+
+extension Loc {
+    init(location: Location) {
+        self.init(filepath: location.filepath, pos: location.range.start)
+    }
 }
 
 extension SymbolKind {
@@ -518,16 +647,24 @@ extension SymbolKind {
 
 extension DocumentSymbol {
 
-    func print(file: String, indent: String, to: UnsafeMutablePointer<FILE>) {
+    func href(htmlfile: String) -> String {
+        if let realPos = Siteify.lastSiteify?.symStarts
+                .synchronized({ $0[htmlfile]?[range.start.line] }) {
+            return "\(htmlfile)#\(realPos.anchor)"
+        } else {
+            return "\(htmlfile)#L\(range.start.line+1)"
+        }
+    }
+
+    func print(file: HTMLFileString, indent: String, to: UnsafeMutablePointer<FILE>) {
         if kind != .variable {
-            let href = "\(file)#L\(range.start.line+1)"
-            let braces = kind == .class || kind == .struct || kind == .enum || kind == .namespace
-            "\(indent)\(kind.swiftify) <a href='\(href)' title='\(href)'>\(name)</a>\(braces  ? " {" : "")\n".write(to: to)
+            let braces = kind == .class || kind == .struct || kind == .enum || kind == .interface || kind == .namespace
+            "\(indent)\(kind.swiftify) <a href='\(href(htmlfile: file))' title='\(self)'>\(name)</a>\(braces  ? " {" : "")\n".write(to: to)
             for sym in children ?? [] {
                 sym.print(file: file, indent: indent + "  ", to: to)
             }
             if braces {
-                "\(indent)}\n\n".write(to: to)
+                "\(indent)}\n".write(to: to)
             }
         }
     }

@@ -9,9 +9,9 @@
 var repo = "https://github.com/ChimeHQ/SwiftLSPClient";
 var commits = {
   "250a274" : {
-    "message" : "\n    Test data without strings (#31)\n    \n    It wasn't possible to easily encode the LSP types to protocol messages for testing. So, I was just using strings. This was really annoying and error-prone. Finally took the time to make this possible, and it is way better.\n",
-    "hash" : "250a2748227eadb0a3a70c259dfcf9e5dff83015",
     "author" : "Matt Massicotte ",
+    "hash" : "250a2748227eadb0a3a70c259dfcf9e5dff83015",
+    "message" : "\n    Test data without strings (#31)\n    \n    It wasn't possible to easily encode the LSP types to protocol messages for testing. So, I was just using strings. This was really annoying and error-prone. Finally took the time to make this possible, and it is way better.\n",
     "date" : "Thu Oct 31 07:35:02 2019 -0400"
   }
 };
@@ -28,12 +28,12 @@ var commits = {
 <script> lineLink("250a274", 1572521702, "0009") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>import</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>Foundation</span>
 <script> lineLink("250a274", 1572521702, "0010") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>import</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>SwiftLSPClient</span>
 <script> lineLink("250a274", 1572521702, "0011") </script>
-<script> lineLink("250a274", 1572521702, "0012") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>protocol</span> <span class='identifier' title='JSONRPC+Helpers.swift'><a name='12_9'>ProtocolEncodable</a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Encodable</span> {
+<script> lineLink("250a274", 1572521702, "0012") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>protocol</span> <span class='identifier' title='JSONRPC+Helpers.swift'><a name='12_9'>ProtocolEncodable</a></span>: <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'><a name='12_28'>Encodable</a></span> {
 <script> lineLink("250a274", 1572521702, "0013") </script>}
 <script> lineLink("250a274", 1572521702, "0014") </script>
 <script> lineLink("250a274", 1572521702, "0015") </script><span class='keyword' title='source.lang.swift.syntaxtype.keyword'>extension</span> <span class='typeidentifier' title='JSONRPC+Helpers.swift'><a name='15_10' href='JSONRPC+Helpers.swift.html#12_9'>ProtocolEncodable</a></span> {
-<script> lineLink("250a274", 1572521702, "0016") </script>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='JSONRPC+Helpers.swift'><a name='16_9'>encodeToProtocolData</a></span>() <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>throws</span> -> <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'>Data</span> {
-<script> lineLink("250a274", 1572521702, "0017") </script>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='JSONRPC+Helpers.swift'><a name='17_12'>payloadData</a></span> = <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>try</span> <span class='identifier' title='x86_64-apple-macos.swiftmodule'>JSONEncoder</span>().<span class='identifier' title='x86_64-apple-macos.swiftmodule'>encode</span>(<span class='keyword' title='source.lang.swift.syntaxtype.keyword'>self</span>)
+<script> lineLink("250a274", 1572521702, "0016") </script>    <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>func</span> <span class='identifier' title='JSONRPC+Helpers.swift'><a name='16_9'>encodeToProtocolData</a></span>() <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>throws</span> -> <span class='typeidentifier' title='x86_64-apple-macos.swiftmodule'><a name='16_42'>Data</a></span> {
+<script> lineLink("250a274", 1572521702, "0017") </script>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>let</span> <span class='identifier' title='JSONRPC+Helpers.swift'><a name='17_12'>payloadData</a></span> = <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>try</span> <span class='identifier' title='x86_64-apple-macos.swiftmodule'><a name='17_30'>JSONEncoder</a></span>().<span class='identifier' title='x86_64-apple-macos.swiftmodule'><a name='17_44'>encode</a></span>(<span class='keyword' title='source.lang.swift.syntaxtype.keyword'>self</span>)
 <script> lineLink("250a274", 1572521702, "0018") </script>
 <script> lineLink("250a274", 1572521702, "0019") </script>        <span class='keyword' title='source.lang.swift.syntaxtype.keyword'>return</span> <span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>MessageTransport</span>.<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>prependHeaders</span>(<span class='identifier' title='success(Optional(SwiftLSPClient.TypeDefinitionResponse.locationArray([])))'>to</span>: <span class='identifier' title='JSONRPC+Helpers.swift'><a name='19_51' href='JSONRPC+Helpers.swift.html#17_12'>payloadData</a></span>)
 <script> lineLink("250a274", 1572521702, "0020") </script>    }
