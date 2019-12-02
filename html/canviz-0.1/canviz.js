@@ -1,6 +1,6 @@
 /*
  * This file is part of Canviz. See http://www.canviz.org/
- * $Id: //depot/siteify/siteify/Resources.swift#34 $
+ * $Id: //depot/siteify/siteify/Resources.swift#39 $
  */
 
 var CanvizTokenizer = Class.create({

@@ -12,10 +12,10 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/johnno1962/SourceKit.git", .branch("master")),
         .package(url: "https://github.com/johnno1962/Parallel.git", .branch("master")),
-        .package(url: "https://github.com/johnno1962/SwiftRegex5.git", .branch("master")),
+        .package(url: "https://github.com/johnno1962/GitInfo.git", .branch("master")),
         .package(url: "https://github.com/ChimeHQ/SwiftLSPClient.git", .branch("master")),
     ],
     targets: [
-        .target(name: "siteify", dependencies: ["SwiftLSPClient", "Parallel", "SwiftRegex"], path: "siteify/"),
+        .target(name: "siteify", dependencies: ["SwiftLSPClient", "Parallel", "GitInfo"], path: "siteify/"),
     ]
 )

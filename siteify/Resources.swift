@@ -7,16 +7,17 @@
 //
 
 extension Siteify {
+    
     static let resources = [
 
         "index.html": """
             <html><head>
-            <meta charset="UTF-8">
-            <link rel="stylesheet" type="text/css" href="siteify.css">
-            <title>Siteify of __ROOT__</title>
+                <meta charset="UTF-8">
+                <link rel="stylesheet" type="text/css" href="siteify.css">
+                <title>Siteify of __ROOT__</title>
             </head><html><body class=index>
             <h2>Generated from __ROOT__ on __DATE__</h2>
-            <h3>Repo: __REPO__</h3>
+            <h3>Repo: <a href='__REPO__'>__REPO__</a></h3>
             """,
 
         "source.html": """
@@ -25,7 +26,11 @@ extension Siteify {
                 <title>__FILE__</title>
                 <link rel="stylesheet" type="text/css" href="siteify.css">
                 <script src="siteify.js"></script>
-            </head><html><body class=source><h3><img src='__IMG__'> Source: __FILE__ (<a href='index.html'>Index</a>)<br/><br/>Repo: <a href='__REPO__'>__REPO__</a></h3><pre>
+            </head><html><body class=source>
+            <h2><img src='__IMG__'> Source: __FILE__ (Return to <a href='index.html'>Index</a>)</h2>
+            <h3>Repo: <a href='__REPO__'>__REPO__</a></h3>
+            <table><tr><td>Initial Commit:<td>__CRDATE__
+            <tr><td>Last modified:<td>__MDATE__</table><pre>
 
             """,
 
@@ -90,7 +95,7 @@ extension Siteify {
             //  Created by John Holdsworth on 28/10/2019.
             //  Copyright © 2019 John Holdsworth. All rights reserved.
             //
-            //  $Id: //depot/siteify/siteify/Resources.swift#34 $
+            //  $Id: //depot/siteify/siteify/Resources.swift#39 $
             //
             //  Repo: https://github.com/johnno1962/siteify
             //
@@ -136,6 +141,72 @@ extension Siteify {
                     lineno+"</a><span class='highlight"+fade+"'> </span> ")
             }
 
+            """#,
+
+        "canviz.html": #"""
+            <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+            <!--
+             This file is part of Canviz. See http://www.canviz.org/
+             $Id: //depot/siteify/siteify/Resources.swift#39 $
+             -->
+            <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+                <head>
+                    <meta name="MSSmartTagsPreventParsing" content="true" />
+                    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+                    <link rel="stylesheet" type="text/css" href="canviz-0.1/canviz.css" />
+                    <link rel="stylesheet" type="text/css" href="siteify/canviz.css" />
+                    <title>Siteify Object Graph</title>
+                    <script type="text/javascript" src="canviz-0.1/prototype.js"></script>
+                    <script type="text/javascript" src="canviz-0.1/path.js"></script>
+                    <script type="text/javascript" src="canviz-0.1/canviz.js"></script>
+                    <script>
+                        var canviz;
+                        document.observe('dom:loaded', function() {
+                             canviz = new Canviz('canviz', 'canviz.gv?flush='+Math.random());
+                        });
+                        function sendClient(selector,pathID) {
+                            prompt(selector,pathID)
+                        }
+                        function set_graph_scale(select) {
+                            canviz.setScale(select.value);
+                            canviz.draw();
+                            window.scrollTo(0,0);
+                        }
+                        function click_node(node) {
+                            sendClient( "open:", node );
+                        }
+                        window.onscroll = function() {
+                            $('menus').style.left = document.body.scrollLeft+"px";
+                        }
+                    </script>
+                </head>
+                <body>
+                    <div id="menus" style="position: relative;">
+                        Repo: <a href='__REPO__'>__REPO__</a> Scale Image:
+
+                        <select name="graph_scale" id="graph_scale" onchange="set_graph_scale(this)">
+                            <option value="1" selected>100%</option>
+                            <option value="0.75">75%</option>
+                            <option value="0.5">50%</option>
+                            <option value="0.35">35%</option>
+                            <option value="0.25">25%</option>
+                            <option value="0.15">15%</option>
+                            <option value="0.1">10%</option>
+                            <option value="0.05">5%</option>
+                        </select>
+
+                        Return to <a href='index.html'>Index</a>
+                    </div>
+
+                    <div id="debug_output" style="display:none"></div>
+
+                    <div class="graph">
+                        <div id="canviz"></div>
+                    </div>
+
+                </body>
+            </html>
             """#,
 
         "prototype.js": #"""
@@ -4462,7 +4533,7 @@ extension Siteify {
             """#,
 
         "path.js": #"""
-            // $Id: //depot/siteify/siteify/Resources.swift#34 $
+            // $Id: //depot/siteify/siteify/Resources.swift#39 $
 
             var Point = Class.create({
                 initialize: function(x, y) {
@@ -4964,7 +5035,7 @@ extension Siteify {
         "canviz.js": #"""
             /*
              * This file is part of Canviz. See http://www.canviz.org/
-             * $Id: //depot/siteify/siteify/Resources.swift#34 $
+             * $Id: //depot/siteify/siteify/Resources.swift#39 $
              */
 
             var CanvizTokenizer = Class.create({
@@ -5785,7 +5856,7 @@ extension Siteify {
         "canviz.css": #"""
             /*
              * This file is part of Canviz. See http://www.canviz.org/
-             * $Id: //depot/siteify/siteify/Resources.swift#34 $
+             * $Id: //depot/siteify/siteify/Resources.swift#39 $
              */
 
             body {
@@ -5846,69 +5917,6 @@ extension Siteify {
             #debug_output {
                 margin: 1em;
             }
-            """#,
-
-        "canviz.html": #"""
-            <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-            <!--
-             This file is part of Canviz. See http://www.canviz.org/
-             $Id: //depot/siteify/siteify/Resources.swift#34 $
-             -->
-            <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-                <head>
-                    <meta name="MSSmartTagsPreventParsing" content="true" />
-                    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-                    <link rel="stylesheet" type="text/css" href="canviz-0.1/canviz.css" />
-                    <title>Siteify Object Graph</title>
-                    <script type="text/javascript" src="canviz-0.1/prototype.js"></script>
-                    <script type="text/javascript" src="canviz-0.1/path.js"></script>
-                    <script type="text/javascript" src="canviz-0.1/canviz.js"></script>
-                    <script>
-                        var canviz;
-                        document.observe('dom:loaded', function() {
-                             canviz = new Canviz('canviz', 'canviz.gv?flush='+Math.random());
-                        });
-                        function sendClient(selector,pathID) {
-                            prompt(selector,pathID)
-                        }
-                        function set_graph_scale(select) {
-                            canviz.setScale(select.value);
-                            canviz.draw();
-                            window.scrollTo(0,0);
-                        }
-                        function click_node(node) {
-                            sendClient( "open:", node );
-                        }
-                        window.onscroll = function() {
-                            $('menus').style.left = document.body.scrollLeft+"px";
-                        }
-                    </script>
-                </head>
-                <body>
-                    <div id="menus" style="position: relative;">
-                        Scale Image:
-
-                        <select name="graph_scale" id="graph_scale" onchange="set_graph_scale(this)">
-                            <option value="1" selected>100%</option>
-                            <option value="0.75">75%</option>
-                            <option value="0.5">50%</option>
-                            <option value="0.35">35%</option>
-                            <option value="0.25">25%</option>
-                            <option value="0.15">15%</option>
-                            <option value="0.1">10%</option>
-                            <option value="0.05">5%</option>
-                        </select>
-                    </div>
-
-                    <div id="debug_output" style="display:none"></div>
-
-                    <div class="graph">
-                        <div id="canviz"></div>
-                    </div>
-
-                </body>
-            </html>
             """#,
 
         "README.txt": """

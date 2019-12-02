@@ -59,13 +59,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		BB05D2EF238A9C2400F139B4 /* GitInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitInfo.swift; sourceTree = "<group>"; };
+		BB05D2EF238A9C2400F139B4 /* GitInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GitInfo.swift; path = ../.build/checkouts/GitInfo/Sources/GitInfo.swift; sourceTree = "<group>"; };
 		BB05D2F6238EB30E00F139B4 /* Parallel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parallel.swift; path = .build/checkouts/Parallel/Sources/Parallel.swift; sourceTree = SOURCE_ROOT; };
 		BB05D2F8238EC24700F139B4 /* TupleRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TupleRegex.swift; path = .build/checkouts/SwiftRegex5/SwiftRegex5.playground/Sources/TupleRegex.swift; sourceTree = SOURCE_ROOT; };
 		BB227D8A2360C042000D4D3E /* SwiftLSPClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftLSPClient.xcodeproj; path = .build/checkouts/SwiftLSPClient/SwiftLSPClient.xcodeproj; sourceTree = "<group>"; };
 		BB8BD1E71C7364E3001108DF /* siteify */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = siteify; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB8BD1EA1C7364E3001108DF /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		BB8BD1F11C736CF4001108DF /* LineGenerators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGenerators.swift; sourceTree = "<group>"; };
+		BB8BD1F11C736CF4001108DF /* LineGenerators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LineGenerators.swift; path = ../.build/checkouts/GitInfo/Sources/LineGenerators.swift; sourceTree = "<group>"; };
 		BB8BD1F21C736CF4001108DF /* SourceKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceKit.swift; sourceTree = "<group>"; };
 		BB9E2F4F238FBDC100D8FB3C /* Synchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synchronizer.swift; sourceTree = "<group>"; };
 		BBD81F9E1C736FF70060CF44 /* siteify-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "siteify-Bridging-Header.h"; sourceTree = "<group>"; };
