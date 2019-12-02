@@ -25,28 +25,34 @@ var commits = {
     "date" : "Fri Dec 7 20:43:45 2018 -0500"
   },
   "e184468" : {
-    "message" : "\n    Support for SwiftPM, migration to Swift 5.0, removal of Result as a dependency\n",
     "author" : "Matt Massicotte ",
+    "message" : "\n    Support for SwiftPM, migration to Swift 5.0, removal of Result as a dependency\n",
     "hash" : "e184468367436993b5b7091ce362aaf651992811",
     "date" : "Thu Aug 22 07:28:51 2019 -0400"
   },
   "92f6561" : {
-    "message" : "\n    Formatting support\n",
     "author" : "Matt Massicotte ",
+    "message" : "\n    Formatting support\n",
     "hash" : "92f65615a3e652a0b61408c9df940649a5afc3f7",
     "date" : "Tue Feb 26 20:25:43 2019 -0500"
+  },
+  "5909dc0" : {
+    "message" : "\n    Fix consistency of several response types\n",
+    "author" : "Matt Massicotte ",
+    "hash" : "5909dc05b9bd362d8b2295cfbd3f2b30dbff0d60",
+    "date" : "Sat Nov 9 20:11:39 2019 -0500"
+  },
+  "4e6751b" : {
+    "author" : "Matt Massicotte ",
+    "message" : "\n    Capabilities Reorganization\n    \n    Move the client and server capabilities out into dedicated files, as things were getting a little out of hand. Also fills in a few more holes in those structures.\n",
+    "hash" : "4e6751b96eff6b06add36e1c56ce0b75826d134c",
+    "date" : "Sun Jan 27 12:14:15 2019 -0500"
   },
   "3606d71" : {
     "message" : "\n    Support for foldingRange (#34)\n",
     "author" : "Matt Massicotte ",
     "hash" : "3606d7133e02a0819ee2d4d554481240cd2d2b10",
     "date" : "Sat Nov 2 21:37:48 2019 -0400"
-  },
-  "4e6751b" : {
-    "message" : "\n    Capabilities Reorganization\n    \n    Move the client and server capabilities out into dedicated files, as things were getting a little out of hand. Also fills in a few more holes in those structures.\n",
-    "author" : "Matt Massicotte ",
-    "hash" : "4e6751b96eff6b06add36e1c56ce0b75826d134c",
-    "date" : "Sun Jan 27 12:14:15 2019 -0500"
   },
   "8240d65" : {
     "message" : "\n    Add \"textDocument\/references\" request and threading workaround\n",
@@ -60,15 +66,9 @@ var commits = {
     "hash" : "9378f98761121b2ba181ffb5964a87d0015b8b0b",
     "date" : "Sun Jan 27 20:17:24 2019 -0500"
   },
-  "5909dc0" : {
-    "message" : "\n    Fix consistency of several response types\n",
-    "author" : "Matt Massicotte ",
-    "hash" : "5909dc05b9bd362d8b2295cfbd3f2b30dbff0d60",
-    "date" : "Sat Nov 9 20:11:39 2019 -0500"
-  },
   "9ee3f30" : {
-    "message" : "\n    Imprve the API for starting hosts\n",
     "author" : "Matt Massicotte ",
+    "message" : "\n    Imprve the API for starting hosts\n",
     "hash" : "9ee3f3017a19f0a2f55c0c4c49f782d8d412ff3a",
     "date" : "Tue Jan 8 14:42:52 2019 -0500"
   },
@@ -78,33 +78,27 @@ var commits = {
     "hash" : "4f07f1f1021a951ef8fdd32c542629cf7c5c4809",
     "date" : "Tue Sep 10 12:53:38 2019 -0400"
   },
-  "4fd0cba" : {
-    "message" : "\n    Ensure textDocument\/references matches LSP spec (#27)\n    \n    There were a few minor issues with matching the spec. Forgiving servers don't seem to mind this, but its worth addressing before a release. Notable changes:\n    \n    - `ReferencesParams` -> `ReferenceParams`\n    - addition of `ReferenceContext`, with non-optional `includeDeclaration` field\n    - `ReferencesResponse` -> `ReferenceResponse`, to be consistent\n    - `ReferenceResponse` can be optional\n    - Fill in `ClientCapabilities` for initialization\n",
-    "author" : "Matt Massicotte ",
-    "hash" : "4fd0cbaadf5c556733ac230f64cfac68a1cc73b4",
-    "date" : "Sun Oct 27 12:46:31 2019 -0400"
-  },
   "34d5696" : {
     "message" : "\n    Notification Support\n",
     "author" : "Matt Massicotte ",
     "hash" : "34d5696305140159cd1b0a005a548e919b9a7990",
     "date" : "Sun Jan 27 14:59:55 2019 -0500"
   },
-  "6f28795" : {
-    "message" : "\n    Signature help spec and refactor\n",
+  "4fd0cba" : {
+    "message" : "\n    Ensure textDocument\/references matches LSP spec (#27)\n    \n    There were a few minor issues with matching the spec. Forgiving servers don't seem to mind this, but its worth addressing before a release. Notable changes:\n    \n    - `ReferencesParams` -> `ReferenceParams`\n    - addition of `ReferenceContext`, with non-optional `includeDeclaration` field\n    - `ReferencesResponse` -> `ReferenceResponse`, to be consistent\n    - `ReferenceResponse` can be optional\n    - Fill in `ClientCapabilities` for initialization\n",
     "author" : "Matt Massicotte ",
+    "hash" : "4fd0cbaadf5c556733ac230f64cfac68a1cc73b4",
+    "date" : "Sun Oct 27 12:46:31 2019 -0400"
+  },
+  "6f28795" : {
+    "author" : "Matt Massicotte ",
+    "message" : "\n    Signature help spec and refactor\n",
     "hash" : "6f287951fd704a440f3956af61e6793d11c8c0c7",
     "date" : "Fri Nov 8 21:42:15 2019 -0500"
   },
-  "578e896" : {
-    "message" : "\n    WillSave and WillSaveWaitUntil support\n",
-    "author" : "Matt Massicotte ",
-    "hash" : "578e896028ce6588e94de1c81f34d67cd4b159dd",
-    "date" : "Sun Feb 10 20:38:15 2019 -0500"
-  },
   "111f6a8" : {
-    "message" : "\n    Correct Initialized notification\n    \n    I misunderstood the LSP spec, and 'Initialized' is actually from client->server. Apparently this is a fairly common mistake, but since many servers don't care, it often doesn't matter.\n",
     "author" : "Matt Massicotte ",
+    "message" : "\n    Correct Initialized notification\n    \n    I misunderstood the LSP spec, and 'Initialized' is actually from client->server. Apparently this is a fairly common mistake, but since many servers don't care, it often doesn't matter.\n",
     "hash" : "111f6a80812eaa4c5fef12ee4dd9e7a32d868f02",
     "date" : "Sun Nov 17 08:36:19 2019 -0500"
   },
@@ -114,9 +108,15 @@ var commits = {
     "hash" : "6c7f50a9cff71b4439cf70b6334526e89debe542",
     "date" : "Wed Feb 13 20:40:02 2019 -0500"
   },
-  "5847c30" : {
-    "message" : "\n    Support for showMessageRequest\n",
+  "578e896" : {
     "author" : "Matt Massicotte ",
+    "message" : "\n    WillSave and WillSaveWaitUntil support\n",
+    "hash" : "578e896028ce6588e94de1c81f34d67cd4b159dd",
+    "date" : "Sun Feb 10 20:38:15 2019 -0500"
+  },
+  "5847c30" : {
+    "author" : "Matt Massicotte ",
+    "message" : "\n    Support for showMessageRequest\n",
     "hash" : "5847c30770341b26054500276d58e10bf06ad072",
     "date" : "Mon Sep 2 21:03:14 2019 -0400"
   },

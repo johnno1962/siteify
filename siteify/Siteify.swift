@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#113 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#114 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -14,9 +14,9 @@ import Cocoa
 import SwiftLSPClient
 #if SWIFT_PACKAGE
 import SourceKit
+#endif
 import Parallel
 import GitInfo
-#endif
 
 public typealias FilePathString = String
 public typealias HTMLFileString = String

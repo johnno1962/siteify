@@ -12,64 +12,64 @@
 
 var repo = "https://github.com/ChimeHQ/SwiftLSPClient";
 var commits = {
-  "d86bb6b" : {
-    "message" : "\n    Migrating in code\n",
-    "hash" : "d86bb6b65e09db8e460b2d36d969f147ab6b8d1b",
-    "author" : "Matt Massicotte ",
-    "date" : "Wed Nov 21 20:31:36 2018 -0500"
-  },
-  "250a274" : {
-    "message" : "\n    Test data without strings (#31)\n    \n    It wasn't possible to easily encode the LSP types to protocol messages for testing. So, I was just using strings. This was really annoying and error-prone. Finally took the time to make this possible, and it is way better.\n",
-    "hash" : "250a2748227eadb0a3a70c259dfcf9e5dff83015",
-    "author" : "Matt Massicotte ",
-    "date" : "Thu Oct 31 07:35:02 2019 -0400"
-  },
   "288ada9" : {
-    "message" : "\n    backed out thread safety fix, made Location Hashable\n",
-    "hash" : "288ada969291d8d5734b91040aad8784a9af5f0e",
     "author" : "John Holdsworth ",
+    "hash" : "288ada969291d8d5734b91040aad8784a9af5f0e",
+    "message" : "\n    backed out thread safety fix, made Location Hashable\n",
     "date" : "Sat Oct 26 20:43:04 2019 +0200"
   },
-  "e184468" : {
-    "message" : "\n    Support for SwiftPM, migration to Swift 5.0, removal of Result as a dependency\n",
-    "hash" : "e184468367436993b5b7091ce362aaf651992811",
+  "250a274" : {
     "author" : "Matt Massicotte ",
+    "hash" : "250a2748227eadb0a3a70c259dfcf9e5dff83015",
+    "message" : "\n    Test data without strings (#31)\n    \n    It wasn't possible to easily encode the LSP types to protocol messages for testing. So, I was just using strings. This was really annoying and error-prone. Finally took the time to make this possible, and it is way better.\n",
+    "date" : "Thu Oct 31 07:35:02 2019 -0400"
+  },
+  "e184468" : {
+    "author" : "Matt Massicotte ",
+    "hash" : "e184468367436993b5b7091ce362aaf651992811",
+    "message" : "\n    Support for SwiftPM, migration to Swift 5.0, removal of Result as a dependency\n",
     "date" : "Thu Aug 22 07:28:51 2019 -0400"
   },
-  "34d5696" : {
-    "message" : "\n    Notification Support\n",
-    "hash" : "34d5696305140159cd1b0a005a548e919b9a7990",
+  "d86bb6b" : {
     "author" : "Matt Massicotte ",
+    "hash" : "d86bb6b65e09db8e460b2d36d969f147ab6b8d1b",
+    "message" : "\n    Migrating in code\n",
+    "date" : "Wed Nov 21 20:31:36 2018 -0500"
+  },
+  "34d5696" : {
+    "author" : "Matt Massicotte ",
+    "hash" : "34d5696305140159cd1b0a005a548e919b9a7990",
+    "message" : "\n    Notification Support\n",
     "date" : "Sun Jan 27 14:59:55 2019 -0500"
   },
-  "6d70f53" : {
-    "message" : "\n    Tests for ProtocolTransport\n    \n    Before working on server->client requests, I though it would be useful to have some good tests in place for the ProtocolTransport class. Also, noticed that the DataTransport protocol fit nicely, to refactored to use that. I think this should make it possible to write some more straight-forward tests in the future.\n",
-    "hash" : "6d70f5331e49945a02a105069949e9540c006692",
-    "author" : "Matt Massicotte ",
-    "date" : "Fri Feb 8 14:26:04 2019 -0500"
-  },
   "9378f98" : {
-    "message" : "\n    Message Delivery and Error Fixes\n    \n    - Handles a dumb bug were two messages delivered at the same time cause the delivery system to lock up\n    - Correctly remove stored message handlers once they have been invoked\n    - Extract out and return errors when they have been returned from requests\n    - Reduce the strictness of the error structure\n",
-    "hash" : "9378f98761121b2ba181ffb5964a87d0015b8b0b",
     "author" : "Matt Massicotte ",
+    "hash" : "9378f98761121b2ba181ffb5964a87d0015b8b0b",
+    "message" : "\n    Message Delivery and Error Fixes\n    \n    - Handles a dumb bug were two messages delivered at the same time cause the delivery system to lock up\n    - Correctly remove stored message handlers once they have been invoked\n    - Extract out and return errors when they have been returned from requests\n    - Reduce the strictness of the error structure\n",
     "date" : "Sun Jan 27 20:17:24 2019 -0500"
   },
-  "d8e3f45" : {
-    "message" : "\n    Safety for protocol classes (#30)\n    \n    It turns out that I was assuming that NSFileManager still did its synchronization via a runloop exclusively. This was incredibly incorrect.\n    \n    This adds actual synchronization and also includes some tests to make sure things work as expected.\n",
-    "hash" : "d8e3f458ee09bc875273d0e80a4c2fc93e5885f9",
+  "6d70f53" : {
     "author" : "Matt Massicotte ",
+    "hash" : "6d70f5331e49945a02a105069949e9540c006692",
+    "message" : "\n    Tests for ProtocolTransport\n    \n    Before working on server->client requests, I though it would be useful to have some good tests in place for the ProtocolTransport class. Also, noticed that the DataTransport protocol fit nicely, to refactored to use that. I think this should make it possible to write some more straight-forward tests in the future.\n",
+    "date" : "Fri Feb 8 14:26:04 2019 -0500"
+  },
+  "d8e3f45" : {
+    "author" : "Matt Massicotte ",
+    "hash" : "d8e3f458ee09bc875273d0e80a4c2fc93e5885f9",
+    "message" : "\n    Safety for protocol classes (#30)\n    \n    It turns out that I was assuming that NSFileManager still did its synchronization via a runloop exclusively. This was incredibly incorrect.\n    \n    This adds actual synchronization and also includes some tests to make sure things work as expected.\n",
     "date" : "Wed Oct 30 20:18:44 2019 -0400"
   },
   "e5f3681" : {
     "message" : "\n    Fix notification callback\n",
-    "hash" : "e5f3681c2fc3a873e23066573ea3297495f4aa8e",
     "author" : "Matt Massicotte ",
+    "hash" : "e5f3681c2fc3a873e23066573ea3297495f4aa8e",
     "date" : "Mon Feb 18 11:12:16 2019 -0500"
   },
   "8240d65" : {
-    "message" : "\n    Add \"textDocument\/references\" request and threading workaround\n",
-    "hash" : "8240d65350dd1a98dc6ac3bffd2976177bb6e2d1",
     "author" : "John Holdsworth ",
+    "hash" : "8240d65350dd1a98dc6ac3bffd2976177bb6e2d1",
+    "message" : "\n    Add \"textDocument\/references\" request and threading workaround\n",
     "date" : "Sat Oct 26 12:09:29 2019 +0200"
   }
 };
