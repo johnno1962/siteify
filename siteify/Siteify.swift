@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#115 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#117 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -168,8 +168,10 @@ public class Siteify: NotificationResponder {
         filemgr.enumerator(atPath: projectRoot.path)?
             .compactMap { $0 as? String }.sorted()
             .concurrentMap(maxConcurrency: fileThreads) { (relative, completion: (String?) -> Void) in
-                if // !relative.starts(with: "Tests/") && ///
-                    (try? LanguageIdentifier(for: URL(fileURLWithPath: relative))) != nil {
+                let url = URL(fileURLWithPath: relative)
+                if !relative.starts(with: "html/") &&
+                    url.lastPathComponent != "output-file-map.json" &&
+                    (try? LanguageIdentifier(for: url)) != nil {
                     self.processFile(relative: relative)
                 }
                 return completion(relative)
@@ -433,11 +435,11 @@ public class Siteify: NotificationResponder {
                                                     popup += "<td><pre>\(self.reflines(file: ref.filepath, line: ref.line))</pre></td>"
                                                 }
 
-                                                if firstSyms[pos.line] == nil && popup != "" {
+                                                if firstSyms[pos.line] == nil && !popup.isEmpty {
                                                     firstSyms[pos.line] = pos
                                                 }
 
-                                                complete(body: "<a name='\(decl.anchor)' \(popup != "" ? "href='#' " : "")onclick='return expand(this);'>" +
+                                                complete(body: "<a name='\(decl.anchor)' \(popup.isEmpty ? "" : "href='#' ")onclick='return expand(this);'>" +
                                                     "\(body)<span class='references'><table>\(markup != nil ? "<tr><td colspan=2>\(HTML(fromMarkup: markup!))" : "")\(popup)</table></span></a>", title: "usrString2")
                                                 self.referencesFallback.synchronized {
                                                     referencesFallback in

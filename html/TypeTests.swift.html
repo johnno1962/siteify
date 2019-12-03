@@ -12,17 +12,17 @@
 
 var repo = "https://github.com/ChimeHQ/SwiftLSPClient";
 var commits = {
-  "d8e3f45" : {
-    "message" : "\n    Safety for protocol classes (#30)\n    \n    It turns out that I was assuming that NSFileManager still did its synchronization via a runloop exclusively. This was incredibly incorrect.\n    \n    This adds actual synchronization and also includes some tests to make sure things work as expected.\n",
-    "hash" : "d8e3f458ee09bc875273d0e80a4c2fc93e5885f9",
-    "author" : "Matt Massicotte ",
-    "date" : "Wed Oct 30 20:18:44 2019 -0400"
-  },
   "8796846" : {
-    "message" : "\n    documentSymbol support\n    \n    - Add support for the documentSymbol feature\n    - Add a test for encoding\/decoding the documentSymbol enum, which wasn't 100% straight-forward\n",
-    "hash" : "8796846a51a8b80f4914370274a696b817232b56",
     "author" : "Matt Massicotte ",
-    "date" : "Sat Feb 9 09:45:08 2019 -0500"
+    "date" : "Sat Feb 9 09:45:08 2019 -0500",
+    "hash" : "8796846a51a8b80f4914370274a696b817232b56",
+    "message" : "\n    documentSymbol support\n    \n    - Add support for the documentSymbol feature\n    - Add a test for encoding\/decoding the documentSymbol enum, which wasn't 100% straight-forward\n"
+  },
+  "d8e3f45" : {
+    "author" : "Matt Massicotte ",
+    "date" : "Wed Oct 30 20:18:44 2019 -0400",
+    "hash" : "d8e3f458ee09bc875273d0e80a4c2fc93e5885f9",
+    "message" : "\n    Safety for protocol classes (#30)\n    \n    It turns out that I was assuming that NSFileManager still did its synchronization via a runloop exclusively. This was incredibly incorrect.\n    \n    This adds actual synchronization and also includes some tests to make sure things work as expected.\n"
   }
 };
 

@@ -12,41 +12,41 @@
 
 var repo = "https://github.com/ChimeHQ/SwiftLSPClient";
 var commits = {
-  "250a274" : {
-    "message" : "\n    Test data without strings (#31)\n    \n    It wasn't possible to easily encode the LSP types to protocol messages for testing. So, I was just using strings. This was really annoying and error-prone. Finally took the time to make this possible, and it is way better.\n",
-    "hash" : "250a2748227eadb0a3a70c259dfcf9e5dff83015",
+  "6d70f53" : {
     "author" : "Matt Massicotte ",
-    "date" : "Thu Oct 31 07:35:02 2019 -0400"
+    "date" : "Fri Feb 8 14:26:04 2019 -0500",
+    "hash" : "6d70f5331e49945a02a105069949e9540c006692",
+    "message" : "\n    Tests for ProtocolTransport\n    \n    Before working on server->client requests, I though it would be useful to have some good tests in place for the ProtocolTransport class. Also, noticed that the DataTransport protocol fit nicely, to refactored to use that. I think this should make it possible to write some more straight-forward tests in the future.\n"
+  },
+  "250a274" : {
+    "author" : "Matt Massicotte ",
+    "date" : "Thu Oct 31 07:35:02 2019 -0400",
+    "hash" : "250a2748227eadb0a3a70c259dfcf9e5dff83015",
+    "message" : "\n    Test data without strings (#31)\n    \n    It wasn't possible to easily encode the LSP types to protocol messages for testing. So, I was just using strings. This was really annoying and error-prone. Finally took the time to make this possible, and it is way better.\n"
   },
   "9378f98" : {
-    "message" : "\n    Message Delivery and Error Fixes\n    \n    - Handles a dumb bug were two messages delivered at the same time cause the delivery system to lock up\n    - Correctly remove stored message handlers once they have been invoked\n    - Extract out and return errors when they have been returned from requests\n    - Reduce the strictness of the error structure\n",
     "author" : "Matt Massicotte ",
+    "date" : "Sun Jan 27 20:17:24 2019 -0500",
     "hash" : "9378f98761121b2ba181ffb5964a87d0015b8b0b",
-    "date" : "Sun Jan 27 20:17:24 2019 -0500"
-  },
-  "ccb8820" : {
-    "message" : "\n    \".hpp\" file extension. 'data' field in received errors optional. (#37)\n    \n    * Update Basic.swift\n    \n    * Error data not populated by sourcekit-lsp\n",
-    "hash" : "ccb882021629140c15b3f4a768cfb20e18cee044",
-    "author" : "John Holdsworth ",
-    "date" : "Fri Nov 8 22:07:01 2019 +0100"
-  },
-  "6d70f53" : {
-    "message" : "\n    Tests for ProtocolTransport\n    \n    Before working on server->client requests, I though it would be useful to have some good tests in place for the ProtocolTransport class. Also, noticed that the DataTransport protocol fit nicely, to refactored to use that. I think this should make it possible to write some more straight-forward tests in the future.\n",
-    "hash" : "6d70f5331e49945a02a105069949e9540c006692",
-    "author" : "Matt Massicotte ",
-    "date" : "Fri Feb 8 14:26:04 2019 -0500"
+    "message" : "\n    Message Delivery and Error Fixes\n    \n    - Handles a dumb bug were two messages delivered at the same time cause the delivery system to lock up\n    - Correctly remove stored message handlers once they have been invoked\n    - Extract out and return errors when they have been returned from requests\n    - Reduce the strictness of the error structure\n"
   },
   "bfc73ec" : {
-    "message" : "\n    Add missing null case from JSONValue\n",
-    "hash" : "bfc73ecc2d491e2ec4cbacd57dfce64a4b848e98",
     "author" : "Matt Massicotte ",
-    "date" : "Sun Jan 27 11:59:41 2019 -0500"
+    "date" : "Sun Jan 27 11:59:41 2019 -0500",
+    "hash" : "bfc73ecc2d491e2ec4cbacd57dfce64a4b848e98",
+    "message" : "\n    Add missing null case from JSONValue\n"
+  },
+  "ccb8820" : {
+    "author" : "John Holdsworth ",
+    "date" : "Fri Nov 8 22:07:01 2019 +0100",
+    "hash" : "ccb882021629140c15b3f4a768cfb20e18cee044",
+    "message" : "\n    \".hpp\" file extension. 'data' field in received errors optional. (#37)\n    \n    * Update Basic.swift\n    \n    * Error data not populated by sourcekit-lsp\n"
   },
   "d86bb6b" : {
-    "message" : "\n    Migrating in code\n",
-    "hash" : "d86bb6b65e09db8e460b2d36d969f147ab6b8d1b",
     "author" : "Matt Massicotte ",
-    "date" : "Wed Nov 21 20:31:36 2018 -0500"
+    "date" : "Wed Nov 21 20:31:36 2018 -0500",
+    "hash" : "d86bb6b65e09db8e460b2d36d969f147ab6b8d1b",
+    "message" : "\n    Migrating in code\n"
   }
 };
 

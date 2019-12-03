@@ -2,25 +2,36 @@
 ## siteify - Build a hyperlinked Web Site from project's Swift sources.
 
 Created as a means of testing SourceKit but generally useful as a mean for browsing
-sourcecode, siteify is a Swift script that creates a
-hyperlinked and cross referenced version of your Swift source that can be navigated
-in a Web Browser. Links over symbol references take you to their definition and
-clicking on a link on the definition will list the places the symbol is referenced.
+source code, siteify is a Swift script that creates a hyperlinked HTML reference of your
+Swift SPM project  that can be navigated in a Web Browser. Links over symbol references
+take you to their definition and clicking on the link on a definition will list links for the places
+the symbol is referenced.
 
 ![Icon](http://injectionforxcode.johnholdsworth.com/siteify2.png)
 
-To use, download and build this project using `swift build` then, you can build using
+To use, download, and build this project using `swift build` then, you should build using
 the .xcodeproj in Xcode (twice - the first time will fail due to a quirk of the build system).
-_cd_ into into the SPM project you wish to document's root and run 'swift build' in
+
+_cd_ into the root the SPM project you wish to document and run 'swift build' in
 order to update it's index and type `~/bin/siteify` (you'll need to download a recent
 development toolchain from [swift.org](https://swift.org/download/) to get the required
-`sourcekit-lsp` executable)
+`sourcekit-lsp` executable).  `siteify` can take a command line argument which is
+the SPM repo to process but always places the generated html in the directory `html`
+created in the current working directory and opens the file `html/index.html`.
 
-This will build your project recording it's constituent Swift sources, index them
-then build the site in the directory ./html. Any PRs on de-glitching the CSS styling
-more than welcome.
+### Customisation
 
-This project uses the [ChimeHQ/SwiftLSPClient](https://github.com/ChimeHQ/SwiftLSPClient) under a `BSD 3-Clause "New" or "Revised" License"` to communicate with the [Apple LSP server](https://github.com/apple/sourcekit-lsp)
+Siteify generates html files based on templates built into the app from the source
+[`Resources.swift`](siteify/Resouces.swift). Certain information about a file is patched
+in at the last minute using tags such as `\_\_ROOT\_\_`, `\_\_DATE\_\_`, `\_\_REPO\_\_` 
+and, for indiviual source files , `\_\_CRDATE\_\_`, , `\_\_MDATE\_\_` along with the sytem
+`\_\_IMG\_\_` for that type of file. These templates are compiled into the application but
+can be overridden  by placing your own HTML/CSS templates in ~/Library/Siteify for the
+styling you prefer.
+
+This project uses [ChimeHQ/SwiftLSPClient](https://github.com/ChimeHQ/SwiftLSPClient)
+under a `BSD 3-Clause "New" or "Revised" License"` to communicate with the 
+[Apple LSP server](https://github.com/apple/sourcekit-lsp)
 
 ### MIT License
 

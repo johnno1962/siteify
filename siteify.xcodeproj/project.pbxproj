@@ -10,6 +10,7 @@
 		BB363C9B23954A1600422D5F /* GitInfo.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB363C89239548E700422D5F /* GitInfo.framework */; };
 		BB363C9D23954A3700422D5F /* SwiftRegex.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB363C8D239548E700422D5F /* SwiftRegex.framework */; };
 		BB363C9E23954A3700422D5F /* Parallel.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB363C8B239548E700422D5F /* Parallel.framework */; };
+		BB363CC923969F6500422D5F /* siteify in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB8BD1E71C7364E3001108DF /* siteify */; };
 		BB8BD1EB1C7364E3001108DF /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1EA1C7364E3001108DF /* main.swift */; };
 		BB8BD1F41C736CF4001108DF /* SourceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1F21C736CF4001108DF /* SourceKit.swift */; };
 		BB9E2F50238FBDC100D8FB3C /* Synchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9E2F4F238FBDC100D8FB3C /* Synchronizer.swift */; };
@@ -74,16 +75,17 @@
 		BB363CBF2395675700422D5F /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = $HOME/bin/Frameworks;
+			dstPath = $HOME/bin;
 			dstSubfolderSpec = 0;
 			files = (
+				BB363CC923969F6500422D5F /* siteify in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		BBD81FAF1C73DDFC0060CF44 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = $HOME/bin;
+			dstPath = $HOME/bin/Frameworks;
 			dstSubfolderSpec = 0;
 			files = (
 				BB363C9D23954A3700422D5F /* SwiftRegex.framework in CopyFiles */,
@@ -184,8 +186,8 @@
 				BB8BD1E31C7364E3001108DF /* Sources */,
 				BB8BD1E41C7364E3001108DF /* Frameworks */,
 				BBD81FAF1C73DDFC0060CF44 /* CopyFiles */,
-				BBA1F73F237D4BF400568787 /* ShellScript */,
 				BB363CBF2395675700422D5F /* CopyFiles */,
+				BBA1F73F237D4BF400568787 /* ShellScript */,
 			);
 			buildRules = (
 			);
