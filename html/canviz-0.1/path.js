@@ -1,4 +1,4 @@
-// $Id: //depot/siteify/siteify/Resources.swift#34 $
+// $Id: //depot/siteify/siteify/Resources.swift#41 $
 
 var Point = Class.create({
     initialize: function(x, y) {

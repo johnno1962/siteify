@@ -2,13 +2,17 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!--
  This file is part of Canviz. See http://www.canviz.org/
- $Id: //depot/siteify/siteify/Resources.swift#34 $
+ $Id: //depot/siteify/siteify/Resources.swift#41 $
+
+ *** The class graph only works when served by web server. ****
+
  -->
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta name="MSSmartTagsPreventParsing" content="true" />
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" type="text/css" href="canviz-0.1/canviz.css" />
+        <link rel="stylesheet" type="text/css" href="siteify/canviz.css" />
         <title>Siteify Object Graph</title>
         <script type="text/javascript" src="canviz-0.1/prototype.js"></script>
         <script type="text/javascript" src="canviz-0.1/path.js"></script>
@@ -36,7 +40,7 @@
     </head>
     <body>
         <div id="menus" style="position: relative;">
-            Scale Image:
+            Repo: <a href='https://github.com/johnno1962/siteify.git'>https://github.com/johnno1962/siteify.git</a> Scale Image:
 
             <select name="graph_scale" id="graph_scale" onchange="set_graph_scale(this)">
                 <option value="1" selected>100%</option>
@@ -48,6 +52,8 @@
                 <option value="0.1">10%</option>
                 <option value="0.05">5%</option>
             </select>
+
+            Return to <a href='index.html'>Index</a>
         </div>
 
         <div id="debug_output" style="display:none"></div>

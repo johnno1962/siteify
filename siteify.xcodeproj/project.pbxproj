@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BB05D2ED2387CCB000F139B4 /* LineGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1F11C736CF4001108DF /* LineGenerators.swift */; };
-		BB05D2F0238A9C2400F139B4 /* GitInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05D2EF238A9C2400F139B4 /* GitInfo.swift */; };
-		BB05D2F7238EB30E00F139B4 /* Parallel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05D2F6238EB30E00F139B4 /* Parallel.swift */; };
-		BB05D2F9238EC24700F139B4 /* TupleRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05D2F8238EC24700F139B4 /* TupleRegex.swift */; };
+		BB363C9B23954A1600422D5F /* GitInfo.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB363C89239548E700422D5F /* GitInfo.framework */; };
+		BB363C9D23954A3700422D5F /* SwiftRegex.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB363C8D239548E700422D5F /* SwiftRegex.framework */; };
+		BB363C9E23954A3700422D5F /* Parallel.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB363C8B239548E700422D5F /* Parallel.framework */; };
 		BB8BD1EB1C7364E3001108DF /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1EA1C7364E3001108DF /* main.swift */; };
 		BB8BD1F41C736CF4001108DF /* SourceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1F21C736CF4001108DF /* SourceKit.swift */; };
 		BB9E2F50238FBDC100D8FB3C /* Synchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9E2F4F238FBDC100D8FB3C /* Synchronizer.swift */; };
-		BBD81FB01C73DE0B0060CF44 /* siteify in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB8BD1E71C7364E3001108DF /* siteify */; };
 		BBEF4C8D2366C8BB00109F9A /* Siteify.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4C8C2366C8BB00109F9A /* Siteify.swift */; };
 		BBEF4C97236A9B6200109F9A /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4C96236A9B6200109F9A /* Resources.swift */; };
 		BBEF4C9E236D92FE00109F9A /* SwiftLSPClient.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB227D902360C046000D4D3E /* SwiftLSPClient.framework */; };
@@ -42,36 +40,71 @@
 			remoteGlobalIDString = C992997E21755D0900C5F8A5;
 			remoteInfo = SwiftLSPClient;
 		};
+		BB363C88239548E700422D5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB363C7D239548E700422D5F /* GitInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "GitInfo::GitInfo::Product";
+			remoteInfo = GitInfo;
+		};
+		BB363C8A239548E700422D5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB363C7D239548E700422D5F /* GitInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "Parallel::Parallel::Product";
+			remoteInfo = Parallel;
+		};
+		BB363C8C239548E700422D5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB363C7D239548E700422D5F /* GitInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "SwiftRegex::SwiftRegex::Product";
+			remoteInfo = SwiftRegex;
+		};
+		BB363C8E239548F900422D5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB363C7D239548E700422D5F /* GitInfo.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = "GitInfo::GitInfo";
+			remoteInfo = GitInfo;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		BB363CBF2395675700422D5F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = $HOME/bin/Frameworks;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BBD81FAF1C73DDFC0060CF44 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = $HOME/bin;
 			dstSubfolderSpec = 0;
 			files = (
+				BB363C9D23954A3700422D5F /* SwiftRegex.framework in CopyFiles */,
+				BB363C9E23954A3700422D5F /* Parallel.framework in CopyFiles */,
+				BB363C9B23954A1600422D5F /* GitInfo.framework in CopyFiles */,
 				BBEF4C9E236D92FE00109F9A /* SwiftLSPClient.framework in CopyFiles */,
-				BBD81FB01C73DE0B0060CF44 /* siteify in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		BB05D2EF238A9C2400F139B4 /* GitInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitInfo.swift; sourceTree = "<group>"; };
-		BB05D2F6238EB30E00F139B4 /* Parallel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parallel.swift; path = .build/checkouts/Parallel/Sources/Parallel.swift; sourceTree = SOURCE_ROOT; };
-		BB05D2F8238EC24700F139B4 /* TupleRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TupleRegex.swift; path = .build/checkouts/SwiftRegex5/SwiftRegex5.playground/Sources/TupleRegex.swift; sourceTree = SOURCE_ROOT; };
 		BB227D8A2360C042000D4D3E /* SwiftLSPClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftLSPClient.xcodeproj; path = .build/checkouts/SwiftLSPClient/SwiftLSPClient.xcodeproj; sourceTree = "<group>"; };
+		BB363C7D239548E700422D5F /* GitInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GitInfo.xcodeproj; path = .build/checkouts/GitInfo/GitInfo.xcodeproj; sourceTree = "<group>"; };
 		BB8BD1E71C7364E3001108DF /* siteify */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = siteify; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB8BD1EA1C7364E3001108DF /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		BB8BD1F11C736CF4001108DF /* LineGenerators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGenerators.swift; sourceTree = "<group>"; };
 		BB8BD1F21C736CF4001108DF /* SourceKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceKit.swift; sourceTree = "<group>"; };
 		BB9E2F4F238FBDC100D8FB3C /* Synchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synchronizer.swift; sourceTree = "<group>"; };
 		BBD81F9E1C736FF70060CF44 /* siteify-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "siteify-Bridging-Header.h"; sourceTree = "<group>"; };
 		BBD81FA11C73703D0060CF44 /* sourcekitd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sourcekitd.h; sourceTree = "<group>"; };
 		BBD81FB11C73DE6E0060CF44 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		BBD81FB31C74A6EE0060CF44 /* ByteRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteRegex.swift; sourceTree = "<group>"; };
 		BBEF4C832364502800109F9A /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		BBEF4C8C2366C8BB00109F9A /* Siteify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Siteify.swift; sourceTree = "<group>"; };
 		BBEF4C96236A9B6200109F9A /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
@@ -97,12 +130,23 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		BB363C7E239548E700422D5F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BB363C89239548E700422D5F /* GitInfo.framework */,
+				BB363C8B239548E700422D5F /* Parallel.framework */,
+				BB363C8D239548E700422D5F /* SwiftRegex.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		BB8BD1DE1C7364E3001108DF = {
 			isa = PBXGroup;
 			children = (
 				BBEF4C832364502800109F9A /* Package.swift */,
 				BBD81FB11C73DE6E0060CF44 /* README.md */,
 				BB8BD1E91C7364E3001108DF /* siteify */,
+				BB363C7D239548E700422D5F /* GitInfo.xcodeproj */,
 				BB227D8A2360C042000D4D3E /* SwiftLSPClient.xcodeproj */,
 				BB8BD1E81C7364E3001108DF /* Products */,
 			);
@@ -121,14 +165,9 @@
 			children = (
 				BB8BD1EA1C7364E3001108DF /* main.swift */,
 				BBEF4C8C2366C8BB00109F9A /* Siteify.swift */,
-				BB05D2EF238A9C2400F139B4 /* GitInfo.swift */,
-				BB05D2F6238EB30E00F139B4 /* Parallel.swift */,
 				BB8BD1F21C736CF4001108DF /* SourceKit.swift */,
 				BBEF4C96236A9B6200109F9A /* Resources.swift */,
-				BBD81FB31C74A6EE0060CF44 /* ByteRegex.swift */,
-				BB05D2F8238EC24700F139B4 /* TupleRegex.swift */,
 				BB9E2F4F238FBDC100D8FB3C /* Synchronizer.swift */,
-				BB8BD1F11C736CF4001108DF /* LineGenerators.swift */,
 				BBD81F9E1C736FF70060CF44 /* siteify-Bridging-Header.h */,
 				BBD81FA11C73703D0060CF44 /* sourcekitd.h */,
 			);
@@ -146,10 +185,12 @@
 				BB8BD1E41C7364E3001108DF /* Frameworks */,
 				BBD81FAF1C73DDFC0060CF44 /* CopyFiles */,
 				BBA1F73F237D4BF400568787 /* ShellScript */,
+				BB363CBF2395675700422D5F /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BB363C8F239548F900422D5F /* PBXTargetDependency */,
 				BB227D962360C450000D4D3E /* PBXTargetDependency */,
 			);
 			name = siteify;
@@ -186,6 +227,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = BB363C7E239548E700422D5F /* Products */;
+					ProjectRef = BB363C7D239548E700422D5F /* GitInfo.xcodeproj */;
+				},
+				{
 					ProductGroup = BB227D8B2360C042000D4D3E /* Products */;
 					ProjectRef = BB227D8A2360C042000D4D3E /* SwiftLSPClient.xcodeproj */;
 				},
@@ -210,6 +255,27 @@
 			fileType = wrapper.cfbundle;
 			path = SwiftLSPClientTests.xctest;
 			remoteRef = BB227D912360C046000D4D3E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BB363C89239548E700422D5F /* GitInfo.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GitInfo.framework;
+			remoteRef = BB363C88239548E700422D5F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BB363C8B239548E700422D5F /* Parallel.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Parallel.framework;
+			remoteRef = BB363C8A239548E700422D5F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BB363C8D239548E700422D5F /* SwiftRegex.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SwiftRegex.framework;
+			remoteRef = BB363C8C239548E700422D5F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -239,15 +305,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB05D2F9238EC24700F139B4 /* TupleRegex.swift in Sources */,
-				BB05D2F0238A9C2400F139B4 /* GitInfo.swift in Sources */,
 				BB8BD1EB1C7364E3001108DF /* main.swift in Sources */,
 				BBEF4C97236A9B6200109F9A /* Resources.swift in Sources */,
 				BBEF4C8D2366C8BB00109F9A /* Siteify.swift in Sources */,
 				BB9E2F50238FBDC100D8FB3C /* Synchronizer.swift in Sources */,
 				BB8BD1F41C736CF4001108DF /* SourceKit.swift in Sources */,
-				BB05D2F7238EB30E00F139B4 /* Parallel.swift in Sources */,
-				BB05D2ED2387CCB000F139B4 /* LineGenerators.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,6 +320,11 @@
 			isa = PBXTargetDependency;
 			name = SwiftLSPClient;
 			targetProxy = BB227D952360C450000D4D3E /* PBXContainerItemProxy */;
+		};
+		BB363C8F239548F900422D5F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GitInfo;
+			targetProxy = BB363C8E239548F900422D5F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -353,7 +420,7 @@
 					"$(PROJECT_DIR)/siteify",
 					"$(TOOLCHAIN_DIR)/usr/lib",
 				);
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(TOOLCHAIN_DIR)/usr/lib @executable_path";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(TOOLCHAIN_DIR)/usr/lib @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "siteify/siteify-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -370,7 +437,7 @@
 					"$(PROJECT_DIR)/siteify",
 					"$(TOOLCHAIN_DIR)/usr/lib",
 				);
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(TOOLCHAIN_DIR)/usr/lib @executable_path";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks $(TOOLCHAIN_DIR)/usr/lib @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "siteify/siteify-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Resources.swift#34 $
+//  $Id: //depot/siteify/siteify/Resources.swift#41 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //

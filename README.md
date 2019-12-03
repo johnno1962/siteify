@@ -9,16 +9,16 @@ clicking on a link on the definition will list the places the symbol is referenc
 
 ![Icon](http://injectionforxcode.johnholdsworth.com/siteify2.png)
 
-To use, download and build this project using `swift build` or using the
-.xcodeproj in Xcode then _cd_ into into your project's root and run 'swift build'
-to update the index and type ~/bin/siteify. You'll need to download a recent
-development toolchain from [swift.org](https://swift.org/download/) to get the
-required sourcekit-lsp executable.
+To use, download and build this project using `swift build` then, you can build using
+the .xcodeproj in Xcode (twice - the first time will fail due to a quirk of the build system).
+_cd_ into into the SPM project you wish to document's root and run 'swift build' in
+order to update it's index and type `~/bin/siteify` (you'll need to download a recent
+development toolchain from [swift.org](https://swift.org/download/) to get the required
+`sourcekit-lsp` executable)
 
 This will build your project recording it's constituent Swift sources, index them
 then build the site in the directory ./html. Any PRs on de-glitching the CSS styling
 more than welcome.
-
 
 This project uses the [ChimeHQ/SwiftLSPClient](https://github.com/ChimeHQ/SwiftLSPClient) under a `BSD 3-Clause "New" or "Revised" License"` to communicate with the [Apple LSP server](https://github.com/apple/sourcekit-lsp)
 
