@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#114 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#115 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -267,7 +267,7 @@ public class Siteify: NotificationResponder {
 
         for (fromName, toDict) in edges {
             for (toName, count) in toDict {
-                "    \(nodes[fromName]!) -> \(nodes[toName]!) [width=\(count*10)];\n".write(to: dot)
+                "    \(nodes[fromName]!) -> \(nodes[toName]!) [width=\(count)];\n".write(to: dot)
             }
         }
 

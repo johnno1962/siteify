@@ -29,8 +29,8 @@ extension Siteify {
             </head><html><body class=source>
             <h2><img src='__IMG__'> Source: __FILE__ (Return to <a href='index.html'>Index</a>)</h2>
             <h3>Repo: <a href='__REPO__'>__REPO__</a></h3>
-            <table><tr><td>Initial Commit:<td>__CRDATE__
-            <tr><td>Last modified:<td>__MDATE__</table><pre>
+            <table><tr><td>Initial Commit:<td><b>__CRDATE__</b>
+            <tr><td>Last modified:<td><b>__MDATE__</b></table><pre>
 
             """,
 
@@ -95,7 +95,7 @@ extension Siteify {
             //  Created by John Holdsworth on 28/10/2019.
             //  Copyright © 2019 John Holdsworth. All rights reserved.
             //
-            //  $Id: //depot/siteify/siteify/Resources.swift#39 $
+            //  $Id: //depot/siteify/siteify/Resources.swift#41 $
             //
             //  Repo: https://github.com/johnno1962/siteify
             //
@@ -148,7 +148,10 @@ extension Siteify {
             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
             <!--
              This file is part of Canviz. See http://www.canviz.org/
-             $Id: //depot/siteify/siteify/Resources.swift#39 $
+             $Id: //depot/siteify/siteify/Resources.swift#41 $
+
+             *** The class graph only works when served by web server. ****
+
              -->
             <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
                 <head>
@@ -4533,7 +4536,7 @@ extension Siteify {
             """#,
 
         "path.js": #"""
-            // $Id: //depot/siteify/siteify/Resources.swift#39 $
+            // $Id: //depot/siteify/siteify/Resources.swift#41 $
 
             var Point = Class.create({
                 initialize: function(x, y) {
@@ -5035,7 +5038,7 @@ extension Siteify {
         "canviz.js": #"""
             /*
              * This file is part of Canviz. See http://www.canviz.org/
-             * $Id: //depot/siteify/siteify/Resources.swift#39 $
+             * $Id: //depot/siteify/siteify/Resources.swift#41 $
              */
 
             var CanvizTokenizer = Class.create({
@@ -5856,7 +5859,7 @@ extension Siteify {
         "canviz.css": #"""
             /*
              * This file is part of Canviz. See http://www.canviz.org/
-             * $Id: //depot/siteify/siteify/Resources.swift#39 $
+             * $Id: //depot/siteify/siteify/Resources.swift#41 $
              */
 
             body {
