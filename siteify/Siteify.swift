@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#117 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#118 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -30,6 +30,7 @@ public class Siteify: NotificationResponder {
 
     let sourceKit = SourceKit(logRequests: false)
     var executablePath: String { return Self.toolchainPath+"/usr/bin/sourcekit-lsp" }
+    let filemgr = FileManager.default
     var lspServer: LanguageServer!
     let projectRoot: URL
     let fileThreads: Int
@@ -142,7 +143,6 @@ public class Siteify: NotificationResponder {
     public func generateSite(into: String) {
         htmlRoot = into
         let started = Date.timeIntervalSinceReferenceDate
-        let filemgr = FileManager.default
         if !filemgr.fileExists(atPath: htmlRoot) {
             do {
                 try filemgr.createDirectory(atPath: htmlRoot, withIntermediateDirectories: false, attributes: nil)
@@ -183,7 +183,7 @@ public class Siteify: NotificationResponder {
             writePackageSymbols(patches: patches)
             "<br><a href='symbols.html'>Package Symbols</a>".write(to: indexFILE!)
 
-            if FileManager.default.fileExists(atPath: Self.dotPath) {
+            if filemgr.fileExists(atPath: Self.dotPath) {
                 progress(str: "Writing Class Graph")
                 writeClassGraph(graphSubpackages: true, patches: patches)
                 ", <a href='canviz.html'>Class Graph</a>".write(to: indexFILE!)
@@ -210,7 +210,12 @@ public class Siteify: NotificationResponder {
     func writeClassGraph(graphSubpackages: Bool, patches: [String: String]) {
         let canvizRoot = htmlRoot!+"/canviz-0.1/"
         let tmpfile = "/tmp/canviz_\(getpid()).gv"
-        try! FileManager.default.createDirectory(atPath: canvizRoot,
+        guard let dotFILE = fopen(tmpfile, "w") else {
+            NSLog("Could not open dot file")
+            return
+        }
+
+        try! filemgr.createDirectory(atPath: canvizRoot,
                         withIntermediateDirectories: true, attributes: nil)
         fclose(copyTemplate(template: "path.js", dest: canvizRoot+"path.js"))
         fclose(copyTemplate(template: "prototype.js", dest: canvizRoot+"prototype.js"))
@@ -220,12 +225,7 @@ public class Siteify: NotificationResponder {
         fclose(copyTemplate(template: "README.txt", dest: canvizRoot+"README.txt"))
         fclose(copyTemplate(template: "canviz.html", patches: patches))
 
-        guard let dot = fopen(tmpfile, "w") else {
-            NSLog("Could not open dot file")
-            return
-        }
-
-        "digraph sweep {\n    node [];\n".write(to: dot)
+        "digraph sweep {\n    node [];\n".write(to: dotFILE)
 
         var nodeNum = 0
         var nodes = [String: Int]()
@@ -239,7 +239,7 @@ public class Siteify: NotificationResponder {
                         " fillcolor=\"#e0e0e0\"" : " fillcolor=\"#ffffff\""
                     let shape = node.kind == .interface ?
                         " shape=\"box\"" : ""
-                    "    \(nodeNum) [label=\"\(node.name)\" tooltip=\"\(filepath.replacingOccurrences(of: projectRoot.path+"/", with: ""))\" href=\"\(node.href(htmlfile: Self.uniqueHTMLFile(filepath)))\" style=\"filled\"\(color)\(shape)];\n".write(to: dot)
+                    "    \(nodeNum) [label=\"\(node.name)\" tooltip=\"\(filepath.replacingOccurrences(of: projectRoot.path+"/", with: ""))\" href=\"\(node.href(htmlfile: Self.uniqueHTMLFile(filepath)))\" style=\"filled\"\(color)\(shape)];\n".write(to: dotFILE)
                     nodes[node.name] = nodeNum
                     nodeNum += 1
                 }
@@ -269,12 +269,12 @@ public class Siteify: NotificationResponder {
 
         for (fromName, toDict) in edges {
             for (toName, count) in toDict {
-                "    \(nodes[fromName]!) -> \(nodes[toName]!) [width=\(count)];\n".write(to: dot)
+                "    \(nodes[fromName]!) -> \(nodes[toName]!) [width=\(count)];\n".write(to: dotFILE)
             }
         }
 
-        "}\n".write(to: dot)
-        fclose(dot)
+        "}\n".write(to: dotFILE)
+        fclose(dotFILE)
 
         let runDot = Process()
         runDot.launchPath = Self.dotPath
@@ -282,7 +282,7 @@ public class Siteify: NotificationResponder {
         runDot.launch()
         runDot.waitUntilExit()
 
-        try? FileManager.default.removeItem(atPath: tmpfile)
+        try? filemgr.removeItem(atPath: tmpfile)
     }
 
     func containingType(file: FilePathString, pos: Position) -> DocumentSymbol? {
@@ -539,7 +539,7 @@ public class Siteify: NotificationResponder {
             }
 
             // Remember document symbols contained in file
-            if fullpath.containsMatch(of: #"\.(swift|mm?)$"#) {
+            if fullpath.containsMatch(of: #"\.(swift)$"#) {
                 switch synchronizer.sync({
                     self.lspServer.documentSymbol(params: DocumentSymbolParams(textDocument: docId), block: $0)
                 }) {
