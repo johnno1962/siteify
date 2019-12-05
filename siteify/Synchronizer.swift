@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/11/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Synchronizer.swift#1 $
+//  $Id: //depot/siteify/siteify/Synchronizer.swift#2 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -30,7 +30,7 @@ struct LanguageServerSynchronizer {
         semaphore.wait()
     }
 
-    func sync<RESP>(_ block: @escaping (@escaping (LanguageServerResult<RESP>) -> Void) -> Void) -> RESP {
+    func sync<RESP>(_ block: @escaping (@escaping (LanguageServerResult<RESP>) -> Void) -> Void) -> RESP? {
         var theResponse: RESP?
         block({ (response: LanguageServerResult) in
             switch response {
@@ -42,7 +42,7 @@ struct LanguageServerSynchronizer {
             self.semaphore.signal()
         })
         semaphore.wait()
-        return theResponse!
+        return theResponse
     }
 }
 

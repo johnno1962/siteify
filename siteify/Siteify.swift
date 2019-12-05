@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#118 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#120 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -165,17 +165,51 @@ public class Siteify: NotificationResponder {
         indexFILE = copyTemplate(template: "index.html", patches: patches)
         setbuf(indexFILE, nil)
 
+        // Some clangd targets do not complete so we need to time them out
+        let reaperQueue = DispatchQueue(label: "FileReaper", qos: .background)
+        let outstanding = Synchronized([String: TimeInterval]())
+        let fileTimeout = 100.0
+        var processing = true
+
         filemgr.enumerator(atPath: projectRoot.path)?
             .compactMap { $0 as? String }.sorted()
-            .concurrentMap(maxConcurrency: fileThreads) { (relative, completion: (String?) -> Void) in
+            .concurrentMap(maxConcurrency: fileThreads) { (relative, completion: @escaping (String?) -> Void) in
+                outstanding.synchronized { outstanding in
+                    outstanding[relative] = Date.timeIntervalSinceReferenceDate
+                }
+
+                @discardableResult
+                func recordCompletion() -> TimeInterval? {
+                    return outstanding.synchronized { outstanding -> TimeInterval? in
+                        if let started = outstanding[relative] {
+                            if processing {
+                                completion(relative)
+                            }
+                            outstanding[relative] = nil
+                            return started
+                        }
+                        return nil
+                    }
+                }
+
                 let url = URL(fileURLWithPath: relative)
                 if !relative.starts(with: "html/") &&
                     url.lastPathComponent != "output-file-map.json" &&
                     (try? LanguageIdentifier(for: url)) != nil {
+                    reaperQueue.asyncAfter(deadline: .now() + fileTimeout) {
+                        if let started = recordCompletion() {
+                            print("Timeout: ", relative,
+                                  Date.timeIntervalSinceReferenceDate - started)
+                        }
+                    }
+
                     self.processFile(relative: relative)
                 }
-                return completion(relative)
+
+                recordCompletion()
             }
+
+        processing = false
 
         // Generate alphabetical list of symbols defined at the top level
         if indexFILE != nil {
@@ -409,7 +443,7 @@ public class Siteify: NotificationResponder {
                                 self.referencesFallback.synchronized({ referencesFallback in
                                     referencesFallback[Reference(filepath: fullpath, pos: pos)]
                                 }) else {
-                                return complete(body: body, title: "\(result)")
+                                return complete(body: "<a name='\(pos.anchor)'>\(body)</a>", title: "\(result)")
                             }
 
                             // Is this the definition on the identifier?
