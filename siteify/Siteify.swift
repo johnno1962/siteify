@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#120 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#125 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -25,6 +25,8 @@ public class Siteify: NotificationResponder {
 
     public static var toolchainPath = "/Library/Developer/Toolchains/swift-latest.xctoolchain"
     public static var dotPath = "/usr/local/bin/dot"
+    public static var fileTimeout = 100.0
+    public static var fileThreads = 8
 
     static weak var lastSiteify: Siteify?
 
@@ -33,7 +35,6 @@ public class Siteify: NotificationResponder {
     let filemgr = FileManager.default
     var lspServer: LanguageServer!
     let projectRoot: URL
-    let fileThreads: Int
     var htmlRoot: String!
 
     func progress(str: String) {
@@ -41,7 +42,7 @@ public class Siteify: NotificationResponder {
         fflush(stdout)
     }
 
-    public init(projectRoot: String, fileThreads: Int = 8) {
+    public init(projectRoot: String) {
         let synchronizer = LanguageServerSynchronizer()
         var rootBuffer = [Int8](repeating: 0, count: Int(PATH_MAX))
         let cwd = String(cString: rootBuffer.withUnsafeMutableBufferPointer {
@@ -50,7 +51,6 @@ public class Siteify: NotificationResponder {
 
         self.projectRoot = URL(fileURLWithPath: projectRoot,
                                relativeTo: URL(fileURLWithPath: cwd))
-        self.fileThreads = fileThreads
         Self.lastSiteify = self
 
         let PATH = ProcessInfo.processInfo.environment["PATH"] ?? "/usr/bin"
@@ -166,17 +166,18 @@ public class Siteify: NotificationResponder {
         setbuf(indexFILE, nil)
 
         // Some clangd targets do not complete so we need to time them out
-        let reaperQueue = DispatchQueue(label: "FileReaper", qos: .background)
+        let reaperQueue = DispatchQueue(label: "FileReaper", qos: .userInteractive)
         let outstanding = Synchronized([String: TimeInterval]())
-        let fileTimeout = 100.0
         var processing = true
 
         filemgr.enumerator(atPath: projectRoot.path)?
             .compactMap { $0 as? String }.sorted()
-            .concurrentMap(maxConcurrency: fileThreads) { (relative, completion: @escaping (String?) -> Void) in
+            .concurrentMap(maxConcurrency: Self.fileThreads) {
+                (relative, completion: @escaping (String?) -> Void) in
                 outstanding.synchronized { outstanding in
                     outstanding[relative] = Date.timeIntervalSinceReferenceDate
                 }
+                var timedout = false
 
                 @discardableResult
                 func recordCompletion() -> TimeInterval? {
@@ -196,14 +197,15 @@ public class Siteify: NotificationResponder {
                 if !relative.starts(with: "html/") &&
                     url.lastPathComponent != "output-file-map.json" &&
                     (try? LanguageIdentifier(for: url)) != nil {
-                    reaperQueue.asyncAfter(deadline: .now() + fileTimeout) {
+                    reaperQueue.asyncAfter(deadline: .now() + Self.fileTimeout) {
                         if let started = recordCompletion() {
                             print("Timeout: ", relative,
                                   Date.timeIntervalSinceReferenceDate - started)
+                            timedout = true
                         }
                     }
 
-                    self.processFile(relative: relative)
+                    self.processFile(relative: relative, timedout: &timedout)
                 }
 
                 recordCompletion()
@@ -337,7 +339,7 @@ public class Siteify: NotificationResponder {
         return nil
     }
 
-    public func processFile(relative: String) {
+    public func processFile(relative: String, timedout: UnsafeMutablePointer<Bool>? = nil) {
         let started = Date.timeIntervalSinceReferenceDate
         let fullURL = projectRoot.appendingPathComponent(relative)
         let fullpath: FilePathString = fullURL.path
@@ -427,8 +429,9 @@ public class Siteify: NotificationResponder {
                 }
 
                 // Only interested in identifers
-                guard kindID == self.sourceKit.identifierID ||
-                    kindID == self.sourceKit.typeIdenifierID else {
+                guard (kindID == self.sourceKit.identifierID ||
+                    kindID == self.sourceKit.typeIdenifierID) &&
+                    timedout?.pointee != true else {
                     return complete(body: body, title: kind)
                 }
 
@@ -487,7 +490,7 @@ public class Siteify: NotificationResponder {
                                         }
 
                                         // cannot multithread "hover" requests
-                                        if self.fileThreads > 1 {
+                                        if Self.fileThreads > 1 {
                                             processRefs()
                                         } else {
                                             // Hover can be used to extract markup
