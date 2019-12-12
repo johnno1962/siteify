@@ -10,7 +10,7 @@ let package = Package(
         .executable(name: "siteify", targets: ["siteify"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/johnno1962/SourceKit.git", .branch("master")),
+        .package(url: "https://github.com/johnno1962/SourceKitHeader.git", .branch("master")),
         .package(url: "https://github.com/johnno1962/Parallel.git", .branch("master")),
         .package(url: "https://github.com/johnno1962/GitInfo.git", .branch("master")),
         .package(url: "https://github.com/ChimeHQ/SwiftLSPClient.git", .branch("master")),

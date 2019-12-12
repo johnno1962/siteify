@@ -5,14 +5,14 @@
 //  Created by John Holdsworth on 19/12/2015.
 //  Copyright © 2015 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/SourceKit.swift#18 $
+//  $Id: //depot/siteify/siteify/SourceKit.swift#19 $
 //
 //  Repo: https://github.com/johnno1962/Refactorator
 //
 
 import Foundation
 #if SWIFT_PACKAGE
-import SourceKit
+import SourceKitHeader
 #endif
 
 protocol Visualiser {
