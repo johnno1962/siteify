@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#126 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#131 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -23,9 +23,15 @@ public typealias HTMLFileString = String
 
 public class Siteify: NotificationResponder {
 
+    // MARK: - Tunable parameters
+
+    /// Path to Swift toolchain, downloaded from swift.org
     public static var toolchainPath = "/Library/Developer/Toolchains/swift-latest.xctoolchain"
+    /// Path to Graphviz "dot" executable for class diagrams.
     public static var dotPath = "/usr/local/bin/dot"
+    /// Max. seconds to spend on an individual file.
     public static var fileTimeout = 100.0
+    /// Number of files to process in parallel.
     public static var fileThreads = 8
 
     static weak var lastSiteify: Siteify?
@@ -42,6 +48,8 @@ public class Siteify: NotificationResponder {
         fflush(stdout)
     }
 
+    /// Create siteify instance to process a project
+    /// - Parameter projectRoot: root directory of project
     public init(projectRoot: String) {
         let synchronizer = LanguageServerSynchronizer()
         var rootBuffer = [Int8](repeating: 0, count: Int(PATH_MAX))
@@ -140,6 +148,8 @@ public class Siteify: NotificationResponder {
         return filenameForFile.get(key: file)
     }
 
+    /// Process SPm project into html directory
+    /// - Parameter into: path for resulting HTML.
     public func generateSite(into: String) {
         htmlRoot = into
         let started = Date.timeIntervalSinceReferenceDate
@@ -339,6 +349,10 @@ public class Siteify: NotificationResponder {
         return nil
     }
 
+    /// Gnereate MHTML for an individual source
+    /// - Parameters:
+    ///   - relative: path to source relative to projectRoot.
+    ///   - timedout: Pointer to Bool that is true when file has timed out.
     public func processFile(relative: String, timedout: UnsafeMutablePointer<Bool>? = nil) {
         let started = Date.timeIntervalSinceReferenceDate
         let fullURL = projectRoot.appendingPathComponent(relative)
@@ -372,9 +386,31 @@ public class Siteify: NotificationResponder {
             var ptr = 0, linestart = 0, lineno = 0, col = 0
             var firstSyms = [Int: Position]()
 
+            let resp = self.sourceKit.syntaxMap(filePath: fullpath, subSyntax: true)
+            let dict = SKApi.response_get_value(resp)
+            let syntaxMap = SKApi.variant_dictionary_get_value(dict, self.sourceKit.syntaxID)
+            var spansByOffset = [Int: String]()
+
+            self.sourceKit.recurseOver(childID: self.sourceKit.structureID,
+                                       resp: dict) { node in
+                let offset = node.getInt(key: self.sourceKit.offsetID)
+                var length = node.getInt(key: self.sourceKit.lengthID)
+                if node.getInt(key: self.sourceKit.bodyLengthID) > length {
+                    length = node.getInt(key: self.sourceKit.bodyOffsetID) +
+                        node.getInt(key: self.sourceKit.bodyLengthID) - offset
+                }
+
+                spansByOffset[offset] = (spansByOffset[offset] ?? "") + "<span class=shade>"
+                spansByOffset[offset + length] = "</span>" + (spansByOffset[offset + length] ?? "")
+            }
+
+            var offsetsOfSpans = spansByOffset.keys.sorted()
+            var spanNumber = 0
+
             // Copy characters up to offset, update ptr
-            // count line numbers and character position.
-            func skipTo(offset: Int) -> String {
+            // count line numbers and character position,
+            // include spans for syntax highlighting.
+            func skipTo(offset: Int, includeSpans: Bool) -> String {
                 while let line = memchr(start + linestart,
                                         Int32(UInt8(ascii: "\n")),
                                         offset - linestart) {
@@ -389,15 +425,29 @@ public class Siteify: NotificationResponder {
                                length: offset - linestart,
                                encoding: String.Encoding.utf8.rawValue)?.length ?? 0
 
-                let out = NSString(bytes: start + ptr, length: offset - ptr,
-                                   encoding: String.Encoding.utf8.rawValue) ?? ""
-                ptr = offset
-                return escape(html: out as String)
-            }
+                var out = ""
+                func subSkip(to: Int) {
+                    out += escape(html: (NSString(bytes: start + ptr, length: to - ptr,
+                                                  encoding: String.Encoding.utf8.rawValue) ?? "")
+                        as String)
+                    ptr = to
+                }
 
-            let resp = self.sourceKit.syntaxMap(filePath: fullpath)
-            let dict = SKApi.response_get_value(resp)
-            let syntaxMap = SKApi.variant_dictionary_get_value(dict, self.sourceKit.syntaxID)
+                if includeSpans {
+                    while spanNumber < offsetsOfSpans.count,
+                        offsetsOfSpans[spanNumber] <= offset {
+                        let nextptr = offsetsOfSpans[spanNumber]
+                        if nextptr > ptr {
+                            subSkip(to: nextptr)
+                        }
+                        out += spansByOffset[nextptr]!
+                        spanNumber += 1
+                    }
+                }
+
+                subSkip(to: offset)
+                return out
+            }
 
             // Use SourceKitService to tokenise file
             var html = (0..<SKApi.variant_array_get_count(syntaxMap))
@@ -405,9 +455,9 @@ public class Siteify: NotificationResponder {
                     let dict = SKApi.variant_array_get_value(syntaxMap, index)
                     let offset = dict.getInt(key: self.sourceKit.offsetID)
                     let length = dict.getInt(key: self.sourceKit.lengthID)
-                    let pre = skipTo(offset: offset)
+                    let pre = skipTo(offset: offset, includeSpans: true)
                     let pos = Position(line: lineno, character: col)
-                    let body = skipTo(offset: offset+length)
+                    let body = skipTo(offset: offset+length, includeSpans: false)
                     return (pre, dict, pos, body)
             }.concurrentMap(maxConcurrency: 1
                             /* cannot multithread per file */) {
@@ -476,7 +526,7 @@ public class Siteify: NotificationResponder {
                                                     firstSyms[pos.line] = pos
                                                 }
 
-                                                complete(body: "<a name='\(decl.anchor)' \(popup.isEmpty ? "" : "href='#' ")onclick='return expand(this);'>" +
+                                                complete(body: "<a name='\(decl.anchor)' \(popup.isEmpty ? "" : "href='#' ")onclick='return expand(this,event);'>" +
                                                     "\(body)<span class='references'><table>\(markup != nil ? "<tr><td colspan=2>\(HTML(fromMarkup: markup!))" : "")\(popup)</table></span></a>", title: "usrString2")
                                                 self.referencesFallback.synchronized {
                                                     referencesFallback in
@@ -533,7 +583,15 @@ public class Siteify: NotificationResponder {
                 } else {
                     self.lspServer.definition(params: docPos, block: hyperlinkIdentifier)
                 }
-            }.joined() + skipTo(offset: byteCount)
+            }.joined() + skipTo(offset: byteCount, includeSpans: true)
+
+            let numbers = (1 ... lineno+1).map { lineno in
+                if let linenoScript = gitInfo.nextBlame(lineno: lineno) {
+                    return linenoScript
+                } else {
+                    return String(format: "<a class=linenum name='L%d'>%04d</a>  ", lineno, lineno)
+                }
+            }.joined(separator: "\n")
 
             // Start with template for source file...
             let repoURL = gitInfo.repoURL()
@@ -542,30 +600,18 @@ public class Siteify: NotificationResponder {
                 "__FILE__": relative, "__REPO__": repoURL,
                 "__CRDATE__": gitInfo.created ?? "Unknown",
                 "__MDATE__": gitInfo.modified ?? "Unknown",
-                "__IMG__": iconForFile(fullpath: relative)],
-                                        dest: htmlRoot+"/"+htmlfile)
+                "__IMG__": iconForFile(fullpath: relative),
+                "__COMMITS__": """
+                    <script>
 
-            // Add dictionary of commit info for line number blame
-            """
-                <script>
+                    var repo = "\(repoURL[".git$", ""])";
+                    var commits = \(commitJSON ?? "{}");
 
-                var repo = "\(repoURL[".git$", ""])";
-                var commits = \(commitJSON ?? "{}");
+                    </script>
+                    """, "__NUMBERS__": numbers], dest: htmlRoot+"/"+htmlfile)
 
-                </script>
-
-                """.write(to: htmlFILE)
 
             // Patch line numbers into file (generated in JavaScript)
-            lineno = 0
-            html = html.components(separatedBy: "\n").map { line in
-                lineno += 1
-                if let linenoScript = gitInfo.nextBlame(lineno: lineno) {
-                    return linenoScript + line
-                } else {
-                    return String(format: "<a class=linenum name='L%d'>%04d</a>  ", lineno, lineno) + line
-                }
-            }.joined(separator: "\n")
 
             // Write hyperlinked page
             html.write(to: htmlFILE)
@@ -607,7 +653,7 @@ public class Siteify: NotificationResponder {
     func copyTemplate(template: String, patches: [String: String] = [:], dest: String? = nil) -> UnsafeMutablePointer<FILE> {
         var input = (try? String(contentsOfFile: resources+template)) ?? Self.resources[template]!
         for (tag, value) in patches {
-            input[tag] = value
+            input = input.replacingOccurrences(of: tag, with: value)
         }
         let filename = dest ?? htmlRoot+"/"+template
         guard let outFILE = fopen(filename, "w") else {
@@ -617,7 +663,7 @@ public class Siteify: NotificationResponder {
         return outFILE
     }
 
-    // NotificationReponder delegate methods
+    // MARK: - NotificationReponder delegate methods
 
     public func languageServerInitialized(_ server: LanguageServer) {
     }

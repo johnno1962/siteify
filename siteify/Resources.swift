@@ -29,8 +29,9 @@ extension Siteify {
             </head><html><body class=source>
             <h2><img src='__IMG__'> Source: __FILE__ (Return to <a href='index.html'>Index</a>)</h2>
             <h3>Repo: <a href='__REPO__'>__REPO__</a></h3>
-            <table><tr><td>Initial Commit:<td><b>__CRDATE__</b>
-            <tr><td>Last modified:<td><b>__MDATE__</b></table><pre>
+            <table><tr><td>Initial Commit:<td class=crdate>__CRDATE__
+            <tr><td>Last modified:<td class=mdate>__MDATE__</table>\
+            __COMMITS__<table><td valign=top><pre>__NUMBERS__<td valign=top><pre onmousedown="reshade(event)">
 
             """,
 
@@ -58,6 +59,9 @@ extension Siteify {
             .number { color: #1D26E1; }
             .string { color: #CB444D; }
             .typeidentifier { color: #5C2599; }
+            .shaded { background-color: rgba(128, 128, 255, 0.1); }
+            .crdate { color: green; font-weight: bold; }
+            .mdate { color: red; font-weight: bold; }
 
             .linenum { color: black; text-decoration: none; }
             a.linenum:hover { text-decoration: underline; }
@@ -95,14 +99,14 @@ extension Siteify {
             //  Created by John Holdsworth on 28/10/2019.
             //  Copyright © 2019 John Holdsworth. All rights reserved.
             //
-            //  $Id: //depot/siteify/siteify/Resources.swift#41 $
+            //  $Id: //depot/siteify/siteify/Resources.swift#48 $
             //
             //  Repo: https://github.com/johnno1962/siteify
             //
 
             var lastlink;
 
-            function expand(a) {
+            function expand(a,evnt) {
                 if ( a.children[0].style.display != "block" ) {
                     if ( lastlink )
                         lastlink.style.display = "none";
@@ -113,7 +117,35 @@ extension Siteify {
                     a.children[0].style.display = "none";
                     lastlink = null;
                 }
+                (evnt || event).stopPropagation()
                 return false;
+            }
+
+            var lastSpan
+
+            function reshade(evnt) {
+            //    if (lastlink){
+            //        lastlink.style.display = "none";
+            //        lastlink = null;
+            //    }
+                var span = (evnt || event).target
+                if (span && span.href)
+                    return
+                while(span && span.className != "shade" && span.className != "shaded")
+                    span = span.parentElement
+                if (lastSpan)
+                    lastSpan.className = "shade"
+                if (!span || span == lastSpan) {
+                    lastSpan = null
+                    return
+                }
+                span.className = "shaded"
+            //    var range = document.createRange()
+            //    range.selectNodeContents(span)
+            ////    range.setStartBefore(span)
+            ////    range.setEndAfter(span)
+                lastSpan = span
+                document.getSelection().selectAllChildren(span)
             }
 
             function lineLink(commit, when, lineno) {
@@ -148,7 +180,7 @@ extension Siteify {
             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
             <!--
              This file is part of Canviz. See http://www.canviz.org/
-             $Id: //depot/siteify/siteify/Resources.swift#41 $
+             $Id: //depot/siteify/siteify/Resources.swift#48 $
 
              *** The class graph only works when served by web server. ****
 
@@ -4536,7 +4568,7 @@ extension Siteify {
             """#,
 
         "path.js": #"""
-            // $Id: //depot/siteify/siteify/Resources.swift#41 $
+            // $Id: //depot/siteify/siteify/Resources.swift#48 $
 
             var Point = Class.create({
                 initialize: function(x, y) {
@@ -5038,7 +5070,7 @@ extension Siteify {
         "canviz.js": #"""
             /*
              * This file is part of Canviz. See http://www.canviz.org/
-             * $Id: //depot/siteify/siteify/Resources.swift#41 $
+             * $Id: //depot/siteify/siteify/Resources.swift#48 $
              */
 
             var CanvizTokenizer = Class.create({
@@ -5859,7 +5891,7 @@ extension Siteify {
         "canviz.css": #"""
             /*
              * This file is part of Canviz. See http://www.canviz.org/
-             * $Id: //depot/siteify/siteify/Resources.swift#41 $
+             * $Id: //depot/siteify/siteify/Resources.swift#48 $
              */
 
             body {

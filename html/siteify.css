@@ -12,6 +12,9 @@ body.source img { position: relative; top: 3px; left: -1px; }
 .number { color: #1D26E1; }
 .string { color: #CB444D; }
 .typeidentifier { color: #5C2599; }
+.shaded { background-color: rgba(128, 128, 255, 0.1); }
+.crdate { color: green; font-weight: bold; }
+.mdate { color: red; font-weight: bold; }
 
 .linenum { color: black; text-decoration: none; }
 a.linenum:hover { text-decoration: underline; }

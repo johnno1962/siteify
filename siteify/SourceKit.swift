@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 19/12/2015.
 //  Copyright © 2015 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/SourceKit.swift#19 $
+//  $Id: //depot/siteify/siteify/SourceKit.swift#21 $
 //
 //  Repo: https://github.com/johnno1962/Refactorator
 //
@@ -189,6 +189,7 @@ public class SourceKit {
     public lazy var overridesID = SKApi.uid_get_from_cstr("key.overrides")!
     public lazy var entitiesID = SKApi.uid_get_from_cstr("key.entities")!
     public lazy var syntaxID = SKApi.uid_get_from_cstr("key.syntaxmap")!
+    public lazy var structureID = SKApi.uid_get_from_cstr("key.substructure")!
     public lazy var identifierID = SKApi.uid_get_from_cstr("source.lang.swift.syntaxtype.identifier")!
     public lazy var typeIdenifierID = SKApi.uid_get_from_cstr("source.lang.swift.syntaxtype.typeidentifier")!
 
@@ -203,6 +204,8 @@ public class SourceKit {
     public lazy var lineID = SKApi.uid_get_from_cstr("key.line")!
     public lazy var colID = SKApi.uid_get_from_cstr("key.column")!
     public lazy var usrID = SKApi.uid_get_from_cstr("key.usr")!
+    public lazy var bodyOffsetID = SKApi.uid_get_from_cstr("key.bodyoffset")!
+    public lazy var bodyLengthID = SKApi.uid_get_from_cstr("key.bodylength")!
 
     /** kinds */
     public lazy var clangID = SKApi.uid_get_from_cstr("source.lang.swift.import.module.clang")
@@ -292,7 +295,7 @@ public class SourceKit {
         return sendRequest(req: req)
     }
 
-    public func syntaxMap(filePath: String, compilerArgs: sourcekitd_object_t? = nil) -> sourcekitd_response_t {
+    public func syntaxMap(filePath: String, subSyntax: Bool = false, compilerArgs: sourcekitd_object_t? = nil) -> sourcekitd_response_t {
         var req = SKApi.request_dictionary_create(nil, nil, 0)!
 
         SKApi.request_dictionary_set_uid(req, requestID, editorOpenID)
@@ -300,7 +303,7 @@ public class SourceKit {
         SKApi.request_dictionary_set_string(req, sourceFileID, filePath)
         SKApi.request_dictionary_set_value(req, compilerArgsID, compilerArgs ?? array(argv: []))
         SKApi.request_dictionary_set_int64(req, enableMapID, 1)
-        SKApi.request_dictionary_set_int64(req, enableSubID, 0)
+        SKApi.request_dictionary_set_int64(req, enableSubID, subSyntax ? 1 : 0)
         SKApi.request_dictionary_set_int64(req, syntaxOnlyID, 1)
 
         let resp = sendRequest(req: req)
@@ -319,20 +322,26 @@ public class SourceKit {
                      indent: String = "", visualiser: Visualiser? = nil,
                      block: @escaping (_ dict: sourcekitd_variant_t) -> Void) {
         let children = SKApi.variant_dictionary_get_value(resp, childID)
-            if SKApi.variant_get_type(children) == SOURCEKITD_VARIANT_TYPE_ARRAY {
-
+        switch SKApi.variant_get_type(children) {
+        case SOURCEKITD_VARIANT_TYPE_ARRAY:
                 visualiser?.enter()
-                _ = SKApi.variant_array_apply(children) { (_, dict) in
+            _ = SKApi.variant_array_apply(children) { (_, dict) in
 
-                    block(dict)
-                    visualiser?.present(dict: dict, indent: indent)
+                block(dict)
+                visualiser?.present(dict: dict, indent: indent)
 
-                    self.recurseOver(childID: childID, resp: dict, indent: indent+"  ",
-                                     visualiser: visualiser, block: block)
-                    return true
-                }
-                visualiser?.exit()
+                self.recurseOver(childID: childID, resp: dict, indent: indent+"  ",
+                                 visualiser: visualiser, block: block)
+                return true
             }
+            visualiser?.exit()
+        case SOURCEKITD_VARIANT_TYPE_DICTIONARY:
+            block(children)
+            self.recurseOver(childID: childID, resp: children, indent: indent+"  ",
+                             visualiser: visualiser, block: block)
+        default:
+            break
+        }
     }
 
     func compilerArgs(buildCommand: String, filelist: [String]? = nil) -> [String] {
