@@ -31,7 +31,7 @@ extension Siteify {
             <h3>Repo: <a href='__REPO__'>__REPO__</a></h3>
             <table><tr><td>Initial Commit:<td class=crdate>__CRDATE__
             <tr><td>Last modified:<td class=mdate>__MDATE__</table>\
-            __COMMITS__<table><td valign=top><pre>__NUMBERS__<td valign=top><pre onmousedown="reshade(event)">
+            __COMMITS__<table><td valign=top><pre>__NUMBERS__<td valign=top><pre onclick="extendShade(event)">
 
             """,
 
@@ -99,53 +99,61 @@ extension Siteify {
             //  Created by John Holdsworth on 28/10/2019.
             //  Copyright © 2019 John Holdsworth. All rights reserved.
             //
-            //  $Id: //depot/siteify/siteify/Resources.swift#48 $
+            //  $Id: //depot/siteify/siteify/Resources.swift#51 $
             //
             //  Repo: https://github.com/johnno1962/siteify
             //
 
-            var lastlink;
+            var openDecl;
 
-            function expand(a,evnt) {
-                if ( a.children[0].style.display != "block" ) {
-                    if ( lastlink )
-                        lastlink.style.display = "none";
-                    a.children[0].style.display = "block";
-                    lastlink = a.children[0];
+            function expandDecl(a,evnt) {
+                var popup = a.parentElement.children[1]
+                if (popup.style.display != "block") {
+                    if (openDecl)
+                        openDecl.style.display = "none";
+                    popup.style.display = "block";
+                    openDecl = popup;
                 }
                 else {
-                    a.children[0].style.display = "none";
-                    lastlink = null;
+                    popup.style.display = "none";
+                    openDecl = null;
                 }
                 (evnt || event).stopPropagation()
                 return false;
             }
 
+            function refClick(a,closePopup,evnt) {
+                if (closePopup) {
+                    openDecl.style.display = "none";
+                    openDecl = null;
+                }
+                return true
+            }
+
             var lastSpan
 
-            function reshade(evnt) {
-            //    if (lastlink){
-            //        lastlink.style.display = "none";
-            //        lastlink = null;
-            //    }
+            function extendShade(evnt) {
+                if (openDecl){
+                    openDecl.style.display = "none";
+                    openDecl = null;
+                }
                 var span = (evnt || event).target
                 if (span && span.href)
                     return
                 while(span && span.className != "shade" && span.className != "shaded")
                     span = span.parentElement
-                if (lastSpan)
-                    lastSpan.className = "shade"
-                if (!span || span == lastSpan) {
-                    lastSpan = null
-                    return
+                if (lastSpan && lastSpan != span) {
+                    while (lastSpan) {
+                        if (lastSpan.className == "shaded")
+                            lastSpan.className = "shade"
+                        lastSpan = lastSpan.parentElement
+                    }
                 }
-                span.className = "shaded"
-            //    var range = document.createRange()
-            //    range.selectNodeContents(span)
-            ////    range.setStartBefore(span)
-            ////    range.setEndAfter(span)
                 lastSpan = span
-                document.getSelection().selectAllChildren(span)
+                while(span && span.className != "shade")
+                    span = span.parentElement
+                if (span && span.className == "shade")
+                    span.className = "shaded"
             }
 
             function lineLink(commit, when, lineno) {
@@ -180,7 +188,7 @@ extension Siteify {
             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
             <!--
              This file is part of Canviz. See http://www.canviz.org/
-             $Id: //depot/siteify/siteify/Resources.swift#48 $
+             $Id: //depot/siteify/siteify/Resources.swift#51 $
 
              *** The class graph only works when served by web server. ****
 
@@ -4568,7 +4576,7 @@ extension Siteify {
             """#,
 
         "path.js": #"""
-            // $Id: //depot/siteify/siteify/Resources.swift#48 $
+            // $Id: //depot/siteify/siteify/Resources.swift#51 $
 
             var Point = Class.create({
                 initialize: function(x, y) {
@@ -5070,7 +5078,7 @@ extension Siteify {
         "canviz.js": #"""
             /*
              * This file is part of Canviz. See http://www.canviz.org/
-             * $Id: //depot/siteify/siteify/Resources.swift#48 $
+             * $Id: //depot/siteify/siteify/Resources.swift#51 $
              */
 
             var CanvizTokenizer = Class.create({
@@ -5891,7 +5899,7 @@ extension Siteify {
         "canviz.css": #"""
             /*
              * This file is part of Canviz. See http://www.canviz.org/
-             * $Id: //depot/siteify/siteify/Resources.swift#48 $
+             * $Id: //depot/siteify/siteify/Resources.swift#51 $
              */
 
             body {

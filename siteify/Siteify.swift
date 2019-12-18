@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#131 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#132 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -514,11 +514,11 @@ public class Siteify: NotificationResponder {
                                                 var popup = ""
 
                                                 for ref in refs {
-                                                    let keepListOpen = ref.filepath != decl.filepath ? "event.stopPropagation(); " : ""
+                                                    let closePopup = ref.filepath == decl.filepath
                                                     if ref.href == decl.href {
                                                         continue
                                                     }
-                                                    popup += "<tr><td style='text-decoration: underline;' onclick='document.location.href=\"\(ref.href)\"; \(keepListOpen)return false;'>\(ref.filebase):\(ref.line+1)</td>"
+                                                    popup += "<tr><td><a href=\"\(ref.href)\" onclick='return refClick(this,\(closePopup),event)'>\(ref.filebase):\(ref.line+1)</a></td>"
                                                     popup += "<td><pre>\(self.reflines(file: ref.filepath, line: ref.line))</pre></td>"
                                                 }
 
@@ -526,8 +526,8 @@ public class Siteify: NotificationResponder {
                                                     firstSyms[pos.line] = pos
                                                 }
 
-                                                complete(body: "<a name='\(decl.anchor)' \(popup.isEmpty ? "" : "href='#' ")onclick='return expand(this,event);'>" +
-                                                    "\(body)<span class='references'><table>\(markup != nil ? "<tr><td colspan=2>\(HTML(fromMarkup: markup!))" : "")\(popup)</table></span></a>", title: "usrString2")
+                                                complete(body: "<span class=decl><a name='\(decl.anchor)' \(popup.isEmpty ? "" : "href='#' ")onclick='return expandDecl(this,event);'>" +
+                                                    "\(body)</a><span class='references'><table>\(markup != nil ? "<tr><td colspan=2>\(HTML(fromMarkup: markup!))" : "")\(popup)</table></span></span>", title: "usrString2")
                                                 self.referencesFallback.synchronized {
                                                     referencesFallback in
                                                     for ref in refs {
