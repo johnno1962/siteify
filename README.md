@@ -9,8 +9,9 @@ the symbol is referenced.
 
 ![Icon](http://injectionforxcode.johnholdsworth.com/siteify2.png)
 
-To use, download, and build this project using `swift build` then, you should build using
-the .xcodeproj in Xcode (twice - the first time will fail due to a quirk of the build system).
+To use, download, and build this project using xcode. There will be a short pause before the
+first build while the package dependancies are resolved then you will need to unlock one of
+them. This places the binary and required frameworks into ~/bin/siteify.
 
 _cd_ into the root the SPM project you wish to document and run 'swift build' in
 order to update it's index and type `~/bin/siteify` (you'll need to download a recent
@@ -51,4 +52,4 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-This source includes a header file "sourcekit.h" from Apple's Swift Open Source distribution under Apache License v2.0 and a very old version of [canviz](http://www.ryandesign.com/canviz/) which allows you to render [graphviz](https://www.graphviz.org/) "dot" files of class inter-relationships in a web browser if you have `/usr/local/bin/dot` installed.
+This source includes a header file "sourcekit.h" from Apple's Swift Open Source distribution under Apache License v2.0 and a very old version of [canviz](http://www.ryandesign.com/canviz/) which allows you to render [graphviz](https://www.graphviz.org/) "dot" files of class inter-relationships in a web browser if you use a web server and you have `/usr/local/bin/dot` installed.

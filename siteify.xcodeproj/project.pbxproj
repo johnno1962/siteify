@@ -69,6 +69,13 @@
 			remoteGlobalIDString = "GitInfo::GitInfo";
 			remoteInfo = GitInfo;
 		};
+		BBBAAD5623ACEE8300C5097B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB363C7D239548E700422D5F /* GitInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BBDF929423A8139800325842;
+			remoteInfo = GitInfoSymlink;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -104,6 +111,7 @@
 		BB8BD1EA1C7364E3001108DF /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		BB8BD1F21C736CF4001108DF /* SourceKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceKit.swift; sourceTree = "<group>"; };
 		BB9E2F4F238FBDC100D8FB3C /* Synchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synchronizer.swift; sourceTree = "<group>"; };
+		BBBAAD4423AC4F4700C5097B /* pre-action.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "pre-action.sh"; sourceTree = "<group>"; };
 		BBD81F9E1C736FF70060CF44 /* siteify-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "siteify-Bridging-Header.h"; sourceTree = "<group>"; };
 		BBD81FA11C73703D0060CF44 /* sourcekitd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sourcekitd.h; sourceTree = "<group>"; };
 		BBD81FB11C73DE6E0060CF44 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -136,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				BB363C89239548E700422D5F /* GitInfo.framework */,
+				BBBAAD5723ACEE8300C5097B /* libGitInfoSymlink.dylib */,
 				BB363C8B239548E700422D5F /* Parallel.framework */,
 				BB363C8D239548E700422D5F /* SwiftRegex.framework */,
 			);
@@ -145,8 +154,9 @@
 		BB8BD1DE1C7364E3001108DF = {
 			isa = PBXGroup;
 			children = (
-				BBEF4C832364502800109F9A /* Package.swift */,
 				BBD81FB11C73DE6E0060CF44 /* README.md */,
+				BBBAAD4423AC4F4700C5097B /* pre-action.sh */,
+				BBEF4C832364502800109F9A /* Package.swift */,
 				BB8BD1E91C7364E3001108DF /* siteify */,
 				BB363C7D239548E700422D5F /* GitInfo.xcodeproj */,
 				BB227D8A2360C042000D4D3E /* SwiftLSPClient.xcodeproj */,
@@ -278,6 +288,13 @@
 			fileType = wrapper.framework;
 			path = SwiftRegex.framework;
 			remoteRef = BB363C8C239548E700422D5F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BBBAAD5723ACEE8300C5097B /* libGitInfoSymlink.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = libGitInfoSymlink.dylib;
+			remoteRef = BBBAAD5623ACEE8300C5097B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
