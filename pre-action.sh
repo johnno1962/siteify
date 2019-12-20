@@ -8,4 +8,6 @@
 
 if [ ! -d .build ]; then
     swift package resolve
+    cd .build/checkouts/GitInfo
+    ln -s ../../../.build
 fi
