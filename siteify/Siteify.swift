@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#132 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#135 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -60,6 +60,20 @@ public class Siteify: NotificationResponder {
         self.projectRoot = URL(fileURLWithPath: projectRoot,
                                relativeTo: URL(fileURLWithPath: cwd))
         Self.lastSiteify = self
+
+        if !filemgr.fileExists(atPath: executablePath) {
+            fatalError("""
+
+                
+                LSP server executable not available at path:
+                \(executablePath)
+
+                Please download and install a recent Swift
+                toolchain from https://swift.org/download
+                
+                
+                """)
+        }
 
         let PATH = ProcessInfo.processInfo.environment["PATH"] ?? "/usr/bin"
         let host = LanguageServerProcessHost(path: executablePath, arguments: [],

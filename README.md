@@ -11,16 +11,23 @@ For example, the source of this project is available to browse [here](http://joh
 
 ![Icon](http://injectionforxcode.johnholdsworth.com/siteify2.png)
 
-To use, download, and build this project using Xcode. There will be a short pause before the
-first build while the package dependancies are resolved after which the build the binary and
-required frameworks are installed as `~/bin/siteify`.
+To use, download, and build this project using Xcode. A pre-build action uses AppleScript
+resolve the package dependancies in `Terminal.app`  before the first build. After the
+build completes, the binary and required frameworks are installed as `~/bin/siteify`.
+The project can also be built with the Swift Package Manager.
 
 _cd_ into the root the SPM project you wish to document and run `swift build` in
-order to update it's index and type `~/bin/siteify` (you'll need to download a recent
+order to update its index then type `~/bin/siteify`. You'll need to download a recent
 development toolchain from [swift.org](https://swift.org/download/) to get the required
-`sourcekit-lsp` executable).  `siteify` can take a command line argument which is
+`sourcekit-lsp` executable.  `siteify` can take a command line argument which is
 the SPM repo to process but always places the generated html in the directory `html`
 created in the current working directory and opens the file `html/index.html`.
+
+### SPM dependencies
+
+Having started as Xcode project, eventually I wanted to start using SPM dependencies
+so the project contains a script [pre-action.sh](pre-action.sh) which allows you to include
+SPM dependencies as frameworks during the transition.
 
 ### Customisation
 
