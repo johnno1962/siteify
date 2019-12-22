@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#135 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#136 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -533,7 +533,7 @@ public class Siteify: NotificationResponder {
                                                         continue
                                                     }
                                                     popup += "<tr><td><a href=\"\(ref.href)\" onclick='return refClick(this,\(closePopup),event)'>\(ref.filebase):\(ref.line+1)</a></td>"
-                                                    popup += "<td><pre>\(self.reflines(file: ref.filepath, line: ref.line))</pre></td>"
+                                                    popup += "<td><pre>\(self.reflines(file: ref.filepath, line: ref.line).replacing(regex: #"\b\#(body)\b"#, with: "<b>\(body)</b>"))</pre></td>"
                                                 }
 
                                                 if firstSyms[pos.line] == nil && !popup.isEmpty {
