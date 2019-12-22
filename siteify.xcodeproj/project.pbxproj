@@ -38,7 +38,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = BB227D8A2360C042000D4D3E /* SwiftLSPClient.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = C992997E21755D0900C5F8A5;
+			remoteGlobalIDString = "SwiftLSPClient::SwiftLSPClient";
 			remoteInfo = SwiftLSPClient;
 		};
 		BB363C88239548E700422D5F /* PBXContainerItemProxy */ = {
@@ -68,13 +68,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = "GitInfo::GitInfo";
 			remoteInfo = GitInfo;
-		};
-		BBBAAD5623ACEE8300C5097B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BB363C7D239548E700422D5F /* GitInfo.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BBDF929423A8139800325842;
-			remoteInfo = GitInfoSymlink;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -144,7 +137,6 @@
 			isa = PBXGroup;
 			children = (
 				BB363C89239548E700422D5F /* GitInfo.framework */,
-				BBBAAD5723ACEE8300C5097B /* libGitInfoSymlink.dylib */,
 				BB363C8B239548E700422D5F /* Parallel.framework */,
 				BB363C8D239548E700422D5F /* SwiftRegex.framework */,
 			);
@@ -264,7 +256,7 @@
 		};
 		BB227D922360C046000D4D3E /* SwiftLSPClientTests.xctest */ = {
 			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
+			fileType = file;
 			path = SwiftLSPClientTests.xctest;
 			remoteRef = BB227D912360C046000D4D3E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -288,13 +280,6 @@
 			fileType = wrapper.framework;
 			path = SwiftRegex.framework;
 			remoteRef = BB363C8C239548E700422D5F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		BBBAAD5723ACEE8300C5097B /* libGitInfoSymlink.dylib */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			path = libGitInfoSymlink.dylib;
-			remoteRef = BBBAAD5623ACEE8300C5097B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
