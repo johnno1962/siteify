@@ -8,12 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		BB363CC923969F6500422D5F /* siteify in CopyFiles */ = {isa = PBXBuildFile; fileRef = BB8BD1E71C7364E3001108DF /* siteify */; };
-		BB6B41C223D7CF2F00C47122 /* Parallel in Frameworks */ = {isa = PBXBuildFile; productRef = BB6B41C123D7CF2F00C47122 /* Parallel */; };
-		BB6B41C523D7CF5C00C47122 /* GitInfo in Frameworks */ = {isa = PBXBuildFile; productRef = BB6B41C423D7CF5C00C47122 /* GitInfo */; };
-		BB6B41C823D7D00000C47122 /* SwiftLSPClient in Frameworks */ = {isa = PBXBuildFile; productRef = BB6B41C723D7D00000C47122 /* SwiftLSPClient */; };
 		BB8BD1EB1C7364E3001108DF /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1EA1C7364E3001108DF /* main.swift */; };
 		BB8BD1F41C736CF4001108DF /* SourceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8BD1F21C736CF4001108DF /* SourceKit.swift */; };
 		BB9E2F50238FBDC100D8FB3C /* Synchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9E2F4F238FBDC100D8FB3C /* Synchronizer.swift */; };
+		BBD65CBF23D8291E00EFB550 /* GitInfo in Frameworks */ = {isa = PBXBuildFile; productRef = BBD65CBE23D8291E00EFB550 /* GitInfo */; };
+		BBD65CC223D8293300EFB550 /* SwiftLSPClient in Frameworks */ = {isa = PBXBuildFile; productRef = BBD65CC123D8293300EFB550 /* SwiftLSPClient */; };
 		BBEF4C8D2366C8BB00109F9A /* Siteify.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4C8C2366C8BB00109F9A /* Siteify.swift */; };
 		BBEF4C97236A9B6200109F9A /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEF4C96236A9B6200109F9A /* Resources.swift */; };
 /* End PBXBuildFile section */
@@ -58,9 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB6B41C223D7CF2F00C47122 /* Parallel in Frameworks */,
-				BB6B41C823D7D00000C47122 /* SwiftLSPClient in Frameworks */,
-				BB6B41C523D7CF5C00C47122 /* GitInfo in Frameworks */,
+				BBD65CBF23D8291E00EFB550 /* GitInfo in Frameworks */,
+				BBD65CC223D8293300EFB550 /* SwiftLSPClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,8 +68,8 @@
 		BB8BD1DE1C7364E3001108DF = {
 			isa = PBXGroup;
 			children = (
-				BBD81FB11C73DE6E0060CF44 /* README.md */,
 				BBEF4C832364502800109F9A /* Package.swift */,
+				BBD81FB11C73DE6E0060CF44 /* README.md */,
 				BB8BD1E91C7364E3001108DF /* siteify */,
 				BB8BD1E81C7364E3001108DF /* Products */,
 			);
@@ -118,9 +116,8 @@
 			);
 			name = siteify;
 			packageProductDependencies = (
-				BB6B41C123D7CF2F00C47122 /* Parallel */,
-				BB6B41C423D7CF5C00C47122 /* GitInfo */,
-				BB6B41C723D7D00000C47122 /* SwiftLSPClient */,
+				BBD65CBE23D8291E00EFB550 /* GitInfo */,
+				BBD65CC123D8293300EFB550 /* SwiftLSPClient */,
 			);
 			productName = siteify;
 			productReference = BB8BD1E71C7364E3001108DF /* siteify */;
@@ -152,9 +149,8 @@
 			);
 			mainGroup = BB8BD1DE1C7364E3001108DF;
 			packageReferences = (
-				BB6B41C023D7CF2F00C47122 /* XCRemoteSwiftPackageReference "Parallel" */,
-				BB6B41C323D7CF5C00C47122 /* XCRemoteSwiftPackageReference "GitInfo" */,
-				BB6B41C623D7D00000C47122 /* XCRemoteSwiftPackageReference "SwiftLSPClient" */,
+				BBD65CBD23D8291E00EFB550 /* XCRemoteSwiftPackageReference "GitInfo" */,
+				BBD65CC023D8293300EFB550 /* XCRemoteSwiftPackageReference "SwiftLSPClient" */,
 			);
 			productRefGroup = BB8BD1E81C7364E3001108DF /* Products */;
 			projectDirPath = "";
@@ -352,15 +348,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		BB6B41C023D7CF2F00C47122 /* XCRemoteSwiftPackageReference "Parallel" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/johnno1962/Parallel.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-		BB6B41C323D7CF5C00C47122 /* XCRemoteSwiftPackageReference "GitInfo" */ = {
+		BBD65CBD23D8291E00EFB550 /* XCRemoteSwiftPackageReference "GitInfo" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/johnno1962/GitInfo.git";
 			requirement = {
@@ -368,7 +356,7 @@
 				kind = branch;
 			};
 		};
-		BB6B41C623D7D00000C47122 /* XCRemoteSwiftPackageReference "SwiftLSPClient" */ = {
+		BBD65CC023D8293300EFB550 /* XCRemoteSwiftPackageReference "SwiftLSPClient" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ChimeHQ/SwiftLSPClient.git";
 			requirement = {
@@ -379,19 +367,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		BB6B41C123D7CF2F00C47122 /* Parallel */ = {
+		BBD65CBE23D8291E00EFB550 /* GitInfo */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BB6B41C023D7CF2F00C47122 /* XCRemoteSwiftPackageReference "Parallel" */;
-			productName = Parallel;
-		};
-		BB6B41C423D7CF5C00C47122 /* GitInfo */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BB6B41C323D7CF5C00C47122 /* XCRemoteSwiftPackageReference "GitInfo" */;
+			package = BBD65CBD23D8291E00EFB550 /* XCRemoteSwiftPackageReference "GitInfo" */;
 			productName = GitInfo;
 		};
-		BB6B41C723D7D00000C47122 /* SwiftLSPClient */ = {
+		BBD65CC123D8293300EFB550 /* SwiftLSPClient */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BB6B41C623D7D00000C47122 /* XCRemoteSwiftPackageReference "SwiftLSPClient" */;
+			package = BBD65CC023D8293300EFB550 /* XCRemoteSwiftPackageReference "SwiftLSPClient" */;
 			productName = SwiftLSPClient;
 		};
 /* End XCSwiftPackageProductDependency section */
