@@ -11,10 +11,9 @@ For example, the source of this project is available to browse [here](http://joh
 
 ![Icon](http://injectionforxcode.johnholdsworth.com/siteify2.png)
 
-To use, download, and build this project using Xcode. A pre-build action uses AppleScript
-resolve the package dependancies in `Terminal.app`  before the first build. After the
-build completes, the binary and required frameworks are installed as `~/bin/siteify`.
-The project can also be built with the Swift Package Manager.
+To use, download, and build this project using Xcode or Swift Package Manager. After the
+Xcode build completes, the binary is installed as `~/bin/siteify`. Using SPM, use
+`swift build` and copy `.build/debug/siteify` to `~/bin`.
 
 _cd_ into the root the SPM project you wish to document and run `swift build` in
 order to update its index then type `~/bin/siteify`. You'll need to download a recent

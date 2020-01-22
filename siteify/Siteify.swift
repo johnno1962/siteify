@@ -5,7 +5,7 @@
 //  Created by John Holdsworth on 28/10/2019.
 //  Copyright © 2019 John Holdsworth. All rights reserved.
 //
-//  $Id: //depot/siteify/siteify/Siteify.swift#136 $
+//  $Id: //depot/siteify/siteify/Siteify.swift#137 $
 //
 //  Repo: https://github.com/johnno1962/siteify
 //
@@ -18,10 +18,10 @@ import SourceKitHeader
 import Parallel
 import GitInfo
 
-public typealias FilePathString = String
-public typealias HTMLFileString = String
-
 public class Siteify: NotificationResponder {
+
+    public typealias FilePathString = String
+    public typealias HTMLFileString = String
 
     // MARK: - Tunable parameters
 
@@ -721,7 +721,7 @@ extension Position {
 
 extension Location {
 
-    var filepath: FilePathString { URL(string: uri)!.path }
+    var filepath: Siteify.FilePathString { URL(string: uri)!.path }
     var htmlname: String { Siteify.uniqueHTMLFile(filepath) }
     var filebase: String { URL(string: uri)!.lastPathComponent }
     var line: Int { range.start.line }
@@ -730,7 +730,7 @@ extension Location {
 }
 
 struct Reference: Hashable {
-    let filepath: FilePathString
+    let filepath: Siteify.FilePathString
     let pos: Position
 }
 
@@ -756,7 +756,8 @@ extension DocumentSymbol {
         }
     }
 
-    func print(file: HTMLFileString, indent: String, to: UnsafeMutablePointer<FILE>) {
+    func print(file: Siteify.HTMLFileString,
+               indent: String, to: UnsafeMutablePointer<FILE>) {
         if kind != .variable {
             let braces = kind == .class || kind == .struct || kind == .enum || kind == .interface || kind == .namespace
             "\(indent)\(kind.swiftify) <a href='\(href(htmlfile: file))' title='\(self)'>\(name)</a>\(braces  ? " {" : "")\n".write(to: to)
